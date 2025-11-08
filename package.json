@@ -10,8 +10,7 @@
     "watch:css-edit": "chokidar 'src/css/overrides.css' -c 'cp src/css/overrides.css src/scss/_overrides.scss'",
     "dev:with-css-edit": "npm-run-all -p watch:css-edit watch:css",
     "start": "npm run watch:css",
-    "dev": "npm run watch:css",
-    "vercel-build": "npm run build:css"
+    "dev": "npm run watch:css"
   },
   "keywords": [],
   "author": "",
