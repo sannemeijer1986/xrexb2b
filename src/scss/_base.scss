@@ -19,6 +19,9 @@ body {
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 .container { @include container; }
@@ -42,5 +45,8 @@ a:hover { text-decoration: underline; }
   overflow: hidden;
   white-space: nowrap;
 }
+
+/* Ensure footer sits at bottom */
+main.page { flex: 1 0 auto; }
 
 

@@ -9,11 +9,20 @@
     gap: 16px;
     align-items: center;
     height: 64px;
+    width: 100%;
+    max-width: 768px;
+    margin: 0 auto;
+    padding: 0 20px;
   }
   .brand { display: inline-flex; align-items: center; }
   .brand__img { height: 16px; }
   .header__spacer { flex: 1 1 auto; }
   .header__actions { display: flex; align-items: center; gap: 16px; }
+  .circle-icon {
+    width: 32px; height: 32px; border-radius: 9999px;
+    display: flex; align-items: center; justify-content: center;
+    background: #f3f4f6; color: #1f2937;
+  }
   .account-chip {
     display: inline-flex;
     align-items: center;
@@ -30,6 +39,7 @@
   .chip-name { font-weight: 600; }
 }
 @media (min-width: 1280px) {
+  .site-header .header__content { max-width: 1440px; padding: 0 40px; height: 70px; }
   .site-header .brand__img { height: 23px; }
   .site-header .chip-name { display: inline; }
 }
@@ -77,4 +87,71 @@
 
 .grid--home .grid__col--sidebar { top: 84px; }
 
+/* Footer (match xrextgbot proportions) */
+.site-footer {
+  background: #ffffff;
+  border-top: none;
+  padding: 16px 16px;
+  display: flex;
+  align-items: center;
+}
+.site-footer .footer__inner {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 0;
+}
+.site-footer .footer__copy {
+  color: $text-primary;
+  font-size: 12px;
+  font-weight: 500;
+  width: 100%;
+  text-align: center;
+}
+.site-footer .footer__links {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  gap: 0;
+}
+.site-footer .footer__links a {
+  color: $text-secondary;
+  font-size: 12px;
+  font-weight: 300;
+  text-decoration: none;
+}
+.site-footer .footer__links a + a {
+  margin-left: 32px;
+  position: relative;
+}
+.site-footer .footer__links a + a:before {
+  content: "|";
+  color: $text-secondary;
+  position: relative;
+  left: -16px;
+}
+@media (min-width: 1280px) {
+  .site-footer {
+    padding: 0;
+    height: 40px;
+  }
+  .site-footer .footer__inner {
+    padding: 0 40px;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+  }
+  .site-footer .footer__links {
+    width: auto;
+    justify-content: flex-end;
+  }
+  .site-footer .footer__copy {
+    width: auto;
+    text-align: left;
+  }
+}
 
