@@ -1,4 +1,4 @@
-$font-family-sans: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, 'Helvetica Neue', Arial, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', sans-serif;
+$font-family-sans: 'Manrope', system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, 'Helvetica Neue', Arial, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', sans-serif;
 
 // Colors (placeholder until design tokens are provided)
 $gray-50: #f8fafc;
@@ -6,7 +6,7 @@ $gray-100: #f1f5f9;
 $gray-200: #e2e8f0;
 $gray-300: #cbd5e1;
 $gray-400: #94a3b8;
-$gray-500: #64748b;
+$gray-500: #797A7B;
 $gray-600: #475569;
 $gray-700: #334155;
 $gray-800: #1f2937;
@@ -28,7 +28,8 @@ $warning-500: #f59e0b;
 $danger-500: #ef4444;
 
 $text-primary: $gray-900;
-$text-secondary: $gray-600;
+$text-secondary: $gray-500;
+$text-placeholder: $gray-400;
 $bg-page: #FCFCFC;
 $bg-subtle: $gray-50;
 $border-color: #eeeeee;

@@ -34,7 +34,7 @@ button {
 }
 
 body {
-  font-family: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+  font-family: "Manrope", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
   color: #0f172a;
   background: #FCFCFC;
   line-height: 1.5;
@@ -60,7 +60,7 @@ body {
 }
 
 .muted {
-  color: #475569;
+  color: #797A7B;
 }
 
 a {
@@ -93,7 +93,7 @@ main.page {
   position: sticky;
   top: 0;
   z-index: 50;
-  background: #fafafa;
+  background: #FCFCFC;
   border-bottom: 1px solid #eeeeee;
 }
 .site-header .header__content {
@@ -190,7 +190,7 @@ main.page {
   background: #FCFCFC;
 }
 .page .page__header {
-  margin-bottom: 16px;
+  margin-bottom: 48px;
 }
 .page .page__header .page__title {
   font-size: 20px;
@@ -203,7 +203,7 @@ main.page {
   }
 }
 .page .page__header .page__subtitle {
-  color: #475569;
+  color: #797A7B;
 }
 
 .grid {
@@ -237,16 +237,11 @@ main.page {
 .card + .card {
   margin-top: 16px;
 }
-.card .card__title {
-  font-size: 16px;
-  font-weight: 600;
-  margin-bottom: 14px;
-}
 
 .card__title { /* when used outside a .card as a section label */
   font-size: 16px;
   font-weight: 600;
-  margin: 0 0 8px;
+  margin: 0 0 16px;
 }
 
 .grid--home .grid__col--sidebar {
@@ -302,7 +297,7 @@ main.page {
 }
 .site-footer .footer__links a + a:before {
   content: "|";
-  color: #475569;
+  color: #797A7B;
   position: relative;
   left: -16px;
 }
@@ -364,7 +359,7 @@ main.page {
 
 label {
   font-size: 13px;
-  color: #475569;
+  color: #797A7B;
 }
 
 input[type=text],
@@ -440,7 +435,7 @@ textarea {
   gap: 12px;
 }
 .summary__row span {
-  color: #475569;
+  color: #797A7B;
 }
 .summary__row strong {
   color: #0f172a;
@@ -637,8 +632,8 @@ textarea {
   gap: 16px;
 }
 .assets .assets__total-label {
-  color: #475569;
-  font-weight: 500;
+  color: #797A7B;
+  font-weight: 600;
   font-size: 14px;
   display: inline-flex;
   align-items: center;
@@ -652,7 +647,7 @@ textarea {
 .assets .assets__total-value {
   color: #0f172a;
   font-size: 32px;
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: -0.01em;
 }
 @media (min-width: 1280px) {
@@ -661,8 +656,9 @@ textarea {
   }
 }
 .assets .assets__locked {
-  color: #475569;
-  font-size: 12px;
+  color: #797A7B;
+  font-size: 14px;
+  font-weight: 600;
 }
 .assets .assets__ctas-top {
   display: none;
@@ -681,19 +677,10 @@ textarea {
   gap: 10px;
 }
 
-.assets__label {
-  font-size: 14px;
-  color: #475569;
-}
-
 .assets__total-value {
   font-size: 32px;
   font-weight: 700;
   letter-spacing: -0.01em;
-}
-
-.assets__locked {
-  font-size: 12px;
 }
 
 .assets__list {
@@ -749,7 +736,6 @@ textarea {
 
 .quick-actions .qa {
   display: grid;
-  gap: 4px;
   list-style: none;
   padding: 0;
   margin: 0;
@@ -787,6 +773,10 @@ textarea {
   height: 25px;
 }
 
+.qa__content {
+  font-weight: 600;
+}
+
 .qa__content strong {
   display: block;
   font-weight: 600;
@@ -795,6 +785,7 @@ textarea {
 .qa__content small {
   display: block;
   font-size: 12px;
+  color: #94a3b8;
 }
 
 .qa__chev {
@@ -809,13 +800,6 @@ textarea {
   .assets__ctas {
     display: none;
   }
-}
-
-/* Section label above assets card */
-.assets__label {
-  font-size: 13px;
-  color: #475569;
-  margin: 0 0 8px;
 }
 
 /* Home page greeting styling (Sora, 20 -> 32 on desktop) */

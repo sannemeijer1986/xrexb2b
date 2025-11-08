@@ -2,7 +2,7 @@
   position: sticky;
   top: 0;
   z-index: 50;
-  background: #fafafa;
+  background: $bg-page;
   border-bottom: 1px solid #eeeeee;
   .header__content {
     display: flex;
@@ -58,7 +58,7 @@
   padding-block: 28px 40px;
   background: $bg-page;
   .page__header {
-    margin-bottom: 16px;
+    margin-bottom: 48px;
     .page__title {
       font-size: 20px;
       line-height: 1.2;
@@ -88,17 +88,12 @@
   @include card;
   padding: 18px;
   & + .card { margin-top: 16px; }
-  .card__title {
-    font-size: 16px;
-    font-weight: 600;
-    margin-bottom: 14px;
-  }
 }
 
 .card__title { /* when used outside a .card as a section label */
   font-size: 16px;
   font-weight: 600;
-  margin: 0 0 8px;
+  margin: 0 0 16px;
 }
 
 .grid--home .grid__col--sidebar { top: 84px; }

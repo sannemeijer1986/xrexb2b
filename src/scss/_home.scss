@@ -80,7 +80,7 @@
   }
   .assets__total-label {
     color: $text-secondary;
-    font-weight: 500;
+    font-weight: 600;
     font-size: 14px;
     display: inline-flex;
     align-items: center;
@@ -90,11 +90,11 @@
   .assets__total-value {
     color: $text-primary;
     font-size: 32px;
-    font-weight: 700;
+    font-weight: 600;
     letter-spacing: -0.01em;
     @media (min-width: $bp-desktop) { font-size: 40px; }
   }
-  .assets__locked { color: $text-secondary; font-size: 12px; }
+  .assets__locked { color: $text-secondary; font-size: 14px; font-weight: 600; }
   .assets__ctas-top {
     display: none;
     margin-top: 8px;
@@ -107,17 +107,11 @@
   grid-template-columns: 1fr;
   gap: 10px;
 }
-.assets__label {
-  font-size: 14px;
-  color: $text-secondary;
-}
+
 .assets__total-value {
   font-size: 32px;
   font-weight: 700;
   letter-spacing: -0.01em;
-}
-.assets__locked {
-  font-size: 12px;
 }
 .assets__list {
   display: flex;
@@ -146,7 +140,6 @@
 
 .quick-actions .qa {
   display: grid;
-  gap: 4px;
   list-style: none;
   padding: 0;
   margin: 0;
@@ -173,21 +166,15 @@
   place-items: center;
 }
 .qa__icon img { width: 25px; height: 25px; }
+.qa__content { font-weight: 600; }
 .qa__content strong { display: block; font-weight: 600; }
-.qa__content small { display: block; font-size: 12px; }
+.qa__content small { display: block; font-size: 12px; color: $text-placeholder; }
 .qa__chev { opacity: .6; }
 
 .assets__ctas {
   display: flex;
   gap: 12px;
   @media (min-width: $bp-desktop) { display: none; }
-}
-
-/* Section label above assets card */
-.assets__label {
-  font-size: 13px;
-  color: $text-secondary;
-  margin: 0 0 8px;
 }
 
 /* Home page greeting styling (Sora, 20 -> 32 on desktop) */
