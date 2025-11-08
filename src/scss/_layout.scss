@@ -57,8 +57,9 @@
 /* Floating build badge */
 .build-badge {
   position: fixed;
+  opacity: 0.5;
   left: 16px;
-  bottom: 16px;
+  bottom: 48px;
   z-index: 1201;
   height: 40px;
   background: rgba(17, 24, 39, 0.5);

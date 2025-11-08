@@ -189,8 +189,9 @@ main.page {
 /* Floating build badge */
 .build-badge {
   position: fixed;
+  opacity: 0.5;
   left: 16px;
-  bottom: 16px;
+  bottom: 48px;
   z-index: 1201;
   height: 40px;
   background: rgba(17, 24, 39, 0.5);
@@ -632,8 +633,11 @@ textarea {
   justify-content: center;
   gap: 2px;
   font: 600 12px "Manrope", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  color: #6081c9;
+  color: #BCBDBD;
   cursor: pointer;
+}
+.tabbar__btn.is-active {
+  color: #2F5BFF;
 }
 
 .assets.card {
