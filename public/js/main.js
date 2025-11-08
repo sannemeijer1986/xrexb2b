@@ -5,7 +5,6 @@ document.addEventListener('DOMContentLoaded', () => {
   form.addEventListener('submit', (event) => {
     event.preventDefault();
     const formData = new FormData(form);
-    // Simple demo handler; replace with real submit/integration later
     const payload = Object.fromEntries(formData.entries());
     console.info('[Send payment] Payload', payload);
     const btn = form.querySelector('.btn--primary');
