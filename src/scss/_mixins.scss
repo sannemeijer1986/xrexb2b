@@ -7,7 +7,7 @@
 @mixin card {
   background: #fff;
   border: 1px solid $border-color;
-  border-radius: $radius-lg;
+  border-radius: $radius-md;
 }
 
 @mixin container {

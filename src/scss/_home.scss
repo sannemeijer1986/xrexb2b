@@ -1,6 +1,6 @@
 .page--home .assets {
   display: grid;
-  gap: 16px;
+  gap: 24px;
 }
 /* Mobile layout tweaks */
 .page--home {
@@ -40,6 +40,15 @@
 @media (min-width: $bp-desktop) {
   .mobile-qa { display: none !important; }
 }
+
+.card__title--assets {
+  display: none;
+
+  @media (min-width: $bp-desktop) {
+    display: block;
+  }
+}
+
 
 /* Mobile tab bar */
 .tabbar {
@@ -89,10 +98,10 @@
   }
   .assets__total-value {
     color: $text-primary;
-    font-size: 32px;
-    font-weight: 600;
+    font-size: 26px;
+    font-weight: 700;
     letter-spacing: -0.01em;
-    @media (min-width: $bp-desktop) { font-size: 40px; }
+    @media (min-width: $bp-desktop) { font-size: 32px; }
   }
   .assets__locked { color: $text-secondary; font-size: 14px; font-weight: 600; }
   .assets__ctas-top {
@@ -108,23 +117,18 @@
   gap: 10px;
 }
 
-.assets__total-value {
-  font-size: 32px;
-  font-weight: 700;
-  letter-spacing: -0.01em;
-}
 .assets__list {
   display: flex;
   gap: 16px;
-  margin-bottom: 8px;
   flex-wrap: wrap;
 }
 .asset {
   background: #ffffff;
   border: 1px solid #eeeeee;
-  border-radius: 14px;
+  border-radius: $radius-md;
   padding: 20px;
   min-height: 200px;
+  min-width: 200px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -134,8 +138,14 @@
 }
 .asset__icon { margin-bottom: 12px; }
 .asset__icon img { width: 32px; height: 32px; }
+/* Make content area and wrappers fill available space */
+.asset__content { display: flex; flex-direction: column; flex: 1 1 auto; min-height: 0; }
+.asset__wrapper { display: flex; flex-direction: column; flex: 1 1 auto; min-height: 0; align-items: flex-start; }
+.asset__wrapper--first { justify-content: flex-start; }
+.asset__wrapper--second { justify-content: flex-end; }
 .asset__amount { font-weight: 700; font-size: 20px; color: $text-primary; }
-.asset__delta { color: #797a7b; font-weight: 500; font-size: 14px; }
+.asset__currency {color: $text-primary; font-weight: 600; font-size: 14px;}
+.asset__amount__sub, .asset__currency__sub { color: $text-secondary; font-weight: 600; font-size: 12px; }
 .asset__meta { font-size: 12px; color: #797a7b; }
 
 .quick-actions .qa {

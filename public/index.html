@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>B2B — Home</title>
+    <title>XREX Pay - Home</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Sora:wght@400;600;700&display=swap" rel="stylesheet" />
@@ -38,7 +38,7 @@
 
         <section class="grid grid--home">
           <div class="grid__col grid__col--primary">
-            <div class="card__title">Assets</div>
+            <div class="card__title card__title--assets">Assets</div>
             <div class="card assets">
               <div class="assets__header">
                 <div class="assets__total">
@@ -53,9 +53,14 @@
                     <img src="assets/icon_USD.svg" alt="" />
                   </div>
                   <div class="asset__content">
-                    <div class="asset__amount">200,000.00</div>
-                    <div class="asset__delta muted">+200,000.00 USD</div>
-                    <div class="asset__meta muted">USD • US Dollar</div>
+                    <div class="asset__wrapper asset__wrapper--first">
+                      <div class="asset__amount">200,000.00</div>
+                      <div class="asset__amount__sub">≈200,000.00 USD</div>
+                    </div>
+                    <div class="asset__wrapper asset__wrapper--second">
+                      <div class="asset__currency">USD</div>
+                      <div class="asset__currency__sub">US Dollar</div>
+                    </div>
                   </div>
                 </div>
                 <div class="asset">
@@ -63,9 +68,14 @@
                     <img src="assets/icon_USDT.svg" alt="" />
                   </div>
                   <div class="asset__content">
-                    <div class="asset__amount">200,000.00</div>
-                    <div class="asset__delta muted">+200,000.00 USD</div>
-                    <div class="asset__meta muted">USDT • Tether</div>
+                    <div class="asset__wrapper asset__wrapper--first">
+                      <div class="asset__amount">200,000.00</div>
+                      <div class="asset__amount__sub">≈200,000.00 USD</div>
+                    </div>
+                    <div class="asset__wrapper asset__wrapper--second">
+                      <div class="asset__currency">USDT</div>
+                      <div class="asset__currency__sub">USD Tether</div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -194,24 +204,24 @@
 
     <!-- Mobile tab bar -->
     <nav class="tabbar" aria-label="Bottom">
-      <button id="tab-home" class="tabbar__btn" aria-label="Home">
-        <img src="assets/icon_home.svg" alt="" width="22" height="22" />
+      <button id="tab-home" class="tabbar__btn is-active" aria-label="Home">
+        <img class="tabbar__icon" src="assets/icon_tabbar_assets_active.svg" data-icon-active="assets/icon_tabbar_assets_active.svg" data-icon-inactive="assets/icon_tabbar_assets_inactive.svg" alt="" width="22" height="22" />
         <span>Assets</span>
       </button>
-      <button class="tabbar__btn" aria-label="Convert">
-        <img src="assets/icon_qm_convert.svg" alt="" width="22" height="22" />
+      <button id="tab-convert" class="tabbar__btn" aria-label="Convert">
+        <img class="tabbar__icon" src="assets/icon_tabbar_convert_inactive.svg" data-icon-active="assets/icon_tabbar_convert_active.svg" data-icon-inactive="assets/icon_tabbar_convert_inactive.svg" alt="" width="22" height="22" />
         <span>Convert</span>
       </button>
-      <button class="tabbar__btn" aria-label="OTC">
-        <img src="assets/icon_qm_otc.svg" alt="" width="22" height="22" />
+      <button id="tab-otc" class="tabbar__btn" aria-label="OTC">
+        <img class="tabbar__icon" src="assets/icon_tabbar_otc_inactive.svg" data-icon-active="assets/icon_tabbar_otc_active.svg" data-icon-inactive="assets/icon_tabbar_otc_inactive.svg" alt="" width="22" height="22" />
         <span>OTC</span>
       </button>
-      <button class="tabbar__btn" aria-label="Transactions">
-        <img src="assets/icon_statements.svg" alt="" width="22" height="22" />
+      <button id="tab-transactions" class="tabbar__btn" aria-label="Transactions">
+        <img class="tabbar__icon" src="assets/icon_tabbar_transaction_inactive.svg" data-icon-active="assets/icon_tabbar_transaction_active.svg" data-icon-inactive="assets/icon_tabbar_transaction_inactive.svg" alt="" width="22" height="22" />
         <span>Transactions</span>
       </button>
       <button id="tab-menu" class="tabbar__btn" aria-label="Quick menu">
-        <img src="assets/icon_menu.svg" alt="" width="22" height="22" />
+        <img class="tabbar__icon" src="assets/icon_tabbar_quickmenu_inactive.svg" data-icon-active="assets/icon_tabbar_quickmenu_active.svg" data-icon-inactive="assets/icon_tabbar_quickmenu_inactive.svg" alt="" width="22" height="22" />
         <span>Menu</span>
       </button>
     </nav>
@@ -228,6 +238,7 @@
     </footer>
 
     <script type="module" src="js/main.js"></script>
+    <div class="build-badge" role="note">XREX B2B - Send payment prototype v1.0</div>
   </body>
   </html>
 

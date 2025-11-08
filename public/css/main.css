@@ -87,6 +87,7 @@ a:hover {
 /* Ensure footer sits at bottom */
 main.page {
   flex: 1 0 auto;
+  padding: 0px;
 }
 
 .site-header {
@@ -185,6 +186,25 @@ main.page {
   }
 }
 
+/* Floating build badge */
+.build-badge {
+  position: fixed;
+  left: 16px;
+  bottom: 16px;
+  z-index: 1201;
+  height: 40px;
+  background: rgba(17, 24, 39, 0.5);
+  color: #ffffff;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-size: 12px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  pointer-events: none;
+}
+
 .page {
   padding-block: 28px 40px;
   background: #FCFCFC;
@@ -231,7 +251,7 @@ main.page {
 .card {
   background: #fff;
   border: 1px solid #eeeeee;
-  border-radius: 12px;
+  border-radius: 10px;
   padding: 18px;
 }
 .card + .card {
@@ -239,8 +259,8 @@ main.page {
 }
 
 .card__title { /* when used outside a .card as a section label */
-  font-size: 16px;
-  font-weight: 600;
+  font-size: 20px;
+  font-weight: 700;
   margin: 0 0 16px;
 }
 
@@ -252,9 +272,14 @@ main.page {
 .site-footer {
   background: #ffffff;
   border-top: none;
-  padding: 16px 16px;
+  padding: 16px 16px 72px 16px;
   display: flex;
   align-items: center;
+}
+@media (min-width: 1280px) {
+  .site-footer {
+    padding: 16px 16px;
+  }
 }
 .site-footer .footer__inner {
   width: 100%;
@@ -456,10 +481,6 @@ textarea {
   transition: filter 0.15s ease, transform 0.02s ease, background-color 0.15s ease, border-color 0.15s ease;
 }
 
-.btn:hover {
-  filter: brightness(1.05);
-}
-
 .btn:active {
   transform: translateY(1px);
 }
@@ -470,15 +491,7 @@ textarea {
 }
 
 .btn--primary {
-  background: #2F5BFF;
-}
-.btn--primary:hover {
-  background: #336AFF;
-}
-.btn--primary:focus {
-  outline: 2px solid transparent;
-  outline-offset: 2px;
-  box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.45);
+  background: #3F78FF;
 }
 
 .btn--ghost {
@@ -486,23 +499,20 @@ textarea {
   color: #1f2937;
   border-color: #eeeeee;
 }
-.btn--ghost:hover {
-  background: #f1f5f9;
-}
 
 .btn--sm {
-  padding: 6px 10px;
-  font-weight: 500;
+  padding: 0px 12px;
+  height: 32px;
+  min-width: 100px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
 }
 
 /* Secondary (light blue) and medium size to mirror xrextgbot */
 .btn--secondary {
   background: #EBF2FF;
   color: #2563eb;
-  border-color: transparent;
-}
-.btn--secondary:hover {
-  background: #EFF5FF;
 }
 
 .btn--md {
@@ -523,7 +533,7 @@ textarea {
 
 .page--home .assets {
   display: grid;
-  gap: 16px;
+  gap: 24px;
 }
 
 /* Mobile layout tweaks */
@@ -583,6 +593,15 @@ textarea {
     display: none !important;
   }
 }
+.card__title--assets {
+  display: none;
+}
+@media (min-width: 1280px) {
+  .card__title--assets {
+    display: block;
+  }
+}
+
 /* Mobile tab bar */
 .tabbar {
   position: fixed;
@@ -646,13 +665,13 @@ textarea {
 }
 .assets .assets__total-value {
   color: #0f172a;
-  font-size: 32px;
-  font-weight: 600;
+  font-size: 26px;
+  font-weight: 700;
   letter-spacing: -0.01em;
 }
 @media (min-width: 1280px) {
   .assets .assets__total-value {
-    font-size: 40px;
+    font-size: 32px;
   }
 }
 .assets .assets__locked {
@@ -677,25 +696,19 @@ textarea {
   gap: 10px;
 }
 
-.assets__total-value {
-  font-size: 32px;
-  font-weight: 700;
-  letter-spacing: -0.01em;
-}
-
 .assets__list {
   display: flex;
   gap: 16px;
-  margin-bottom: 8px;
   flex-wrap: wrap;
 }
 
 .asset {
   background: #ffffff;
   border: 1px solid #eeeeee;
-  border-radius: 14px;
+  border-radius: 10px;
   padding: 20px;
   min-height: 200px;
+  min-width: 200px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -717,16 +730,46 @@ textarea {
   height: 32px;
 }
 
+/* Make content area and wrappers fill available space */
+.asset__content {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.asset__wrapper {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+  align-items: flex-start;
+}
+
+.asset__wrapper--first {
+  justify-content: flex-start;
+}
+
+.asset__wrapper--second {
+  justify-content: flex-end;
+}
+
 .asset__amount {
   font-weight: 700;
   font-size: 20px;
   color: #0f172a;
 }
 
-.asset__delta {
-  color: #797a7b;
-  font-weight: 500;
+.asset__currency {
+  color: #0f172a;
+  font-weight: 600;
   font-size: 14px;
+}
+
+.asset__amount__sub, .asset__currency__sub {
+  color: #797A7B;
+  font-weight: 600;
+  font-size: 12px;
 }
 
 .asset__meta {

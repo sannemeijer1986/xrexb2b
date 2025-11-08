@@ -11,32 +11,30 @@
   font-weight: 600;
   transition: filter .15s ease, transform .02s ease, background-color .15s ease, border-color .15s ease;
 }
-.btn:hover { filter: brightness(1.05); }
 .btn:active { transform: translateY(1px); }
 .btn:disabled { opacity: .6; cursor: not-allowed; }
 
 .btn--primary {
-  background: #2F5BFF;
-  &:hover { background: #336AFF; }
-  &:focus { @include focus-ring($primary-400); }
+  background: #3F78FF;
 }
 .btn--ghost {
   background: transparent;
   color: $gray-800;
   border-color: $border-color;
-  &:hover { background: $gray-100; }
 }
 .btn--sm {
-  padding: 6px 10px;
-  font-weight: 500;
+  padding: 0px 12px;
+  height: 32px;
+  min-width: 100px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
 }
 
 /* Secondary (light blue) and medium size to mirror xrextgbot */
 .btn--secondary {
   background: #EBF2FF;
   color: #2563eb;
-  border-color: transparent;
-  &:hover { background: #EFF5FF; }
 }
 .btn--md {
   height: 40px;
