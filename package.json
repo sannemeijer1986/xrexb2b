@@ -10,7 +10,9 @@
     "watch:css-edit": "chokidar 'src/css/overrides.css' -c 'cp src/css/overrides.css src/scss/_overrides.scss'",
     "dev:with-css-edit": "npm-run-all -p watch:css-edit watch:css",
     "start": "npm run watch:css",
-    "dev": "npm run watch:css"
+    "start:static": "npx --yes serve -s public -l 5173",
+    "dev": "npm run watch:css",
+    "dev:public": "npm-run-all -p watch:css start:static"
   },
   "keywords": [],
   "author": "",

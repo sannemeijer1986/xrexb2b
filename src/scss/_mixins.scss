@@ -8,14 +8,19 @@
   background: #fff;
   border: 1px solid $border-color;
   border-radius: $radius-lg;
-  box-shadow: $shadow-sm;
 }
 
 @mixin container {
   width: 100%;
-  max-width: $container-max;
+  max-width: $container-max-tablet;
   padding-inline: $gutter;
   margin-inline: auto;
+  padding: 20px;
+
+  @media (min-width: $bp-desktop) {
+    padding: 64px 40px 40px;
+    max-width: $container-max-desktop;
+  }
 }
 
 

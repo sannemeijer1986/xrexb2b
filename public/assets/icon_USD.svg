@@ -1,8 +1,3 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-  <circle cx="12" cy="12" r="11" fill="#0EA5E9"/>
-  <text x="12" y="16" text-anchor="middle" font-family="Inter, Arial" font-size="12" font-weight="700" fill="#fff">$</text>
-</svg>
-
 <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path fill-rule="evenodd" clip-rule="evenodd" d="M16.0013 2.66406C8.63775 2.66406 2.66797 8.63384 2.66797 15.9974C2.66797 23.361 8.63775 29.3307 16.0013 29.3307C23.3649 29.3307 29.3346 23.361 29.3346 15.9974C29.3346 8.63384 23.3649 2.66406 16.0013 2.66406Z" fill="#01D183"/>
 <mask id="mask0_37062_42258" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="2" y="2" width="28" height="28">

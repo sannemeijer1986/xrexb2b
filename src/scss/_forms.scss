@@ -7,18 +7,15 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 14px;
-}
-@media (max-width: 720px) {
-  .form__row { grid-template-columns: 1fr; }
+  @media (max-width: $bp-mobile-lg) {
+    grid-template-columns: 1fr;
+  }
 }
 
 .form__field {
   display: grid;
   gap: 6px;
   &--grow { grid-column: span 1; }
-}
-@media (min-width: 721px) {
-  .form__field--grow { grid-column: span 1; }
 }
 
 label {
