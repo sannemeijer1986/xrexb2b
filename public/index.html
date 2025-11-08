@@ -38,11 +38,11 @@
 
         <section class="grid grid--home">
           <div class="grid__col grid__col--primary">
+            <div class="assets__label">Assets</div>
             <div class="card assets">
               <div class="assets__header">
-                <div class="assets__label">Assets</div>
                 <div class="assets__total">
-                  <div class="assets__total-label">Total assets •</div>
+                  <div class="assets__total-label">Total assets ≈ <img class="metric-eye" src="assets/icon_eye.svg" alt="visibility" width="20" height="20" /></div>
                   <div class="assets__total-value">400,000.00 USD</div>
                   <div class="assets__locked muted">Locked • 0.00 USD</div>
                 </div>
@@ -69,65 +69,69 @@
                   </div>
                 </div>
               </div>
+              <div class="assets__ctas">
+                <button class="btn btn--primary btn--sm">Deposit</button>
+                <button class="btn btn--secondary btn--sm">Transfer</button>
+              </div>
             </div>
           </div>
           <aside class="grid__col grid__col--sidebar">
+            <h3 class="card__title">Quick actions</h3>
             <div class="card quick-actions">
-              <h3 class="card__title">Quick actions</h3>
               <ul class="qa">
                 <li>
                   <a href="#" class="qa__item">
                     <div class="qa__icon"><img src="assets/icon_qm_deposit.svg" alt="" /></div>
                     <span class="qa__content">
-                      <strong>Deposit asset</strong>
+                      Deposit asset
                     </span>
-                    <span class="qa__chev">›</span>
+                    <img class="qa__chev" src="assets/icon_chevron_right.svg" alt="" width="20" height="20" />
                   </a>
                 </li>
                 <li>
                   <a href="#" class="qa__item">
                     <div class="qa__icon"><img src="assets/icon_qm_withdraw.svg" alt="" /></div>
                     <span class="qa__content">
-                      <strong>Withdraw asset</strong>
+                      Withdraw asset
                     </span>
-                    <span class="qa__chev">›</span>
+                    <img class="qa__chev" src="assets/icon_chevron_right.svg" alt="" width="20" height="20" />
                   </a>
                 </li>
                 <li>
                   <a href="send-payment.html" class="qa__item" id="qa-send-payment">
                     <div class="qa__icon"><img src="assets/icon_qm_sendpayment.svg" alt="" /></div>
                     <span class="qa__content">
-                      <strong>Send payment</strong>
+                      Send payment
                       <small class="muted">Pay to third‑party bank accounts</small>
                     </span>
-                    <span class="qa__chev">›</span>
+                    <img class="qa__chev" src="assets/icon_chevron_right.svg" alt="" width="20" height="20" />
                   </a>
                 </li>
                 <li>
                   <a href="#" class="qa__item">
                     <div class="qa__icon"><img src="assets/icon_qm_bitcheck.svg" alt="" /></div>
                     <span class="qa__content">
-                      <strong>BitCheck Transfer</strong>
+                      BitCheck Transfer
                     </span>
-                    <span class="qa__chev">›</span>
+                    <img class="qa__chev" src="assets/icon_chevron_right.svg" alt="" width="20" height="20" />
                   </a>
                 </li>
                 <li>
                   <a href="#" class="qa__item">
                     <div class="qa__icon"><img src="assets/icon_qm_convert.svg" alt="" /></div>
                     <span class="qa__content">
-                      <strong>Convert asset</strong>
+                      Convert asset
                     </span>
-                    <span class="qa__chev">›</span>
+                    <img class="qa__chev" src="assets/icon_chevron_right.svg" alt="" width="20" height="20" />
                   </a>
                 </li>
                 <li>
                   <a href="#" class="qa__item">
                     <div class="qa__icon"><img src="assets/icon_qm_otc.svg" alt="" /></div>
                     <span class="qa__content">
-                      <strong>Request OTC quote</strong>
+                      Request OTC quote
                     </span>
-                    <span class="qa__chev">›</span>
+                    <img class="qa__chev" src="assets/icon_chevron_right.svg" alt="" width="20" height="20" />
                   </a>
                 </li>
               </ul>
@@ -136,6 +140,81 @@
         </section>
       </div>
     </main>
+
+    <!-- Mobile quick menu panel -->
+    <div id="mobileQuickMenu" class="mobile-qa" aria-hidden="true">
+      <div class="mobile-qa__sheet">
+        <h3 class="card__title">Quick actions</h3>
+        <ul class="qa">
+          <li>
+            <a href="#" class="qa__item">
+              <div class="qa__icon"><img src="assets/icon_qm_deposit.svg" alt="" /></div>
+              <span class="qa__content">Deposit asset</span>
+              <img class="qa__chev" src="assets/icon_chevron_right.svg" alt="" width="20" height="20" />
+            </a>
+          </li>
+          <li>
+            <a href="#" class="qa__item">
+              <div class="qa__icon"><img src="assets/icon_qm_withdraw.svg" alt="" /></div>
+              <span class="qa__content">Withdraw asset</span>
+              <img class="qa__chev" src="assets/icon_chevron_right.svg" alt="" width="20" height="20" />
+            </a>
+          </li>
+          <li>
+            <a href="send-payment.html" class="qa__item">
+              <div class="qa__icon"><img src="assets/icon_qm_sendpayment.svg" alt="" /></div>
+              <span class="qa__content">Send payment<small class="muted">Pay to third‑party bank accounts</small></span>
+              <img class="qa__chev" src="assets/icon_chevron_right.svg" alt="" width="20" height="20" />
+            </a>
+          </li>
+          <li>
+            <a href="#" class="qa__item">
+              <div class="qa__icon"><img src="assets/icon_qm_bitcheck.svg" alt="" /></div>
+              <span class="qa__content">BitCheck Transfer</span>
+              <img class="qa__chev" src="assets/icon_chevron_right.svg" alt="" width="20" height="20" />
+            </a>
+          </li>
+          <li>
+            <a href="#" class="qa__item">
+              <div class="qa__icon"><img src="assets/icon_qm_convert.svg" alt="" /></div>
+              <span class="qa__content">Convert asset</span>
+              <img class="qa__chev" src="assets/icon_chevron_right.svg" alt="" width="20" height="20" />
+            </a>
+          </li>
+          <li>
+            <a href="#" class="qa__item">
+              <div class="qa__icon"><img src="assets/icon_qm_otc.svg" alt="" /></div>
+              <span class="qa__content">Request OTC quote</span>
+              <img class="qa__chev" src="assets/icon_chevron_right.svg" alt="" width="20" height="20" />
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Mobile tab bar -->
+    <nav class="tabbar" aria-label="Bottom">
+      <button id="tab-home" class="tabbar__btn" aria-label="Home">
+        <img src="assets/icon_home.svg" alt="" width="22" height="22" />
+        <span>Assets</span>
+      </button>
+      <button class="tabbar__btn" aria-label="Convert">
+        <img src="assets/icon_qm_convert.svg" alt="" width="22" height="22" />
+        <span>Convert</span>
+      </button>
+      <button class="tabbar__btn" aria-label="OTC">
+        <img src="assets/icon_qm_otc.svg" alt="" width="22" height="22" />
+        <span>OTC</span>
+      </button>
+      <button class="tabbar__btn" aria-label="Transactions">
+        <img src="assets/icon_statements.svg" alt="" width="22" height="22" />
+        <span>Transactions</span>
+      </button>
+      <button id="tab-menu" class="tabbar__btn" aria-label="Quick menu">
+        <img src="assets/icon_menu.svg" alt="" width="22" height="22" />
+        <span>Menu</span>
+      </button>
+    </nav>
 
     <footer class="site-footer">
       <div class="footer__inner">

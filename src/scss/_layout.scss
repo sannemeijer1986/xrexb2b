@@ -76,11 +76,11 @@
 
 .grid {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 320px;
-  gap: 20px;
+  grid-template-columns: 1fr;
+  gap: 48px;
   align-items: start;
 }
-.grid { @media (max-width: $bp-tablet) { grid-template-columns: 1fr; } }
+.grid { @media (min-width: $bp-desktop) {  grid-template-columns: minmax(0, 1fr) 380px; } }
 .grid__col--primary { min-width: 0; }
 .grid__col--sidebar { position: sticky; top: 84px; }
 
@@ -93,6 +93,12 @@
     font-weight: 600;
     margin-bottom: 14px;
   }
+}
+
+.card__title { /* when used outside a .card as a section label */
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0 0 8px;
 }
 
 .grid--home .grid__col--sidebar { top: 84px; }
@@ -115,6 +121,10 @@
     gap: 12px;
     flex-wrap: wrap;
     padding: 0;
+
+    @media (min-width: $bp-desktop) {
+      height: 40px;
+    }
   }
   .footer__copy {
     color: $text-primary;

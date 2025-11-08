@@ -2,6 +2,106 @@
   display: grid;
   gap: 16px;
 }
+/* Mobile layout tweaks */
+.page--home {
+  /* Hide page title below desktop */
+  .page__header { @media (max-width: ($bp-desktop - 1)) { display: none; } }
+  /* Remove card chrome on mobile so asset cards look standalone */
+  @media (max-width: ($bp-desktop - 1)) {
+    .assets.card {
+      background: transparent;
+      border: none;
+      box-shadow: none;
+      padding: 0;
+    }
+    /* Hide desktop sidebar quick actions; use tabbar panel instead */
+    .grid__col--sidebar { display: none; }
+  }
+}
+
+/* Mobile quick menu full-screen panel */
+.mobile-qa {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.35);
+  display: none;
+  z-index: 80;
+}
+.mobile-qa[aria-hidden="false"] { display: block; }
+.mobile-qa__sheet {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  background: #fff;
+  border-radius: 16px 16px 0 0;
+  padding: 16px;
+  max-height: 85vh;
+  overflow: auto;
+}
+@media (min-width: $bp-desktop) {
+  .mobile-qa { display: none !important; }
+}
+
+/* Mobile tab bar */
+.tabbar {
+  position: fixed;
+  left: 0; right: 0; bottom: 0;
+  height: 56px;
+  background: #ffffff;
+  border-top: 1px solid #eeeeee;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  align-items: center;
+  z-index: 90;
+  @media (min-width: $bp-desktop) { display: none; }
+}
+.tabbar__btn {
+  appearance: none;
+  background: transparent;
+  border: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  font: 600 12px "Manrope", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  color: #6081c9;
+  cursor: pointer;
+}
+.assets {
+  &.card {
+    padding: 24px;
+    @media (min-width: $bp-desktop) { padding: 32px; }
+  }
+  .assets__header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  .assets__total-label {
+    color: $text-secondary;
+    font-weight: 500;
+    font-size: 14px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    .metric-eye { width: 20px; height: 20px; display: inline-block; }
+  }
+  .assets__total-value {
+    color: $text-primary;
+    font-size: 32px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    @media (min-width: $bp-desktop) { font-size: 40px; }
+  }
+  .assets__locked { color: $text-secondary; font-size: 12px; }
+  .assets__ctas-top {
+    display: none;
+    margin-top: 8px;
+    gap: 16px;
+    @media (min-width: $bp-desktop) { display: flex; }
+  }
+}
 .assets__header {
   display: grid;
   grid-template-columns: 1fr;
@@ -20,23 +120,29 @@
   font-size: 12px;
 }
 .assets__list {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  @media (max-width: $bp-tablet) { grid-template-columns: 1fr; }
+  display: flex;
+  gap: 16px;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
 }
 .asset {
+  background: #ffffff;
   border: 1px solid #eeeeee;
-  border-radius: $radius-lg;
-  padding: 14px;
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 12px;
-  background: #fff;
+  border-radius: 14px;
+  padding: 20px;
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  width: 160px;
+  @media (min-width: $bp-desktop) { width: 216px; }
 }
+.asset__icon { margin-bottom: 12px; }
 .asset__icon img { width: 32px; height: 32px; }
-.asset__amount { font-weight: 600; }
-.asset__meta { font-size: 12px; }
+.asset__amount { font-weight: 700; font-size: 20px; color: $text-primary; }
+.asset__delta { color: #797a7b; font-weight: 500; font-size: 14px; }
+.asset__meta { font-size: 12px; color: #797a7b; }
 
 .quick-actions .qa {
   display: grid;
@@ -47,32 +153,42 @@
 }
 .qa__item {
   display: grid;
-  grid-template-columns: 28px 1fr auto;
-  gap: 12px;
+  grid-template-columns: 40px 1fr auto;
+  gap: 16px;
   align-items: center;
+  min-height: 72px;
   padding: 10px 8px;
   border: 1px solid transparent;
   border-radius: $radius-md;
   color: inherit;
   text-decoration: none;
 }
-.qa__item:hover {
-  background: $gray-50;
-  border-color: $border-color;
-  text-decoration: none;
-}
+.qa__item:hover { cursor: pointer; text-decoration: none; }
 .qa__icon {
-  width: 32px;
-  height: 32px;
+  width: 40px;
+  height: 40px;
   border-radius: 999px;
   background: $primary-50;
   display: grid;
   place-items: center;
 }
-.qa__icon img { width: 18px; height: 18px; }
+.qa__icon img { width: 25px; height: 25px; }
 .qa__content strong { display: block; font-weight: 600; }
 .qa__content small { display: block; font-size: 12px; }
-.qa__chev { color: $gray-400; }
+.qa__chev { opacity: .6; }
+
+.assets__ctas {
+  display: flex;
+  gap: 12px;
+  @media (min-width: $bp-desktop) { display: none; }
+}
+
+/* Section label above assets card */
+.assets__label {
+  font-size: 13px;
+  color: $text-secondary;
+  margin: 0 0 8px;
+}
 
 /* Home page greeting styling (Sora, 20 -> 32 on desktop) */
 .page--home {

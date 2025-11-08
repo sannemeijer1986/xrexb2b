@@ -208,14 +208,14 @@ main.page {
 
 .grid {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 320px;
-  gap: 20px;
+  grid-template-columns: 1fr;
+  gap: 48px;
   align-items: start;
 }
 
-@media (max-width: 960px) {
+@media (min-width: 1280px) {
   .grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr) 380px;
   }
 }
 
@@ -243,6 +243,12 @@ main.page {
   margin-bottom: 14px;
 }
 
+.card__title { /* when used outside a .card as a section label */
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0 0 8px;
+}
+
 .grid--home .grid__col--sidebar {
   top: 84px;
 }
@@ -265,6 +271,11 @@ main.page {
   gap: 12px;
   flex-wrap: wrap;
   padding: 0;
+}
+@media (min-width: 1280px) {
+  .site-footer .footer__inner {
+    height: 40px;
+  }
 }
 .site-footer .footer__copy {
   color: #0f172a;
@@ -464,10 +475,10 @@ textarea {
 }
 
 .btn--primary {
-  background: #2563eb;
+  background: #2F5BFF;
 }
 .btn--primary:hover {
-  background: #1d4ed8;
+  background: #336AFF;
 }
 .btn--primary:focus {
   outline: 2px solid transparent;
@@ -489,6 +500,24 @@ textarea {
   font-weight: 500;
 }
 
+/* Secondary (light blue) and medium size to mirror xrextgbot */
+.btn--secondary {
+  background: #EBF2FF;
+  color: #2563eb;
+  border-color: transparent;
+}
+.btn--secondary:hover {
+  background: #EFF5FF;
+}
+
+.btn--md {
+  height: 40px;
+  min-width: 160px;
+  font-size: 14px;
+  border-radius: 8px;
+  padding: 0 16px;
+}
+
 .page__title {
   margin-bottom: 4px;
 }
@@ -500,6 +529,150 @@ textarea {
 .page--home .assets {
   display: grid;
   gap: 16px;
+}
+
+/* Mobile layout tweaks */
+.page--home {
+  /* Hide page title below desktop */
+}
+@media (max-width: 1279px) {
+  .page--home .page__header {
+    display: none;
+  }
+}
+.page--home {
+  /* Remove card chrome on mobile so asset cards look standalone */
+}
+@media (max-width: 1279px) {
+  .page--home .assets.card {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+  }
+  .page--home {
+    /* Hide desktop sidebar quick actions; use tabbar panel instead */
+  }
+  .page--home .grid__col--sidebar {
+    display: none;
+  }
+}
+
+/* Mobile quick menu full-screen panel */
+.mobile-qa {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  display: none;
+  z-index: 80;
+}
+
+.mobile-qa[aria-hidden=false] {
+  display: block;
+}
+
+.mobile-qa__sheet {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #fff;
+  border-radius: 16px 16px 0 0;
+  padding: 16px;
+  max-height: 85vh;
+  overflow: auto;
+}
+
+@media (min-width: 1280px) {
+  .mobile-qa {
+    display: none !important;
+  }
+}
+/* Mobile tab bar */
+.tabbar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 56px;
+  background: #ffffff;
+  border-top: 1px solid #eeeeee;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  align-items: center;
+  z-index: 90;
+}
+@media (min-width: 1280px) {
+  .tabbar {
+    display: none;
+  }
+}
+
+.tabbar__btn {
+  appearance: none;
+  background: transparent;
+  border: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  font: 600 12px "Manrope", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  color: #6081c9;
+  cursor: pointer;
+}
+
+.assets.card {
+  padding: 24px;
+}
+@media (min-width: 1280px) {
+  .assets.card {
+    padding: 32px;
+  }
+}
+.assets .assets__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+.assets .assets__total-label {
+  color: #475569;
+  font-weight: 500;
+  font-size: 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.assets .assets__total-label .metric-eye {
+  width: 20px;
+  height: 20px;
+  display: inline-block;
+}
+.assets .assets__total-value {
+  color: #0f172a;
+  font-size: 32px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+@media (min-width: 1280px) {
+  .assets .assets__total-value {
+    font-size: 40px;
+  }
+}
+.assets .assets__locked {
+  color: #475569;
+  font-size: 12px;
+}
+.assets .assets__ctas-top {
+  display: none;
+  margin-top: 8px;
+  gap: 16px;
+}
+@media (min-width: 1280px) {
+  .assets .assets__ctas-top {
+    display: flex;
+  }
 }
 
 .assets__header {
@@ -524,24 +697,32 @@ textarea {
 }
 
 .assets__list {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-}
-@media (max-width: 960px) {
-  .assets__list {
-    grid-template-columns: 1fr;
-  }
+  display: flex;
+  gap: 16px;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
 }
 
 .asset {
+  background: #ffffff;
   border: 1px solid #eeeeee;
-  border-radius: 12px;
-  padding: 14px;
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 12px;
-  background: #fff;
+  border-radius: 14px;
+  padding: 20px;
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  width: 160px;
+}
+@media (min-width: 1280px) {
+  .asset {
+    width: 216px;
+  }
+}
+
+.asset__icon {
+  margin-bottom: 12px;
 }
 
 .asset__icon img {
@@ -550,11 +731,20 @@ textarea {
 }
 
 .asset__amount {
-  font-weight: 600;
+  font-weight: 700;
+  font-size: 20px;
+  color: #0f172a;
+}
+
+.asset__delta {
+  color: #797a7b;
+  font-weight: 500;
+  font-size: 14px;
 }
 
 .asset__meta {
   font-size: 12px;
+  color: #797a7b;
 }
 
 .quick-actions .qa {
@@ -567,9 +757,10 @@ textarea {
 
 .qa__item {
   display: grid;
-  grid-template-columns: 28px 1fr auto;
-  gap: 12px;
+  grid-template-columns: 40px 1fr auto;
+  gap: 16px;
   align-items: center;
+  min-height: 72px;
   padding: 10px 8px;
   border: 1px solid transparent;
   border-radius: 10px;
@@ -578,14 +769,13 @@ textarea {
 }
 
 .qa__item:hover {
-  background: #f8fafc;
-  border-color: #eeeeee;
+  cursor: pointer;
   text-decoration: none;
 }
 
 .qa__icon {
-  width: 32px;
-  height: 32px;
+  width: 40px;
+  height: 40px;
   border-radius: 999px;
   background: #eff6ff;
   display: grid;
@@ -593,8 +783,8 @@ textarea {
 }
 
 .qa__icon img {
-  width: 18px;
-  height: 18px;
+  width: 25px;
+  height: 25px;
 }
 
 .qa__content strong {
@@ -608,7 +798,24 @@ textarea {
 }
 
 .qa__chev {
-  color: #94a3b8;
+  opacity: 0.6;
+}
+
+.assets__ctas {
+  display: flex;
+  gap: 12px;
+}
+@media (min-width: 1280px) {
+  .assets__ctas {
+    display: none;
+  }
+}
+
+/* Section label above assets card */
+.assets__label {
+  font-size: 13px;
+  color: #475569;
+  margin: 0 0 8px;
 }
 
 /* Home page greeting styling (Sora, 20 -> 32 on desktop) */

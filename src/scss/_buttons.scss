@@ -16,8 +16,8 @@
 .btn:disabled { opacity: .6; cursor: not-allowed; }
 
 .btn--primary {
-  background: $primary-600;
-  &:hover { background: $primary-700; }
+  background: #2F5BFF;
+  &:hover { background: #336AFF; }
   &:focus { @include focus-ring($primary-400); }
 }
 .btn--ghost {
@@ -29,6 +29,21 @@
 .btn--sm {
   padding: 6px 10px;
   font-weight: 500;
+}
+
+/* Secondary (light blue) and medium size to mirror xrextgbot */
+.btn--secondary {
+  background: #EBF2FF;
+  color: #2563eb;
+  border-color: transparent;
+  &:hover { background: #EFF5FF; }
+}
+.btn--md {
+  height: 40px;
+  min-width: 160px;
+  font-size: 14px;
+  border-radius: 8px;
+  padding: 0 16px;
 }
 
 
