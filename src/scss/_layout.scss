@@ -80,10 +80,11 @@
   .page__header {
     margin-bottom: 48px;
     .page__title {
+      margin: 0;
       font-size: 20px;
-      line-height: 1.2;
-      letter-spacing: -0.01em;
-
+      font-weight: 700;
+      color: #2d2f2f;
+      font-family: "Sora", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       @media (min-width: $bp-desktop) {
         font-size: 32px;
       }

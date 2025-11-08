@@ -214,9 +214,11 @@ main.page {
   margin-bottom: 48px;
 }
 .page .page__header .page__title {
+  margin: 0;
   font-size: 20px;
-  line-height: 1.2;
-  letter-spacing: -0.01em;
+  font-weight: 700;
+  color: #2d2f2f;
+  font-family: "Sora", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 @media (min-width: 1280px) {
   .page .page__header .page__title {
@@ -570,7 +572,7 @@ textarea {
   inset: 0;
   background: rgba(0, 0, 0, 0.35);
   display: none;
-  z-index: 80;
+  z-index: 120; /* above tabbar */
 }
 
 .mobile-qa[aria-hidden=false] {
@@ -581,7 +583,7 @@ textarea {
   position: absolute;
   left: 0;
   right: 0;
-  bottom: 0;
+  bottom: 56px; /* keep tabbar visible */
   background: #fff;
   border-radius: 16px 16px 0 0;
   padding: 16px;
@@ -625,6 +627,7 @@ textarea {
 
 .tabbar__btn {
   appearance: none;
+  height: 100%;
   background: transparent;
   border: none;
   display: flex;
@@ -781,6 +784,22 @@ textarea {
   color: #797a7b;
 }
 
+@media (max-width: 1279px) {
+  .card__title--quick-actions {
+    font-size: 16px;
+    font-weight: 700;
+  }
+}
+
+@media (max-width: 1279px) {
+  .card.quick-actions {
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+  }
+}
+
 .quick-actions .qa {
   display: grid;
   list-style: none;
@@ -850,19 +869,6 @@ textarea {
 }
 
 /* Home page greeting styling (Sora, 20 -> 32 on desktop) */
-.page--home .page__title {
-  margin: 0;
-  font-size: 20px;
-  font-weight: 700;
-  color: #2d2f2f;
-  font-family: "Sora", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-}
-@media (min-width: 1280px) {
-  .page--home .page__title {
-    font-size: 32px;
-  }
-}
-
 .page--send .page__header--crumb {
   display: flex;
   align-items: center;
@@ -872,12 +878,29 @@ textarea {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 28px;
-  height: 28px;
+  width: 24px;
+  height: 24px;
   border-radius: 999px;
-  border: 1px solid #eeeeee;
-  color: #475569;
   text-decoration: none;
+  border: none;
+  padding: 0;
+  background: transparent;
+}
+.page--send .page__header--crumb .crumb img {
+  width: 24px;
+  height: 24px;
+  display: block;
+}
+@media (min-width: 1280px) {
+  .page--send .page__header--crumb .crumb {
+    width: 32px;
+    height: 32px;
+  }
+  .page--send .page__header--crumb .crumb img {
+    width: 32px;
+    height: 32px;
+    display: block;
+  }
 }
 
 .select-pill {

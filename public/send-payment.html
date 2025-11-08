@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>B2B — Send payment</title>
+    <title>XREX Pay - Send payment</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Sora:wght@400;600;700&display=swap" rel="stylesheet" />
@@ -21,7 +21,11 @@
           <a class="circle-icon" href="https://intercom.help/xrex-sg/en/" target="_blank" rel="noopener noreferrer" title="Support">
             <img src="assets/icon_support.svg" alt="support" width="20" height="20" />
           </a>
-          <button class="btn btn--ghost btn--sm">Company ABC</button>
+          <a class="account-chip" href="#">
+            <span class="chip-avatar"><img src="assets/logo_agp.svg" alt="AGP" /></span>
+            <span class="chip-name">AGP Technology</span>
+            <img class="chevron" src="assets/icon_chevron_right.svg" alt="more" width="20" height="20" />
+          </a>
         </div>
       </div>
     </header>
@@ -29,7 +33,9 @@
     <main class="page page--send">
       <div class="container">
         <section class="page__header page__header--crumb">
-          <a class="crumb" href="index.html">‹</a>
+          <a class="crumb" href="index.html" aria-label="Back to Home">
+            <img src="assets/icon_header_back.svg" width="32" height="32" alt="">
+          </a>
           <h1 class="page__title">Send payment</h1>
         </section>
 
@@ -135,10 +141,6 @@
                 </div>
               </div>
 
-              <div class="form__actions">
-                <a class="btn btn--ghost" href="./">Cancel</a>
-                <button type="submit" class="btn btn--primary">Continue to Send</button>
-              </div>
             </form>
           </div>
 
@@ -182,7 +184,7 @@
       </div>
     </footer>
 
-    <script type="module" src="js/main.js"></script>
+    <script defer src="js/main.js?v=20251108"></script>
     <div class="build-badge" role="note">XREX B2B - Send payment prototype v1.0</div>
   </body>
   </html>
