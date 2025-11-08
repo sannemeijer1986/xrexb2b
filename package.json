@@ -4,12 +4,20 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build:css": "sass src/scss/main.scss public/css/main.css --style=compressed --no-source-map",
+    "watch:css": "sass --watch src/scss/main.scss:public/css/main.css --style=expanded --source-map",
+    "watch:css-edit": "chokidar 'src/css/overrides.css' -c 'cp src/css/overrides.css src/scss/_overrides.scss'",
+    "dev:with-css-edit": "npm-run-all -p watch:css-edit watch:css",
+    "start": "npm run watch:css",
+    "dev": "npm run watch:css"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "chokidar-cli": "^3.0.0",
+    "npm-run-all": "^4.1.5",
     "sass": "^1.93.3"
   }
 }

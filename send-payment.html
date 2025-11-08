@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>B2B — Send payment</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="public/css/main.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container header__content">
+        <a class="brand" href="./">
+          <img class="brand__img" src="xrextgbot/build/assets/logo_xrexpay.svg" alt="XREX Pay" />
+        </a>
+        <div class="header__spacer"></div>
+        <button class="btn btn--ghost btn--sm">Company ABC</button>
+      </div>
+    </header>
+
+    <main class="page page--send">
+      <div class="container">
+        <section class="page__header page__header--crumb">
+          <a class="crumb" href="./">‹</a>
+          <h1 class="page__title">Send payment</h1>
+        </section>
+
+        <section class="grid">
+          <div class="grid__col grid__col--primary">
+            <form class="card form" aria-labelledby="send-payment-title">
+              <h2 id="send-payment-title" class="card__title">Payment details</h2>
+
+              <div class="form__row">
+                <div class="form__field">
+                  <label for="pay-to">Pay to</label>
+                  <div class="select-pill">
+                    <select id="pay-to" name="payTo">
+                      <option>NovaQuill — (CNBA) 1234 5678 9014 56</option>
+                    </select>
+                    <button type="button" class="btn btn--ghost btn--sm">+ New Recipient</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form__row">
+                <div class="form__field">
+                  <label for="nature">Nature of payment</label>
+                  <select id="nature" name="nature">
+                    <option>Select</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form__row">
+                <div class="form__field">
+                  <label for="purpose">Purpose of payment</label>
+                  <select id="purpose" name="purpose">
+                    <option>Select</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form__row">
+                <div class="form__field">
+                  <label for="amount">Amount payable</label>
+                  <div class="amount-input">
+                    <span class="amount-input__prefix"><img src="xrextgbot/build/assets/icon_USD.svg" alt="" /></span>
+                    <input id="amount" name="amount" type="number" step="0.01" placeholder="2,000" />
+                  </div>
+                </div>
+                <div class="form__field">
+                  <label for="bill-currency">Billed to Payee in</label>
+                  <select id="bill-currency" name="billCurrency">
+                    <option>USD</option>
+                    <option>USDT</option>
+                    <option>EUR</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form__row">
+                <div class="form__field">
+                  <label for="deduct-from">Deduct amount payable from</label>
+                  <div class="select-card">
+                    <span class="select-card__icon"><img src="xrextgbot/build/assets/icon_USDT.svg" alt="" /></span>
+                    <select id="deduct-from" name="deductFrom">
+                      <option>USDT account — $0.00 balance</option>
+                    </select>
+                    <span class="select-card__chev">▾</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form__row">
+                <div class="form__field">
+                  <label>Who pays 1% service fee?</label>
+                  <div class="fee-options">
+                    <label class="fee-option">
+                      <input type="radio" name="fee" value="you" checked />
+                      <span class="fee-option__content">
+                        <strong>Paid by you</strong>
+                        <small class="muted">Added to total</small>
+                      </span>
+                    </label>
+                    <label class="fee-option">
+                      <input type="radio" name="fee" value="split" />
+                      <span class="fee-option__content">
+                        <strong>Split 50/50</strong>
+                        <small class="muted">Partially added to total</small>
+                      </span>
+                    </label>
+                    <label class="fee-option">
+                      <input type="radio" name="fee" value="receiver" />
+                      <span class="fee-option__content">
+                        <strong>Paid by receiver</strong>
+                        <small class="muted">Deducted from payment</small>
+                      </span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form__row">
+                <div class="form__field">
+                  <label>Supporting documents</label>
+                  <div class="supporting card--soft">To be designed</div>
+                </div>
+              </div>
+
+              <div class="form__actions">
+                <a class="btn btn--ghost" href="./">Cancel</a>
+                <button type="submit" class="btn btn--primary">Continue to Send</button>
+              </div>
+            </form>
+          </div>
+
+          <aside class="grid__col grid__col--sidebar">
+            <div class="card">
+              <h3 class="card__title">Payment summary</h3>
+              <div class="summary-block">
+                <div class="summary-pair">
+                  <span class="muted">You spend</span>
+                  <strong>0.00 USDT</strong>
+                </div>
+                <div class="summary-pair">
+                  <span class="muted">Service fees paid by you (1%)</span>
+                  <strong>0.00 USDT</strong>
+                </div>
+                <div class="summary-pair">
+                  <span class="muted">Amount we will convert to USD</span>
+                  <strong>0.00 USDT</strong>
+                </div>
+                <hr />
+                <div class="summary-pair summary-pair--large">
+                  <span class="muted">Payee receives</span>
+                  <strong>0.00 USD</strong>
+                </div>
+              </div>
+              <button class="btn btn--primary btn--block">Continue to Send</button>
+            </div>
+          </aside>
+        </section>
+      </div>
+    </main>
+
+    <script type="module" src="src/js/main.js"></script>
+  </body>
+  </html>
+
+

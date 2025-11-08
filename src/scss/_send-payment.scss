@@ -1,0 +1,91 @@
+.page--send .page__header--crumb {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  .crumb {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px; height: 28px;
+    border-radius: 999px;
+    border: 1px solid $border-color;
+    color: $gray-600;
+    text-decoration: none;
+  }
+}
+
+.select-pill {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px;
+}
+
+.amount-input {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid $border-color;
+  border-radius: $radius-md;
+  padding-inline: 10px;
+  background: #fff;
+  input {
+    border: none;
+    padding: 10px 0;
+  }
+  &__prefix img { width: 18px; height: 18px; }
+}
+
+.select-card {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  border: 1px solid $border-color;
+  border-radius: $radius-md;
+  background: #fff;
+  padding: 8px 10px;
+  gap: 8px;
+  select { border: none; padding: 8px 0; }
+  &__icon img { width: 18px; height: 18px; }
+}
+
+.fee-options {
+  display: grid;
+  gap: 8px;
+}
+.fee-option {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: start;
+  gap: 10px;
+  border: 1px solid $border-color;
+  border-radius: $radius-md;
+  background: #fff;
+  padding: 10px;
+  input { margin-top: 3px; }
+  strong { font-weight: 600; }
+  small { font-size: 12px; }
+}
+
+.card--soft {
+  background: $gray-50;
+  border: 1px dashed $border-color;
+  border-radius: $radius-lg;
+  padding: 14px;
+  color: $gray-400;
+}
+
+.summary-block {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.summary-pair {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+.summary-pair--large strong { font-size: 18px; }
+.btn--block { width: 100%; margin-top: 8px; }
+
+

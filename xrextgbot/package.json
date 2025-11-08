@@ -1,0 +1,22 @@
+{
+  "name": "xrextgbot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "mkdir -p build/styles && sass styles/styles.scss:build/styles/styles.css --no-source-map --style=compressed",
+    "watch": "sass --watch styles/styles.scss:build/styles/styles.css --no-source-map --style=expanded"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@vercel/kv": "^2.0.0",
+    "@supabase/supabase-js": "^2.45.6",
+    "redis": "^4.6.13"
+  },
+  "devDependencies": {
+    "sass": "^1.77.0"
+  }
+}
