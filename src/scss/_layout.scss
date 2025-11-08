@@ -1,0 +1,92 @@
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: #fff;
+  border-bottom: 1px solid $border-color;
+  .header__content {
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    gap: 16px;
+    align-items: center;
+    height: 64px;
+  }
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    &__logo {
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      background: $primary-600;
+      color: #fff;
+      display: grid;
+      place-items: center;
+      font-weight: 700;
+      box-shadow: $shadow-sm;
+    }
+    &__name {
+      font-weight: 600;
+      color: $gray-800;
+    }
+  }
+  .header__nav ul {
+    display: inline-flex;
+    gap: 16px;
+    li a {
+      display: inline-block;
+      padding: 6px 10px;
+      border-radius: 8px;
+      color: $text-secondary;
+      &:hover { background: $gray-100; color: $gray-800; text-decoration: none; }
+      &[aria-current="page"] {
+        color: $primary-700;
+        background: $primary-50;
+      }
+    }
+  }
+}
+
+.page {
+  padding-block: 28px 40px;
+  background: $bg-subtle;
+  .page__header {
+    margin-bottom: 16px;
+    .page__title {
+      font-size: 28px;
+      line-height: 1.2;
+      letter-spacing: -0.01em;
+    }
+    .page__subtitle {
+      color: $text-secondary;
+    }
+  }
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 320px;
+  gap: 20px;
+  align-items: start;
+}
+@media (max-width: 960px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+.grid__col--primary { min-width: 0; }
+.grid__col--sidebar { position: sticky; top: 84px; }
+
+.card {
+  @include card;
+  padding: 18px;
+  & + .card { margin-top: 16px; }
+  .card__title {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 14px;
+  }
+}
+
+
