@@ -99,7 +99,10 @@ function initSendPayment() {
   const amountInput = document.getElementById('amount');
   const feeRadios = document.querySelectorAll('input[type="radio"][name="fee"]');
   const deductSelect = document.getElementById('deduct-from');
-  const deductIconImg = deductSelect ? deductSelect.closest('.select-card')?.querySelector('.select-card__icon img') : null;
+  const accountSelectEl = document.querySelector('.account-select');
+  const deductIconImg = accountSelectEl ? accountSelectEl.querySelector('.account-select__icon img') : null;
+  const accountTitleEl = accountSelectEl ? accountSelectEl.querySelector('.account-select__title') : null;
+  const accountSubEl = accountSelectEl ? accountSelectEl.querySelector('.account-select__subtitle') : null;
   const natureSelect = document.getElementById('nature');
   const purposeSelect = document.getElementById('purpose');
 
@@ -162,6 +165,15 @@ function initSendPayment() {
       deductIconImg.alt = 'US Dollar';
     }
   };
+  const syncAccountDisplay = () => {
+    if (!deductSelect) return;
+    const payerCurrency = getPayerCurrency();
+    syncDeductIcon(payerCurrency);
+    if (accountTitleEl) accountTitleEl.textContent = `${payerCurrency} account`;
+    const opt = deductSelect.options[deductSelect.selectedIndex];
+    const balance = opt ? opt.getAttribute('data-balance') || '$0.00' : '$0.00';
+    if (accountSubEl) accountSubEl.textContent = `${balance} balance`;
+  };
 
   const getFeeMode = () => {
     const selected = Array.from(feeRadios).find(r => r.checked);
@@ -203,19 +215,17 @@ function initSendPayment() {
 
     const payerCurrency = getPayerCurrency();
     const showConversion = payerCurrency !== payeeCurrency;
-    // Keep the select icon in sync with currency
-    syncDeductIcon(payerCurrency);
+    // Keep the select display in sync with currency
+    syncAccountDisplay();
 
     if (summaryRows.subtotal) {
       const v = summaryRows.subtotal.querySelector('strong');
       if (v) v.textContent = formatAmount(subtotal, payerCurrency);
     }
     if (summaryRows.serviceTitle) {
-      // Total service fee is always 1% of amount, show in payer currency
-      const v = summaryRows.serviceTitle.querySelector('strong');
+      // Only show the label; totals are displayed in the breakdown rows
       const lbl = summaryRows.serviceTitle.querySelector('.muted');
       if (lbl) lbl.textContent = 'Service fees: 1%';
-      if (v) v.textContent = formatAmount(amount * feeRate, payerCurrency);
     }
     if (summaryRows.servicePayer) {
       const v = summaryRows.servicePayer.querySelector('strong');
@@ -251,11 +261,17 @@ function initSendPayment() {
   const updateNaturePurpose = () => {
     if (summaryRows.nature && natureSelect) {
       const v = summaryRows.nature.querySelector('strong');
-      if (v) v.textContent = natureSelect.options[natureSelect.selectedIndex]?.textContent || '';
+      if (v) {
+        const txt = natureSelect.options[natureSelect.selectedIndex]?.textContent?.trim() || '';
+        v.textContent = (!txt || /^select$/i.test(txt)) ? '- -' : txt;
+      }
     }
     if (summaryRows.purpose && purposeSelect) {
       const v = summaryRows.purpose.querySelector('strong');
-      if (v) v.textContent = purposeSelect.options[purposeSelect.selectedIndex]?.textContent || '';
+      if (v) {
+        const txt = purposeSelect.options[purposeSelect.selectedIndex]?.textContent?.trim() || '';
+        v.textContent = (!txt || /^select$/i.test(txt)) ? '- -' : txt;
+      }
     }
   };
 
@@ -264,12 +280,13 @@ function initSendPayment() {
     amountInput.addEventListener('change', updateSummary);
   }
   feeRadios.forEach(r => r.addEventListener('change', updateSummary));
-  if (deductSelect) deductSelect.addEventListener('change', () => { updateSummary(); });
+  if (deductSelect) deductSelect.addEventListener('change', () => { updateSummary(); syncAccountDisplay(); });
   if (natureSelect) natureSelect.addEventListener('change', updateNaturePurpose);
   if (purposeSelect) purposeSelect.addEventListener('change', updateNaturePurpose);
   // Initial compute
   updateSummary();
   updateNaturePurpose();
+  syncAccountDisplay();
 }
 
 // Run immediately if DOM is already parsed (defer), otherwise wait

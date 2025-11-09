@@ -125,43 +125,63 @@
               </div>
 
               <div class="form__row">
-                <div class="form__field">
-                  <label for="deduct-from">Deduct amount payable from</label>
-                  <div class="select-card">
-                    <span class="select-card__icon"><img src="assets/icon_USDT.svg" alt="" /></span>
-                    <select id="deduct-from" name="deductFrom">
-                      <option>USDT account — $0.00 balance</option>
-                      <option>USD account — $0.00 balance</option>
+                <div class="form__field form__field--deduct">
+                  <div class="field-header">
+                    <label for="deduct-from">Deduct amount payable from</label>
+                  </div>
+                  <div class="account-select">
+                    <span class="account-select__icon"><img src="assets/icon_USDT.svg" alt="Tether USDT" /></span>
+                    <span class="account-select__content">
+                      <span class="account-select__title">USDT account</span>
+                      <span class="account-select__subtitle">$0.00 balance</span>
+                    </span>
+                    <span class="account-select__chev">
+                      <img src="assets/icon_chevron_down.svg" width="20" height="20" alt="" />
+                    </span>
+                    <select id="deduct-from" name="deductFrom" class="account-select__native">
+                      <option value="USDT" data-balance="$0.00">USDT account — $0.00 balance</option>
+                      <option value="USD" data-balance="$0.00">USD account — $0.00 balance</option>
                     </select>
-                    <span class="select-card__chev">▾</span>
                   </div>
                 </div>
               </div>
 
               <div class="form__row">
-                <div class="form__field">
+                <div class="form__field form__field--fees">
                   <label>Who pays 1% service fee?</label>
                   <div class="fee-options">
                     <label class="fee-option">
-                      <input type="radio" name="fee" value="you" checked />
+                      <span class="fee-option__icon">
+                        <img src="assets/icon_fees_100_0.svg" width="28" height="28" alt="" />
+                      </span>
                       <span class="fee-option__content">
                         <strong>Paid by you</strong>
                         <small class="muted">Added to total</small>
                       </span>
+                      <input type="radio" name="fee" value="you" checked />
+                      <span class="fee-option__check" aria-hidden="true"></span>
                     </label>
                     <label class="fee-option">
-                      <input type="radio" name="fee" value="split" />
+                      <span class="fee-option__icon">
+                        <img src="assets/icon_fees_50_50.svg" width="28" height="28" alt="" />
+                      </span>
                       <span class="fee-option__content">
                         <strong>Split 50/50</strong>
-                        <small class="muted">Partially added to total</small>
+                        <small class="muted">Partially added to total, partially deducted from payment</small>
                       </span>
+                      <input type="radio" name="fee" value="split" />
+                      <span class="fee-option__check" aria-hidden="true"></span>
                     </label>
                     <label class="fee-option">
-                      <input type="radio" name="fee" value="receiver" />
+                      <span class="fee-option__icon">
+                        <img src="assets/icon_fees_0_100.svg" width="28" height="28" alt="" />
+                      </span>
                       <span class="fee-option__content">
                         <strong>Paid by receiver</strong>
                         <small class="muted">Deducted from payment</small>
                       </span>
+                      <input type="radio" name="fee" value="receiver" />
+                      <span class="fee-option__check" aria-hidden="true"></span>
                     </label>
                   </div>
                 </div>
@@ -170,7 +190,7 @@
               </div>
             </div>
 
-            <div class="form__row">
+              <div class="form__row">
               <div class="form__field">
                 <label>Supporting documents</label>
                 <div class="supporting card--soft">To be designed</div>
@@ -220,7 +240,6 @@
                 </div>
                 <div class="summary-pair" data-summary="service-title">
                   <span class="muted">Service fees: 1%</span>
-                  <strong>0.00 USDT</strong>
                 </div>
                 <div class="summary-pair summary-pair--sub" data-summary="service-payer">
                   <span class="muted">0% paid by you</span>
