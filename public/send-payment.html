@@ -102,21 +102,25 @@
             <div class="card card--section">
               <div class="form">
 
-              <div class="form__row">
+              <div class="form__row form__row--amount">
                 <div class="form__field">
                   <label for="amount">Amount payable</label>
                   <div class="amount-input">
                     <span class="amount-input__prefix"><img src="assets/icon_USD.svg" alt="" /></span>
-                    <input id="amount" name="amount" type="number" step="0.01" placeholder="2,000" />
+                    <input id="amount" name="amount" type="number" step="0.01" placeholder="0" />
                   </div>
                 </div>
-                <div class="form__field">
+                <div class="form__field form__field--currency">
                   <label for="bill-currency">Billed to Payee in</label>
-                  <select id="bill-currency" name="billCurrency">
-                    <option>USD</option>
-                    <option>USDT</option>
-                    <option>EUR</option>
-                  </select>
+                  <button id="bill-currency" type="button" class="currency-display" disabled aria-disabled="true">
+                    <span class="currency-display__content">
+                      <span class="currency-display__title">USD</span>
+                      <span class="currency-display__subtitle">US Dollar</span>
+                    </span>
+                    <span class="currency-display__chev">
+                      <img src="assets/icon_chevron_down.svg" width="20" height="20" alt="" />
+                    </span>
+                  </button>
                 </div>
               </div>
 

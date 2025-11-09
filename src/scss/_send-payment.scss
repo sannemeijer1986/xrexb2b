@@ -33,16 +33,53 @@
   display: grid;
   grid-template-columns: auto 1fr;
   align-items: center;
-  gap: 8px;
-  border: 1px solid $border-color;
-  border-radius: $radius-md;
-  padding-inline: 10px;
-  background: #fff;
+  gap: 12px;
+  height: 80px;
+  border: none;
+  border-bottom: 1px solid $border-color;
+  border-radius: 0;
+  padding-inline: 0;
+  padding-bottom: 6px;
+  background: transparent;
+  cursor: text;
   input {
     border: none;
-    padding: 10px 0;
+    padding: 12px 0; // increase tap target
+    min-height: 56px; // ensure larger touch area inside the 80px wrapper
+    width: 100%;
+    background: transparent;
+    font-family: $font-family-sans;
+    font-weight: 600;
+    font-size: 32px;
+    line-height: 1.2;
+    color: $text-primary;
+    caret-color: #0184FF;
+    outline: none;
+    box-shadow: none;
   }
-  &__prefix img { width: 18px; height: 18px; }
+  &__prefix img { width: 32px; height: 32px; }
+}
+.amount-input input::placeholder { color: $gray-400; }
+.amount-input:focus-within {
+  border-bottom-color: #0184FF;
+  border-bottom-width: 1.5px;
+  box-shadow: inset 0 -3px 0 0 rgba(1, 132, 255, 0.15);
+}
+// Remove native focus styles for amount input specifically
+.amount-input input:focus {
+  outline: none;
+  box-shadow: none;
+  border-color: transparent;
+}
+// Remove number input spinners for Amount field
+.amount-input input[type="number"]::-webkit-outer-spin-button,
+.amount-input input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.amount-input input[type="number"] {
+  appearance: textfield;
+  -moz-appearance: textfield;
 }
 
 // Recipient select - first field
@@ -60,6 +97,61 @@
     font-size: 16px;
     color: $text-primary;
   }
+}
+
+// Amount + billed currency row
+.form__row--amount {
+  grid-template-columns: 1fr auto;
+  align-items: end;
+}
+.form__row--amount .form__field--currency {
+  width: 240px;
+  @media (max-width: $bp-mobile-lg) {
+    width: 100%;
+  }
+
+  label {
+    text-align: left;
+  }
+}
+
+// Disabled currency display, similar to recipient-select but without avatar
+.currency-display {
+  appearance: none;
+  width: 100%;
+  height: 80px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border: 1px solid $border-color;
+  border-radius: $radius-md;
+  background: $bg-subtle;
+  text-align: left;
+  cursor: not-allowed;
+}
+.currency-display__content {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.currency-display__title {
+  font-family: $font-family-sans;
+  font-weight: 700;
+  font-size: 18px;
+  color: $gray-500; // disabled look
+}
+.currency-display__subtitle {
+  font-family: $font-family-sans;
+  font-weight: 600;
+  font-size: 14px;
+  color: $gray-400;
+}
+.currency-display__chev img {
+  width: 20px;
+  height: 20px;
+  opacity: .5;
 }
 
 .recipient-select {
@@ -124,6 +216,23 @@
 }
 .page--send .form__row {
   grid-template-columns: 1fr; // default: full width fields
+}
+
+// Ensure Amount + Billed currency are on the same row
+.page--send .form__row--amount {
+  grid-template-columns: 1fr auto;
+  align-items: end;
+  @media (max-width: $bp-mobile-lg) {
+    grid-template-columns: 1fr;
+  }
+}
+
+// Label styling for Amount and Billed currency
+.page--send .form__row--amount label {
+  font-family: $font-family-sans;
+  font-weight: 700;
+  font-size: 16px;
+  color: $text-primary;
 }
 
 // Space between each title+section pair in primary column
