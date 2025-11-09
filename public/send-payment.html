@@ -41,13 +41,13 @@
 
         <section class="grid">
           <div class="grid__col grid__col--primary">
-            <h2 id="send-payment-title" class="card__title">Payment details</h2>
-            <form class="card form" aria-labelledby="send-payment-title">
+            <h2 id="send-payment-title" class="card__title">Payment to</h2>
+            <form class="card card--section form" aria-labelledby="send-payment-title">
 
               <div class="form__row">
                 <div class="form__field form__field--recipient">
                   <div class="field-header">
-                    <label for="pay-to">Pay to</label>
+                    <label for="pay-to">Payee</label>
                     <button type="button" class="btn btn--secondary btn--sm">
                       <img src="assets/icon_plus.svg" width="16" height="16" alt="" />
                       New Payee
@@ -85,6 +85,12 @@
                   </select>
                 </div>
               </div>
+
+            </form>
+
+            <h2 class="card__title">Amount and fees</h2>
+            <div class="card card--section">
+              <div class="form">
 
               <div class="form__row">
                 <div class="form__field">
@@ -146,21 +152,22 @@
                 </div>
               </div>
 
-              <div class="form__row">
-                <div class="form__field">
-                  <label>Supporting documents</label>
-                  <div class="supporting card--soft">To be designed</div>
-                </div>
               </div>
+            </div>
 
-            </form>
+            <div class="form__row">
+              <div class="form__field">
+                <label>Supporting documents</label>
+                <div class="supporting card--soft">To be designed</div>
+              </div>
+            </div>
           </div>
 
           <aside class="grid__col grid__col--sidebar">
-            <h3 class="card__title">Payment summary</h3>
+            <h3 class="card__title">Summary</h3>
             <div class="card">
               <div class="summary-recipient">
-                <div class="summary__section-title">Payee / Receiver</div>
+                <div class="summary__section-title">Payment to</div>
                 <div class="summary-recipient__name"><strong>NovaQuill</strong></div>
                 <dl class="kv">
                   <div class="kv__row">
@@ -181,10 +188,19 @@
                 </dl>
               </div>
 
-              <div class="summary__section-title">Amount &amp; fees</div>
+              <div class="summary__section-title">Amount and fees</div>
               <div class="summary-block">
                 <div class="summary-pair">
-                  <span class="muted">You spend</span>
+                  <span class="muted">Nature</span>
+                  <strong>Pre-shipment advance</strong>
+                </div>
+                <div class="summary-pair">
+                  <span class="muted">Purpose</span>
+                  <strong>Goods payment</strong>
+                </div>
+                <hr />
+                <div class="summary-pair">
+                  <span class="muted">Subtotal</span>
                   <strong>0.00 USDT</strong>
                 </div>
                 <div class="summary-pair">
@@ -192,17 +208,21 @@
                   <strong>0.00 USDT</strong>
                 </div>
                 <div class="summary-pair">
-                  <span class="muted">Amount we will convert to USD</span>
-                  <strong>0.00 USDT</strong>
+                  <span class="muted">Conversion rate</span>
+                  <strong>1 USDT = 1 USD</strong>
                 </div>
                 <hr />
+                <div class="summary-pair summary-pair--large">
+                  <span class="muted">You pay</span>
+                  <strong>0.00 USD</strong>
+                </div>
                 <div class="summary-pair summary-pair--large">
                   <span class="muted">Payee receives</span>
                   <strong>0.00 USD</strong>
                 </div>
                 <div class="summary-note">Payee is billed in US Dollar</div>
               </div>
-              <button class="btn btn--primary btn--block">Continue to Send</button>
+              <button class="btn btn--primary btn--block">Review and send</button>
             </div>
           </aside>
         </section>

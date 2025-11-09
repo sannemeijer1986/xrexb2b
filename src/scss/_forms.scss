@@ -14,7 +14,7 @@
 
 .form__field {
   display: grid;
-  gap: 6px;
+  gap: 16px;
   &--grow { grid-column: span 1; }
 }
 
@@ -32,7 +32,7 @@ select {
   border: 1px solid $border-color;
   border-radius: $radius-md;
   background: #fff;
-  padding: 10px 12px;
+  padding: 16px 16px;
   color: $text-primary;
   transition: box-shadow .15s ease, border-color .15s ease, background-color .15s ease;
 }

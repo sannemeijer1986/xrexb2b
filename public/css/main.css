@@ -254,7 +254,7 @@ main.page {
 .card {
   background: #fff;
   border: 1px solid #eeeeee;
-  border-radius: 10px;
+  border-radius: 16px;
   padding: 18px;
 }
 .card + .card {
@@ -379,7 +379,7 @@ main.page {
 
 .form__field {
   display: grid;
-  gap: 6px;
+  gap: 16px;
 }
 .form__field--grow {
   grid-column: span 1;
@@ -397,9 +397,9 @@ textarea,
 select {
   width: 100%;
   border: 1px solid #eeeeee;
-  border-radius: 10px;
+  border-radius: 8px;
   background: #fff;
-  padding: 10px 12px;
+  padding: 16px 16px;
   color: #0f172a;
   transition: box-shadow 0.15s ease, border-color 0.15s ease, background-color 0.15s ease;
 }
@@ -426,7 +426,7 @@ textarea {
   display: grid;
   grid-template-columns: 1fr auto;
   border: 1px solid #eeeeee;
-  border-radius: 10px;
+  border-radius: 8px;
   overflow: hidden;
   background: #fff;
 }
@@ -476,7 +476,7 @@ textarea {
   justify-content: center;
   gap: 8px;
   border: 1px solid transparent;
-  border-radius: 10px;
+  border-radius: 8px;
   background: #1f2937;
   color: #fff;
   padding: 10px 14px;
@@ -712,7 +712,7 @@ textarea {
 .asset {
   background: #ffffff;
   border: 1px solid #eeeeee;
-  border-radius: 10px;
+  border-radius: 8px;
   padding: 20px;
   min-height: 200px;
   min-width: 200px;
@@ -815,7 +815,7 @@ textarea {
   min-height: 72px;
   padding: 10px 8px;
   border: 1px solid transparent;
-  border-radius: 10px;
+  border-radius: 8px;
   color: inherit;
   text-decoration: none;
 }
@@ -915,7 +915,7 @@ textarea {
   align-items: center;
   gap: 8px;
   border: 1px solid #eeeeee;
-  border-radius: 10px;
+  border-radius: 8px;
   padding-inline: 10px;
   background: #fff;
 }
@@ -928,6 +928,9 @@ textarea {
   height: 18px;
 }
 
+.form__field--recipient {
+  gap: 6px;
+}
 .form__field--recipient .field-header {
   display: flex;
   align-items: center;
@@ -937,7 +940,7 @@ textarea {
 .form__field--recipient label {
   font-family: "Manrope", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
   font-weight: 700;
-  font-size: 20px;
+  font-size: 16px;
   color: #0f172a;
 }
 
@@ -951,7 +954,7 @@ textarea {
   gap: 12px;
   padding: 12px 14px;
   border: 1px solid #eeeeee;
-  border-radius: 10px;
+  border-radius: 8px;
   background: #fff;
   text-align: left;
 }
@@ -1002,7 +1005,11 @@ textarea {
 }
 
 .page--send .form.card {
-  padding: 32px 24px;
+  padding: 32px 24px 24px 24px;
+}
+
+.page--send .card--section {
+  padding: 32px 24px 24px 24px;
 }
 
 .page--send .form__row {
@@ -1035,7 +1042,7 @@ textarea {
   grid-template-columns: auto 1fr auto;
   align-items: center;
   border: 1px solid #eeeeee;
-  border-radius: 10px;
+  border-radius: 8px;
   background: #fff;
   padding: 8px 10px;
   gap: 8px;
@@ -1060,7 +1067,7 @@ textarea {
   align-items: start;
   gap: 10px;
   border: 1px solid #eeeeee;
-  border-radius: 10px;
+  border-radius: 8px;
   background: #fff;
   padding: 10px;
 }
@@ -1077,7 +1084,7 @@ textarea {
 .card--soft {
   background: #f8fafc;
   border: 1px dashed #eeeeee;
-  border-radius: 12px;
+  border-radius: 16px;
   padding: 14px;
   color: #94a3b8;
 }
@@ -1113,7 +1120,7 @@ textarea {
 .summary-recipient {
   background: #f8fafc;
   border: 1px solid #eeeeee;
-  border-radius: 10px;
+  border-radius: 8px;
   padding: 12px;
   margin-bottom: 12px;
 }
