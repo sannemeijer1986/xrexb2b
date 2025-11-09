@@ -150,13 +150,6 @@
 .asset__amount__sub, .asset__currency__sub { color: $text-secondary; font-weight: 600; font-size: 12px; }
 .asset__meta { font-size: 12px; color: #797a7b; }
 
-.card__title--quick-actions {
-  @media (max-width: ($bp-desktop - 1)) {
-    font-size: 16px;
-    font-weight: 700;
-  }
-}
-
 .card.quick-actions {
   @media (max-width: ($bp-desktop - 1)) {
     background-color: transparent;

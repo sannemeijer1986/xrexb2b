@@ -1,6 +1,7 @@
 .site-header {
-  position: sticky;
+  position: fixed;
   top: 0;
+  width: 100vw;
   z-index: 50;
   background: $bg-page;
   border-bottom: 1px solid #eeeeee;
@@ -112,9 +113,13 @@
 }
 
 .card__title { /* when used outside a .card as a section label */
-  font-size: 20px;
+  font-size: 16px;
   font-weight: 700;
   margin: 0 0 16px;
+  @media (min-width: $bp-desktop) {
+    font-size: 18px;
+    font-weight: 600;
+  }
 }
 
 .grid--home .grid__col--sidebar { top: 84px; }
