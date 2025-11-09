@@ -315,6 +315,17 @@
   justify-content: space-between;
   gap: 10px;
 }
+.summary-pair--sub {
+  padding-left: 18px;
+  .muted {
+    color: $gray-500;
+    font-size: 14px;
+  }
+  strong {
+    font-size: 14px;
+    color: $text-secondary;
+  }
+}
 .summary-pair--large strong { font-size: 18px; }
 .btn--block { width: 100%; margin-top: 8px; }
 

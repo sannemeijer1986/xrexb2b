@@ -1224,6 +1224,18 @@ textarea {
   gap: 10px;
 }
 
+.summary-pair--sub {
+  padding-left: 18px;
+}
+.summary-pair--sub .muted {
+  color: #797A7B;
+  font-size: 14px;
+}
+.summary-pair--sub strong {
+  font-size: 14px;
+  color: #797A7B;
+}
+
 .summary-pair--large strong {
   font-size: 18px;
 }

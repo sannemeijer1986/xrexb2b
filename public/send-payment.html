@@ -131,6 +131,7 @@
                     <span class="select-card__icon"><img src="assets/icon_USDT.svg" alt="" /></span>
                     <select id="deduct-from" name="deductFrom">
                       <option>USDT account — $0.00 balance</option>
+                      <option>USD account — $0.00 balance</option>
                     </select>
                     <span class="select-card__chev">▾</span>
                   </div>
@@ -217,9 +218,17 @@
                   <span class="muted">Subtotal</span>
                   <strong>0.00 USDT</strong>
                 </div>
-                <div class="summary-pair">
-                  <span class="muted">Service fees paid by you (1%)</span>
+                <div class="summary-pair" data-summary="service-title">
+                  <span class="muted">Service fees: 1%</span>
                   <strong>0.00 USDT</strong>
+                </div>
+                <div class="summary-pair summary-pair--sub" data-summary="service-payer">
+                  <span class="muted">0% paid by you</span>
+                  <strong>0.00 USDT</strong>
+                </div>
+                <div class="summary-pair summary-pair--sub" data-summary="service-payee">
+                  <span class="muted">0% paid by Payee</span>
+                  <strong>0.00 USD</strong>
                 </div>
                 <div class="summary-pair">
                   <span class="muted">Conversion rate</span>
