@@ -265,6 +265,9 @@ function initSendPayment() {
         const txt = natureSelect.options[natureSelect.selectedIndex]?.textContent?.trim() || '';
         v.textContent = (!txt || /^select$/i.test(txt)) ? '- -' : txt;
       }
+      // toggle filled state for styling
+      const filled = natureSelect.options[natureSelect.selectedIndex] && !/^select$/i.test(natureSelect.options[natureSelect.selectedIndex].textContent || '');
+      natureSelect.classList.toggle('is-filled', filled);
     }
     if (summaryRows.purpose && purposeSelect) {
       const v = summaryRows.purpose.querySelector('strong');
@@ -272,6 +275,9 @@ function initSendPayment() {
         const txt = purposeSelect.options[purposeSelect.selectedIndex]?.textContent?.trim() || '';
         v.textContent = (!txt || /^select$/i.test(txt)) ? '- -' : txt;
       }
+      // toggle filled state for styling
+      const filled = purposeSelect.options[purposeSelect.selectedIndex] && !/^select$/i.test(purposeSelect.options[purposeSelect.selectedIndex].textContent || '');
+      purposeSelect.classList.toggle('is-filled', filled);
     }
   };
 
@@ -280,13 +286,14 @@ function initSendPayment() {
     amountInput.addEventListener('change', updateSummary);
   }
   feeRadios.forEach(r => r.addEventListener('change', updateSummary));
-  if (deductSelect) deductSelect.addEventListener('change', () => { updateSummary(); syncAccountDisplay(); });
+  if (deductSelect) deductSelect.addEventListener('change', () => { updateSummary(); syncAccountDisplay(); accountSelectEl?.classList.add('is-filled'); });
   if (natureSelect) natureSelect.addEventListener('change', updateNaturePurpose);
   if (purposeSelect) purposeSelect.addEventListener('change', updateNaturePurpose);
   // Initial compute
   updateSummary();
   updateNaturePurpose();
   syncAccountDisplay();
+  accountSelectEl?.classList.add('is-filled');
 }
 
 // Run immediately if DOM is already parsed (defer), otherwise wait

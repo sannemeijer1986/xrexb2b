@@ -34,7 +34,6 @@ select {
   background: #fff;
   padding: 16px 16px;
   color: $text-primary;
-  transition: box-shadow .15s ease, border-color .15s ease, background-color .15s ease;
 }
 
 input::placeholder,
@@ -45,8 +44,10 @@ textarea::placeholder {
 input:focus,
 textarea:focus,
 select:focus {
-  border-color: $primary-400;
-  @include focus-ring($primary-400);
+  box-shadow: none;
+  outline: 1px solid #0184FF;
+  outline-offset: -1px;
+  border-color: transparent
 }
 
 textarea { resize: vertical; }
