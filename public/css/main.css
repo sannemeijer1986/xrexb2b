@@ -363,7 +363,7 @@ main.page {
 
 .form {
   display: grid;
-  gap: 14px;
+  gap: 40px;
 }
 
 .form__row {
@@ -928,6 +928,108 @@ textarea {
   height: 18px;
 }
 
+.form__field--recipient .field-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+.form__field--recipient label {
+  font-family: "Manrope", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+  font-weight: 700;
+  font-size: 20px;
+  color: #0f172a;
+}
+
+.recipient-select {
+  appearance: none;
+  width: 100%;
+  height: 80px;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border: 1px solid #eeeeee;
+  border-radius: 10px;
+  background: #fff;
+  text-align: left;
+}
+
+.recipient-select:focus {
+  border-color: #60a5fa;
+  outline: 2px solid transparent;
+  box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.45);
+}
+
+.recipient-select__avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  background: #EBF2FF;
+  display: grid;
+  place-items: center;
+}
+
+.recipient-select__avatar img {
+  width: 22px;
+  height: 22px;
+}
+
+.recipient-select__content {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.recipient-select__title {
+  font-family: "Manrope", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  color: #0f172a;
+}
+
+.recipient-select__subtitle {
+  font-family: "Manrope", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  color: #797A7B;
+}
+
+.recipient-select__chev img {
+  width: 20px;
+  height: 20px;
+}
+
+.page--send .form.card {
+  padding: 32px 24px;
+}
+
+.page--send .form__row {
+  grid-template-columns: 1fr;
+}
+
+.form__field--select label {
+  font-family: "Manrope", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  color: #0f172a;
+}
+.form__field--select select {
+  height: 60px;
+  width: 100%;
+  font-family: "Manrope", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  color: #797A7B;
+  padding-right: 40px;
+  appearance: none;
+  background-image: url("../assets/icon_chevron_down.svg");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 20px 20px;
+}
+
 .select-card {
   display: grid;
   grid-template-columns: auto 1fr auto;
@@ -999,6 +1101,63 @@ textarea {
 .btn--block {
   width: 100%;
   margin-top: 8px;
+}
+
+.summary__section-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: #797A7B;
+  margin: 6px 0 10px;
+}
+
+.summary-recipient {
+  background: #f8fafc;
+  border: 1px solid #eeeeee;
+  border-radius: 10px;
+  padding: 12px;
+  margin-bottom: 12px;
+}
+
+.summary-recipient__name {
+  margin-bottom: 8px;
+}
+
+.kv {
+  display: grid;
+  gap: 6px;
+}
+
+.kv__row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.kv__row dt {
+  color: #94a3b8;
+  font-size: 12px;
+}
+
+.kv__row dd {
+  margin: 0;
+  font-weight: 600;
+}
+
+.kv__value--icon {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.kv__value--icon img {
+  width: 16px;
+  height: 16px;
+}
+
+.summary-note {
+  color: #94a3b8;
+  font-size: 12px;
 }
 
 /* Auto-mirrored from src/css/overrides.css when running `npm run dev:with-css-edit` */
