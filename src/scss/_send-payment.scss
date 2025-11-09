@@ -47,7 +47,7 @@
 
 // Recipient select - first field
 .form__field--recipient {
-  gap: 6px;
+  gap: 4px;
   .field-header {
     display: flex;
     align-items: center;
@@ -57,7 +57,7 @@
   label {
     font-family: $font-family-sans;
     font-weight: 700;
-    font-size: 20px;
+    font-size: 16px;
     color: $text-primary;
   }
 }
@@ -124,6 +124,13 @@
 }
 .page--send .form__row {
   grid-template-columns: 1fr; // default: full width fields
+}
+
+// Space between each title+section pair in primary column
+.page--send .grid__col--primary {
+  .card__title + .card--section {
+    margin-bottom: 40px;
+  }
 }
 
 // Nature/Purpose selects

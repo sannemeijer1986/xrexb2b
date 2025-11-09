@@ -929,7 +929,7 @@ textarea {
 }
 
 .form__field--recipient {
-  gap: 6px;
+  gap: 4px;
 }
 .form__field--recipient .field-header {
   display: flex;
@@ -1014,6 +1014,10 @@ textarea {
 
 .page--send .form__row {
   grid-template-columns: 1fr;
+}
+
+.page--send .grid__col--primary .card__title + .card--section {
+  margin-bottom: 40px;
 }
 
 .form__field--select label {
