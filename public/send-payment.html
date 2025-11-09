@@ -224,7 +224,8 @@
               </div>
 
               <div class="summary__section-title">Amount and fees</div>
-              <div class="summary-block">
+              <!-- Attributes panel -->
+              <div class="summary-box">
                 <div class="summary-pair">
                   <span class="muted">Nature</span>
                   <strong>Pre-shipment advance</strong>
@@ -233,9 +234,12 @@
                   <span class="muted">Purpose</span>
                   <strong>Goods payment</strong>
                 </div>
-                <hr />
+              </div>
+
+              <!-- Amount and fees breakdown panel -->
+              <div class="summary-box">
                 <div class="summary-pair">
-                  <span class="muted">Subtotal</span>
+                  <span class="muted">Your subtotal</span>
                   <strong>0.00 USDT</strong>
                 </div>
                 <div class="summary-pair" data-summary="service-title">
@@ -249,18 +253,18 @@
                   <span class="muted">0% paid by Payee</span>
                   <strong>0.00 USD</strong>
                 </div>
+                <div class="summary-separator"></div>
                 <div class="summary-pair">
                   <span class="muted">Conversion rate</span>
                   <strong>1 USDT = 1 USD</strong>
                 </div>
-                <hr />
-                <div class="summary-pair summary-pair--large">
-                  <span class="muted">You pay</span>
+                <div class="summary-pair summary-pair--total">
+                  <span>Your total</span>
                   <strong>0.00 USD</strong>
                 </div>
-                <div class="summary-pair summary-pair--large">
-                  <span class="muted">Payee receives</span>
-                  <strong>0.00 USD</strong>
+                <div class="summary-pair summary-pair--total">
+                  <span>Payee receives</span>
+                  <strong class="summary-total--primary">0.00 USD</strong>
                 </div>
                 <div class="summary-note">Payee is billed in US Dollar</div>
               </div>

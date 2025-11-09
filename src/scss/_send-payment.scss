@@ -381,14 +381,14 @@
 .fee-option:last-child { border-bottom-left-radius: $radius-md; border-bottom-right-radius: $radius-md; }
 
 .fee-option__icon {
-  width: 40px;
-  height: 40px;
+  width: 32px;
+  height: 32px;
   border-radius: 999px;
   background: $bg-subtle;
   display: grid;
   place-items: center;
 }
-.fee-option__icon img { width: 24px; height: 24px; }
+.fee-option__icon img { width: 22px; height: 22px; }
 .fee-option__content {
   display: flex;
   flex-direction: column;
@@ -459,6 +459,52 @@
   gap: 8px;
   margin-bottom: 12px;
 }
+.summary-box {
+  background: $bg-subtle;
+  border: 1px solid $border-color;
+  border-radius: $radius-lg;
+  padding: 20px;
+  margin-bottom: 16px;
+}
+.summary-box .summary-pair {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 0;
+}
+.summary-box .summary-pair .muted {
+  color: $text-secondary;
+  font-weight: 600;
+  font-size: 16px;
+}
+.summary-box .summary-pair strong {
+  font-size: 16px;
+  font-weight: 600;
+  color: $text-primary;
+}
+.summary-separator {
+  height: 1px;
+  background: $border-color;
+  margin: 12px 0;
+}
+.summary-box .summary-pair--sub {
+  padding-left: 32px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+.summary-box .summary-pair--sub .muted { font-size: 14px; color: $text-secondary; font-weight: 600; }
+.summary-box .summary-pair--sub strong { font-size: 14px; color: $text-secondary; font-weight: 600; }
+.summary-box .summary-pair--total {
+  padding-top: 16px;
+  padding-bottom: 16px;
+}
+.summary-box .summary-pair--total span { color: $text-primary; font-size: 16px; font-weight: 700; }
+.summary-box .summary-pair--total strong { font-size: 20px; font-weight: 800; color: $text-primary; }
+.summary-box .summary-pair--total .summary-total--primary {
+  color: $text-primary;
+  font-size: 22px;
+  font-weight: 800;
+}
 .summary-pair {
   display: flex;
   justify-content: space-between;
@@ -475,7 +521,7 @@
     color: $text-secondary;
   }
 }
-.summary-pair--large strong { font-size: 18px; }
+.summary-pair--large strong { font-size: 20px; font-weight: 800; }
 .btn--block { width: 100%; margin-top: 8px; }
 
 // Sidebar recipient block and section labels

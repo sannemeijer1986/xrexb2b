@@ -128,13 +128,13 @@ function initSendPayment() {
   };
 
   const summaryRows = {
-    subtotal: findSummaryRow('Subtotal'),
+    subtotal: findSummaryRow('Your subtotal'),
     serviceTitle: document.querySelector('.summary-pair[data-summary="service-title"]'),
-    servicePayer: document.querySelector('.summary-pair[data-summary="service-payer"]'),
-    servicePayee: document.querySelector('.summary-pair[data-summary="service-payee"]'),
+    servicePayer: document.querySelector('[data-summary="service-payer"]'),
+    servicePayee: document.querySelector('[data-summary="service-payee"]'),
     nature: findSummaryRow('Nature'),
     purpose: findSummaryRow('Purpose'),
-    youPay: findSummaryRow('You pay'),
+    youPay: findSummaryRow('Your total'),
     payeeReceives: findSummaryRow('Payee receives'),
     conversion: findSummaryRow('Conversion rate'),
   };
@@ -282,8 +282,55 @@ function initSendPayment() {
   };
 
   if (amountInput) {
-    amountInput.addEventListener('input', updateSummary);
-    amountInput.addEventListener('change', updateSummary);
+    const formatCurrencyInput = (e) => {
+      const input = e.target;
+      const prev = input.value || '';
+      // Allow only digits, comma, and dot
+      let raw = prev.replace(/[^\d.,]/g, '');
+      const hadTrailingDot = /\.\s*$/.test(prev);
+      // Remove thousands separators
+      raw = raw.replace(/,/g, '');
+      // Keep only first dot as decimal separator
+      const firstDot = raw.indexOf('.');
+      if (firstDot !== -1) {
+        const head = raw.slice(0, firstDot);
+        const tail = raw.slice(firstDot + 1).replace(/\./g, '');
+        raw = `${head}.${tail}`;
+      }
+      if (raw === '') {
+        input.value = '';
+        updateSummary();
+        return;
+      }
+      // Track number of digits before caret to restore position after formatting
+      const selStart = input.selectionStart || 0;
+      const digitsBefore = prev.slice(0, selStart).replace(/[^\d]/g, '').length;
+      // Split integer/fraction and insert thousands separators
+      const [intRaw, fracRaw = ''] = raw.split('.');
+      const intStr = intRaw.replace(/^0+(?=\d)/, '') || '0';
+      const intFormatted = Number(intStr).toLocaleString('en-US');
+      const fracStr = fracRaw.slice(0, 2);
+      let next = fracStr ? `${intFormatted}.${fracStr}` : intFormatted;
+      if (!fracStr && hadTrailingDot) next = `${intFormatted}.`;
+      if (next !== prev) {
+        input.value = next;
+        // Restore caret position based on digit count
+        try {
+          let count = 0, pos = 0;
+          while (pos < next.length) {
+            if (/\d/.test(next[pos])) {
+              count++;
+              if (count > digitsBefore) break;
+            }
+            pos++;
+          }
+          input.setSelectionRange(pos, pos);
+        } catch (err) { /* ignore */ }
+      }
+      updateSummary();
+    };
+    amountInput.addEventListener('input', formatCurrencyInput, { passive: true });
+    amountInput.addEventListener('change', formatCurrencyInput);
   }
   feeRadios.forEach(r => r.addEventListener('change', updateSummary));
   if (deductSelect) deductSelect.addEventListener('change', () => { updateSummary(); syncAccountDisplay(); accountSelectEl?.classList.add('is-filled'); });
