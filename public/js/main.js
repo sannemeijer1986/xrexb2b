@@ -132,6 +132,7 @@ function initSendPayment() {
     serviceTitle: document.querySelector('.summary-pair[data-summary="service-title"]'),
     servicePayer: document.querySelector('[data-summary="service-payer"]'),
     servicePayee: document.querySelector('[data-summary="service-payee"]'),
+    amountPayable: findSummaryRow('Amount payable'),
     nature: findSummaryRow('Nature'),
     purpose: findSummaryRow('Purpose'),
     youPay: findSummaryRow('Your total'),
@@ -225,7 +226,7 @@ function initSendPayment() {
     if (summaryRows.serviceTitle) {
       // Only show the label; totals are displayed in the breakdown rows
       const lbl = summaryRows.serviceTitle.querySelector('.muted');
-      if (lbl) lbl.textContent = 'Service fees: 1%';
+      if (lbl) lbl.textContent = 'Service fees';
     }
     if (summaryRows.servicePayer) {
       const v = summaryRows.servicePayer.querySelector('strong');
@@ -234,6 +235,10 @@ function initSendPayment() {
     if (summaryRows.servicePayee) {
       const v = summaryRows.servicePayee.querySelector('strong');
       if (v) v.textContent = formatAmount(receiverFee, payeeCurrency);
+    }
+    if (summaryRows.amountPayable) {
+      const v = summaryRows.amountPayable.querySelector('strong');
+      if (v) v.textContent = formatAmount(amount, payeeCurrency); // always USD
     }
     if (summaryRows.youPay) {
       const v = summaryRows.youPay.querySelector('strong');
