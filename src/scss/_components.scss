@@ -27,6 +27,27 @@
 }
 
 // Counterparty selection list
+.page__subheader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 40px;
+
+  .btn {
+    text-decoration: none;
+    font-weight: 700;
+  }
+}
+
+.page__subtitle {
+  font-size: 22px;
+  font-weight: 800;
+  color: $text-primary;
+}
+
+
 .cp-toolbar {
   display: flex;
   align-items: center;
