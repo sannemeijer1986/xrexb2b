@@ -1411,7 +1411,7 @@ textarea {
 
 .summary-box .summary-pair .muted {
   color: #797A7B;
-  font-weight: 500;
+  font-weight: 600;
   font-size: 14px;
 }
 
@@ -1425,6 +1425,15 @@ textarea {
   height: 1px;
   background: #eeeeee;
   margin: 6px 0 2px 0px;
+}
+
+.summary-section-title {
+  display: flex;
+  font-size: 16px;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 16px;
+  margin-top: 32px;
 }
 
 .summary-box .summary-pair--sub {
@@ -1443,6 +1452,12 @@ textarea {
   font-weight: 700;
 }
 
+.summary-box .summary-pair--total .muted {
+  font-size: 16px;
+  color: #797A7B;
+  font-weight: 600;
+}
+
 .summary-box .summary-pair--total span {
   color: #0f172a;
   font-size: 16px;
@@ -1457,8 +1472,8 @@ textarea {
 
 .summary-box .summary-pair--total .summary-total--primary {
   color: #0f172a;
-  font-size: 22px;
-  font-weight: 800;
+  font-size: 18px;
+  font-weight: 700;
 }
 
 .summary-pair {
