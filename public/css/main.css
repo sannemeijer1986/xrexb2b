@@ -1424,7 +1424,7 @@ textarea {
 .summary-separator {
   height: 1px;
   background: #eeeeee;
-  margin: 12px 0;
+  margin: 6px 0 2px 0px;
 }
 
 .summary-box .summary-pair--sub {
@@ -1443,11 +1443,6 @@ textarea {
   font-weight: 700;
 }
 
-.summary-box .summary-pair--total {
-  padding-top: 16px;
-  padding-bottom: 16px;
-}
-
 .summary-box .summary-pair--total span {
   color: #0f172a;
   font-size: 16px;
@@ -1455,8 +1450,8 @@ textarea {
 }
 
 .summary-box .summary-pair--total strong {
-  font-size: 20px;
-  font-weight: 800;
+  font-size: 16px;
+  font-weight: 700;
   color: #0f172a;
 }
 
@@ -1564,6 +1559,7 @@ textarea {
 .summary-note {
   color: #94a3b8;
   font-size: 12px;
+  text-align: right;
 }
 
 /* Auto-mirrored from src/css/overrides.css when running `npm run dev:with-css-edit` */

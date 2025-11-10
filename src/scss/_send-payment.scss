@@ -485,7 +485,7 @@
 .summary-separator {
   height: 1px;
   background: $border-color;
-  margin: 12px 0;
+  margin: 6px 0 2px 0px;
 }
 .summary-box .summary-pair--sub {
   padding-left: 24px;
@@ -493,11 +493,9 @@
 .summary-box .summary-pair--sub .muted { font-size: 14px; color: $text-secondary; font-weight: 500; }
 .summary-box .summary-pair--sub strong { font-size: 14px; color: $text-primary; font-weight: 700; }
 .summary-box .summary-pair--total {
-  padding-top: 16px;
-  padding-bottom: 16px;
 }
 .summary-box .summary-pair--total span { color: $text-primary; font-size: 16px; font-weight: 700; }
-.summary-box .summary-pair--total strong { font-size: 20px; font-weight: 800; color: $text-primary; }
+.summary-box .summary-pair--total strong { font-size: 16px; font-weight: 700; color: $text-primary; }
 .summary-box .summary-pair--total .summary-total--primary {
   color: $text-primary;
   font-size: 22px;
@@ -583,5 +581,6 @@
 .summary-note {
   color: $gray-400;
   font-size: 12px;
+  text-align: right;
 }
 
