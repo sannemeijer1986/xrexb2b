@@ -42,7 +42,7 @@
         <section class="grid">
           <div class="grid__col grid__col--primary">
             <h2 id="send-payment-title" class="card__title">Payment to</h2>
-            <form class="card card--section form" aria-labelledby="send-payment-title">
+            <form class="card card--section form card--paymentto" aria-labelledby="send-payment-title">
 
               <div class="form__row">
                 <div class="form__field form__field--recipient">
@@ -200,31 +200,21 @@
 
           <aside class="grid__col grid__col--sidebar">
             <h3 class="card__title">Summary</h3>
-            <div class="card">
+            <div class="card card--section card--summary">
               <div class="summary-recipient">
-                <div class="summary__section-title">Payment to</div>
-                <div class="summary-recipient__name"><strong>NovaQuill</strong></div>
-                <dl class="kv">
-                  <div class="kv__row">
-                    <dt>Bank</dt>
-                    <dd>CIMB</dd>
-                  </div>
-                  <div class="kv__row">
-                    <dt>Bank account</dt>
-                    <dd>1234 5678 9014 56</dd>
-                  </div>
-                  <div class="kv__row">
-                    <dt>Account type</dt>
-                    <dd class="kv__value--icon">
-                      <img src="assets/icon_USD.svg" alt="" width="16" height="16" />
-                      <span>US Dollar</span>
-                    </dd>
-                  </div>
-                </dl>
+                <span class="recipient-select__avatar">
+                  <img src="assets/icon_bankaccount.svg" alt="" />
+                </span>
+                <span class="recipient-select__content">
+                  <span class="recipient-select__title">To NovaQuill</span>
+                  <span class="recipient-select__subtitle">(CIMB) 1234 5678 9014 56</span>
+                </span>
+                <span class="summary-recipient__currency">
+                  <span class="summary-recipient__currency-text">USD</span>
+                  <img src="assets/icon_USD.svg" alt="" />
+                </span>
               </div>
 
-              <div class="summary__section-title">Amount and fees</div>
-              <!-- Attributes panel -->
               <div class="summary-box">
                 <div class="summary-pair">
                   <span class="muted">Nature</span>
@@ -254,10 +244,10 @@
                   <strong>0.00 USD</strong>
                 </div>
                 <div class="summary-separator"></div>
-                <div class="summary-pair">
+                <!-- <div class="summary-pair">
                   <span class="muted">Conversion rate</span>
                   <strong>1 USDT = 1 USD</strong>
-                </div>
+                </div> -->
                 <div class="summary-pair summary-pair--total">
                   <span>Your total</span>
                   <strong>0.00 USD</strong>
