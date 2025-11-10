@@ -41,7 +41,10 @@
 
         <section class="page__subheader">
             <h2 class="page__subtitle">Which of these Counterparty bank accounts will you use to do the payment?</h2>
-            <a class="btn btn--secondary btn--md" href="#">Add new Counterparty</a>
+            <a class="btn btn--secondary btn--md" href="#">
+              <img class="btn-icon" src="assets/icon_plus.svg" alt="" width="16" height="16" />
+              Add new Counterparty
+            </a>
         </section>
 
         <section class="grid">
@@ -112,6 +115,19 @@
         </section>
       </div>
     </main>
+
+    <!-- Modal: Unverified bank account -->
+    <div id="accountNotVerifiedModal" class="modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="accountNotVerifiedTitle">
+      <div class="modal__dialog">
+        <div class="modal__content">
+          <h2 id="accountNotVerifiedTitle" class="modal__title">Bank account verification</h2>
+          <p class="modal__desc">This bank account has not been verified</p>
+          <div class="modal__actions">
+            <button type="button" class="btn btn--secondary btn--md" data-modal-close>Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <footer class="site-footer">
       <div class="footer__inner">

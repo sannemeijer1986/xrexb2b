@@ -375,4 +375,62 @@ if (document.readyState === 'loading') {
   applyFilter();
 })();
 
+// Modal helpers (reused lightweight pattern)
+(function initModalLogic() {
+  const open = (el) => {
+    if (!el) return;
+    el.setAttribute('aria-hidden', 'false');
+    document.documentElement.classList.add('modal-open');
+    document.body.classList.add('modal-open');
+  };
+  const close = (el) => {
+    if (!el) return;
+    el.setAttribute('aria-hidden', 'true');
+    document.documentElement.classList.remove('modal-open');
+    document.body.classList.remove('modal-open');
+  };
+
+  // Wire close buttons and overlay click
+  document.querySelectorAll('.modal').forEach((modal) => {
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) close(modal);
+    });
+    modal.querySelectorAll('[data-modal-close]').forEach((btn) => {
+      btn.addEventListener('click', () => close(modal));
+    });
+  });
+
+  // Select-counterparty: block unverified items
+  const list = document.querySelector('.cp-list');
+  const modal = document.getElementById('accountNotVerifiedModal');
+  if (list && modal) {
+    list.addEventListener('click', (e) => {
+      const link = e.target.closest('.cp-item');
+      if (!link) return;
+      const status = link.querySelector('.cp-status');
+      const isOk = status && status.classList.contains('cp-status--ok');
+      if (!isOk) {
+        e.preventDefault();
+        open(modal);
+      }
+    });
+
+    // Mark unverified items for responsive styling (mobile shows only status)
+    list.querySelectorAll('.cp-item').forEach((item) => {
+      const st = item.querySelector('.cp-status');
+      const metaA = item.querySelector('.cp-item__metablack');
+      const metaB = item.querySelector('.cp-item__meta');
+      const isOk = st && st.classList.contains('cp-status--ok');
+      if (!isOk) item.classList.add('is-unverified');
+      else {
+        item.classList.add('is-verified');
+        item.classList.remove('is-unverified');
+        // Compose mobile label "(CIMB) 1234..." into status for consistent layout on small screens
+        const label = [metaA?.textContent?.trim(), metaB?.textContent?.trim()].filter(Boolean).join(' ');
+        if (label) st.setAttribute('data-mobile-label', label);
+      }
+    });
+  }
+})();
+
 

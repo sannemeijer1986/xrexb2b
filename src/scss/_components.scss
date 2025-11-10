@@ -39,12 +39,38 @@
     text-decoration: none;
     font-weight: 700;
   }
+
+  @media screen and (max-width: ($bp-desktop - 1px)) {
+    margin-bottom: 32px;
+    .btn {
+      background-color: transparent;
+      padding: 0px;
+      gap: 2px;
+    }
+  }
 }
 
 .page__subtitle {
-  font-size: 22px;
+  font-size: 18px;
   font-weight: 700;
   color: $text-primary;
+
+  @media screen and (min-width: $bp-desktop) {
+    font-size: 22px;
+    font-weight: 700;
+    color: $text-primary;
+  }
+}
+
+// Plus icon for "Add new Counterparty" on tablet and below
+.page__subheader .btn .btn-icon {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  margin-right: 6px;
+}
+@media (min-width: $bp-desktop) {
+  .page__subheader .btn .btn-icon { display: none; }
 }
 
 
@@ -101,16 +127,21 @@
 }
 .cp-item {
   display: grid;
-  grid-template-columns: auto 1fr auto auto auto;
+  grid-template-columns: auto 1fr auto; // mobile-first: icon | content | chevron
   align-items: center;
   gap: 12px;
-  padding: 24px 24px;
+  padding: 16px;
   border: 1px solid $border-color;
   border-radius: 0;
   background: #fff;
   color: inherit;
   text-decoration: none;
-  height: 100px;
+  height: auto;
+  grid-auto-rows: min-content;
+
+  @media screen and (min-width: $bp-desktop) {
+    height: 100px;
+  }
 }
 .cp-list li + li .cp-item { border-top: none; }
 .cp-list li:first-child .cp-item { border-top-left-radius: $radius-md; border-top-right-radius: $radius-md; }
@@ -130,30 +161,105 @@
   flex-direction: column;
   min-width: 0;
 }
-.cp-item__title {
-  font-size: 20px;
-  font-weight: 700;
-  color: $text-primary;
-}
-.cp-status {
-  font-size: 14px;
-  font-weight: 600;
-}
+.cp-item__title { font-size: 16px; font-weight: 700; color: $text-primary; }
+.cp-status { font-size: 12px; font-weight: 600; }
 .cp-status--ok { color: $success-500; }
 .cp-status--review { color: $primary-600; }
 .cp-status--danger { color: $danger-500; }
 .cp-item__meta {
   color: $text-secondary;
-  font-weight: 500;
-  font-size: 16px;
+  font-weight: 600;
+  font-size: 14px;
 }
 .cp-item__metablack {
   color: $text-primary;
   font-weight: 600;
-  font-size: 16px;
+  font-size: 14px;
 }
-.cp-item__meta, .cp-item__metablack { white-space: nowrap; }
+.cp-item__content { grid-column: 2; grid-row: 1; }
+.cp-item__metablack, .cp-item__meta { grid-column: 2; grid-row: 2; white-space: nowrap; }
 .cp-item__chev { opacity: .6; }
+
+// Mobile/tablet: show only ONE line below title
+// - Default (verified): show account meta, hide status
+// - Unverified (review/rejected): show status, hide account meta
+@media (max-width: ($bp-desktop - 1px)) {
+  .cp-item .cp-status { display: none; }
+  // Unverified: show status (Under review / Rejected)
+  .cp-item.is-unverified .cp-status { display: inline; }
+  .cp-item.is-unverified .cp-item__metablack,
+  .cp-item.is-unverified .cp-item__meta { display: none; }
+  // Verified: show account meta inside cp-status for consistent layout
+  .cp-item.is-verified .cp-status {
+    display: inline;
+    font-size: 0; // hide original "Verified" label text
+    position: relative;
+    color: $text-secondary;
+  }
+  .cp-item.is-verified .cp-status::after {
+    content: attr(data-mobile-label);
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .cp-item.is-verified .cp-item__metablack,
+  .cp-item.is-verified .cp-item__meta { display: none; }
+}
+
+@media (min-width: $bp-desktop) {
+  .cp-item {
+    grid-template-columns: auto 1fr auto auto auto; // icon | content | (CIMB) | account | chev
+    padding: 24px 24px;
+    height: 100px;
+  }
+  .cp-item__title { font-size: 20px; }
+  .cp-status { font-size: 14px; }
+  .cp-item__meta { font-size: 16px; font-weight: 500; grid-row: auto; grid-column: auto; }
+  .cp-item__metablack { font-size: 16px; font-weight: 600; grid-row: auto; grid-column: auto; }
+}
+
+// Minimal modal styles (reusing temp_xrextgbot approach)
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 1200;
+}
+.modal[aria-hidden=false] { display: flex; }
+.modal__dialog {
+  background: #fff;
+  border-radius: $radius-lg;
+  width: calc(100% - 32px);
+  max-width: 600px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.18);
+}
+.modal__content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 24px;
+}
+.modal__title {
+  margin: 0;
+  font-family: $font-family-sans;
+  font-weight: 800;
+  font-size: 20px;
+  color: $text-primary;
+}
+.modal__desc {
+  margin: 0;
+  font-family: $font-family-sans;
+  font-weight: 400;
+  font-size: 16px;
+  color: $text-primary;
+}
+.modal__actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 8px;
+}
 
 // Page overrides for Select Counterparty
 .page--cp {
