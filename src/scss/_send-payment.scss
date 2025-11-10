@@ -209,10 +209,10 @@
 
 // Form layout tweaks specific to Send page
 .page--send .form.card {
-  padding: 32px 24px 24px 24px;
+  padding: 32px;
 }
 .page--send .card--section {
-  padding: 32px 24px 24px 24px;
+  padding: 32px;
 }
 .page--send .form__row {
   grid-template-columns: 1fr; // default: full width fields
@@ -373,6 +373,7 @@
   padding: 0px 16px;
   height: 80px;
   cursor: pointer;
+  &:hover { background: #f1f5f9; }
   strong { font-weight: 700; font-size: 18px; color: $text-primary; }
   small { font-size: 14px; color: $text-secondary; font-weight: 600; }
 }
@@ -500,7 +501,7 @@
 .summary-box .summary-pair--sub {
   padding-left: 24px;
 }
-.summary-box .summary-pair--sub .muted { font-size: 14px; color: $text-secondary; font-weight: 500; }
+.summary-box .summary-pair--sub .muted { font-size: 14px; color: $text-secondary; font-weight: 600; }
 .summary-box .summary-pair--sub strong { font-size: 14px; color: $text-primary; font-weight: 700; }
 .summary-box .summary-pair--total .muted { font-size: 16px; color: $text-secondary; font-weight: 600; }
 .summary-box .summary-pair--total span { color: $text-primary; font-size: 16px; font-weight: 700; }
