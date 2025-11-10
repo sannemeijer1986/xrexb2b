@@ -73,6 +73,15 @@ function initSendPayment() {
 
   // Initialize icons based on default active tab
   setActiveTab(document.querySelector('.tabbar__btn.is-active') || tabHome);
+  // If coming back with request to open quick menu on mobile/tablet, honor it
+  const shouldOpenQuick =
+    window.innerWidth < DESKTOP_BP &&
+    (window.location.hash === '#quick' || sessionStorage.getItem('openQuick') === '1');
+  if (shouldOpenQuick && tabMenu) {
+    showQuick();
+    setActiveTab(tabMenu);
+    sessionStorage.removeItem('openQuick');
+  }
 
   const form = document.querySelector('.form');
   if (!form) return;
@@ -429,6 +438,54 @@ if (document.readyState === 'loading') {
         const label = [metaA?.textContent?.trim(), metaB?.textContent?.trim()].filter(Boolean).join(' ');
         if (label) st.setAttribute('data-mobile-label', label);
       }
+    });
+  }
+})();
+
+// Select Counterparty: back crumb routes to quick menu on tablet and below
+(function initCpBackNavigation() {
+  const isCpPage = document.querySelector('main.page--cp');
+  if (!isCpPage) return;
+  const crumb = document.querySelector('.page__header--crumb .crumb');
+  const title = document.getElementById('cp-back-title');
+  if (!crumb) return;
+  const handleBack = (e) => {
+    const DESKTOP_BP = 1280;
+    if (window.innerWidth < DESKTOP_BP) {
+      e.preventDefault();
+      // Use session flag; index.js will switch to quick tab
+      try { sessionStorage.setItem('openQuick', '1'); } catch (_) {}
+      window.location.href = 'index.html#quick';
+    }
+  };
+  crumb.addEventListener('click', handleBack);
+  if (title) {
+    title.addEventListener('click', handleBack);
+    title.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') handleBack(e);
+    });
+  }
+})();
+
+// Send Payment: back crumb and title go to Select counterparty on tablet and below
+(function initSendBackNavigation() {
+  const isSendPage = document.querySelector('main.page--send');
+  if (!isSendPage) return;
+  const crumb = document.querySelector('.page__header--crumb .crumb');
+  const title = document.getElementById('sp-back-title');
+  if (!crumb) return;
+  const handleBack = (e) => {
+    const DESKTOP_BP = 1280;
+    if (window.innerWidth < DESKTOP_BP) {
+      e.preventDefault();
+      window.location.href = 'select-counterparty.html';
+    }
+  };
+  crumb.addEventListener('click', handleBack);
+  if (title) {
+    title.addEventListener('click', handleBack);
+    title.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') handleBack(e);
     });
   }
 })();

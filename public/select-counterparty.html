@@ -34,9 +34,12 @@
       <div class="container">
         <section class="page__header page__header--crumb">
           <a class="crumb" href="index.html" aria-label="Back to Home">
-            <img src="assets/icon_header_back.svg" width="32" height="32" alt="">
+            <picture>
+              <source media="(min-width: 1280px)" srcset="assets/icon_header_back.svg" />
+              <img src="assets/icon_header_back_mobile.svg" width="32" height="32" alt="">
+            </picture>
           </a>
-          <h1 class="page__title">Select counterparty</h1>
+          <h1 id="cp-back-title" class="page__title">Select counterparty</h1>
         </section>
 
         <section class="page__subheader">

@@ -33,10 +33,13 @@
     <main class="page page--send">
       <div class="container">
         <section class="page__header page__header--crumb">
-          <a class="crumb" href="select-counterparty.html" aria-label="Back to Home">
-            <img src="assets/icon_header_back.svg" width="32" height="32" alt="">
+          <a class="crumb" href="select-counterparty.html" aria-label="Back to Select counterparty">
+            <picture>
+              <source media="(min-width: 1280px)" srcset="assets/icon_header_back.svg" />
+              <img src="assets/icon_header_back_mobile.svg" width="32" height="32" alt="">
+            </picture>
           </a>
-          <h1 class="page__title">Send payment</h1>
+          <h1 id="sp-back-title" class="page__title">Send payment</h1>
         </section>
 
         <section class="grid">

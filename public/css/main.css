@@ -91,6 +91,10 @@ main.page {
   margin-top: 64px;
 }
 
+html {
+  overflow-y: scroll;
+}
+
 .site-header {
   position: fixed;
   top: 0;
@@ -238,8 +242,17 @@ main.page {
   width: 16px;
   height: 16px;
 }
+.page .page__header .crumb img {
+  width: 16px;
+  height: 16px;
+  display: block;
+}
 @media (min-width: 1280px) {
   .page .page__header .crumb {
+    width: 32px;
+    height: 32px;
+  }
+  .page .page__header .crumb img {
     width: 32px;
     height: 32px;
   }
@@ -594,6 +607,11 @@ textarea {
     width: 32px;
     height: 32px;
     display: block;
+  }
+}
+@media (max-width: 1279px) {
+  .page--cp .page__header--crumb .page__title {
+    cursor: pointer;
   }
 }
 
@@ -1445,6 +1463,17 @@ textarea {
 .recipient-select:focus {
   outline: 1px solid #0184FF;
   outline-offset: -1px;
+}
+
+.page--send .recipient-select {
+  cursor: not-allowed;
+}
+
+.page--send .recipient-select:focus,
+.page--send .recipient-select:active {
+  outline: none;
+  outline-offset: 0;
+  box-shadow: none;
 }
 
 .recipient-select__avatar {

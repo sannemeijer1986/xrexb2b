@@ -1,3 +1,8 @@
+.root-scrollbar {
+  // placeholder to avoid accidental class collision
+}
+// Prevent layout shift when scrollbar appears
+html { overflow-y: scroll; }
 .site-header {
   position: fixed;
   top: 0;
@@ -100,9 +105,11 @@
     .crumb {
       width: 16px;
       height: 16px;
+      img { width: 16px; height: 16px; display: block; }
       @media (min-width: $bp-desktop) {
         width: 32px;
         height: 32px;
+        img { width: 32px; height: 32px; }
       }
     }
     .page__subtitle {

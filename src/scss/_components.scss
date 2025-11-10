@@ -24,6 +24,12 @@
       img { width: 32px; height: 32px; display: block; }
     }
   }
+  // Make title feel clickable on tablet and below for cp page
+  @media (max-width: ($bp-desktop - 1px)) {
+    .page--cp & .page__title {
+      cursor: pointer;
+    }
+  }
 }
 
 // Counterparty selection list
