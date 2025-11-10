@@ -355,4 +355,24 @@ if (document.readyState === 'loading') {
   initSendPayment();
 }
 
+// Select Counterparty page behavior
+(function initSelectCounterparty() {
+  const filter = document.getElementById('filter-verified');
+  const list = document.querySelector('.cp-list');
+  if (!filter || !list) return;
+  const applyFilter = () => {
+    const onlyFirst = filter.checked;
+    const items = Array.from(list.querySelectorAll('li'));
+    items.forEach((li, idx) => {
+      if (!onlyFirst) {
+        li.style.display = '';
+      } else {
+        li.style.display = idx === 0 ? '' : 'none';
+      }
+    });
+  };
+  filter.addEventListener('change', applyFilter);
+  applyFilter();
+})();
+
 
