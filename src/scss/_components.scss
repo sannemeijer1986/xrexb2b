@@ -101,7 +101,7 @@
 }
 .cp-item {
   display: grid;
-  grid-template-columns: auto 1fr auto auto;
+  grid-template-columns: auto 1fr auto auto auto;
   align-items: center;
   gap: 12px;
   padding: 24px 24px;
@@ -136,17 +136,23 @@
   color: $text-primary;
 }
 .cp-status {
-  font-size: 12px;
-  font-weight: 700;
+  font-size: 14px;
+  font-weight: 600;
 }
 .cp-status--ok { color: $success-500; }
 .cp-status--review { color: $primary-600; }
 .cp-status--danger { color: $danger-500; }
 .cp-item__meta {
   color: $text-secondary;
-  font-weight: 600;
-  font-size: 14px;
+  font-weight: 500;
+  font-size: 16px;
 }
+.cp-item__metablack {
+  color: $text-primary;
+  font-weight: 600;
+  font-size: 16px;
+}
+.cp-item__meta, .cp-item__metablack { white-space: nowrap; }
 .cp-item__chev { opacity: .6; }
 
 // Page overrides for Select Counterparty
