@@ -32,6 +32,11 @@
   }
 }
 
+// Ensure consistent gap on Select Counterparty header (override base header gap)
+.page--cp .page__header--crumb {
+  gap: 10px;
+}
+
 // Counterparty selection list
 .page__subheader {
   display: flex;

@@ -1,4 +1,4 @@
-.page--send .page__header--crumb {
+.page--send .page__header--crumb, .page--cp .page__header--crumb {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -6,8 +6,8 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 24px;
-    height: 24px;
+    width: 16px;
+    height: 16px;
     border-radius: 999px;
     text-decoration: none;
     border: none;

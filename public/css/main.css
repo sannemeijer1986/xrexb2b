@@ -615,6 +615,10 @@ textarea {
   }
 }
 
+.page--cp .page__header--crumb {
+  gap: 10px;
+}
+
 .page__subheader {
   display: flex;
   align-items: center;
@@ -1269,34 +1273,34 @@ textarea {
 }
 
 /* Home page greeting styling (Sora, 20 -> 32 on desktop) */
-.page--send .page__header--crumb {
+.page--send .page__header--crumb, .page--cp .page__header--crumb {
   display: flex;
   align-items: center;
   gap: 10px;
 }
-.page--send .page__header--crumb .crumb {
+.page--send .page__header--crumb .crumb, .page--cp .page__header--crumb .crumb {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 24px;
-  height: 24px;
+  width: 16px;
+  height: 16px;
   border-radius: 999px;
   text-decoration: none;
   border: none;
   padding: 0;
   background: transparent;
 }
-.page--send .page__header--crumb .crumb img {
+.page--send .page__header--crumb .crumb img, .page--cp .page__header--crumb .crumb img {
   width: 24px;
   height: 24px;
   display: block;
 }
 @media (min-width: 1280px) {
-  .page--send .page__header--crumb .crumb {
+  .page--send .page__header--crumb .crumb, .page--cp .page__header--crumb .crumb {
     width: 32px;
     height: 32px;
   }
-  .page--send .page__header--crumb .crumb img {
+  .page--send .page__header--crumb .crumb img, .page--cp .page__header--crumb .crumb img {
     width: 32px;
     height: 32px;
     display: block;
