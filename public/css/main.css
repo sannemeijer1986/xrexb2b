@@ -2215,6 +2215,58 @@ textarea {
   text-align: right;
 }
 
+#docs[hidden] {
+  display: none !important;
+}
+
+#docs .docs-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+@media (min-width: 1280px) {
+  #docs .docs-row {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+#docs .docs-submeta {
+  margin-top: 8px;
+  margin-bottom: 8px;
+  color: #797A7B;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.upload-list {
+  display: grid;
+  gap: 12px;
+}
+
+.upload-item {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 12px;
+  border: 1px solid #eeeeee;
+  border-radius: 8px;
+  padding: 14px 16px;
+  background: #fff;
+}
+
+.upload-item__meta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.upload-item__title {
+  font-family: "Manrope", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  color: #0f172a;
+}
+
 .page--send .form label {
   font-family: "Manrope", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
   font-weight: 600;

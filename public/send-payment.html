@@ -204,10 +204,69 @@
               </div>
             </div>
 
-              <div class="form__row">
-              <div class="form__field">
-                <label>Supporting documents</label>
-                <div class="supporting card--soft">To be designed</div>
+            <h2 class="card__title" id="docs-title" hidden>Supporting documents for <span data-docs-nature></span> payment</h2>
+            <div class="card card--section" id="docs" hidden>
+              <!-- Variant A: Pre-shipment advance -->
+              <div id="docs-pre" class="docs-variant" hidden>
+                <div class="docs-row">
+                  <div class="form__field form__field--select">
+                    <label for="docType">Supporting document type</label>
+                    <select id="docType" name="docType">
+                      <option selected>Proforma Invoice</option>
+                    </select>
+                  </div>
+                  <div class="form__field">
+                    <label for="piNumber">Proforma Invoice (PI) number</label>
+                    <input id="piNumber" name="piNumber" type="text" placeholder="Enter PI number" />
+                  </div>
+                </div>
+                <div class="docs-submeta">Upload document <span class="muted">PDF, PNG, JPG under 50mb</span></div>
+                <div class="upload-list">
+                  <div class="upload-item">
+                    <div class="upload-item__meta">
+                      <span class="upload-item__title">Proforma Invoice (PI)</span>
+                      <small class="muted">Must include Proforma Invoice (PI) number</small>
+                    </div>
+                    <button type="button" class="btn btn--primary btn--md">Upload</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Variant B: Post-shipment -->
+              <div id="docs-post" class="docs-variant" hidden>
+                <div class="docs-head">
+                  <span class="muted">Upload 3 documents</span>
+                  <span class="muted">PDF, PNG, JPG under 50mb</span>
+                </div>
+                <div class="upload-list">
+                  <div class="upload-item">
+                    <div class="upload-item__meta">
+                      <span class="upload-item__title">Bill of Lading (BL)</span>
+                      <small class="muted">Description</small>
+                    </div>
+                    <button type="button" class="btn btn--primary btn--md">Upload</button>
+                  </div>
+                  <div class="upload-item">
+                    <div class="upload-item__meta">
+                      <span class="upload-item__title">Packing List (PL)</span>
+                      <small class="muted">Description</small>
+                    </div>
+                    <button type="button" class="btn btn--primary btn--md">Upload</button>
+                  </div>
+                  <div class="upload-item">
+                    <div class="upload-item__meta">
+                      <span class="upload-item__title">Commercial Invoice (CI)</span>
+                      <small class="muted">Description</small>
+                    </div>
+                    <button type="button" class="btn btn--primary btn--md">Upload</button>
+                  </div>
+                </div>
+                <div class="form__row">
+                  <div class="form__field">
+                    <label for="ciNumber">Commercial Invoice (CI) number</label>
+                    <input id="ciNumber" name="ciNumber" type="text" placeholder="Enter CI number" />
+                  </div>
+                </div>
               </div>
             </div>
           </div>

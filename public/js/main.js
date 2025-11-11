@@ -274,6 +274,23 @@ function initSendPayment() {
       const filled = purposeSelect.options[purposeSelect.selectedIndex] && !/^select$/i.test(purposeSelect.options[purposeSelect.selectedIndex].textContent || '');
       purposeSelect.classList.toggle('is-filled', filled);
     }
+
+    // Toggle supporting docs section based on nature selection
+    const docsTitle = document.getElementById('docs-title');
+    const docsWrap = document.getElementById('docs');
+    const spanNature = docsTitle?.querySelector('[data-docs-nature]');
+    const pre = document.getElementById('docs-pre');
+    const post = document.getElementById('docs-post');
+    if (!natureSelect || !docsTitle || !docsWrap || !pre || !post) return;
+    const natureTxt = natureSelect.options[natureSelect.selectedIndex]?.textContent?.trim() || '';
+    const isChosen = !!natureTxt && !/^select$/i.test(natureTxt);
+    docsTitle.hidden = !isChosen;
+    docsWrap.hidden = !isChosen;
+    if (!isChosen) return;
+    if (spanNature) spanNature.textContent = natureTxt;
+    const isPre = /pre[\s-]?shipment/i.test(natureTxt);
+    pre.hidden = !isPre;
+    post.hidden = isPre;
   };
 
   if (amountInput) {
