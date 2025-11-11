@@ -59,7 +59,7 @@
   .form {
     gap: 40px;
   }
-  .form__row { grid-template-columns: 1fr; }
+  .form__row { grid-template-columns: 1fr; gap:40px; }
   @media (min-width: $bp-desktop) {
     .form__row--selects { grid-template-columns: 1fr 1fr; gap: 24px; }
   }
@@ -95,6 +95,9 @@
     }
     justify-content: flex-end;
   }
+  // Enable interactions on build badge dev links for this page
+  .build-badge { pointer-events: auto; }
+  .build-badge a { color: #fff; text-decoration: underline; }
 }
 
 // Counterparty selection list

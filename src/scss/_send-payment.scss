@@ -31,7 +31,7 @@
 
 .amount-input {
   display: grid;
-  grid-template-columns: auto 1fr;
+  grid-template-columns: auto 1fr auto;
   align-items: center;
   gap: 12px;
   height: 80px;
@@ -58,6 +58,13 @@
     box-shadow: none;
   }
   &__prefix img { width: 32px; height: 32px; }
+  &__suffix {
+    font-family: $font-family-sans;
+    font-weight: 700;
+    font-size: 16px;
+    color: #BCBDBD;
+    white-space: nowrap;
+  }
 }
 .amount-input input::placeholder { color: #BCBDBD; font-weight: 600; }
 .amount-input:focus-within {
@@ -447,7 +454,14 @@
   display: grid;
   place-items: center;
 }
+
+.fee-option__icon--deduct {
+  background: transparent;
+  border: none;
+}
+
 .fee-option__icon img { width: 22px; height: 22px; }
+.fee-option__icon--deduct img { width: 28px; height: 28px; }
 .fee-option__content {
   display: flex;
   flex-direction: column;

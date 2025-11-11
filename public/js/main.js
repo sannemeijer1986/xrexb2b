@@ -107,11 +107,7 @@ function initSendPayment() {
   // ---- Live summary calculations (Amount + Fees) ----
   const amountInput = document.getElementById('amount');
   const feeRadios = document.querySelectorAll('input[type="radio"][name="fee"]');
-  const deductSelect = document.getElementById('deduct-from');
-  const accountSelectEl = document.querySelector('.account-select');
-  const deductIconImg = accountSelectEl ? accountSelectEl.querySelector('.account-select__icon img') : null;
-  const accountTitleEl = accountSelectEl ? accountSelectEl.querySelector('.account-select__title') : null;
-  const accountSubEl = accountSelectEl ? accountSelectEl.querySelector('.account-select__subtitle') : null;
+  const deductRadios = document.querySelectorAll('input[type="radio"][name="deduct"]');
   const natureSelect = document.getElementById('nature');
   const purposeSelect = document.getElementById('purpose');
 
@@ -142,18 +138,17 @@ function initSendPayment() {
     servicePayer: document.querySelector('[data-summary="service-payer"]'),
     servicePayee: document.querySelector('[data-summary="service-payee"]'),
     amountPayable: findSummaryRow('Amount payable'),
+    deductFrom: findSummaryRow('Deduct from'),
     nature: findSummaryRow('Nature'),
     purpose: findSummaryRow('Purpose'),
-    youPay: findSummaryRow('Your total'),
-    payeeReceives: findSummaryRow('Payee receives'),
+    youPay: findSummaryRow('To be deducted'),
+    payeeReceives: findSummaryRow('Receiver gets'),
     conversion: findSummaryRow('Conversion rate'),
   };
 
   const getPayerCurrency = () => {
-    if (!deductSelect) return 'USDT';
-    const opt = deductSelect.options[deductSelect.selectedIndex];
-    const txt = opt ? opt.textContent || '' : '';
-    return /USDT/i.test(txt) ? 'USDT' : 'USD';
+    const selected = Array.from(deductRadios).find(r => r.checked);
+    return selected ? selected.value : 'USD';
   };
   const payeeCurrency = 'USD';
 
@@ -165,25 +160,7 @@ function initSendPayment() {
     return `${formatted} ${suffix}`;
   };
 
-  const syncDeductIcon = (payerCurrency) => {
-    if (!deductIconImg) return;
-    if (payerCurrency === 'USDT') {
-      deductIconImg.src = 'assets/icon_USDT.svg';
-      deductIconImg.alt = 'Tether USDT';
-    } else {
-      deductIconImg.src = 'assets/icon_USD.svg';
-      deductIconImg.alt = 'US Dollar';
-    }
-  };
-  const syncAccountDisplay = () => {
-    if (!deductSelect) return;
-    const payerCurrency = getPayerCurrency();
-    syncDeductIcon(payerCurrency);
-    if (accountTitleEl) accountTitleEl.textContent = `${payerCurrency} account`;
-    const opt = deductSelect.options[deductSelect.selectedIndex];
-    const balance = opt ? opt.getAttribute('data-balance') || '$0.00' : '$0.00';
-    if (accountSubEl) accountSubEl.textContent = `${balance} balance`;
-  };
+  const syncAccountDisplay = () => {};
 
   const getFeeMode = () => {
     const selected = Array.from(feeRadios).find(r => r.checked);
@@ -194,7 +171,7 @@ function initSendPayment() {
     const payerLabel = summaryRows.servicePayer && summaryRows.servicePayer.querySelector('.muted');
     const payeeLabel = summaryRows.servicePayee && summaryRows.servicePayee.querySelector('.muted');
     if (payerLabel) payerLabel.textContent = `${payerPctAbs}% paid by you`;
-    if (payeeLabel) payeeLabel.textContent = `${payeePctAbs}% paid by Payee`;
+    if (payeeLabel) payeeLabel.textContent = `${payeePctAbs}% paid by receiver`;
   };
 
   const updateSummary = () => {
@@ -255,6 +232,10 @@ function initSendPayment() {
         const payerCurrency = getPayerCurrency();
         v.textContent = formatAmount(youPay, payerCurrency);
       }
+    }
+    if (summaryRows.deductFrom) {
+      const v = summaryRows.deductFrom.querySelector('strong');
+      if (v) v.textContent = `${getPayerCurrency()} account`;
     }
     if (summaryRows.payeeReceives) {
       const v = summaryRows.payeeReceives.querySelector('strong');
@@ -347,14 +328,13 @@ function initSendPayment() {
     amountInput.addEventListener('change', formatCurrencyInput);
   }
   feeRadios.forEach(r => r.addEventListener('change', updateSummary));
-  if (deductSelect) deductSelect.addEventListener('change', () => { updateSummary(); syncAccountDisplay(); accountSelectEl?.classList.add('is-filled'); });
+  deductRadios.forEach(r => r.addEventListener('change', updateSummary));
   if (natureSelect) natureSelect.addEventListener('change', updateNaturePurpose);
   if (purposeSelect) purposeSelect.addEventListener('change', updateNaturePurpose);
   // Initial compute
   updateSummary();
   updateNaturePurpose();
   syncAccountDisplay();
-  accountSelectEl?.classList.add('is-filled');
 }
 
 // Run immediately if DOM is already parsed (defer), otherwise wait
@@ -511,6 +491,100 @@ if (document.readyState === 'loading') {
       if (e.key === 'Enter' || e.key === ' ') handleBack(e);
     });
   }
+})();
+
+// Add Bank: enable Next when all fields are filled (reusable helper)
+(function initAddBankFormState() {
+  const root = document.querySelector('main.page--addbank');
+  if (!root) return;
+  const form = root.querySelector('form');
+  const nextBtn = document.getElementById('ab-next');
+  if (!form || !nextBtn) return;
+
+  const getFields = () => ([
+    form.querySelector('#companyName'),
+    form.querySelector('#regDate'),
+    form.querySelector('#country'),
+    form.querySelector('#regNum'),
+    form.querySelector('#email'),
+  ]);
+
+  const setDisabled = (btn, disabled) => {
+    btn.disabled = !!disabled;
+    if (disabled) btn.setAttribute('aria-disabled', 'true');
+    else btn.removeAttribute('aria-disabled');
+  };
+
+  const isFilled = (el) => {
+    if (!el) return false;
+    const v = (el.value || '').trim();
+    if (el.type === 'email') {
+      // simple validity; rely on browser validation for complex cases
+      return el.validity.valid && v.length > 0;
+    }
+    return v.length > 0;
+  };
+
+  const update = () => {
+    const fields = getFields();
+    const allOk = fields.every(isFilled);
+    setDisabled(nextBtn, !allOk);
+    // toggle filled style for country select (placeholder vs selected)
+    const countrySel = fields[2];
+    if (countrySel) {
+      const filled = !!countrySel.value;
+      countrySel.classList.toggle('is-filled', filled);
+    }
+  };
+
+  // Listen for changes
+  getFields().forEach((el) => {
+    if (!el) return;
+    el.addEventListener('input', update, { passive: true });
+    el.addEventListener('change', update);
+  });
+  // Initial
+  update();
+})();
+
+// Add Bank: dev tools (Fill / Clear) in build-badge
+(function initAddBankDevTools() {
+  const root = document.querySelector('main.page--addbank');
+  if (!root) return;
+  const form = root.querySelector('form');
+  const fillBtn = document.getElementById('ab-fill');
+  const clearBtn = document.getElementById('ab-clear');
+  if (!form || !fillBtn || !clearBtn) return;
+
+  const getFields = () => ({
+    companyName: form.querySelector('#companyName'),
+    regDate: form.querySelector('#regDate'),
+    country: form.querySelector('#country'),
+    regNum: form.querySelector('#regNum'),
+    email: form.querySelector('#email'),
+  });
+  const trigger = (el) => {
+    if (!el) return;
+    el.dispatchEvent(new Event('input', { bubbles: true }));
+    el.dispatchEvent(new Event('change', { bubbles: true }));
+  };
+
+  fillBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    const f = getFields();
+    if (f.companyName) f.companyName.value = 'NovaQuill Ltd';
+    if (f.regDate) f.regDate.value = '2024-01-15';
+    if (f.country) f.country.value = 'Singapore';
+    if (f.regNum) f.regNum.value = '202401234N';
+    if (f.email) f.email.value = 'accounts@novaquill.com';
+    Object.values(f).forEach(trigger);
+  });
+
+  clearBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    const f = getFields();
+    Object.values(f).forEach((el) => { if (el) el.value = ''; trigger(el); });
+  });
 })();
 
 

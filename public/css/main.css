@@ -209,7 +209,6 @@ html {
   display: flex;
   align-items: center;
   gap: 8px;
-  pointer-events: none;
 }
 
 .page {
@@ -675,6 +674,7 @@ textarea {
 }
 .page--addbank .form__row {
   grid-template-columns: 1fr;
+  gap: 40px;
 }
 @media (min-width: 1280px) {
   .page--addbank .form__row--selects {
@@ -720,6 +720,13 @@ textarea {
 }
 .page--addbank .form__actions {
   justify-content: flex-end;
+}
+.page--addbank .build-badge {
+  pointer-events: auto;
+}
+.page--addbank .build-badge a {
+  color: #fff;
+  text-decoration: underline;
 }
 
 .page__subheader {
@@ -1418,7 +1425,7 @@ textarea {
 
 .amount-input {
   display: grid;
-  grid-template-columns: auto 1fr;
+  grid-template-columns: auto 1fr auto;
   align-items: center;
   gap: 12px;
   height: 80px;
@@ -1448,6 +1455,13 @@ textarea {
 .amount-input__prefix img {
   width: 32px;
   height: 32px;
+}
+.amount-input__suffix {
+  font-family: "Manrope", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  color: #BCBDBD;
+  white-space: nowrap;
 }
 
 .amount-input input::placeholder {
@@ -1908,9 +1922,19 @@ textarea {
   place-items: center;
 }
 
+.fee-option__icon--deduct {
+  background: transparent;
+  border: none;
+}
+
 .fee-option__icon img {
   width: 22px;
   height: 22px;
+}
+
+.fee-option__icon--deduct img {
+  width: 28px;
+  height: 28px;
 }
 
 .fee-option__content {
