@@ -208,12 +208,12 @@
             <div class="card card--section" id="docs" hidden>
               <!-- Variant A: Pre-shipment advance -->
               <div id="docs-pre" class="docs-variant" hidden>
-                <div class="docs-row">
+                <div class="docs-type">
                   <div class="form__field">
                     <label for="docType">Supporting document type</label>
                     <!-- visual card to mimic select -->
-                    <div class="doc-type-card" aria-disabled="true">
-                      <span class="doc-type__badge is-hidden">PI</span>
+                    <div class="doc-type-card is-placeholder" aria-disabled="true">
+                      <span class="doc-type__badge is-hidden"><img src="assets/icon_document.svg" alt=""></span>
                       <div class="doc-type__texts">
                         <span class="doc-type__title">Select</span>
                         <small class="muted"></small>
@@ -222,27 +222,34 @@
                       <!-- overlay select for dropdown interaction -->
                       <select id="docType" name="docType" class="doc-type-select">
                         <option value="" selected>Select</option>
-                        <option value="PI">Proforma Invoice</option>
+                        <option value="PI">Proforma Invoice (PI)</option>
+                        <option value="PO">Purchase Order (PO)</option>
                       </select>
                     </div>
                   </div>
+                </div>
+                <div class="docs-num" id="docNumberField" hidden>
                   <div class="form__field">
-                    <label for="piNumber">Proforma Invoice (PI) number</label>
-                    <input id="piNumber" name="piNumber" type="text" placeholder="Enter PI number" />
+                    <label for="piNumber" id="docNumberLabel">Proforma Invoice (PI) number</label>
+                    <input id="piNumber" name="piNumber" type="text" placeholder="Enter number" />
+                  </div>
                 </div>
-                </div>
-                <div class="docs-head">
-                  <span class="docs-head__label">Upload document</span>
-                  <span class="docs-head__meta">PDF, PNG, JPG under 50mb</span>
-                </div>
-                <div class="upload-list">
-                  <div class="upload-item">
-                    <span class="upload-item__badge">PI</span>
-                    <div class="upload-item__meta">
-                      <span class="upload-item__title">Proforma Invoice (PI)</span>
-                      <small class="muted">Must include Proforma Invoice (PI) number</small>
+                <div class="docs-upload" id="docUploadBlock" hidden>
+                  <div class="docs-head" id="docUploadHead">
+                    <span class="docs-head__label">Upload document</span>
+                    <span class="docs-head__meta">PDF, PNG, JPG under 50mb</span>
+                  </div>
+                  <div class="upload-list" id="docUploadList">
+                    <div class="upload-item">
+                      <span class="upload-item__badge" id="docUploadBadge">
+                        <img id="docUploadIcon" src="assets/icon_upload_1.svg" alt="">
+                      </span>
+                      <div class="upload-item__meta">
+                        <span class="upload-item__title" id="docUploadTitle">Proforma Invoice (PI)</span>
+                        <small class="muted" id="docUploadDesc">Must include Proforma Invoice (PI) number</small>
+                      </div>
+                      <button type="button" class="btn btn--primary btn--sm">Upload</button>
                     </div>
-                    <button type="button" class="btn btn--primary btn--sm">Upload</button>
                   </div>
                 </div>
               </div>
@@ -255,6 +262,7 @@
                 </div>
                 <div class="upload-list">
                   <div class="upload-item">
+                    <span class="upload-item__badge"><img src="assets/icon_upload_1.svg" alt=""></span>
                     <div class="upload-item__meta">
                       <span class="upload-item__title">Bill of Lading (BL)</span>
                       <small class="muted">Description</small>
@@ -262,6 +270,7 @@
                     <button type="button" class="btn btn--primary btn--sm">Upload</button>
                   </div>
                   <div class="upload-item">
+                    <span class="upload-item__badge"><img src="assets/icon_upload_1.svg" alt=""></span>
                     <div class="upload-item__meta">
                       <span class="upload-item__title">Packing List (PL)</span>
                       <small class="muted">Description</small>
@@ -269,6 +278,7 @@
                     <button type="button" class="btn btn--primary btn--sm">Upload</button>
                   </div>
                   <div class="upload-item">
+                    <span class="upload-item__badge"><img src="assets/icon_upload_1.svg" alt=""></span>
                     <div class="upload-item__meta">
                       <span class="upload-item__title">Commercial Invoice (CI)</span>
                       <small class="muted">Description</small>

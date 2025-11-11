@@ -296,14 +296,43 @@ function initSendPayment() {
     const syncDocCard = () => {
       if (!docTypeSelect || !card) return;
       const val = docTypeSelect.value;
+      const numField   = document.getElementById('docNumberField');
+      const numLabel   = document.getElementById('docNumberLabel');
+      const uploadBlock = document.getElementById('docUploadBlock');
+      const upTitle    = document.getElementById('docUploadTitle');
+      const upDesc     = document.getElementById('docUploadDesc');
+      const upBadge    = document.getElementById('docUploadBadge');
+      const upIcon     = document.getElementById('docUploadIcon');
+
       if (!val) {
         if (badge) badge.classList.add('is-hidden');
-        if (title) title.textContent = 'Select';
+        if (title) { title.textContent = 'Select'; title.classList.add('is-placeholder'); }
+        card.classList.add('is-placeholder');
         if (desc) desc.textContent = '';
+        if (numField) numField.hidden = true;
+        if (uploadBlock) uploadBlock.hidden = true;
       } else if (val === 'PI') {
-        if (badge) { badge.classList.remove('is-hidden'); badge.textContent = 'PI'; }
-        if (title) title.textContent = 'Proforma Invoice';
-        if (desc) desc.textContent = 'A preliminary bill issued by seller';
+        if (badge) { badge.classList.remove('is-hidden'); }
+        if (title) { title.textContent = 'Proforma Invoice (PI)'; title.classList.remove('is-placeholder'); }
+        card.classList.remove('is-placeholder');
+        if (desc) desc.textContent = 'A preliminary bill issued by seller before delivery';
+        if (numField) numField.hidden = false;
+        if (numLabel) numLabel.textContent = 'Proforma Invoice (PI) number';
+        if (uploadBlock) uploadBlock.hidden = false;
+        if (upTitle) upTitle.textContent = 'Proforma Invoice (PI)';
+        if (upDesc)  upDesc.textContent  = 'Must include Proforma Invoice (PI) number';
+        if (upIcon)  upIcon.src = 'assets/icon_upload_1.svg';
+      } else if (val === 'PO') {
+        if (badge) { badge.classList.remove('is-hidden'); }
+        if (title) { title.textContent = 'Purchase Order (PO)'; title.classList.remove('is-placeholder'); }
+        card.classList.remove('is-placeholder');
+        if (desc) desc.textContent = 'A document to request goods/services issued by buyer';
+        if (numField) numField.hidden = false;
+        if (numLabel) numLabel.textContent = 'Purchase Order (PO) number';
+        if (uploadBlock) uploadBlock.hidden = false;
+        if (upTitle) upTitle.textContent = 'Purchase Order (PO)';
+        if (upDesc)  upDesc.textContent  = 'Must include Purchase Order (PO) number';
+        if (upIcon)  upIcon.src = 'assets/icon_upload_1.svg';
       }
     };
     if (docTypeSelect) {

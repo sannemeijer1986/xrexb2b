@@ -127,7 +127,7 @@
 .currency-display {
   appearance: none;
   width: 100%;
-  height: 74px;
+  height: 80px;
   display: grid;
   grid-template-columns: 1fr auto;
   align-items: center;
@@ -165,7 +165,7 @@
 .recipient-select {
   appearance: none;
   width: 100%;
-  height: 74px;
+  height: 80pxpx;
   display: grid;
   grid-template-columns: auto 1fr auto;
   align-items: center;
@@ -322,7 +322,7 @@
     background-position: right 12px center;
     background-size: 20px 20px;
     @media (min-width: $bp-desktop) {
-      height: 74px;
+      height: 80px;
     }
   }
   select.is-filled {
@@ -680,6 +680,31 @@
 
 // Supporting documents
 #docs[hidden] { display: none !important; }
+#docs [hidden] { display: none !important; }
+#docs-pre {
+  display: grid;
+  grid-template-columns: 1fr;
+  row-gap: 40px;
+}
+
+.docs-upload {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+// @media (min-width: $bp-desktop) {
+//   #docs-pre {
+//     grid-template-columns: 1fr 1fr;
+//     column-gap: 24px;
+//   }
+//   #docs-pre .docs-type,
+//   #docs-pre .docs-num { grid-column: auto; }
+//   #docs-pre .docs-head,
+//   #docs-pre #docUploadHead,
+//   #docs-pre #docUploadList { grid-column: 1 / -1; }
+  
+// }
+
 #docs .docs-row {
   display: grid;
   grid-template-columns: 1fr;
@@ -695,9 +720,7 @@
 .docs-head {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  margin-top: 40px;
-  margin-bottom: 12px;
+  gap: 8px;
   .docs-head__label {
     font-family: $font-family-sans;
     font-weight: 600;
@@ -705,8 +728,8 @@
     color: $text-secondary;
   }
   .docs-head__meta {
-    font-size: 12px;
-    color: $text-secondary;
+    font-size: 14px;
+    color: #BCBDBD;
   }
 }
 
@@ -717,7 +740,6 @@
   inset: 0;
   opacity: 0;
   width: 100%;
-  height: 100%;
   cursor: pointer;
   z-index: 2;
 }
@@ -725,26 +747,62 @@
   display: grid;
   grid-template-columns: 36px 1fr 20px;
   align-items: center;
-  gap: 12px;
+  gap: 8px;
+  height: 80px;
   border: 1px solid $border-color;
   border-radius: $radius-md;
   background: #fff;
   padding: 14px 16px;
+  @media screen and (min-width: $bp-desktop) {
+    height: 80px;
+  }
 }
 .doc-type__badge {
   width: 32px;
   height: 32px;
   border-radius: 999px;
-  background: $bg-subtle;
+  background: #EEEEEE;
   display: grid;
   place-items: center;
   font-family: $font-family-sans;
-  font-weight: 800;
+  font-weight: 700;
   font-size: 12px;
-  color: $primary-600;
+  color: $text-secondary;
 }
-.doc-type__texts { display: flex; flex-direction: column; gap: 2px; }
-.doc-type__title { font-family: $font-family-sans; font-weight: 700; font-size: 16px; color: $text-primary; }
+.doc-type__badge img { width: 20px; height: 20px; display: block; }
+
+.doc-type__badge.is-hidden { 
+  display: none; 
+}
+
+.doc-type__texts { display: flex; flex-direction: column; }
+.doc-type__texts { min-width: 0; }
+.doc-type__title {
+  font-family: $font-family-sans;
+  font-weight: 700;
+  font-size: 16px;
+  color: $text-primary;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.doc-type__title.is-placeholder {
+  color: #BCBDBD;
+  font-weight: 500;
+}
+.doc-type__texts small {
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 14px;
+}
+.doc-type-card.is-placeholder { 
+  grid-template-columns: 1fr 20px; 
+}
+.doc-type__title .small {
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
 .doc-type__chev img { width: 20px; height: 20px; opacity: .7; }
 [data-docs-nature] { color: #73A2F5; }
 #docs label { font-family: $font-family-sans; font-weight: 600; font-size: 14px; color: $text-secondary; }
@@ -775,16 +833,20 @@
   font-size: 12px;
   color: $primary-600;
 }
+.upload-item__badge img { width: 20px; height: 20px; display: block; }
 .upload-item__meta {
   display: flex;
   flex-direction: column;
-  gap: 2px;
 }
 .upload-item__title {
   font-family: $font-family-sans;
   font-weight: 700;
   font-size: 16px;
   color: $text-primary;
+}
+
+.upload-item__meta .muted {
+  font-weight: 600; font-size: 14px; color: $text-secondary;
 }
 
 // Normalize all form labels on Send Payment page
