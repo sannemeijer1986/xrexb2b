@@ -311,6 +311,18 @@ html {
   }
 }
 
+.card__title--within {
+  font-size: 18px !important;
+  font-weight: 600;
+  margin: 0 0 16px;
+}
+@media (min-width: 1280px) {
+  .card__title--within {
+    font-size: 22px !important;
+    font-weight: 600;
+  }
+}
+
 .grid--home .grid__col--sidebar {
   top: 84px;
 }
@@ -437,6 +449,7 @@ label {
 input[type=text],
 input[type=number],
 input[type=date],
+input[type=email],
 textarea,
 select {
   width: 100%;
@@ -445,11 +458,23 @@ select {
   background: #fff;
   padding: 16px 16px;
   color: #0f172a;
+  height: 60px;
+}
+@media (min-width: 1280px) {
+  input[type=text],
+  input[type=number],
+  input[type=date],
+  input[type=email],
+  textarea,
+  select {
+    height: 74px;
+  }
 }
 
 input::placeholder,
 textarea::placeholder {
-  color: #94a3b8;
+  color: #BCBDBD;
+  font-weight: 400;
 }
 
 input:focus,
@@ -646,7 +671,7 @@ textarea {
   }
 }
 .page--addbank .form {
-  gap: 24px;
+  gap: 40px;
 }
 .page--addbank .form__row {
   grid-template-columns: 1fr;
@@ -660,18 +685,26 @@ textarea {
 .page--addbank .form label {
   font-family: "Manrope", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
   font-weight: 600;
-  font-size: 12px;
+  font-size: 14px;
   color: #797A7B;
 }
 .page--addbank input[type=text],
 .page--addbank input[type=email],
 .page--addbank input[type=date],
 .page--addbank select {
-  height: 74px;
+  height: 60px;
   padding: 16px 16px;
   font-family: "Manrope", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
   font-weight: 600;
   color: #0f172a;
+}
+@media (min-width: 1280px) {
+  .page--addbank input[type=text],
+  .page--addbank input[type=email],
+  .page--addbank input[type=date],
+  .page--addbank select {
+    height: 74px;
+  }
 }
 .page--addbank .form__actions {
   border: none;
@@ -679,10 +712,14 @@ textarea {
   margin-top: 8px;
 }
 .page--addbank .form__actions .btn {
-  width: 100%;
+  width: auto;
+  min-width: 160px;
   height: 52px;
   font-size: 16px;
   border-radius: 8px;
+}
+.page--addbank .form__actions {
+  justify-content: flex-end;
 }
 
 .page__subheader {
@@ -1414,7 +1451,8 @@ textarea {
 }
 
 .amount-input input::placeholder {
-  color: #94a3b8;
+  color: #BCBDBD;
+  font-weight: 600;
 }
 
 .amount-input:focus-within {
@@ -1682,18 +1720,23 @@ textarea {
   color: #0f172a;
 }
 .form__field--select select {
-  height: 74px;
+  height: 60px;
   width: 100%;
   font-family: "Manrope", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
-  font-weight: 500;
+  font-weight: 400;
   font-size: 16px;
-  color: #797A7B;
+  color: #BCBDBD;
   padding-right: 40px;
   appearance: none;
   background-image: url("../assets/icon_chevron_down.svg");
   background-repeat: no-repeat;
   background-position: right 12px center;
   background-size: 20px 20px;
+}
+@media (min-width: 1280px) {
+  .form__field--select select {
+    height: 74px;
+  }
 }
 .form__field--select select.is-filled {
   color: #0f172a;

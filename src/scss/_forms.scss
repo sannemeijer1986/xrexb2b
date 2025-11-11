@@ -26,6 +26,7 @@ label {
 input[type="text"],
 input[type="number"],
 input[type="date"],
+input[type="email"],
 textarea,
 select {
   width: 100%;
@@ -34,11 +35,16 @@ select {
   background: #fff;
   padding: 16px 16px;
   color: $text-primary;
+  height: 60px;
+  @media (min-width: $bp-desktop) {
+    height: 74px;
+  }
 }
 
 input::placeholder,
 textarea::placeholder {
-  color: $gray-400;
+  color: #BCBDBD;
+  font-weight: 400;
 }
 
 input:focus,

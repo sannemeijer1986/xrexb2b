@@ -149,6 +149,16 @@ html { overflow-y: scroll; }
   }
 }
 
+.card__title--within {
+  font-size: 18px !important;
+  font-weight: 600;
+  margin: 0 0 16px;
+  @media (min-width: $bp-desktop) {
+    font-size: 22px !important;
+    font-weight: 600;
+  }
+}
+
 .grid--home .grid__col--sidebar { top: 84px; }
 
 /* Footer (match xrextgbot proportions) */

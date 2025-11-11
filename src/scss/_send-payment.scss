@@ -59,7 +59,7 @@
   }
   &__prefix img { width: 32px; height: 32px; }
 }
-.amount-input input::placeholder { color: $gray-400; }
+.amount-input input::placeholder { color: #BCBDBD; font-weight: 600; }
 .amount-input:focus-within {
   // Keep border width constant to avoid layout shift; simulate a thicker underline
   border-bottom-color: $border-color;
@@ -302,18 +302,21 @@
     color: $text-primary;
   }
   select {
-    height: 74px;
+    height: 60px;
     width: 100%;
     font-family: $font-family-sans;
-    font-weight: 500;
+    font-weight: 400;
     font-size: 16px;
-    color: $text-secondary; // placeholder-like color
+    color: #BCBDBD; // placeholder color when not filled
     padding-right: 40px;
     appearance: none;
     background-image: url('../assets/icon_chevron_down.svg');
     background-repeat: no-repeat;
     background-position: right 12px center;
     background-size: 20px 20px;
+    @media (min-width: $bp-desktop) {
+      height: 74px;
+    }
   }
   select.is-filled {
     color: $text-primary;
