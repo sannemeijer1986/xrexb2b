@@ -1511,6 +1511,7 @@ textarea {
 .form__row--amount {
   grid-template-columns: 1fr auto;
   align-items: end;
+  margin-bottom: -16px;
 }
 
 .form__row--amount .form__field--currency {
@@ -2422,6 +2423,14 @@ textarea {
   display: block;
 }
 
+.deduct-rate {
+  text-align: right;
+  font-family: "Manrope", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  color: #73A2F5;
+}
+
 .upload-item__meta {
   display: flex;
   flex-direction: column;
@@ -2445,6 +2454,34 @@ textarea {
   font-weight: 600;
   font-size: 14px;
   color: #797A7B;
+}
+
+.page--send .form label .label__meta {
+  margin-left: 8px;
+  font-weight: 400;
+  font-size: 14px;
+  color: #BCBDBD;
+}
+
+.amount-meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  justify-content: flex-end;
+}
+
+.amount-meta__text {
+  font-family: "Manrope", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  color: #BCBDBD;
+}
+
+.amount-meta__icon {
+  width: 16px;
+  height: 16px;
+  display: inline-block;
 }
 
 /* Auto-mirrored from src/css/overrides.css when running `npm run dev:with-css-edit` */

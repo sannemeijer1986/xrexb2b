@@ -204,6 +204,11 @@ function initSendPayment() {
     const showConversion = payerCurrency !== payeeCurrency;
     // Keep the select display in sync with currency
     syncAccountDisplay();
+    // Toggle USDT rate helper
+    const deductRate = document.getElementById('deduct-rate');
+    if (deductRate) {
+      deductRate.hidden = payerCurrency !== 'USDT';
+    }
 
     if (summaryRows.subtotal) {
       const v = summaryRows.subtotal.querySelector('strong');

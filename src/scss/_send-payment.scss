@@ -111,6 +111,7 @@
 .form__row--amount {
   grid-template-columns: 1fr auto;
   align-items: end;
+  margin-bottom: -16px;
 }
 .form__row--amount .form__field--currency {
   width: 240px;
@@ -834,6 +835,13 @@
   color: $primary-600;
 }
 .upload-item__badge img { width: 20px; height: 20px; display: block; }
+.deduct-rate {
+  text-align: right;
+  font-family: $font-family-sans;
+  font-weight: 600;
+  font-size: 14px;
+  color: #73A2F5;
+}
 .upload-item__meta {
   display: flex;
   flex-direction: column;
@@ -855,4 +863,29 @@
   font-weight: 600;
   font-size: 14px;
   color: $text-secondary;
+}
+.page--send .form label .label__meta {
+  margin-left: 8px;
+  font-weight: 400;
+  font-size: 14px;
+  color: #BCBDBD;
+}
+
+.amount-meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  justify-content: flex-end;
+}
+.amount-meta__text {
+  font-family: $font-family-sans;
+  font-weight: 500;
+  font-size: 14px;
+  color: #BCBDBD;
+}
+.amount-meta__icon {
+  width: 16px;
+  height: 16px;
+  display: inline-block;
 }

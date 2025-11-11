@@ -109,11 +109,15 @@
 
               <div class="form__row form__row--amount">
                 <div class="form__field">
-                  <label for="amount">Amount payable</label>
+                  <label for="amount">Amount payable <span class="label__meta">Billed in US Dollar</span></label>
                   <div class="amount-input">
                     <span class="amount-input__prefix"><img src="assets/icon_USD.svg" alt="" /></span>
                     <input id="amount" name="amount" type="text" inputmode="decimal" placeholder="0" autocomplete="off" />
                     <span class="amount-input__suffix">USD</span>
+                  </div>
+                  <div class="amount-meta">
+                    <span class="amount-meta__text">Limit per tx: {$value} USD</span>
+                    <img class="amount-meta__icon" src="assets/icon_info.svg" width="16" height="16" alt="">
                   </div>
                 </div>
                 <!-- <div class="form__field form__field--currency">
@@ -157,6 +161,7 @@
                       <span class="fee-option__check" aria-hidden="true"></span>
                     </label>
                   </div>
+                  <div id="deduct-rate" class="deduct-rate" hidden>Rate: 1 USDT = 1 USD</div>
                 </div>
               </div>
 
