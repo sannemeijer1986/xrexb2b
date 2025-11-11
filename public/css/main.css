@@ -217,12 +217,13 @@ html {
   background: #FCFCFC;
 }
 .page .page__header {
-  margin-bottom: 24px;
+  margin-bottom: 32px;
   gap: 6px;
 }
 @media (min-width: 1280px) {
   .page .page__header {
     gap: 16px;
+    margin-bottom: 24px;
   }
 }
 .page .page__header .page__title {
@@ -1557,11 +1558,21 @@ textarea {
   }
 }
 .page--send .form.card {
-  padding: 32px;
+  padding: 20px;
+}
+@media (min-width: 1280px) {
+  .page--send .form.card {
+    padding: 32px;
+  }
 }
 
 .page--send .card--section {
-  padding: 32px;
+  padding: 20px;
+}
+@media (min-width: 1280px) {
+  .page--send .card--section {
+    padding: 32px;
+  }
 }
 
 .page--send .form__row {
@@ -1590,8 +1601,13 @@ textarea {
 }
 
 .page--send .card__title {
-  font-size: 20px;
+  font-size: 17px;
   font-weight: 700;
+}
+@media (min-width: 1280px) {
+  .page--send .card__title {
+    font-size: 20px;
+  }
 }
 
 .form__field--select label {

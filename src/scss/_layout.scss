@@ -84,11 +84,12 @@ html { overflow-y: scroll; }
   padding-block: 28px 40px;
   background: $bg-page;
   .page__header {
-    margin-bottom: 24px;
+    margin-bottom: 32px;
     gap: 6px;
 
     @media (min-width: $bp-desktop) {
       gap: 16px;
+      margin-bottom: 24px;
     }
 
     .page__title {
