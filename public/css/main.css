@@ -614,10 +614,75 @@ textarea {
   .page--cp .page__header--crumb .page__title {
     cursor: pointer;
   }
+  .page--addbank .page__header--crumb .page__title {
+    cursor: pointer;
+  }
 }
 
 .page--cp .page__header--crumb {
   gap: 10px;
+}
+
+@media (max-width: 1279px) {
+  .addbank-steps {
+    display: none;
+  }
+}
+.page--addbank .card--section {
+  padding: 20px;
+}
+@media (min-width: 1280px) {
+  .page--addbank .card--section {
+    padding: 32px;
+  }
+}
+.page--addbank .card__title {
+  font-size: 17px;
+  font-weight: 700;
+}
+@media (min-width: 1280px) {
+  .page--addbank .card__title {
+    font-size: 20px;
+  }
+}
+.page--addbank .form {
+  gap: 24px;
+}
+.page--addbank .form__row {
+  grid-template-columns: 1fr;
+}
+@media (min-width: 1280px) {
+  .page--addbank .form__row--selects {
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+}
+.page--addbank .form label {
+  font-family: "Manrope", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+  font-weight: 600;
+  font-size: 12px;
+  color: #797A7B;
+}
+.page--addbank input[type=text],
+.page--addbank input[type=email],
+.page--addbank input[type=date],
+.page--addbank select {
+  height: 74px;
+  padding: 16px 16px;
+  font-family: "Manrope", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+  font-weight: 600;
+  color: #0f172a;
+}
+.page--addbank .form__actions {
+  border: none;
+  padding-top: 0;
+  margin-top: 8px;
+}
+.page--addbank .form__actions .btn {
+  width: 100%;
+  height: 52px;
+  font-size: 16px;
+  border-radius: 8px;
 }
 
 .page__subheader {

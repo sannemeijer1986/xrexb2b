@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>XREX Pay - Add counterparty bank account</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Sora:wght@400;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="css/main.css?v=20251108" />
+    <link rel="icon" href="assets/favicons/xrex-favicon-16x16.png" sizes="16x16" type="image/png" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container header__content">
+        <a class="brand" href="index.html">
+          <img class="brand__img" src="assets/logo_xrexpay.svg" alt="XREX Pay" />
+        </a>
+        <div class="header__spacer"></div>
+        <div class="header__actions">
+          <a class="circle-icon" href="https://intercom.help/xrex-sg/en/" target="_blank" rel="noopener noreferrer" title="Support">
+            <img src="assets/icon_support.svg" alt="support" width="20" height="20" />
+          </a>
+          <a class="account-chip" href="#">
+            <span class="chip-avatar"><img src="assets/logo_agp.svg" alt="AGP" /></span>
+            <span class="chip-name">AGP Technology</span>
+            <img class="chevron" src="assets/icon_chevron_right.svg" alt="more" width="20" height="20" />
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <main class="page page--addbank">
+      <div class="container">
+        <section class="page__header page__header--crumb">
+          <a class="crumb" href="select-counterparty.html" aria-label="Back to Select counterparty">
+            <picture>
+              <source media="(min-width: 1280px)" srcset="assets/icon_header_back.svg" />
+              <img src="assets/icon_header_back_mobile.svg" width="32" height="32" alt="">
+            </picture>
+          </a>
+          <h1 id="ab-back-title" class="page__title">Add USD Counterparty Bank Account</h1>
+        </section>
+
+        <section class="grid">
+          <div class="grid__col grid__col--primary">
+            <h2 class="card__title">Enter receiver information</h2>
+            <form class="card card--section form" aria-label="Receiver information">
+              <div class="form__row">
+                <div class="form__field">
+                  <label for="companyName">Company name</label>
+                  <input id="companyName" name="companyName" type="text" placeholder="Company name" />
+                </div>
+              </div>
+              <div class="form__row form__row--selects">
+                <div class="form__field">
+                  <label for="regDate">Registration date</label>
+                  <input id="regDate" name="regDate" type="date" placeholder="Registration date" />
+                </div>
+                <div class="form__field">
+                  <label for="country">Country of incorporation</label>
+                  <input id="country" name="country" type="text" placeholder="Country of incorporation" />
+                </div>
+              </div>
+              <div class="form__row">
+                <div class="form__field">
+                  <label for="regNum">Registration number</label>
+                  <input id="regNum" name="regNum" type="text" placeholder="Registration number" />
+                </div>
+              </div>
+              <div class="form__row">
+                <div class="form__field">
+                  <label for="email">Email</label>
+                  <input id="email" name="email" type="email" placeholder="Email" />
+                </div>
+              </div>
+              <div class="form__actions">
+                <button class="btn btn--secondary btn--md" type="button" disabled aria-disabled="true">Next</button>
+              </div>
+            </form>
+          </div>
+          <aside class="grid__col grid__col--sidebar addbank-steps">
+            <div class="card card--section">
+              <div class="summary-box">
+                <div class="summary-pair">
+                  <span class="muted">Step 1</span>
+                  <strong>Receiver information</strong>
+                </div>
+                <div class="summary-pair">
+                  <span class="muted">Step 2</span>
+                  <strong>Bank account details</strong>
+                </div>
+                <div class="summary-pair">
+                  <span class="muted">Step 3</span>
+                  <strong>Review & submit</strong>
+                </div>
+              </div>
+            </div>
+          </aside>
+        </section>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer__inner">
+        <div class="footer__copy">© XREX Pay Limited 2025</div>
+        <div class="footer__links">
+          <a href="https://intercom.help/xrex-sg/en/" target="_blank" rel="noopener noreferrer">Support</a>
+          <a href="https://info.xrex.sg/doc" target="_blank" rel="noopener noreferrer">Terms of Use</a>
+          <a href="https://info.xrex.sg/doc" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
+        </div>
+      </div>
+    </footer>
+
+    <script defer src="js/main.js?v=20251108"></script>
+    <div class="build-badge" role="note">XREX B2B - Add bank prototype v1.0</div>
+  </body>
+  </html>
+
+

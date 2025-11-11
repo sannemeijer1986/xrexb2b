@@ -490,4 +490,27 @@ if (document.readyState === 'loading') {
   }
 })();
 
+// Add Bank: back crumb and title go to Select counterparty on tablet and below
+(function initAddBankBackNavigation() {
+  const isAddBank = document.querySelector('main.page--addbank');
+  if (!isAddBank) return;
+  const crumb = document.querySelector('.page__header--crumb .crumb');
+  const title = document.getElementById('ab-back-title');
+  if (!crumb) return;
+  const handleBack = (e) => {
+    const DESKTOP_BP = 1280;
+    if (window.innerWidth < DESKTOP_BP) {
+      e.preventDefault();
+      window.location.href = 'select-counterparty.html';
+    }
+  };
+  crumb.addEventListener('click', handleBack);
+  if (title) {
+    title.addEventListener('click', handleBack);
+    title.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') handleBack(e);
+    });
+  }
+})();
+
 
