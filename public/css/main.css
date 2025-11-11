@@ -269,7 +269,7 @@ html {
 .grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 48px;
+  gap: 72px;
   align-items: start;
 }
 
@@ -1714,7 +1714,7 @@ textarea {
 }
 
 .page--send .grid__col--primary .card__title + .card--section {
-  margin-bottom: 40px;
+  margin-bottom: 56px;
 }
 
 .page--send .card__title {
@@ -2223,6 +2223,7 @@ textarea {
   display: grid;
   grid-template-columns: 1fr;
   gap: 24px;
+  margin-bottom: 40px;
 }
 @media (min-width: 1280px) {
   #docs .docs-row {
@@ -2238,6 +2239,96 @@ textarea {
   font-weight: 600;
 }
 
+.docs-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 40px;
+  margin-bottom: 12px;
+}
+.docs-head .docs-head__label {
+  font-family: "Manrope", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  color: #797A7B;
+}
+.docs-head .docs-head__meta {
+  font-size: 12px;
+  color: #797A7B;
+}
+
+.doc-type-card {
+  position: relative;
+}
+
+.doc-type-select {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.doc-type-card {
+  display: grid;
+  grid-template-columns: 36px 1fr 20px;
+  align-items: center;
+  gap: 12px;
+  border: 1px solid #eeeeee;
+  border-radius: 8px;
+  background: #fff;
+  padding: 14px 16px;
+}
+
+.doc-type__badge {
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  background: #f8fafc;
+  display: grid;
+  place-items: center;
+  font-family: "Manrope", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+  font-weight: 800;
+  font-size: 12px;
+  color: #2563eb;
+}
+
+.doc-type__texts {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.doc-type__title {
+  font-family: "Manrope", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  color: #0f172a;
+}
+
+.doc-type__chev img {
+  width: 20px;
+  height: 20px;
+  opacity: 0.7;
+}
+
+[data-docs-nature] {
+  color: #73A2F5;
+}
+
+#docs label {
+  font-family: "Manrope", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  color: #797A7B;
+}
+
+#piNumber:not(:placeholder-shown) {
+  font-weight: 600;
+}
+
 .upload-list {
   display: grid;
   gap: 12px;
@@ -2245,13 +2336,26 @@ textarea {
 
 .upload-item {
   display: grid;
-  grid-template-columns: 1fr auto;
+  grid-template-columns: 32px 1fr auto;
   align-items: center;
   gap: 12px;
   border: 1px solid #eeeeee;
   border-radius: 8px;
   padding: 14px 16px;
   background: #fff;
+}
+
+.upload-item__badge {
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  background: #f8fafc;
+  display: grid;
+  place-items: center;
+  font-family: "Manrope", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+  font-weight: 800;
+  font-size: 12px;
+  color: #2563eb;
 }
 
 .upload-item__meta {

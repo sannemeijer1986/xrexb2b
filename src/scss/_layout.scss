@@ -125,7 +125,7 @@ html { overflow-y: scroll; }
 .grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 48px;
+  gap: 72px;
   align-items: start;
 }
 .grid { @media (min-width: $bp-desktop) {  grid-template-columns: minmax(0, 1fr) 430px; } }

@@ -256,23 +256,17 @@ function initSendPayment() {
   const updateNaturePurpose = () => {
     if (summaryRows.nature && natureSelect) {
       const v = summaryRows.nature.querySelector('strong');
-      if (v) {
-        const txt = natureSelect.options[natureSelect.selectedIndex]?.textContent?.trim() || '';
-        v.textContent = (!txt || /^select$/i.test(txt)) ? '- -' : txt;
-      }
-      // toggle filled state for styling
-      const filled = natureSelect.options[natureSelect.selectedIndex] && !/^select$/i.test(natureSelect.options[natureSelect.selectedIndex].textContent || '');
-      natureSelect.classList.toggle('is-filled', filled);
+      const label = natureSelect.selectedOptions?.[0]?.textContent?.trim() || '';
+      const filled = !!(natureSelect.value);
+      if (v) v.textContent = filled ? label : '- -';
+      natureSelect.classList.toggle('is-filled', !!natureSelect.value);
     }
     if (summaryRows.purpose && purposeSelect) {
       const v = summaryRows.purpose.querySelector('strong');
-      if (v) {
-        const txt = purposeSelect.options[purposeSelect.selectedIndex]?.textContent?.trim() || '';
-        v.textContent = (!txt || /^select$/i.test(txt)) ? '- -' : txt;
-      }
-      // toggle filled state for styling
-      const filled = purposeSelect.options[purposeSelect.selectedIndex] && !/^select$/i.test(purposeSelect.options[purposeSelect.selectedIndex].textContent || '');
-      purposeSelect.classList.toggle('is-filled', filled);
+      const label = purposeSelect.selectedOptions?.[0]?.textContent?.trim() || '';
+      const filled = !!(purposeSelect.value);
+      if (v) v.textContent = filled ? label : '- -';
+      purposeSelect.classList.toggle('is-filled', !!purposeSelect.value);
     }
 
     // Toggle supporting docs section based on nature selection
@@ -282,15 +276,42 @@ function initSendPayment() {
     const pre = document.getElementById('docs-pre');
     const post = document.getElementById('docs-post');
     if (!natureSelect || !docsTitle || !docsWrap || !pre || !post) return;
-    const natureTxt = natureSelect.options[natureSelect.selectedIndex]?.textContent?.trim() || '';
-    const isChosen = !!natureTxt && !/^select$/i.test(natureTxt);
+    const natureVal = natureSelect.value;
+    const natureTxt = natureSelect.selectedOptions?.[0]?.textContent?.trim() || '';
+    const isChosen = !!natureVal;
     docsTitle.hidden = !isChosen;
     docsWrap.hidden = !isChosen;
     if (!isChosen) return;
     if (spanNature) spanNature.textContent = natureTxt;
-    const isPre = /pre[\s-]?shipment/i.test(natureTxt);
+    const isPre = natureVal === 'pre_shipment';
     pre.hidden = !isPre;
     post.hidden = isPre;
+
+    // Reset and sync doc-type card
+    const docTypeSelect = document.getElementById('docType');
+    const card = document.querySelector('.doc-type-card');
+    const badge = card?.querySelector('.doc-type__badge');
+    const title = card?.querySelector('.doc-type__title');
+    const desc = card?.querySelector('.doc-type__texts small');
+    const syncDocCard = () => {
+      if (!docTypeSelect || !card) return;
+      const val = docTypeSelect.value;
+      if (!val) {
+        if (badge) badge.classList.add('is-hidden');
+        if (title) title.textContent = 'Select';
+        if (desc) desc.textContent = '';
+      } else if (val === 'PI') {
+        if (badge) { badge.classList.remove('is-hidden'); badge.textContent = 'PI'; }
+        if (title) title.textContent = 'Proforma Invoice';
+        if (desc) desc.textContent = 'A preliminary bill issued by seller';
+      }
+    };
+    if (docTypeSelect) {
+      // set default to placeholder on show
+      if (isPre) docTypeSelect.value = '';
+      docTypeSelect.addEventListener('change', syncDocCard);
+    }
+    syncDocCard();
   };
 
   if (amountInput) {
