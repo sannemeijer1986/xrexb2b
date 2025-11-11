@@ -1410,7 +1410,7 @@ textarea {
 .currency-display {
   appearance: none;
   width: 100%;
-  height: 80px;
+  height: 74px;
   display: grid;
   grid-template-columns: 1fr auto;
   align-items: center;
@@ -1452,7 +1452,7 @@ textarea {
 .recipient-select {
   appearance: none;
   width: 100%;
-  height: 80px;
+  height: 74px;
   display: grid;
   grid-template-columns: auto 1fr auto;
   align-items: center;
@@ -1471,6 +1471,8 @@ textarea {
 
 .page--send .recipient-select {
   cursor: not-allowed;
+  background-color: #FCFCFC;
+  border: 0px;
 }
 
 .page--send .recipient-select:focus,
@@ -1519,6 +1521,41 @@ textarea {
   height: 20px;
 }
 
+.recipient-select__right {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.recipient-select__right img {
+  width: 20px;
+  height: 20px;
+}
+
+.recipient-select__right-text {
+  font-family: "Manrope", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  color: #797A7B;
+  white-space: nowrap;
+}
+
+.recipient-select__right-text--desktop {
+  display: none;
+}
+
+.recipient-select__right-text--mobile {
+  display: inline;
+}
+
+@media (min-width: 1280px) {
+  .recipient-select__right-text--desktop {
+    display: inline;
+  }
+  .recipient-select__right-text--mobile {
+    display: none;
+  }
+}
 .page--send .form.card {
   padding: 32px;
 }
@@ -1553,7 +1590,7 @@ textarea {
 }
 
 .page--send .card__title {
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 700;
 }
 
@@ -1564,7 +1601,7 @@ textarea {
   color: #0f172a;
 }
 .form__field--select select {
-  height: 60px;
+  height: 74px;
   width: 100%;
   font-family: "Manrope", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
   font-weight: 500;
@@ -1580,6 +1617,17 @@ textarea {
 .form__field--select select.is-filled {
   color: #0f172a;
   font-weight: 600;
+}
+
+.page--send .form__row--selects {
+  grid-template-columns: 1fr;
+  gap: 40px;
+}
+@media (min-width: 1280px) {
+  .page--send .form__row--selects {
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
 }
 
 .form__field--deduct {
@@ -2017,6 +2065,13 @@ textarea {
   color: #94a3b8;
   font-size: 12px;
   text-align: right;
+}
+
+.page--send .form label {
+  font-family: "Manrope", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  color: #797A7B;
 }
 
 /* Auto-mirrored from src/css/overrides.css when running `npm run dev:with-css-edit` */

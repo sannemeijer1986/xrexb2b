@@ -120,7 +120,7 @@
 .currency-display {
   appearance: none;
   width: 100%;
-  height: 80px;
+  height: 74px;
   display: grid;
   grid-template-columns: 1fr auto;
   align-items: center;
@@ -158,7 +158,7 @@
 .recipient-select {
   appearance: none;
   width: 100%;
-  height: 80px;
+  height: 74px;
   display: grid;
   grid-template-columns: auto 1fr auto;
   align-items: center;
@@ -176,6 +176,8 @@
 // On Send page this control is not interactive; reflect that in affordances
 .page--send .recipient-select {
   cursor: not-allowed;
+  background-color: #FCFCFC;
+  border: 0px;
 }
 .page--send .recipient-select:focus,
 .page--send .recipient-select:active {
@@ -217,6 +219,27 @@
   height: 20px;
 }
 
+// Right-side currency label for recipient select
+.recipient-select__right {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.recipient-select__right img { width: 20px; height: 20px; }
+.recipient-select__right-text {
+  font-family: $font-family-sans;
+  font-weight: 600;
+  font-size: 14px;
+  color: $text-secondary;
+  white-space: nowrap;
+}
+.recipient-select__right-text--desktop { display: none; }
+.recipient-select__right-text--mobile { display: inline; }
+@media (min-width: $bp-desktop) {
+  .recipient-select__right-text--desktop { display: inline; }
+  .recipient-select__right-text--mobile { display: none; }
+}
+
 // Form layout tweaks specific to Send page
 .page--send .form.card {
   padding: 32px;
@@ -253,7 +276,7 @@
 }
 
 .page--send .card__title {
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 700;
 }
 
@@ -267,7 +290,7 @@
     color: $text-primary;
   }
   select {
-    height: 60px;
+    height: 74px;
     width: 100%;
     font-family: $font-family-sans;
     font-weight: 500;
@@ -283,6 +306,16 @@
   select.is-filled {
     color: $text-primary;
     font-weight: 600;
+  }
+}
+// Put Nature + Purpose on same row on desktop with 24px gap
+// Use page-scoped selector to override `.page--send .form__row { grid-template-columns: 1fr; }`
+.page--send .form__row--selects {
+  grid-template-columns: 1fr;
+  gap: 40px;
+  @media (min-width: $bp-desktop) {
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
   }
 }
 
@@ -616,3 +649,10 @@
   text-align: right;
 }
 
+// Normalize all form labels on Send Payment page
+.page--send .form label {
+  font-family: $font-family-sans;
+  font-weight: 600;
+  font-size: 14px;
+  color: $text-secondary;
+}
