@@ -129,7 +129,7 @@ html { overflow-y: scroll; }
   gap: 48px;
   align-items: start;
 }
-.grid { @media (min-width: $bp-desktop) {  grid-template-columns: minmax(0, 1fr) 380px; } }
+.grid { @media (min-width: $bp-desktop) {  grid-template-columns: minmax(0, 1fr) 430px; } }
 .grid__col--primary { min-width: 0; }
 .grid__col--sidebar { position: sticky; top: 84px; }
 

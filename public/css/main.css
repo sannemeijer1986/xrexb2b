@@ -276,7 +276,7 @@ html {
 
 @media (min-width: 1280px) {
   .grid {
-    grid-template-columns: minmax(0, 1fr) 380px;
+    grid-template-columns: minmax(0, 1fr) 430px;
   }
 }
 
