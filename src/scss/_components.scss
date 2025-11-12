@@ -507,12 +507,15 @@
 .receipt__row, .receipt__subrow { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: none; }
 .receipt__row strong { font-weight: 400; }
 .receipt__row--first strong { font-weight: 700; }
-.receipt__subrow { padding: 6px 0; font-size: 14px; }
-.receipt__subrow--divider { border-bottom: 1px solid $border-color; }
+.receipt__subrow { padding: 6px 0; font-size: 16px; }
+.receipt__subrow strong { font-weight: 500; font-size: 16px; }
+.receipt__divider { height: 1px; background: $border-color; margin: 16px 0; }
 .receipt__row--em strong { font-size: 18px; font-weight: 700; }
 .receipt__foot { margin-top: 6px; }
 .receipt__actions { display: grid; }
 .receipt__actions .btn { width: 100%; }
+/* Status highlight */
+#statusVal { color: #73A2F5; font-weight: 700; }
 @media (min-width: $bp-desktop) {
   .receipt__title { font-size: 22px; }
 }
