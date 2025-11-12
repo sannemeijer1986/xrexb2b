@@ -1240,6 +1240,11 @@ textarea {
   font: 700 14px "Manrope", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
 }
 
+.modal.modal-loading {
+  align-items: center !important;
+  justify-content: center !important;
+}
+
 .modal-loading .modal-wrapper {
   width: calc(100% - 32px);
   max-width: 280px;
@@ -1384,6 +1389,13 @@ textarea {
   .modal-loading .loading-spinner img {
     width: 76px;
     height: 76px;
+  }
+}
+@media (min-width: 1280px) {
+  .modal.modal-loading .modal-wrapper,
+  .modal.modal-loading .modal-content {
+    min-height: 240px !important;
+    height: 240px !important;
   }
 }
 .m-step-title {

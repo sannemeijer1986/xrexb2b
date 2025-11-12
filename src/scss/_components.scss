@@ -468,6 +468,7 @@
 .m-error { color: $danger-500; font: 700 14px $font-family-sans; }
 
 // Loading modal
+.modal.modal-loading { align-items: center !important; justify-content: center !important; }
 .modal-loading .modal-wrapper { width: calc(100% - 32px); max-width: 280px;  height: 240px; }
 .modal-loading .modal-content {
   background: #fff;
@@ -547,6 +548,15 @@
   }
   .modal-loading .loading-spinner img {
     width: 76px; height: 76px;
+  }
+}
+
+// Ensure loader overrides ANY generic desktop min-height rules (place after them)
+@media (min-width: $bp-desktop) {
+  .modal.modal-loading .modal-wrapper,
+  .modal.modal-loading .modal-content {
+    min-height: 240px !important;
+    height: 240px !important;
   }
 }
 // Modal text and link styles
