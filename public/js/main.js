@@ -283,7 +283,7 @@ function initSendPayment() {
         ? `Amount payable exceeds ${formatAmount(PER_TX_LIMIT, 'USD')} limit per tx`
         : `Limit per tx: ${formatAmount(PER_TX_LIMIT, 'USD')}`;
     }
-    // Inline error for amount exceeding selected account balance
+    // Inline error for amount exceeding selected account balance (consider payer fee share)
     const amountError = document.getElementById('amount-error');
     const selectedRadio = Array.from(document.querySelectorAll('.fee-options--deduct input[type="radio"]')).find(r => r.checked);
     const balanceText = selectedRadio?.closest('.fee-option')?.querySelector('.fee-option__content .muted')?.textContent || '';
@@ -291,7 +291,7 @@ function initSendPayment() {
       const m = balanceText.replace(/[^0-9.]/g, '');
       return parseFloat(m || '0') || 0;
     })();
-    const overBalance = amount > balanceNum;
+    const overBalance = youPay > balanceNum;
     if (amountError) {
       amountError.hidden = !overBalance;
       if (overBalance) {
@@ -593,13 +593,64 @@ function initSendPayment() {
   if (confirmTrigger) {
     confirmTrigger.addEventListener('click', (e) => {
       e.preventDefault();
-      if (confirmTrigger.disabled) return;
+      if (confirmTrigger.disabled) {
+        // On mobile/tablet: show tooltip on press and auto-hide
+        const DESKTOP_BP = 1280;
+        const tip = document.getElementById('confirm-tip');
+        if (tip) {
+          const rect = confirmTrigger.getBoundingClientRect();
+          const container = tip.offsetParent || confirmTrigger.closest('.card--summary') || document.body;
+          const crect = container.getBoundingClientRect();
+          tip.hidden = false;
+          // Position above button, centered
+          // Use setTimeout to ensure we can read offsetWidth after showing
+          setTimeout(() => {
+            const tw = tip.offsetWidth;
+            const th = tip.offsetHeight;
+            const top = rect.top - crect.top - th - 12;
+            const left = rect.left - crect.left + rect.width / 2 - tw / 2;
+            tip.style.top = `${Math.max(8, top)}px`;
+            tip.style.left = `${Math.max(8, left)}px`;
+          }, 0);
+          if (window.innerWidth < DESKTOP_BP) {
+            clearTimeout(tip.__hideTimer);
+            tip.__hideTimer = setTimeout(() => { tip.hidden = true; }, 2200);
+          }
+        }
+        return;
+      }
       const modal = document.getElementById('confirmPaymentModal');
       if (modal) {
         modal.setAttribute('aria-hidden', 'false');
         document.documentElement.classList.add('modal-open');
         document.body.classList.add('modal-open');
       }
+    });
+    // Desktop hover tooltip when inactive
+    confirmTrigger.addEventListener('mouseenter', () => {
+      const DESKTOP_BP = 1280;
+      if (window.innerWidth < DESKTOP_BP) return;
+      if (!confirmTrigger.disabled) return;
+      const tip = document.getElementById('confirm-tip');
+      if (!tip) return;
+      const rect = confirmTrigger.getBoundingClientRect();
+      const container = tip.offsetParent || confirmTrigger.closest('.card--summary') || document.body;
+      const crect = container.getBoundingClientRect();
+      tip.hidden = false;
+      setTimeout(() => {
+        const tw = tip.offsetWidth;
+        const th = tip.offsetHeight;
+        const top = rect.top - crect.top - th - 12;
+        const left = rect.left - crect.left + rect.width / 2 - tw / 2;
+        tip.style.top = `${Math.max(8, top)}px`;
+        tip.style.left = `${Math.max(8, left)}px`;
+      }, 0);
+    });
+    confirmTrigger.addEventListener('mouseleave', () => {
+      const DESKTOP_BP = 1280;
+      if (window.innerWidth < DESKTOP_BP) return;
+      const tip = document.getElementById('confirm-tip');
+      if (tip) tip.hidden = true;
     });
   }
 

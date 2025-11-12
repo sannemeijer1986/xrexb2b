@@ -2672,6 +2672,36 @@ textarea {
   display: inline-block;
 }
 
+.card--summary {
+  position: relative;
+}
+
+.btn-tip {
+  position: absolute;
+  z-index: 1400;
+  background: #fff;
+  color: #0f172a;
+  font-family: "Manrope", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.22);
+}
+
+.btn-tip::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: -8px;
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 8px solid #fff;
+}
+
 /* Auto-mirrored from src/css/overrides.css when running `npm run dev:with-css-edit` */
 
 /*# sourceMappingURL=main.css.map */
