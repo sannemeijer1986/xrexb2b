@@ -100,6 +100,37 @@
   .build-badge a { color: #fff; text-decoration: underline; }
 }
 
+// Add Bank - steps timeline (desktop)
+.ab-steps { display: grid; }
+.ab-step__content { margin-bottom: 24px;}
+.ab-step {
+  display: grid;
+  grid-template-columns: 16px 1fr;
+  column-gap: 16px;
+  align-items: stretch; // ensure rail fills available height
+}
+.ab-step__rail { display: flex; flex-direction: column; align-items: center; }
+.ab-dot {
+  width: 10px; height: 10px; border-radius: 999px; background: #D1D5DB; display: block; margin: 3px;
+}
+.ab-step.is-active .ab-dot { background: #22C55E; } // green
+.ab-line { width: 2px; background: #E5E7EB; flex: 1 1 auto; }
+.ab-step:not(.has-line) .ab-line { display: none; }
+.ab-step__label {
+  font-family: $font-family-sans;
+  font-weight: 700;
+  font-size: 14px;
+  color: $text-secondary;
+}
+.ab-step.is-active .ab-step__label { color: #3FAE64; }
+.ab-step__title {
+  font-family: $font-family-sans;
+  font-weight: 700;
+  font-size: 16px;
+  color: $text-primary;
+}
+.ab-step__title.is-muted { color: #BCBDBD; font-weight: 500; }
+
 // Counterparty selection list
 .page__subheader {
   display: flex;
