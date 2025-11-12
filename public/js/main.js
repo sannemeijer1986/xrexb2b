@@ -1021,6 +1021,7 @@ if (document.readyState === 'loading') {
     form.querySelector('#regDate'),
     form.querySelector('#country'),
     form.querySelector('#regNum'),
+    form.querySelector('#businessAddress'),
     form.querySelector('#email'),
   ]);
 
@@ -1076,6 +1077,7 @@ if (document.readyState === 'loading') {
     regDate: form.querySelector('#regDate'),
     country: form.querySelector('#country'),
     regNum: form.querySelector('#regNum'),
+    businessAddress: form.querySelector('#businessAddress'),
     email: form.querySelector('#email'),
   });
   const trigger = (el) => {
@@ -1091,6 +1093,7 @@ if (document.readyState === 'loading') {
     if (f.regDate) f.regDate.value = '2024-01-15';
     if (f.country) f.country.value = 'Singapore';
     if (f.regNum) f.regNum.value = '202401234N';
+    if (f.businessAddress) f.businessAddress.value = '123 Market Street, Singapore 049483';
     if (f.email) f.email.value = 'accounts@novaquill.com';
     Object.values(f).forEach(trigger);
   });
