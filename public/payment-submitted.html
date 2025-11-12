@@ -8,10 +8,21 @@
   </head>
   <body>
     <header class="site-header">
-      <div class="header__inner">
-        <a class="logo" href="index.html" aria-label="XREX Pay">
-          <img src="assets/logo_xrexpay.svg" alt="" height="20" />
+      <div class="container header__content">
+        <a class="brand" href="index.html" aria-label="XREX Pay">
+          <img class="brand__img" src="assets/logo_xrexpay.svg" alt="XREX Pay" />
         </a>
+        <div class="header__spacer"></div>
+        <div class="header__actions">
+          <a class="circle-icon" href="https://intercom.help/xrex-sg/en/" target="_blank" rel="noopener noreferrer" title="Support">
+            <img src="assets/icon_support.svg" alt="support" width="20" height="20" />
+          </a>
+          <a class="account-chip" href="#">
+            <span class="chip-avatar"><img src="assets/logo_agp.svg" alt="AGP" /></span>
+            <span class="chip-name">AGP Technology</span>
+            <img class="chevron" src="assets/icon_chevron_right.svg" alt="more" width="20" height="20" />
+          </a>
+        </div>
       </div>
     </header>
 
@@ -19,61 +30,61 @@
       <section class="container">
         <div class="receipt">
           <div class="receipt__icon">
-            <img src="assets/icon_snackbar_success.svg" width="64" height="64" alt="" />
+            <img src="assets/icon_snackbar_success.svg" alt="" />
           </div>
           <h1 class="receipt__title">Payment submitted</h1>
 
           <div class="card card--section receipt__card">
-            <div class="receipt__row">
-              <span class="muted">Receiver</span>
-              <strong>Counterparty A</strong>
+          <div class="receipt__row receipt__row--first">
+            <span class="muted">Receiver</span>
+            <strong id="rcvName">Counterparty A</strong>
             </div>
             <div class="receipt__row">
               <span class="muted">Bank account</span>
-              <strong>(CIMB) 012-345678-9</strong>
+            <strong id="rcvBank">(CIMB) 012-345678-9</strong>
             </div>
             <div class="receipt__row">
               <span class="muted">Amount payable</span>
-              <strong>100,000.00 USD</strong>
+            <strong id="amtPayable">100,000.00 USD</strong>
             </div>
             <div class="receipt__row">
               <span class="muted">Deducted from</span>
-              <strong>USDT account</strong>
+            <strong id="deductedFrom">USDT account</strong>
             </div>
             <div class="receipt__row">
               <span class="muted">Service fee</span>
-              <strong>1%</strong>
+            <strong id="feePct">1%</strong>
             </div>
-            <div class="receipt__subrow">
-              <span class="muted">1% paid by you</span>
-              <strong>1,000.00 USDT</strong>
+          <div class="receipt__subrow">
+            <span class="muted" id="payerShareLabel">1% paid by you</span>
+            <strong id="payerShareAmt">1,000.00 USDT</strong>
             </div>
-            <div class="receipt__subrow">
-              <span class="muted">0% paid by receiver</span>
-              <strong>0.00 USD</strong>
+          <div class="receipt__subrow receipt__subrow--divider">
+            <span class="muted" id="receiverShareLabel">0% paid by receiver</span>
+            <strong id="receiverShareAmt">0.00 USD</strong>
             </div>
             <div class="receipt__row">
               <span class="muted">To be deducted</span>
-              <strong>101,000.00 USDT</strong>
+            <strong id="toBeDeducted">101,000.00 USDT</strong>
             </div>
             <div class="receipt__row receipt__row--em">
               <span class="muted">Receiver gets</span>
-              <strong>100,000.00 USD</strong>
+            <strong id="receiverGets">100,000.00 USD</strong>
             </div>
             <div class="receipt__foot">
               <div class="receipt__row">
                 <span class="muted">Date</span>
-                <strong>31/08/2022, 12:00:00</strong>
+              <strong id="dtVal">31/08/2022, 12:00:00</strong>
               </div>
               <div class="receipt__row">
                 <span class="muted">Status</span>
-                <strong>Processing</strong>
+              <strong id="statusVal">Processing</strong>
               </div>
             </div>
           </div>
 
           <div class="receipt__actions">
-            <a class="btn btn--primary btn--md" href="index.html">Done</a>
+            <a class="btn btn--secondary btn--lg" href="index.html">Done</a>
           </div>
         </div>
       </section>
@@ -90,6 +101,29 @@
       </div>
     </footer>
   </body>
+  <script>
+    (function populateReceipt() {
+      try {
+        const raw = sessionStorage.getItem('receiptData');
+        const d = raw ? JSON.parse(raw) : null;
+        if (!d) return;
+        const set = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
+        set('rcvName', d.receiverName || '');
+        set('rcvBank', d.receiverBank || '');
+        set('amtPayable', d.amountPayableFmt || '');
+        set('deductedFrom', d.deductedFrom || '');
+        set('feePct', d.feePct || '1%');
+        set('payerShareLabel', d.payerShareLabel || '');
+        set('payerShareAmt', d.payerShareAmt || '');
+        set('receiverShareLabel', d.receiverShareLabel || '');
+        set('receiverShareAmt', d.receiverShareAmt || '');
+        set('toBeDeducted', d.toBeDeducted || '');
+        set('receiverGets', d.receiverGets || '');
+        set('dtVal', d.dateTime || '');
+        set('statusVal', d.status || 'Processing');
+      } catch (_) {}
+    })();
+  </script>
 </html>
 
 

@@ -781,6 +781,43 @@ if (document.readyState === 'loading') {
   }
   if (confirm) {
     confirm.addEventListener('click', () => {
+      // Capture receipt data before leaving
+      try {
+        const getText = (sel) => (document.querySelector(sel)?.textContent || '').trim();
+        const amountInput = document.getElementById('amount');
+        const rawAmt = (amountInput?.value || '').replace(/,/g, '');
+        const amount = parseFloat(rawAmt) || 0;
+        const feeRate = 0.01;
+        // Fee mode
+        const feeSel = Array.from(document.querySelectorAll('input[type=\"radio\"][name=\"fee\"]')).find(r => r.checked)?.value || 'you';
+        let payerRate = 0, receiverRate = 0;
+        if (feeSel === 'you') { payerRate = feeRate; receiverRate = 0; }
+        else if (feeSel === 'receiver') { payerRate = 0; receiverRate = feeRate; }
+        else { payerRate = feeRate/2; receiverRate = feeRate/2; }
+        // Payer currency
+        const payerCurrency = Array.from(document.querySelectorAll('input[type=\"radio\"][name=\"deduct\"]')).find(r => r.checked)?.value || 'USD';
+        const payerFee = amount * payerRate;
+        const receiverFee = amount * receiverRate;
+        const youPay = amount + payerFee;
+        const payeeGets = amount - receiverFee;
+        const fmt = (v, cur) => `${Number(v||0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ${cur}`;
+        const data = {
+          receiverName: getText('.summary-recipient .recipient-select__title'),
+          receiverBank: getText('.summary-recipient .recipient-select__subtitle'),
+          amountPayableFmt: fmt(amount, 'USD'),
+          deductedFrom: `${payerCurrency} account`,
+          feePct: '1%',
+          payerShareLabel: `${Math.round(payerRate*1000)/10}% paid by you`,
+          payerShareAmt: fmt(payerFee, payerCurrency),
+          receiverShareLabel: `${Math.round(receiverRate*1000)/10}% paid by receiver`,
+          receiverShareAmt: fmt(receiverFee, 'USD'),
+          toBeDeducted: fmt(youPay, payerCurrency),
+          receiverGets: fmt(payeeGets, 'USD'),
+          dateTime: new Date().toLocaleString('en-GB', { hour12: false }),
+          status: 'Processing',
+        };
+        sessionStorage.setItem('receiptData', JSON.stringify(data));
+      } catch (_) {}
       // Close confirm modal
       modal.setAttribute('aria-hidden', 'true');
       document.documentElement.classList.remove('modal-open');

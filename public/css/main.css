@@ -549,6 +549,7 @@ textarea {
   padding: 10px 14px;
   font-weight: 600;
   transition: filter 0.15s ease, transform 0.02s ease, background-color 0.15s ease, border-color 0.15s ease;
+  text-decoration: none;
 }
 
 .btn:active {
@@ -1291,21 +1292,27 @@ textarea {
 .page--receipt .container {
   display: grid;
   place-items: center;
-  padding: 40px 16px;
+  padding: 40px 24px;
 }
 
 .receipt {
   display: grid;
   gap: 20px;
-  max-width: 720px;
+  max-width: 480px;
   width: 100%;
   text-align: center;
   margin: 0 auto;
 }
 
+.receipt__icon {
+  display: grid;
+  place-items: center;
+}
+
 .receipt__icon img {
-  width: 72px;
-  height: 72px;
+  width: 104px;
+  height: 104px;
+  display: block;
 }
 
 .receipt__title {
@@ -1318,6 +1325,7 @@ textarea {
 
 .receipt__card {
   text-align: left;
+  padding: 20px 24px;
 }
 
 .receipt__row, .receipt__subrow {
@@ -1325,7 +1333,15 @@ textarea {
   align-items: center;
   justify-content: space-between;
   padding: 10px 0;
-  border-bottom: 1px solid #eeeeee;
+  border-bottom: none;
+}
+
+.receipt__row strong {
+  font-weight: 400;
+}
+
+.receipt__row--first strong {
+  font-weight: 700;
 }
 
 .receipt__subrow {
@@ -1333,12 +1349,13 @@ textarea {
   font-size: 14px;
 }
 
-.receipt__row:last-child {
-  border-bottom: none;
+.receipt__subrow--divider {
+  border-bottom: 1px solid #eeeeee;
 }
 
 .receipt__row--em strong {
   font-size: 18px;
+  font-weight: 700;
 }
 
 .receipt__foot {
@@ -1347,7 +1364,10 @@ textarea {
 
 .receipt__actions {
   display: grid;
-  justify-content: center;
+}
+
+.receipt__actions .btn {
+  width: 100%;
 }
 
 @media (min-width: 1280px) {
