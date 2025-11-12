@@ -752,8 +752,8 @@ textarea {
 }
 
 .ab-dot {
-  width: 8px;
-  height: 8px;
+  width: 10px;
+  height: 10px;
   border-radius: 999px;
   background: #D1D5DB;
   display: block;
@@ -761,7 +761,7 @@ textarea {
 }
 
 .ab-step.is-active .ab-dot {
-  background: #3FAE64;
+  background: #22C55E;
 }
 
 .ab-line {
@@ -2812,9 +2812,10 @@ body.modal-locked {
 }
 
 .summary-note {
-  color: #94a3b8;
+  color: #73A2F5;
   font-size: 12px;
-  text-align: right;
+  text-align: center;
+  margin-top: 8px;
 }
 
 #docs[hidden] {
