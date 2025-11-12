@@ -407,6 +407,31 @@ function initSendPayment() {
   updateSummary();
   updateNaturePurpose();
   syncAccountDisplay();
+
+  // ---- Upload item interactions ----
+  const initUploadItems = () => {
+    const allUploadButtons = document.querySelectorAll('.upload-item .btn');
+    allUploadButtons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const item = btn.closest('.upload-item');
+        if (!item) return;
+        // Mark as uploaded
+        item.classList.add('is-uploaded');
+        // Title and subtitle
+        const titleEl = item.querySelector('.upload-item__title');
+        const subEl = item.querySelector('.upload-item__meta small');
+        if (subEl) subEl.textContent = 'Document123.pdf';
+        // Badge background handled via CSS; swap icon
+        const badgeImg = item.querySelector('.upload-item__badge img');
+        if (badgeImg) badgeImg.src = 'assets/icon_snackbar_success.svg';
+        // Button to secondary + text
+        btn.classList.remove('btn--primary');
+        btn.classList.add('btn--secondary');
+        btn.textContent = 'Re-upload';
+      }, { passive: true });
+    });
+  };
+  initUploadItems();
 }
 
 // Run immediately if DOM is already parsed (defer), otherwise wait

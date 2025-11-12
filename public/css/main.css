@@ -2449,6 +2449,16 @@ textarea {
   color: #797A7B;
 }
 
+.upload-item.is-uploaded .upload-item__title {
+  color: #2F9752;
+}
+.upload-item.is-uploaded .upload-item__meta .muted {
+  color: #0f172a;
+}
+.upload-item.is-uploaded .upload-item__badge {
+  background: #D2F5DE;
+}
+
 .page--send .form label {
   font-family: "Manrope", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
   font-weight: 600;

@@ -857,6 +857,13 @@
   font-weight: 600; font-size: 14px; color: $text-secondary;
 }
 
+// Uploaded state styling
+.upload-item.is-uploaded {
+  .upload-item__title { color: #2F9752; }
+  .upload-item__meta .muted { color: $text-primary; }
+  .upload-item__badge { background: #D2F5DE; }
+}
+
 // Normalize all form labels on Send Payment page
 .page--send .form label {
   font-family: $font-family-sans;
