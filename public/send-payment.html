@@ -374,6 +374,46 @@
       </div>
     </main>
 
+    <!-- Modal: Confirm send -->
+    <div id="confirmPaymentModal" class="modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="confirmPaymentTitle">
+      <div class="modal__dialog modal__dialog--lg">
+        <div class="modal__content">
+          <div class="modal__header">
+            <h2 id="confirmPaymentTitle" class="modal__title">Confirm send</h2>
+            <button class="modal__close" data-modal-close aria-label="Close modal">
+              <img src="assets/icon_modal_close.svg" width="24" height="24" alt="">
+            </button>
+          </div>
+          <div class="modal__body">
+            <div class="m-step">
+              <div class="m-step-title">Enter your authentication code to confirm payment</div>
+              <div class="m-desc">Copy the 6‑digit code from your authenticator app and enter it below.</div>
+              <div class="m-info">
+                <span class="mi-icon" aria-hidden="true"></span>
+                <span>For your security, a 6‑digit code from your authenticator app is required.</span>
+              </div>
+              <div class="m-field">
+                <div class="m-field-group">
+                  <label class="m-label" for="authCodeInput">Authentication code</label>
+                  <div class="m-input-row">
+                    <input id="authCodeInput" class="m-input" type="text" inputmode="numeric" autocomplete="one-time-code" placeholder="Enter the authentication code" maxlength="6" />
+                    <button id="authCodeClear" class="m-clear" type="button" aria-label="Clear input">
+                      <img src="assets/icon_close.svg" width="14" height="14" alt="">
+                    </button>
+                  </div>
+                </div>
+                <div id="authCodeError" class="m-error" aria-live="polite" hidden>Incorrect authentication code</div>
+              </div>
+            </div>
+          </div>
+          <div class="modal__footer">
+            <button type="button" class="btn btn--secondary btn--md" data-modal-close>Cancel</button>
+            <button id="authCodeConfirm" type="button" class="btn btn--primary btn--md" data-confirm-send disabled>Confirm</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <footer class="site-footer">
       <div class="footer__inner">
         <div class="footer__copy">© XREX Pay Limited 2025</div>
@@ -386,7 +426,13 @@
     </footer>
 
     <script defer src="js/main.js?v=20251108"></script>
-    <div class="build-badge" role="note">XREX B2B - Send payment prototype v1.0</div>
+    <div class="build-badge" role="note">
+      XREX B2B - Send payment prototype v1.0
+      <span style="margin-left:8px"></span>
+      <a id="sp-fill" href="#" style="color:#fff; text-decoration:underline; margin-left:8px;">Fill</a>
+      <span style="opacity:.7">&nbsp;/&nbsp;</span>
+      <a id="sp-clear" href="#" style="color:#fff; text-decoration:underline;">Clear</a>
+    </div>
   </body>
   </html>
 

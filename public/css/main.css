@@ -1016,11 +1016,52 @@ textarea {
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
 }
 
+.modal__dialog--lg {
+  max-width: 720px;
+}
+
 .modal__content {
   display: flex;
   flex-direction: column;
   gap: 16px;
   padding: 24px;
+}
+
+.modal__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.modal__close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: none;
+  background: transparent;
+  padding: 0;
+}
+
+.modal__body {
+  display: block;
+}
+
+.modal__footer,
+.modal__actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  margin-top: 8px;
+}
+
+.modal__footer .btn,
+.modal__actions .btn {
+  height: 52px;
+  font-size: 16px;
+  border-radius: 8px;
 }
 
 .modal__title {
@@ -1043,6 +1084,68 @@ textarea {
   display: flex;
   justify-content: flex-end;
   margin-top: 8px;
+}
+
+.m-info {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 8px 12px;
+  background: #f8fafc;
+  border: 1px solid #eeeeee;
+  border-radius: 8px;
+  color: #797A7B;
+  font: 600 12px "Manrope", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+}
+
+.mi-icon {
+  width: 16px;
+  height: 16px;
+  display: inline-block;
+  background: url("../assets/icon_info.svg") no-repeat center/16px 16px;
+  flex: 0 0 16px;
+}
+
+.m-field {
+  display: grid;
+  gap: 8px;
+}
+
+.m-label {
+  font: 700 14px "Manrope", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+  color: #797A7B;
+}
+
+.m-input-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px;
+}
+
+.m-input {
+  height: 60px;
+  padding: 16px;
+  border: 1px solid #eeeeee;
+  border-radius: 8px;
+  font: 700 18px "Manrope", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+  letter-spacing: 6px;
+  text-align: center;
+}
+
+@media (min-width: 1280px) {
+  .m-input {
+    height: 74px;
+  }
+}
+.m-clear {
+  height: 44px;
+  padding: 0 12px;
+  border-radius: 8px;
+}
+
+.m-error {
+  color: #ef4444;
+  font: 700 14px "Manrope", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
 }
 
 .page--cp .grid {

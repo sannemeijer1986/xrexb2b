@@ -88,19 +88,15 @@ function initSendPayment() {
 
   form.addEventListener('submit', (event) => {
     event.preventDefault();
-    const formData = new FormData(form);
-    const payload = Object.fromEntries(formData.entries());
-    console.info('[Send payment] Payload', payload);
-    const btn = form.querySelector('.btn--primary');
-    if (btn) {
-      const original = btn.textContent;
-      btn.textContent = 'Sending...';
-      btn.disabled = true;
-      setTimeout(() => {
-        btn.textContent = original;
-        btn.disabled = false;
-        alert('Payment submitted (demo)');
-      }, 800);
+    const confirmBtn = document.getElementById('confirm-send');
+    // Only allow open when valid
+    const isDisabled = confirmBtn ? confirmBtn.disabled : true;
+    if (isDisabled) return;
+    const modal = document.getElementById('confirmPaymentModal');
+    if (modal) {
+      modal.setAttribute('aria-hidden', 'false');
+      document.documentElement.classList.add('modal-open');
+      document.body.classList.add('modal-open');
     }
   });
 
@@ -214,7 +210,14 @@ function initSendPayment() {
       docsOk = false;
     }
 
-    const allValid = natureOk && purposeOk && amountOk && docsOk;
+    // Inline errors present?
+    const amountWrap = document.querySelector('.amount-input');
+    const domAmountError = document.getElementById('amount-error');
+    const hasInlineError =
+      (amountWrap && amountWrap.classList.contains('is-error')) ||
+      (domAmountError && domAmountError.hidden === false);
+
+    const allValid = natureOk && purposeOk && amountOk && docsOk && !hasInlineError;
     confirmBtn.setAttribute('aria-disabled', allValid ? 'false' : 'true');
     confirmBtn.disabled = !allValid;
   };
@@ -292,7 +295,11 @@ function initSendPayment() {
     if (amountError) {
       amountError.hidden = !overBalance;
       if (overBalance) {
-        amountError.textContent = `Amount payable exceeds available ${payerCurrency} balance`;
+        // Use payer's share of the 1% service fee for the message
+        const plusPart = (typeof payerPctAbs === 'number' && payerPctAbs > 0)
+          ? ` (+ ${payerPctAbs}% fees)`
+          : '';
+        amountError.textContent = `Amount payable${plusPart} exceeds available ${payerCurrency} balance`;
       }
     }
     // Clear previous error highlights, then mark selected
@@ -580,6 +587,98 @@ function initSendPayment() {
     });
   };
   initUploadItems();
+
+  // Open confirm modal on button click (button is outside <form>)
+  const confirmTrigger = document.getElementById('confirm-send');
+  if (confirmTrigger) {
+    confirmTrigger.addEventListener('click', (e) => {
+      e.preventDefault();
+      if (confirmTrigger.disabled) return;
+      const modal = document.getElementById('confirmPaymentModal');
+      if (modal) {
+        modal.setAttribute('aria-hidden', 'false');
+        document.documentElement.classList.add('modal-open');
+        document.body.classList.add('modal-open');
+      }
+    });
+  }
+
+  // Send Payment: dev tools (Fill / Clear) in build-badge
+  (function initSendDevTools() {
+    const root = document.querySelector('main.page--send');
+    if (!root) return;
+    const fillBtn = document.getElementById('sp-fill');
+    const clearBtn = document.getElementById('sp-clear');
+    if (!fillBtn || !clearBtn) return;
+
+    const amountEl = document.getElementById('amount');
+    const natureEl = document.getElementById('nature');
+    const purposeEl = document.getElementById('purpose');
+    const docTypeEl = document.getElementById('docType');
+    const piNumberEl = document.getElementById('piNumber');
+    const ciNumberEl = document.getElementById('ciNumber');
+    const deductUSD = root.querySelector('input[type="radio"][name="deduct"][value="USD"]');
+    const deductUSDT = root.querySelector('input[type="radio"][name="deduct"][value="USDT"]');
+    const preUpload = root.querySelector('#docs-pre .upload-item');
+    const postUploads = Array.from(root.querySelectorAll('#docs-post .upload-item'));
+
+    const trigger = (el) => { if (!el) return; el.dispatchEvent(new Event('input', { bubbles: true })); el.dispatchEvent(new Event('change', { bubbles: true })); };
+    const setUploaded = (item, filename = 'Document123.pdf') => {
+      if (!item) return;
+      item.classList.add('is-uploaded');
+      const sub = item.querySelector('.upload-item__meta small');
+      if (sub) sub.textContent = filename;
+      const badgeImg = item.querySelector('.upload-item__badge img');
+      if (badgeImg) badgeImg.src = 'assets/icon_snackbar_success.svg';
+      const btn = item.querySelector('.btn');
+      if (btn) { btn.classList.remove('btn--primary'); btn.classList.add('btn--secondary'); btn.textContent = 'Re-upload'; }
+    };
+    const resetUploaded = (item) => {
+      if (!item) return;
+      item.classList.remove('is-uploaded');
+      const sub = item.querySelector('.upload-item__meta small');
+      if (sub) sub.textContent = 'Description';
+      const badgeImg = item.querySelector('.upload-item__badge img');
+      if (badgeImg) badgeImg.src = 'assets/icon_upload_1.svg';
+      const btn = item.querySelector('.btn');
+      if (btn) { btn.classList.remove('btn--secondary'); btn.classList.add('btn--primary'); btn.textContent = 'Upload'; }
+    };
+
+    fillBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      // Basic fields
+      if (natureEl) { natureEl.value = 'pre_shipment'; trigger(natureEl); }
+      if (purposeEl) { purposeEl.value = 'goods_purchase'; trigger(purposeEl); }
+      if (amountEl) { amountEl.value = '50000'; trigger(amountEl); }
+      if (deductUSD) { deductUSD.checked = true; trigger(deductUSD); }
+      // Docs (pre-shipment)
+      if (docTypeEl) { docTypeEl.value = 'PI'; trigger(docTypeEl); }
+      if (piNumberEl) { piNumberEl.value = 'PI-001234'; trigger(piNumberEl); }
+      if (preUpload) setUploaded(preUpload, 'PI-001234.pdf');
+      // Ensure validation runs
+      if (typeof validateSendForm === 'function') validateSendForm();
+    });
+
+    clearBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      if (amountEl) { amountEl.value = ''; trigger(amountEl); }
+      if (natureEl) { natureEl.value = ''; trigger(natureEl); }
+      if (purposeEl) { purposeEl.value = ''; trigger(purposeEl); }
+      if (deductUSD) { deductUSD.checked = true; trigger(deductUSD); }
+      if (docTypeEl) { docTypeEl.value = ''; trigger(docTypeEl); }
+      if (piNumberEl) { piNumberEl.value = ''; trigger(piNumberEl); }
+      if (ciNumberEl) { ciNumberEl.value = ''; trigger(ciNumberEl); }
+      if (preUpload) resetUploaded(preUpload);
+      postUploads.forEach(resetUploaded);
+      // Clear inline errors if any
+      const amountError = document.getElementById('amount-error');
+      if (amountError) amountError.hidden = true;
+      const amountWrap = document.querySelector('.amount-input');
+      if (amountWrap) amountWrap.classList.remove('is-error');
+      document.querySelectorAll('.fee-options--deduct .fee-option .fee-option__content .muted').forEach(el => el.classList.remove('is-error'));
+      if (typeof validateSendForm === 'function') validateSendForm();
+    });
+  })();
 }
 
 // Run immediately if DOM is already parsed (defer), otherwise wait
@@ -588,6 +687,38 @@ if (document.readyState === 'loading') {
 } else {
   initSendPayment();
 }
+
+// Confirm modal actions
+(function initConfirmModalActions() {
+  const modal = document.getElementById('confirmPaymentModal');
+  if (!modal) return;
+  const confirm = modal.querySelector('[data-confirm-send]');
+  const input = document.getElementById('authCodeInput');
+  const clearBtn = document.getElementById('authCodeClear');
+  const err = document.getElementById('authCodeError');
+  function syncAuthState() {
+    const v = (input && input.value || '').trim();
+    const ok = /^\d{6}$/.test(v);
+    if (confirm) confirm.disabled = !ok;
+    if (err) err.hidden = ok;
+  }
+  if (input) {
+    input.addEventListener('input', syncAuthState, { passive: true });
+    input.addEventListener('change', syncAuthState);
+  }
+  if (clearBtn && input) {
+    clearBtn.addEventListener('click', () => { input.value = ''; syncAuthState(); input.focus(); });
+  }
+  if (confirm) {
+    confirm.addEventListener('click', () => {
+      // Close modal
+      modal.setAttribute('aria-hidden', 'true');
+      document.documentElement.classList.remove('modal-open');
+      document.body.classList.remove('modal-open');
+      alert('Payment submitted (demo)');
+    });
+  }
+})();
 
 // Select Counterparty page behavior
 (function initSelectCounterparty() {
