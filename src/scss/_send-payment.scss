@@ -687,6 +687,7 @@
   font-size: 12px;
   text-align: center;
   margin-top: 8px;
+  font-weight: 600;
 }
 
 // Supporting documents
@@ -940,9 +941,9 @@
 }
 .amount-meta__text {
   font-family: $font-family-sans;
-  font-weight: 500;
+  font-weight: 600;
   font-size: 14px;
-  color: #BCBDBD;
+  color: #73A2F5;
 }
 .amount-meta.is-error .amount-meta__text {
   color: $danger-500;
