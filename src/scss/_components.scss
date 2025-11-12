@@ -467,6 +467,38 @@
 .m-clear.is-hidden { display: none !important; }
 .m-error { color: $danger-500; font: 700 14px $font-family-sans; }
 
+// Loading modal
+.modal-loading .modal-content {
+  background: transparent;
+  box-shadow: none;
+}
+.loading-spinner {
+  width: 56px;
+  height: 56px;
+  border: 4px solid rgba(0,0,0,0.1);
+  border-top-color: #3F78FF;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+// Receipt page quick styles
+.page--receipt .container { display: grid; place-items: center; padding: 40px 16px; }
+.receipt { display: grid; gap: 20px; max-width: 720px; width: 100%; text-align: center; margin: 0 auto; }
+.receipt__icon img { width: 72px; height: 72px; }
+.receipt__title { font-family: $font-family-sans; font-weight: 700; font-size: 20px; color: $text-primary; margin: 0; }
+.receipt__card { text-align: left; }
+.receipt__row, .receipt__subrow { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid $border-color; }
+.receipt__subrow { padding: 6px 0; font-size: 14px; }
+.receipt__row:last-child { border-bottom: none; }
+.receipt__row--em strong { font-size: 18px; }
+.receipt__foot { margin-top: 6px; }
+.receipt__actions { display: grid; justify-content: center; }
+@media (min-width: $bp-desktop) {
+  .receipt__title { font-size: 22px; }
+}
 // Modal text and link styles
 .m-step-title {
   font-family: $font-family-sans;

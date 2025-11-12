@@ -781,11 +781,26 @@ if (document.readyState === 'loading') {
   }
   if (confirm) {
     confirm.addEventListener('click', () => {
-      // Close modal
+      // Close confirm modal
       modal.setAttribute('aria-hidden', 'true');
       document.documentElement.classList.remove('modal-open');
       document.body.classList.remove('modal-open');
-      alert('Payment submitted (demo)');
+      // Show loading modal for 2s then redirect
+      const loading = document.getElementById('loadingModal');
+      if (loading) {
+        loading.setAttribute('aria-hidden', 'false');
+        document.documentElement.classList.add('modal-open');
+        document.body.classList.add('modal-open');
+        try {
+          const y = window.scrollY || window.pageYOffset || 0;
+          document.body.dataset.scrollY = String(y);
+          document.body.style.top = `-${y}px`;
+          document.body.classList.add('modal-locked');
+        } catch (_) {}
+      }
+      setTimeout(() => {
+        window.location.href = 'payment-submitted.html';
+      }, 2000);
     });
   }
   // Ensure initial visibility of clear matches content
