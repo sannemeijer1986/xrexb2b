@@ -73,6 +73,11 @@
   border-bottom-width: 1px;
   box-shadow: inset 0 -1.5px 0 0 #0184FF;
 }
+.amount-input.is-error {
+  border-bottom-color: $border-color;
+  border-bottom-width: 1px;
+  box-shadow: inset 0 -1.5px 0 0 $danger-500;
+}
 // Remove native focus styles for amount input specifically
 .amount-input input:focus {
   outline: none;
@@ -860,6 +865,18 @@
   color: $primary-600;
 }
 .upload-item__badge img { width: 20px; height: 20px; display: block; }
+.deduct-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 8px;
+}
+.form-error {
+  font-family: $font-family-sans;
+  font-weight: 600;
+  font-size: 14px;
+  color: $danger-500;
+}
 .deduct-rate {
   text-align: right;
   font-family: $font-family-sans;
@@ -880,6 +897,9 @@
 
 .upload-item__meta .muted {
   font-weight: 600; font-size: 14px; color: $text-secondary;
+}
+.fee-option__content .muted.is-error {
+  color: $danger-500;
 }
 
 // Uploaded state styling
@@ -915,6 +935,10 @@
   font-weight: 500;
   font-size: 14px;
   color: #BCBDBD;
+}
+.amount-meta.is-error .amount-meta__text {
+  color: $danger-500;
+  font-weight: 600;
 }
 .amount-meta__icon {
   width: 16px;

@@ -117,7 +117,7 @@
                   </div>
                   <div class="amount-meta">
                     <span class="amount-meta__text">Limit per tx: {$value} USD</span>
-                    <img class="amount-meta__icon" src="assets/icon_info.svg" width="16" height="16" alt="">
+                    <!-- <img class="amount-meta__icon" src="assets/icon_info.svg" width="16" height="16" alt=""> -->
                   </div>
                 </div>
                 <!-- <div class="form__field form__field--currency">
@@ -161,7 +161,10 @@
                       <span class="fee-option__check" aria-hidden="true"></span>
                     </label>
                   </div>
-                  <div id="deduct-rate" class="deduct-rate" hidden>Rate: 1 USDT = 1 USD</div>
+                  <div class="deduct-footer">
+                    <div id="amount-error" class="form-error" hidden>Amount payable exceeds available balance</div>
+                    <div id="deduct-rate" class="deduct-rate" hidden>Rate: 1 USDT = 1 USD</div>
+                  </div>
                 </div>
               </div>
 

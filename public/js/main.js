@@ -266,6 +266,46 @@ function initSendPayment() {
     if (deductRate) {
       deductRate.hidden = payerCurrency !== 'USDT';
     }
+    // Amount per-tx limit inline error + input underline color
+    const PER_TX_LIMIT = 1000000;
+    const amountOverPerTx = amount >= PER_TX_LIMIT;
+    const amountMeta = document.querySelector('.amount-meta');
+    const amountMetaText = amountMeta?.querySelector('.amount-meta__text');
+    const amountInputWrap = document.querySelector('.amount-input');
+    if (amountMeta) {
+      amountMeta.classList.toggle('is-error', amountOverPerTx);
+    }
+    if (amountMetaText) {
+      amountMetaText.textContent = amountOverPerTx
+        ? `Amount payable exceeds ${formatAmount(PER_TX_LIMIT, 'USD')} limit per tx`
+        : `Limit per tx: ${formatAmount(PER_TX_LIMIT, 'USD')}`;
+    }
+    // Inline error for amount exceeding selected account balance
+    const amountError = document.getElementById('amount-error');
+    const selectedRadio = Array.from(document.querySelectorAll('.fee-options--deduct input[type="radio"]')).find(r => r.checked);
+    const balanceText = selectedRadio?.closest('.fee-option')?.querySelector('.fee-option__content .muted')?.textContent || '';
+    const balanceNum = (() => {
+      const m = balanceText.replace(/[^0-9.]/g, '');
+      return parseFloat(m || '0') || 0;
+    })();
+    const overBalance = amount > balanceNum;
+    if (amountError) {
+      amountError.hidden = !overBalance;
+      if (overBalance) {
+        amountError.textContent = `Amount payable exceeds available ${payerCurrency} balance`;
+      }
+    }
+    // Clear previous error highlights, then mark selected
+    document.querySelectorAll('.fee-options--deduct .fee-option .fee-option__content .muted').forEach(el => el.classList.remove('is-error'));
+    if (overBalance && selectedRadio) {
+      const small = selectedRadio.closest('.fee-option')?.querySelector('.fee-option__content .muted');
+      if (small) small.classList.add('is-error');
+    }
+    // Amount input red underline if any error active
+    const anyAmountError = amountOverPerTx || overBalance;
+    if (amountInputWrap) {
+      amountInputWrap.classList.toggle('is-error', anyAmountError);
+    }
 
     if (summaryRows.subtotal) {
       const v = summaryRows.subtotal.querySelector('strong');
@@ -445,6 +485,11 @@ function initSendPayment() {
         const head = raw.slice(0, firstDot);
         const tail = raw.slice(firstDot + 1).replace(/\./g, '');
         raw = `${head}.${tail}`;
+      }
+      // Cap to maximum allowed numeric value (1,000,000)
+      const MAX_CAP = 1000000;
+      if (raw !== '' && !isNaN(parseFloat(raw)) && parseFloat(raw) > MAX_CAP) {
+        raw = String(MAX_CAP);
       }
       if (raw === '') {
         input.value = '';
