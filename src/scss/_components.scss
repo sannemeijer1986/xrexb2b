@@ -510,12 +510,31 @@
 .receipt__subrow { padding: 6px 0; font-size: 16px; }
 .receipt__subrow strong { font-weight: 500; font-size: 16px; }
 .receipt__divider { height: 1px; background: $border-color; margin: 16px 0; }
-.receipt__row--em strong { font-size: 18px; font-weight: 700; }
+.receipt__row--em .muted { color: $text-primary; font-weight: 700; font-size: 18px; }
+.receipt__row--em strong { color: $text-primary; font-size: 18px; font-weight: 700; }
 .receipt__foot { margin-top: 6px; }
 .receipt__actions { display: grid; }
 .receipt__actions .btn { width: 100%; }
 /* Status highlight */
 #statusVal { color: #73A2F5; font-weight: 700; }
+.receipt__rcv { display: inline-flex; align-items: center; gap: 8px; }
+.receipt__badge {
+  width: 24px;
+  height: 24px;
+  border-radius: 999px;
+  background: #EEEEEE;
+  display: inline-grid;
+  place-items: center;
+}
+.receipt__badge img { width: 16px; height: 16px; display: block; }
+.receipt__note {
+  text-align: right;
+  color: $text-placeholder;
+  font-family: $font-family-sans;
+  font-weight: 600;
+  font-size: 12px;
+  margin-top: 2px;
+}
 @media (min-width: $bp-desktop) {
   .receipt__title { font-size: 22px; }
 }

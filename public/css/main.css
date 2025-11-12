@@ -1345,9 +1345,8 @@ textarea {
 }
 
 .receipt__subrow {
-  padding: 6px 0 0 24px;
+  padding: 6px 0;
   font-size: 16px;
-  margin-bottom: 10px;
 }
 
 .receipt__subrow strong {
@@ -1361,7 +1360,14 @@ textarea {
   margin: 16px 0;
 }
 
+.receipt__row--em .muted {
+  color: #0f172a;
+  font-weight: 700;
+  font-size: 18px;
+}
+
 .receipt__row--em strong {
+  color: #0f172a;
   font-size: 18px;
   font-weight: 700;
 }
@@ -1382,6 +1388,36 @@ textarea {
 #statusVal {
   color: #73A2F5;
   font-weight: 700;
+}
+
+.receipt__rcv {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.receipt__badge {
+  width: 24px;
+  height: 24px;
+  border-radius: 999px;
+  background: #EEEEEE;
+  display: inline-grid;
+  place-items: center;
+}
+
+.receipt__badge img {
+  width: 16px;
+  height: 16px;
+  display: block;
+}
+
+.receipt__note {
+  text-align: right;
+  color: #94a3b8;
+  font-family: "Manrope", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+  font-weight: 600;
+  font-size: 12px;
+  margin-top: 2px;
 }
 
 @media (min-width: 1280px) {

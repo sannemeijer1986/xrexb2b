@@ -802,7 +802,7 @@ if (document.readyState === 'loading') {
         const payeeGets = amount - receiverFee;
         const fmt = (v, cur) => `${Number(v||0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ${cur}`;
         const data = {
-          receiverName: getText('.summary-recipient .recipient-select__title'),
+          receiverName: (getText('.summary-recipient .recipient-select__title') || '').replace(/^To\\s+/,''),
           receiverBank: getText('.summary-recipient .recipient-select__subtitle'),
           amountPayableFmt: fmt(amount, 'USD'),
           deductedFrom: `${payerCurrency} account`,
