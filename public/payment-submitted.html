@@ -45,7 +45,7 @@
             </span>
             </div>
             <div class="receipt__row">
-              <span class="muted">Bank account</span>
+              <span class="muted">To bank account</span>
             <strong id="rcvBank">(CIMB) 012-345678-9</strong>
             </div>
             <div class="receipt__row">
@@ -55,6 +55,10 @@
             <div class="receipt__row">
               <span class="muted">Deducted from</span>
             <strong id="deductedFrom">USDT account</strong>
+            </div>
+            <div class="receipt__row" id="convRow" hidden>
+              <span class="muted">Conversion rate</span>
+              <strong id="convVal">1 USDT = 1 USD</strong>
             </div>
             <div class="receipt__row">
               <span class="muted">Service fee</span>
@@ -128,6 +132,18 @@
         set('receiverShareAmt', d.receiverShareAmt || '');
         set('toBeDeducted', d.toBeDeducted || '');
         set('receiverGets', d.receiverGets || '');
+        // Conversion: show only if present and deducted-from is not USD account
+        var convRow = document.getElementById('convRow');
+        var df = (d.deductedFrom || '').toUpperCase();
+        var shouldShowConv = !!d.conversion && !/USD/.test(df);
+        if (convRow) {
+          if (shouldShowConv) {
+            set('convVal', d.conversion);
+            convRow.hidden = false;
+          } else {
+            convRow.hidden = true;
+          }
+        }
         set('dtVal', d.dateTime || '');
         set('statusVal', d.status || 'Processing');
       } catch (_) {}

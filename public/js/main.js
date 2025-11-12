@@ -139,7 +139,7 @@ function initSendPayment() {
     nature: findSummaryRow('Nature'),
     purpose: findSummaryRow('Purpose'),
     youPay: findSummaryRow('To be deducted'),
-    payeeReceives: findSummaryRow('Receiver gets'),
+    payeeReceives: findSummaryRow('Receiver gets*'),
     conversion: findSummaryRow('Conversion rate'),
   };
 
@@ -230,8 +230,8 @@ function initSendPayment() {
   const setServiceBreakdown = (payerPctAbs, payeePctAbs) => {
     const payerLabel = summaryRows.servicePayer && summaryRows.servicePayer.querySelector('.muted');
     const payeeLabel = summaryRows.servicePayee && summaryRows.servicePayee.querySelector('.muted');
-    if (payerLabel) payerLabel.textContent = `${payerPctAbs}% paid by you`;
-    if (payeeLabel) payeeLabel.textContent = `${payeePctAbs}% paid by receiver`;
+    if (payerLabel) payerLabel.textContent = `${Number(payerPctAbs).toFixed(2)}% paid by you`;
+    if (payeeLabel) payeeLabel.textContent = `${Number(payeePctAbs).toFixed(2)}% paid by receiver`;
   };
 
   const updateSummary = () => {
@@ -296,8 +296,9 @@ function initSendPayment() {
       amountError.hidden = !overBalance;
       if (overBalance) {
         // Compose message: show Amount payable + X% fee (computed total) exceeds avail <currency> balance
-        const pct = (typeof payerPctAbs === 'number' && payerPctAbs > 0) ? payerPctAbs : 0;
-        const label = pct > 0 ? `Amount payable + ${pct}% fee` : 'Amount payable';
+        const pctNum = (typeof payerPctAbs === 'number' && payerPctAbs > 0) ? payerPctAbs : 0;
+        const pctStr = Number(pctNum).toFixed(2);
+        const label = pctNum > 0 ? `Amount payable + ${pctStr}% fee` : 'Amount payable';
         const totalStr = Number(youPay || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
         amountError.textContent = `${label} (${totalStr}) exceeds avail ${payerCurrency} balance`;
       }
@@ -806,13 +807,14 @@ if (document.readyState === 'loading') {
           receiverBank: getText('.summary-recipient .recipient-select__subtitle'),
           amountPayableFmt: fmt(amount, 'USD'),
           deductedFrom: `${payerCurrency} account`,
-          feePct: '1%',
-          payerShareLabel: `${Math.round(payerRate*1000)/10}% paid by you`,
+          feePct: `${(feeRate*100).toFixed(2)}%`,
+          payerShareLabel: `${(payerRate*100).toFixed(2)}% paid by you`,
           payerShareAmt: fmt(payerFee, payerCurrency),
-          receiverShareLabel: `${Math.round(receiverRate*1000)/10}% paid by receiver`,
+          receiverShareLabel: `${(receiverRate*100).toFixed(2)}% paid by receiver`,
           receiverShareAmt: fmt(receiverFee, 'USD'),
           toBeDeducted: fmt(youPay, payerCurrency),
           receiverGets: fmt(payeeGets, 'USD'),
+          conversion: payerCurrency !== 'USD' ? `1 ${payerCurrency} = 1 USD` : '',
           dateTime: new Date().toLocaleString('en-GB', { hour12: false }),
           status: 'Processing',
         };
