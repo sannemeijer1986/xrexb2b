@@ -631,6 +631,17 @@ function initSendPayment() {
           document.body.style.top = `-${y}px`;
           document.body.classList.add('modal-locked');
         } catch (_) {}
+        // Reset 2FA input UI on open
+        try {
+          const uiInput = document.getElementById('unlinkCodeInput');
+          const uiConfirm = document.getElementById('unlinkConfirm');
+          const uiErr = document.getElementById('unlinkCodeError');
+          const uiClear = document.getElementById('unlinkClearBtn');
+          if (uiInput) uiInput.value = '';
+          if (uiConfirm) uiConfirm.disabled = true;
+          if (uiErr) uiErr.hidden = true;
+          if (uiClear) uiClear.hidden = true;
+        } catch (_) {}
       }
     });
     // Desktop hover tooltip when inactive
@@ -759,6 +770,7 @@ if (document.readyState === 'loading') {
     const ok = /^\d{6}$/.test(v);
     if (confirm) confirm.disabled = !ok;
     if (err) err.hidden = ok;
+    if (clearBtn) clearBtn.hidden = v.length === 0;
   }
   if (input) {
     input.addEventListener('input', syncAuthState, { passive: true });
@@ -776,6 +788,8 @@ if (document.readyState === 'loading') {
       alert('Payment submitted (demo)');
     });
   }
+  // Ensure initial visibility of clear matches content
+  syncAuthState();
 })();
 
 // Select Counterparty page behavior

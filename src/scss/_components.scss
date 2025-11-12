@@ -324,14 +324,14 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 20px 24px;
+  padding: 32px 24px;
   border-bottom: 1px solid $border-color;
 }
 .modal-header h2 {
   margin: 0;
-  font-family: $font-family-sans;
-  font-weight: 800;
-  font-size: 24px;
+  font-family: $font-sora;
+  font-weight: 700;
+  font-size: 20px;
   color: $text-primary;
 }
 .modal-close {
@@ -423,10 +423,10 @@
 .mi-icon { width: 16px; height: 16px; display: inline-block; background: url('../assets/icon_info.svg') no-repeat center/16px 16px; flex: 0 0 16px; }
 .m-field { display: grid; gap: 8px; }
 .m-label { font: 700 14px $font-family-sans; color: $text-secondary; }
-.m-input-row { display: grid; grid-template-columns: 1fr auto; gap: 8px; }
+.m-input-row { display: grid; grid-template-columns: 1fr; gap: 8px; position: relative; }
 .m-input {
   height: 60px;
-  padding: 16px 16px;
+  padding: 16px 44px 16px 16px;
   border: 1px solid $border-color;
   border-radius: $radius-md;
   font-family: $font-family-sans;
@@ -437,7 +437,20 @@
   text-align: left;
 }
 @media (min-width: $bp-desktop) { .m-input { height: 74px; } }
-.m-clear { height: 44px; padding: 0 12px; border-radius: 8px; border: 1px solid $border-color; background:#fff; }
+.m-clear {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 24px; height: 24px;
+  padding: 0;
+  border-radius: 6px;
+  border: none;
+  background: transparent;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
 .m-error { color: $danger-500; font: 700 14px $font-family-sans; }
 
 // Modal text and link styles
@@ -473,6 +486,13 @@ body.modal-locked {
     border: none;
     box-shadow: none;
     padding: 0;
+  }
+}
+
+
+@media (min-width: $bp-desktop) {
+  .modal-wrapper, .modal-content {
+    min-height: 500px;
   }
 }
 
