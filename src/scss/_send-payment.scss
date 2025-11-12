@@ -117,6 +117,10 @@
   grid-template-columns: 1fr auto;
   align-items: end;
   margin-bottom: -16px;
+
+  .form__field {
+    gap: 12px;
+  }
 }
 .form__row--amount .form__field--currency {
   width: 240px;
@@ -868,8 +872,10 @@
 .deduct-footer {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  margin-top: 8px;
+  gap: 8px;
+  // Let the error text occupy remaining space; rate aligns to the right
+  .form-error { flex: 1 1 auto; }
+  .deduct-rate { margin-left: auto; }
 }
 .form-error {
   font-family: $font-family-sans;
@@ -882,6 +888,7 @@
   font-family: $font-family-sans;
   font-weight: 600;
   font-size: 14px;
+  width: 25%;
   color: #73A2F5;
 }
 .upload-item__meta {
