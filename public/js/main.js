@@ -295,11 +295,11 @@ function initSendPayment() {
     if (amountError) {
       amountError.hidden = !overBalance;
       if (overBalance) {
-        // Use payer's share of the 1% service fee for the message
-        const plusPart = (typeof payerPctAbs === 'number' && payerPctAbs > 0)
-          ? ` (+ ${payerPctAbs}% fees)`
-          : '';
-        amountError.textContent = `Amount payable${plusPart} exceeds available ${payerCurrency} balance`;
+        // Compose message: show Amount payable + X% fee (computed total) exceeds avail <currency> balance
+        const pct = (typeof payerPctAbs === 'number' && payerPctAbs > 0) ? payerPctAbs : 0;
+        const label = pct > 0 ? `Amount payable + ${pct}% fee` : 'Amount payable';
+        const totalStr = Number(youPay || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        amountError.textContent = `${label} (${totalStr}) exceeds avail ${payerCurrency} balance`;
       }
     }
     // Clear previous error highlights, then mark selected
@@ -743,10 +743,10 @@ if (document.readyState === 'loading') {
 (function initConfirmModalActions() {
   const modal = document.getElementById('confirmPaymentModal');
   if (!modal) return;
-  const confirm = modal.querySelector('[data-confirm-send]');
-  const input = document.getElementById('authCodeInput');
-  const clearBtn = document.getElementById('authCodeClear');
-  const err = document.getElementById('authCodeError');
+  const confirm = document.getElementById('unlinkConfirm');
+  const input = document.getElementById('unlinkCodeInput');
+  const clearBtn = document.getElementById('unlinkClearBtn');
+  const err = document.getElementById('unlinkCodeError');
   function syncAuthState() {
     const v = (input && input.value || '').trim();
     const ok = /^\d{6}$/.test(v);

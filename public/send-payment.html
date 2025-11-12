@@ -163,7 +163,7 @@
                   </div>
                   <div class="deduct-footer">
                     <div id="amount-error" class="form-error" hidden>Amount payable exceeds available balance</div>
-                    <div id="deduct-rate" class="deduct-rate" hidden>Rate: 1 USDT = 1 USD</div>
+                    <div id="deduct-rate" class="deduct-rate" hidden>1 USDT = 1 USD</div>
                   </div>
                 </div>
               </div>
@@ -376,40 +376,40 @@
     </main>
 
     <!-- Modal: Confirm send -->
-    <div id="confirmPaymentModal" class="modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="confirmPaymentTitle">
-      <div class="modal__dialog modal__dialog--lg">
-        <div class="modal__content">
-          <div class="modal__header">
-            <h2 id="confirmPaymentTitle" class="modal__title">Confirm send</h2>
-            <button class="modal__close" data-modal-close aria-label="Close modal">
-              <img src="assets/icon_modal_close.svg" width="24" height="24" alt="">
+    <div id="confirmPaymentModal" class="modal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="unlinkTitle">
+      <div class="modal-wrapper">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h2 id="unlinkTitle">Unlink Telegram Bot</h2>
+            <button class="modal-close" data-modal-close aria-label="Close modal">
+              <img src="assets/icon_modal_close.svg" width="24" height="24" alt="close">
             </button>
           </div>
-          <div class="modal__body">
+          <div class="modal-body">
             <div class="m-step">
-              <div class="m-step-title">Enter your authentication code to confirm payment</div>
+              <div class="m-step-title">Enter your authentication code to confirm unlinking</div>
               <div class="m-desc">Copy the 6‑digit code from your authenticator app and enter it below.</div>
               <div class="m-info">
                 <span class="mi-icon" aria-hidden="true"></span>
-                <span>For your security, a 6‑digit code from your authenticator app is required.</span>
+                <span>Once unlinked, you will no longer be able to access XREX Pay features in Telegram.</span>
               </div>
               <div class="m-field">
                 <div class="m-field-group">
-                  <label class="m-label" for="authCodeInput">Authentication code</label>
+                  <label class="m-label" for="unlinkCodeInput">Authentication code</label>
                   <div class="m-input-row">
-                    <input id="authCodeInput" class="m-input" type="text" inputmode="numeric" autocomplete="one-time-code" placeholder="Enter the authentication code" maxlength="6" />
-                    <button id="authCodeClear" class="m-clear" type="button" aria-label="Clear input">
+                    <input id="unlinkCodeInput" class="m-input" type="text" inputmode="numeric" autocomplete="one-time-code" placeholder="Enter the authentication code" maxlength="6">
+                    <button id="unlinkClearBtn" class="m-clear" type="button" aria-label="Clear input">
                       <img src="assets/icon_close.svg" width="14" height="14" alt="">
                     </button>
                   </div>
                 </div>
-                <div id="authCodeError" class="m-error" aria-live="polite" hidden>Incorrect authentication code</div>
+                <div id="unlinkCodeError" class="m-error" aria-live="polite" hidden>Incorrect authentication code</div>
               </div>
             </div>
           </div>
-          <div class="modal__footer">
-            <button type="button" class="btn btn--secondary btn--md" data-modal-close>Cancel</button>
-            <button id="authCodeConfirm" type="button" class="btn btn--primary btn--md" data-confirm-send disabled>Confirm</button>
+          <div class="modal-footer">
+            <button class="btn btn-secondary btn-md" data-modal-close id="unlinkCancel">Cancel</button>
+            <button class="btn btn-primary btn-md" id="unlinkConfirm" disabled>Unlink</button>
           </div>
         </div>
       </div>
