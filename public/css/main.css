@@ -1073,11 +1073,7 @@ textarea {
   justify-content: flex-end;
 }
 
-.modal-footer .btn {
-  height: 52px;
-  font-size: 16px;
-  border-radius: 8px;
-}
+.modal-footer .btn { /* size will follow btn modifiers; mobile sizes set in media rule below */ }
 
 .modal__content {
   display: flex;
@@ -1259,6 +1255,9 @@ textarea {
   .modal-footer .btn {
     flex: 1 1 0%;
     width: auto;
+    height: 52px;
+    font-size: 16px;
+    border-radius: 8px;
   }
 }
 .page--home .assets {
