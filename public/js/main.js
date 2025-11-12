@@ -108,9 +108,11 @@ function initSendPayment() {
   const purposeSelect = document.getElementById('purpose');
   let lastNatureVal = natureSelect ? natureSelect.value : '';
 
+  const summaryContainer = document.querySelector('.card--summary');
   const findSummaryRow = (labelText) => {
     let row = null;
-    document.querySelectorAll('.summary-pair, .summary-pair.summary-pair--large').forEach((pair) => {
+    const scope = summaryContainer || document;
+    scope.querySelectorAll('.summary-pair, .summary-pair.summary-pair--large').forEach((pair) => {
       const labelEl = pair.querySelector('.muted');
       if (labelEl && labelEl.textContent.trim().toLowerCase() === labelText.toLowerCase()) {
         row = pair;
@@ -120,7 +122,8 @@ function initSendPayment() {
   };
   const findSummaryRowStartsWith = (prefixText) => {
     let row = null;
-    document.querySelectorAll('.summary-pair').forEach((pair) => {
+    const scope = summaryContainer || document;
+    scope.querySelectorAll('.summary-pair').forEach((pair) => {
       const labelEl = pair.querySelector('.muted');
       if (labelEl && labelEl.textContent.trim().toLowerCase().startsWith(prefixText.toLowerCase())) {
         row = pair;
@@ -131,9 +134,9 @@ function initSendPayment() {
 
   const summaryRows = {
     subtotal: findSummaryRow('Your subtotal'),
-    serviceTitle: document.querySelector('.summary-pair[data-summary="service-title"]'),
-    servicePayer: document.querySelector('[data-summary="service-payer"]'),
-    servicePayee: document.querySelector('[data-summary="service-payee"]'),
+    serviceTitle: (summaryContainer || document).querySelector('.summary-pair[data-summary="service-title"]'),
+    servicePayer: (summaryContainer || document).querySelector('[data-summary="service-payer"]'),
+    servicePayee: (summaryContainer || document).querySelector('[data-summary="service-payee"]'),
     amountPayable: findSummaryRow('Amount payable'),
     deductFrom: findSummaryRow('Deduct from'),
     nature: findSummaryRow('Nature'),
