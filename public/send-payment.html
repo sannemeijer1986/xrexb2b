@@ -163,7 +163,10 @@
                   </div>
                   <div class="deduct-footer">
                     <div id="amount-error" class="form-error" hidden>Amount payable exceeds available balance</div>
-                    <div id="deduct-rate" class="deduct-rate" hidden>1 USDT = 1 USD</div>
+                    <div id="deduct-rate" class="deduct-rate" hidden>
+                      <span class="deduct-rate__sub">USDT will be converted to USD</span>
+                      <span class="deduct-rate__main">Rate: 1 USDT = 1 USD</span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -334,7 +337,10 @@
 
               <!-- Amount and fees breakdown panel -->
 
-              <span class="summary-section-title">Amount and fees</span>
+              <div class="summary-section-head">
+                <span class="summary-section-title">Amount and fees</span>
+                <button id="fees-details-open" type="button" class="summary-title-link">View details</button>
+              </div>
               <div class="summary-box">
                 <div class="summary-pair">
                   <span class="muted">Amount payable</span>
@@ -349,8 +355,8 @@
                   <strong>1 USDT = 1 USD</strong>
                 </div>
                 <div class="summary-pair" data-summary="service-title">
-                  <span class="muted">Service fees</span>
-                  <strong>1%</strong>
+                  <span class="muted">Service fee</span>
+                  <strong>1.00%</strong>
                 </div>
                 <div class="summary-pair summary-pair--sub" data-summary="service-payer">
                   <span class="muted">0% paid by you</span>
@@ -378,6 +384,48 @@
         </section>
       </div>
     </main>
+
+    <!-- Modal: Fees Details -->
+    <div id="feesDetailsModal" class="modal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="feesDetailsTitle">
+      <div class="modal-wrapper">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h2 id="feesDetailsTitle">Amount and fees details</h2>
+            <button class="modal-close" data-modal-close aria-label="Close modal">
+              <img src="assets/icon_close.svg" width="24" height="24" alt="close">
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="summary-box">
+              <div class="summary-pair">
+                <span class="muted">Amount payable</span>
+                <strong id="fd-subtotal">-</strong>
+              </div>
+              <div class="summary-pair">
+                <span class="muted" id="fd-payer-label">Fee paid by you</span>
+                <strong id="fd-payer">-</strong>
+              </div>
+              <div class="summary-pair">
+                <span class="muted" id="fd-receiver-label">Fee paid by receiver</span>
+                <strong id="fd-receiver">-</strong>
+              </div>
+              <div class="summary-separator"></div>
+              <div class="summary-pair">
+                <span class="muted">To be deducted</span>
+                <strong id="fd-youpay">-</strong>
+              </div>
+              <div class="summary-pair">
+                <span class="muted">Receiver gets</span>
+                <strong id="fd-getspaid">-</strong>
+              </div>
+            </div>
+          </div>
+          <div class="modal-actions">
+            <button type="button" class="btn btn--secondary btn--md" data-modal-close>Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <!-- Modal: Confirm send -->
     <div id="confirmPaymentModal" class="modal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="unlinkTitle">

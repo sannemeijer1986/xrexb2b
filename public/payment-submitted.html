@@ -78,7 +78,8 @@
             <strong id="toBeDeducted">101,000.00 USDT</strong>
             </div>
             <div class="receipt__row receipt__row--em">
-              <span class="muted">Receiver gets</span>
+              <span class="muted">Receiver gets ≈
+              </span>
             <strong id="receiverGets">100,000.00 USD</strong>
             </div>
           <div class="receipt__note">Receiver is billed in US Dollar</div>
@@ -132,16 +133,23 @@
         set('receiverShareAmt', d.receiverShareAmt || '');
         set('toBeDeducted', d.toBeDeducted || '');
         set('receiverGets', d.receiverGets || '');
-        // Conversion: show only if present and deducted-from is not USD account
+        // Conversion: show only when deducted-from is NOT USD account.
+        // If conversion missing but currency suggests non-USD, synthesize a default message.
         var convRow = document.getElementById('convRow');
-        var df = (d.deductedFrom || '').toUpperCase();
-        var shouldShowConv = !!d.conversion && !/USD/.test(df);
+        var dfText = (d.deductedFrom || '');
+        var m = dfText.match(/^\\s*([A-Za-z]+)\\s+account/i);
+        var payerCur = m ? m[1].toUpperCase() : '';
+        var isUsd = payerCur === 'USD';
+        var convMsg = d.conversion || (payerCur && !isUsd ? `1 ${payerCur} = 1 USD` : '');
         if (convRow) {
-          if (shouldShowConv) {
-            set('convVal', d.conversion);
+          if (convMsg && !isUsd) {
+            set('convVal', convMsg);
             convRow.hidden = false;
+            convRow.style.display = '';
           } else {
             convRow.hidden = true;
+            convRow.style.display = 'none';
+            set('convVal', '');
           }
         }
         set('dtVal', d.dateTime || '');

@@ -300,7 +300,7 @@ function initSendPayment() {
         const pctStr = Number(pctNum).toFixed(2);
         const label = pctNum > 0 ? `Amount payable + ${pctStr}% fee` : 'Amount payable';
         const totalStr = Number(youPay || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-        amountError.textContent = `${label} (${totalStr}) exceeds avail ${payerCurrency} balance`;
+        amountError.textContent = `${label} (${totalStr}) exceeds balance`;
       }
     }
     // Clear previous error highlights, then mark selected
@@ -322,7 +322,9 @@ function initSendPayment() {
     if (summaryRows.serviceTitle) {
       // Only show the label; totals are displayed in the breakdown rows
       const lbl = summaryRows.serviceTitle.querySelector('.muted');
-      if (lbl) lbl.textContent = 'Service fees';
+      if (lbl) lbl.textContent = 'Service fee';
+      const pct = summaryRows.serviceTitle.querySelector('strong');
+      if (pct) pct.textContent = `${(feeRate * 100).toFixed(2)}%`;
     }
     if (summaryRows.servicePayer) {
       const v = summaryRows.servicePayer.querySelector('strong');
@@ -361,6 +363,17 @@ function initSendPayment() {
         summaryRows.conversion.style.display = 'none';
       }
     }
+    // Update Fees Details modal fields when present
+    const setText = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+    setText('fd-subtotal', formatAmount(subtotal, payeeCurrency)); // subtotal is in USD
+    setText('fd-payer', formatAmount(payerFee, payerCurrency));
+    setText('fd-receiver', formatAmount(receiverFee, payeeCurrency));
+    setText('fd-youpay', formatAmount(youPay, payerCurrency));
+    setText('fd-getspaid', formatAmount(payeeGets, payeeCurrency));
+    const payerPctStr = (payerRate * 100).toFixed(2);
+    const recvPctStr  = (receiverRate * 100).toFixed(2);
+    setText('fd-payer-label', `${payerPctStr}% paid by you`);
+    setText('fd-receiver-label', `${recvPctStr}% paid by receiver`);
   };
 
   const updateNaturePurpose = () => {
@@ -589,6 +602,24 @@ function initSendPayment() {
   };
   initUploadItems();
 
+  // Open fees details modal
+  const feesOpen = document.getElementById('fees-details-open');
+  if (feesOpen) {
+    feesOpen.addEventListener('click', (e) => {
+      e.preventDefault();
+      const modal = document.getElementById('feesDetailsModal');
+      if (!modal) return;
+      modal.setAttribute('aria-hidden', 'false');
+      document.documentElement.classList.add('modal-open');
+      document.body.classList.add('modal-open');
+      try {
+        const y = window.scrollY || window.pageYOffset || 0;
+        document.body.dataset.scrollY = String(y);
+        document.body.style.top = `-${y}px`;
+        document.body.classList.add('modal-locked');
+      } catch (_) {}
+    });
+  }
   // Open confirm modal on button click (button is outside <form>)
   const confirmTrigger = document.getElementById('confirm-send');
   if (confirmTrigger) {

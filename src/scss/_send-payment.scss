@@ -572,13 +572,46 @@
 }
 
 .summary-section-title {
-  display: flex;
+  display: inline-flex;
   font-size: 16px;
   font-weight: 700;
   color: $text-primary;
+}
+
+.summary-section-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
   margin-bottom: 16px;
   margin-top: 32px;
 }
+
+.summary-title-link {
+  margin-left: 12px;
+  background: none;
+  border: 0;
+  padding: 0;
+  color: #336AFF;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+// Deduct rate helper lines on separate rows
+.deduct-rate {
+  margin-top: 3px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  .deduct-rate__sub,
+  .deduct-rate__main {
+    display: block;
+  }
+}
+
+// Ensure hidden always overrides layout
+.deduct-rate[hidden] { display: none !important; }
 
 .summary-box .summary-pair--sub {
   padding-left: 24px;
@@ -873,7 +906,7 @@
 .upload-item__badge img { width: 20px; height: 20px; display: block; }
 .deduct-footer {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 8px;
   // Let the error text occupy remaining space; rate aligns to the right
   .form-error { flex: 1 1 auto; }
@@ -890,9 +923,20 @@
   font-family: $font-family-sans;
   font-weight: 600;
   font-size: 14px;
-  width: 25%;
-  color: #73A2F5;
+  width: 30%;
 }
+
+.deduct-rate__sub {
+  color: $text-secondary;
+  font-size: 12px;
+  width: 100%;
+}
+
+.deduct-rate__main {
+  color: #73A2F5;
+  width: 100%;
+}
+
 .upload-item__meta {
   display: flex;
   flex-direction: column;

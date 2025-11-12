@@ -2644,12 +2644,45 @@ body.modal-locked {
 }
 
 .summary-section-title {
-  display: flex;
+  display: inline-flex;
   font-size: 16px;
   font-weight: 700;
   color: #0f172a;
+}
+
+.summary-section-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
   margin-bottom: 16px;
   margin-top: 32px;
+}
+
+.summary-title-link {
+  margin-left: 12px;
+  background: none;
+  border: 0;
+  padding: 0;
+  color: #336AFF;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.deduct-rate {
+  margin-top: 3px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.deduct-rate .deduct-rate__sub,
+.deduct-rate .deduct-rate__main {
+  display: block;
+}
+
+.deduct-rate[hidden] {
+  display: none !important;
 }
 
 .summary-box .summary-pair--sub {
@@ -3056,7 +3089,7 @@ body.modal-locked {
 
 .deduct-footer {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 8px;
 }
 .deduct-footer .form-error {
@@ -3078,8 +3111,18 @@ body.modal-locked {
   font-family: "Manrope", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
   font-weight: 600;
   font-size: 14px;
-  width: 25%;
+  width: 30%;
+}
+
+.deduct-rate__sub {
+  color: #797A7B;
+  font-size: 12px;
+  width: 100%;
+}
+
+.deduct-rate__main {
   color: #73A2F5;
+  width: 100%;
 }
 
 .upload-item__meta {
