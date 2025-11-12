@@ -640,7 +640,7 @@ function initSendPayment() {
           if (uiInput) uiInput.value = '';
           if (uiConfirm) uiConfirm.disabled = true;
           if (uiErr) uiErr.hidden = true;
-          if (uiClear) uiClear.hidden = true;
+          if (uiClear) uiClear.classList.add('is-hidden');
         } catch (_) {}
       }
     });
@@ -770,7 +770,7 @@ if (document.readyState === 'loading') {
     const ok = /^\d{6}$/.test(v);
     if (confirm) confirm.disabled = !ok;
     if (err) err.hidden = ok;
-    if (clearBtn) clearBtn.hidden = v.length === 0;
+    if (clearBtn) clearBtn.classList.toggle('is-hidden', v.length === 0);
   }
   if (input) {
     input.addEventListener('input', syncAuthState, { passive: true });

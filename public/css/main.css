@@ -1231,6 +1231,10 @@ textarea {
   height: 20px;
 }
 
+.m-clear.is-hidden {
+  display: none !important;
+}
+
 .m-error {
   color: #ef4444;
   font: 700 14px "Manrope", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;

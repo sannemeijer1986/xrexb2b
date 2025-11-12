@@ -464,6 +464,7 @@
     width: 20px; height: 20px;
   }
 }
+.m-clear.is-hidden { display: none !important; }
 .m-error { color: $danger-500; font: 700 14px $font-family-sans; }
 
 // Modal text and link styles
