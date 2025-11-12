@@ -324,15 +324,23 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 32px 24px;
+  padding: 20px 24px;
   border-bottom: 1px solid $border-color;
+
+  @media screen and (min-width: $bp-desktop) {
+    padding: 32px 24px;
+  }
 }
 .modal-header h2 {
   margin: 0;
   font-family: $font-sora;
   font-weight: 700;
-  font-size: 20px;
+  font-size: 18px;
   color: $text-primary;
+
+  @media screen and (min-width: $bp-desktop) {
+    font-size: 20px;
+  }
 }
 .modal-close {
   border: none;
@@ -422,7 +430,8 @@
 }
 .mi-icon { width: 16px; height: 16px; display: inline-block; background: url('../assets/icon_info.svg') no-repeat center/16px 16px; flex: 0 0 16px; }
 .m-field { display: grid; gap: 8px; }
-.m-label { font: 700 14px $font-family-sans; color: $text-secondary; }
+.m-field-group { display: grid; gap: 16px; }
+.m-label { font: 600 14px $font-family-sans; color: $text-secondary; }
 .m-input-row { display: grid; grid-template-columns: 1fr; gap: 8px; position: relative; }
 .m-input {
   height: 60px;
@@ -450,6 +459,10 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
+
+  img {
+    width: 20px; height: 20px;
+  }
 }
 .m-error { color: $danger-500; font: 700 14px $font-family-sans; }
 
@@ -466,6 +479,7 @@
   font-size: 14px;
   color: #336AFF;
   cursor: pointer;
+  margin-bottom: 24px;
 }
 // Prevent background scroll when modal is open (desktop + mobile/iOS safe)
 html.modal-open,
@@ -540,5 +554,19 @@ body.modal-locked {
     height: 52px;
     font-size: 16px;
     border-radius: 8px;
+  }
+}
+
+// Desktop and larger: modal body fills remaining space, footer stays at bottom
+@media (min-width: $bp-desktop) {
+  .modal-content {
+    display: flex;
+    flex-direction: column;
+    min-height: 500px;
+  }
+  .modal-body {
+    flex: 1 1 auto;
+    overflow: auto;
+    padding-top: 32px; // a bit more space on desktop and above
   }
 }
