@@ -144,7 +144,7 @@
                       </span>
                       <span class="fee-option__content">
                         <span class="fee-option__title">USD account</span>
-                        <small class="muted">$200,000.00 balance</small>
+                        <small class="muted">250,000.00 balance</small>
                       </span>
                       <input type="radio" name="deduct" value="USD" checked />
                       <span class="fee-option__check" aria-hidden="true"></span>
@@ -155,7 +155,7 @@
                       </span>
                       <span class="fee-option__content">      
                         <span class="fee-option__title">USDT account</span>
-                        <small class="muted">$200,000.00 balance</small>
+                        <small class="muted">250,000.00 balance</small>
                       </span>
                       <input type="radio" name="deduct" value="USDT" />
                       <span class="fee-option__check" aria-hidden="true"></span>
@@ -262,8 +262,8 @@
               <!-- Variant B: Post-shipment -->
               <div id="docs-post" class="docs-variant" hidden>
                 <div class="docs-head">
-                  <span class="muted">Upload 3 documents</span>
-                  <span class="muted">PDF, PNG, JPG under 50mb</span>
+                  <span class="docs-head__label">Upload 3 documents</span>
+                  <span class="docs-head__meta">PDF, PNG, JPG under 50mb</span>
                 </div>
                 <div class="upload-list">
                   <div class="upload-item">
@@ -364,7 +364,7 @@
                 </div>
                 <div class="summary-note">Receiver is billed in US Dollar</div>
               </div>
-              <button class="btn btn--primary btn--block">Confirm send</button>
+              <button id="confirm-send" class="btn btn--primary btn--block" aria-disabled="true" disabled>Confirm send</button>
             </div>
           </aside>
         </section>

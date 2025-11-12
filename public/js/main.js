@@ -110,6 +110,7 @@ function initSendPayment() {
   const deductRadios = document.querySelectorAll('input[type="radio"][name="deduct"]');
   const natureSelect = document.getElementById('nature');
   const purposeSelect = document.getElementById('purpose');
+  let lastNatureVal = natureSelect ? natureSelect.value : '';
 
   const findSummaryRow = (labelText) => {
     let row = null;
@@ -161,6 +162,62 @@ function initSendPayment() {
   };
 
   const syncAccountDisplay = () => {};
+
+  // ---- Enable/disable Confirm send based on filled inputs/selects ----
+  const confirmBtn = document.getElementById('confirm-send');
+  const isElementVisible = (el) => {
+    if (!el) return false;
+    if (el.hidden) return false;
+    if (el.closest('[hidden]')) return false;
+    const rect = el.getBoundingClientRect();
+    return !(rect.width === 0 && rect.height === 0);
+  };
+  const validateSendForm = () => {
+    if (!confirmBtn) return;
+    const natureEl = document.getElementById('nature');
+    const purposeEl = document.getElementById('purpose');
+    const amountEl = document.getElementById('amount');
+    const pre = document.getElementById('docs-pre');
+    const post = document.getElementById('docs-post');
+
+    const isFilledText = (el) => !!(el && String(el.value || '').trim().length >= 1);
+    const isFilledSelect = (el) => !!(el && String(el.value || '') !== '');
+
+    const natureOk = isFilledSelect(natureEl);
+    const purposeOk = isFilledSelect(purposeEl);
+    // Amount must be a positive number; treat empty or 0 as not filled
+    let amountOk = false;
+    if (amountEl) {
+      const amtRaw = String(amountEl.value || '').replace(/,/g, '').trim();
+      const amtNum = parseFloat(amtRaw);
+      amountOk = Number.isFinite(amtNum) && amtNum > 0;
+    }
+
+    let docsOk = true;
+    if (natureOk) {
+      if (pre && !pre.hidden) {
+        const docType = document.getElementById('docType');
+        const docNum = document.getElementById('piNumber');
+        const uploads = document.querySelectorAll('#docs-pre .upload-item');
+        const docTypeOk = isFilledSelect(docType);
+        const docNumOk = isFilledText(docNum);
+        const uploadsOk = Array.from(uploads).every(item => item.classList.contains('is-uploaded'));
+        docsOk = docTypeOk && docNumOk && uploadsOk;
+      } else if (post && !post.hidden) {
+        const ciNum = document.getElementById('ciNumber');
+        const uploads = document.querySelectorAll('#docs-post .upload-item');
+        const ciOk = isFilledText(ciNum);
+        const uploadsOk = Array.from(uploads).every(item => item.classList.contains('is-uploaded'));
+        docsOk = ciOk && uploadsOk;
+      }
+    } else {
+      docsOk = false;
+    }
+
+    const allValid = natureOk && purposeOk && amountOk && docsOk;
+    confirmBtn.setAttribute('aria-disabled', allValid ? 'false' : 'true');
+    confirmBtn.disabled = !allValid;
+  };
 
   const getFeeMode = () => {
     const selected = Array.from(feeRadios).find(r => r.checked);
@@ -289,6 +346,7 @@ function initSendPayment() {
     if (!isChosen) return;
     if (spanNature) spanNature.textContent = natureTxt;
     const isPre = natureVal === 'pre_shipment';
+    const isNatureChanged = natureVal !== lastNatureVal;
     pre.hidden = !isPre;
     post.hidden = isPre;
 
@@ -342,10 +400,34 @@ function initSendPayment() {
     };
     if (docTypeSelect) {
       // set default to placeholder on show
-      if (isPre) docTypeSelect.value = '';
-      docTypeSelect.addEventListener('change', syncDocCard);
+      if (isPre && isNatureChanged) docTypeSelect.value = '';
+      docTypeSelect.addEventListener('change', () => { syncDocCard(); if (typeof validateSendForm === 'function') validateSendForm(); });
     }
     syncDocCard();
+    if (typeof validateSendForm === 'function') validateSendForm();
+    lastNatureVal = natureVal;
+
+    // Attach validation to docs inputs so changing them re-validates immediately
+    const piNumber = document.getElementById('piNumber');
+    const ciNumber = document.getElementById('ciNumber');
+    if (piNumber) {
+      piNumber.addEventListener('input', () => { if (typeof validateSendForm === 'function') validateSendForm(); }, { passive: true });
+      piNumber.addEventListener('change', () => { if (typeof validateSendForm === 'function') validateSendForm(); });
+    }
+    if (ciNumber) {
+      ciNumber.addEventListener('input', () => { if (typeof validateSendForm === 'function') validateSendForm(); }, { passive: true });
+      ciNumber.addEventListener('change', () => { if (typeof validateSendForm === 'function') validateSendForm(); });
+    }
+  };
+
+  // Ensure purpose select gets filled styling and summary even when selected first
+  const updatePurposeOnly = () => {
+    if (!purposeSelect || !summaryRows.purpose) return;
+    const v = summaryRows.purpose.querySelector('strong');
+    const label = purposeSelect.selectedOptions?.[0]?.textContent?.trim() || '';
+    const filled = !!purposeSelect.value;
+    if (v) v.textContent = filled ? label : '- -';
+    purposeSelect.classList.toggle('is-filled', filled);
   };
 
   if (amountInput) {
@@ -367,6 +449,7 @@ function initSendPayment() {
       if (raw === '') {
         input.value = '';
         updateSummary();
+        if (typeof validateSendForm === 'function') validateSendForm();
         return;
       }
       // Track number of digits before caret to restore position after formatting
@@ -395,18 +478,37 @@ function initSendPayment() {
         } catch (err) { /* ignore */ }
       }
       updateSummary();
+      if (typeof validateSendForm === 'function') validateSendForm();
     };
     amountInput.addEventListener('input', formatCurrencyInput, { passive: true });
     amountInput.addEventListener('change', formatCurrencyInput);
   }
-  feeRadios.forEach(r => r.addEventListener('change', updateSummary));
-  deductRadios.forEach(r => r.addEventListener('change', updateSummary));
-  if (natureSelect) natureSelect.addEventListener('change', updateNaturePurpose);
-  if (purposeSelect) purposeSelect.addEventListener('change', updateNaturePurpose);
+  feeRadios.forEach(r => r.addEventListener('change', () => { updateSummary(); if (typeof validateSendForm === 'function') validateSendForm(); }));
+  deductRadios.forEach(r => r.addEventListener('change', () => { updateSummary(); if (typeof validateSendForm === 'function') validateSendForm(); }));
+  if (natureSelect) natureSelect.addEventListener('change', () => { updateNaturePurpose(); if (typeof validateSendForm === 'function') validateSendForm(); });
+  if (purposeSelect) purposeSelect.addEventListener('change', () => { 
+    if (typeof updatePurposeOnly === 'function') updatePurposeOnly(); 
+    if (typeof validateSendForm === 'function') validateSendForm(); 
+  });
+  // Generic listeners so clearing any field re-validates immediately
+  const attachValidationListeners = () => {
+    const formRoot = document.querySelector('.form');
+    if (!formRoot) return;
+    formRoot.querySelectorAll('input[type="text"], input[type="email"], textarea').forEach((el) => {
+      el.addEventListener('input', () => { if (typeof validateSendForm === 'function') validateSendForm(); }, { passive: true });
+      el.addEventListener('change', () => { if (typeof validateSendForm === 'function') validateSendForm(); });
+    });
+    formRoot.querySelectorAll('select').forEach((el) => {
+      el.addEventListener('change', () => { if (typeof validateSendForm === 'function') validateSendForm(); });
+    });
+  };
+  attachValidationListeners();
   // Initial compute
   updateSummary();
   updateNaturePurpose();
+  if (typeof updatePurposeOnly === 'function') updatePurposeOnly();
   syncAccountDisplay();
+  if (typeof validateSendForm === 'function') validateSendForm();
 
   // ---- Upload item interactions ----
   const initUploadItems = () => {
@@ -428,6 +530,7 @@ function initSendPayment() {
         btn.classList.remove('btn--primary');
         btn.classList.add('btn--secondary');
         btn.textContent = 'Re-upload';
+        if (typeof validateSendForm === 'function') validateSendForm();
       }, { passive: true });
     });
   };

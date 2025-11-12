@@ -1126,6 +1126,15 @@ textarea {
   }
 }
 
+.qa__item.mobile_only {
+  display: none;
+}
+@media (max-width: 1279px) {
+  .qa__item.mobile_only {
+    display: block;
+  }
+}
+
 /* Mobile tab bar */
 .tabbar {
   position: fixed;
@@ -2391,6 +2400,34 @@ textarea {
 .upload-list {
   display: grid;
   gap: 12px;
+}
+
+#docs-post .docs-head {
+  margin-bottom: 16px;
+}
+#docs-post .upload-list {
+  gap: 0;
+  margin-bottom: 40px;
+}
+#docs-post .upload-list .upload-item {
+  border-radius: 0;
+}
+#docs-post .upload-list .upload-item:first-child {
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  border-bottom: 0;
+}
+#docs-post .upload-list .upload-item:nth-child(2) {
+  border-radius: 0;
+  border-bottom: 0;
+}
+#docs-post .upload-list .upload-item:last-child {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
 }
 
 .upload-item {

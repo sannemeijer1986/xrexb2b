@@ -49,6 +49,11 @@
   }
 }
 
+.qa__item.mobile_only {
+  display: none;
+  @media (max-width: ($bp-desktop - 1)) { display: block; }
+}
+
 
 /* Mobile tab bar */
 .tabbar {

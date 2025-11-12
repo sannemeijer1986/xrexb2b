@@ -812,6 +812,31 @@
   display: grid;
   gap: 12px;
 }
+// Post-shipment specific layout adjustments
+#docs-post {
+  .docs-head { margin-bottom: 16px; }
+  .upload-list { gap: 0; margin-bottom: 40px; }
+  .upload-list .upload-item {
+    border-radius: 0;
+  }
+  .upload-list .upload-item:first-child {
+    border-top-left-radius: $radius-md;
+    border-top-right-radius: $radius-md;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    border-bottom: 0;
+  }
+  .upload-list .upload-item:nth-child(2) {
+    border-radius: 0;
+    border-bottom: 0;
+  }
+  .upload-list .upload-item:last-child {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-left-radius: $radius-md;
+    border-bottom-right-radius: $radius-md;
+  }
+}
 .upload-item {
   display: grid;
   grid-template-columns: 32px 1fr auto;
