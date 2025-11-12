@@ -426,16 +426,44 @@
 .m-input-row { display: grid; grid-template-columns: 1fr auto; gap: 8px; }
 .m-input {
   height: 60px;
-  padding: 16px 18px;
+  padding: 16px 16px;
   border: 1px solid $border-color;
-  border-radius: 12px;
-  font: 700 18px $font-family-sans;
-  letter-spacing: 6px;
-  text-align: center;
+  border-radius: $radius-md;
+  font-family: $font-family-sans;
+  font-weight: 600;
+  font-size: 16px;
+  color: $text-primary;
+  letter-spacing: 0;
+  text-align: left;
 }
 @media (min-width: $bp-desktop) { .m-input { height: 74px; } }
 .m-clear { height: 44px; padding: 0 12px; border-radius: 8px; border: 1px solid $border-color; background:#fff; }
 .m-error { color: $danger-500; font: 700 14px $font-family-sans; }
+
+// Modal text and link styles
+.m-step-title {
+  font-family: $font-family-sans;
+  font-weight: 700;
+  font-size: 18px;
+  color: $text-primary;
+}
+.m-link {
+  font-family: $font-family-sans;
+  font-weight: 700;
+  font-size: 14px;
+  color: #336AFF;
+  cursor: pointer;
+}
+// Prevent background scroll when modal is open (desktop + mobile/iOS safe)
+html.modal-open,
+body.modal-open {
+  overflow: hidden !important;
+  height: 100%;
+}
+body.modal-locked {
+  position: fixed;
+  width: 100%;
+}
 
 // Page overrides for Select Counterparty
 .page--cp {

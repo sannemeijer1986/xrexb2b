@@ -624,6 +624,13 @@ function initSendPayment() {
         modal.setAttribute('aria-hidden', 'false');
         document.documentElement.classList.add('modal-open');
         document.body.classList.add('modal-open');
+        // Lock scroll (mirror helper)
+        try {
+          const y = window.scrollY || window.pageYOffset || 0;
+          document.body.dataset.scrollY = String(y);
+          document.body.style.top = `-${y}px`;
+          document.body.classList.add('modal-locked');
+        } catch (_) {}
       }
     });
     // Desktop hover tooltip when inactive
@@ -798,12 +805,27 @@ if (document.readyState === 'loading') {
     el.setAttribute('aria-hidden', 'false');
     document.documentElement.classList.add('modal-open');
     document.body.classList.add('modal-open');
+    // Lock scroll (iOS safe)
+    try {
+      const y = window.scrollY || window.pageYOffset || 0;
+      document.body.dataset.scrollY = String(y);
+      document.body.style.top = `-${y}px`;
+      document.body.classList.add('modal-locked');
+    } catch (_) {}
   };
   const close = (el) => {
     if (!el) return;
     el.setAttribute('aria-hidden', 'true');
     document.documentElement.classList.remove('modal-open');
     document.body.classList.remove('modal-open');
+    // Unlock scroll
+    try {
+      const y = parseInt(document.body.dataset.scrollY || '0', 10) || 0;
+      document.body.classList.remove('modal-locked');
+      document.body.style.top = '';
+      delete document.body.dataset.scrollY;
+      window.scrollTo(0, y);
+    } catch (_) {}
   };
 
   // Wire close buttons and overlay click
