@@ -130,7 +130,7 @@ html { overflow-y: scroll; }
 }
 .grid { @media (min-width: $bp-desktop) {  grid-template-columns: minmax(0, 1fr) 430px; } }
 .grid__col--primary { min-width: 0; }
-.grid__col--sidebar { position: sticky; top: 84px; }
+.grid__col--sidebar { position: sticky; top: 124px; }
 
 .card {
   @include card;
