@@ -549,7 +549,7 @@ textarea {
   padding: 10px 14px;
   font-weight: 600;
   transition: filter 0.15s ease, transform 0.02s ease, background-color 0.15s ease, border-color 0.15s ease;
-  text-decoration: none;
+  text-decoration: none !important;
 }
 
 .btn:active {
@@ -1345,7 +1345,7 @@ textarea {
 }
 
 .receipt__subrow {
-  padding: 10px 0;
+  padding: 10px 0 10px 24px;
   font-size: 16px;
 }
 
@@ -1373,7 +1373,7 @@ textarea {
 }
 
 .receipt__row--em {
-  padding: 2px 0px 0px 0px;
+  padding: 4px 0px 0px 0px;
 }
 
 .receipt__foot {
