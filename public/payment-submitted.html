@@ -113,7 +113,9 @@
         const d = raw ? JSON.parse(raw) : null;
         if (!d) return;
         const set = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
-        set('rcvName', d.receiverName || '');
+        // Strip any leading 'To ' just in case
+        const rcv = (d.receiverName || '').replace(/^To\s+/i, '');
+        set('rcvName', rcv);
         set('rcvBank', d.receiverBank || '');
         set('amtPayable', d.amountPayableFmt || '');
         set('deductedFrom', d.deductedFrom || '');
