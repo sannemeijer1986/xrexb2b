@@ -142,7 +142,7 @@ function initSendPayment() {
     nature: findSummaryRow('Nature'),
     purpose: findSummaryRow('Purpose'),
     youPay: findSummaryRow('To be deducted'),
-    payeeReceives: findSummaryRow('Receiver gets*'),
+    payeeReceives: findSummaryRow('Send to receiver'),
     conversion: findSummaryRow('Conversion rate'),
   };
 

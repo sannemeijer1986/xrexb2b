@@ -36,7 +36,7 @@ button {
 body {
   font-family: "Manrope", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
   color: #0f172a;
-  background: #FCFCFC;
+  background: #F8F8F8;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -100,7 +100,7 @@ html {
   top: 0;
   width: 100vw;
   z-index: 50;
-  background: #FCFCFC;
+  background: #F8F8F8;
   border-bottom: 1px solid #eeeeee;
 }
 .site-header .header__content {
@@ -213,7 +213,7 @@ html {
 
 .page {
   padding-block: 28px 40px;
-  background: #FCFCFC;
+  background: #F8F8F8;
 }
 .page .page__header {
   margin-bottom: 32px;
@@ -452,7 +452,7 @@ input[type=email],
 textarea,
 select {
   width: 100%;
-  border: 1px solid #eeeeee;
+  border: 1px solid #DBDBDC;
   border-radius: 8px;
   background: #fff;
   padding: 16px 16px;
@@ -499,7 +499,7 @@ textarea {
 }
 .input-group input {
   border: none;
-  border-right: 1px solid #eeeeee;
+  border-right: 1px solid #DBDBDC;
   border-radius: 0;
   padding: 10px 12px;
 }
@@ -1264,7 +1264,7 @@ textarea {
 .m-input {
   height: 60px;
   padding: 16px 44px 16px 16px;
-  border: 1px solid #eeeeee;
+  border: 1px solid #DBDBDC;
   border-radius: 8px;
   font-family: "Manrope", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
   font-weight: 600;
@@ -2927,7 +2927,7 @@ body.modal-locked {
   align-items: center;
   gap: 8px;
   height: 80px;
-  border: 1px solid #eeeeee;
+  border: 1px solid #DBDBDC;
   border-radius: 8px;
   background: #fff;
   padding: 14px 16px;

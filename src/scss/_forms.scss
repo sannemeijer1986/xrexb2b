@@ -30,7 +30,7 @@ input[type="email"],
 textarea,
 select {
   width: 100%;
-  border: 1px solid $border-color;
+  border: 1px solid $border-color-hard;
   border-radius: $radius-md;
   background: #fff;
   padding: 16px 16px;
@@ -67,7 +67,7 @@ textarea { resize: vertical; }
   background: #fff;
   input {
     border: none;
-    border-right: 1px solid $border-color;
+    border-right: 1px solid $border-color-hard;
     border-radius: 0;
     padding: 10px 12px;
   }
