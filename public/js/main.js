@@ -494,6 +494,15 @@ function initSendPayment() {
     // Attach validation to docs inputs so changing them re-validates immediately
     const piNumber = document.getElementById('piNumber');
     const ciNumber = document.getElementById('ciNumber');
+    const docNotes = document.getElementById('docNotes');
+    const notesCounter = document.getElementById('docNotesCounter');
+    const updateNotesCounter = () => {
+      if (!docNotes || !notesCounter) return;
+      const len = String(docNotes.value || '').length;
+      const capped = Math.min(25, len);
+      notesCounter.textContent = `${capped}/25`;
+      docNotes.classList.toggle('is-filled', capped > 0);
+    };
     if (piNumber) {
       piNumber.addEventListener('input', () => { if (typeof validateSendForm === 'function') validateSendForm(); }, { passive: true });
       piNumber.addEventListener('change', () => { if (typeof validateSendForm === 'function') validateSendForm(); });
@@ -501,6 +510,13 @@ function initSendPayment() {
     if (ciNumber) {
       ciNumber.addEventListener('input', () => { if (typeof validateSendForm === 'function') validateSendForm(); }, { passive: true });
       ciNumber.addEventListener('change', () => { if (typeof validateSendForm === 'function') validateSendForm(); });
+    }
+    if (docNotes) {
+      docNotes.addEventListener('input', () => { updateNotesCounter(); if (typeof validateSendForm === 'function') validateSendForm(); }, { passive: true });
+      docNotes.addEventListener('change', () => { updateNotesCounter(); if (typeof validateSendForm === 'function') validateSendForm(); });
+      updateNotesCounter();
+    } else if (notesCounter) {
+      notesCounter.textContent = '0/25';
     }
   };
 

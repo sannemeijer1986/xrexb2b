@@ -2749,6 +2749,35 @@ body.modal-locked {
   font-weight: 700;
 }
 
+.docs-section {
+  margin: 12px 0 32px;
+}
+
+.docs-section__head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.docs-section__icon {
+  width: 16px;
+  height: 16px;
+  display: block;
+}
+
+.docs-section__title {
+  font-family: "Manrope", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  color: #0f172a;
+}
+
+.docs-section__divider {
+  height: 1px;
+  background: #eeeeee;
+  margin-top: 16px;
+}
+
 .deduct-rate {
   margin-top: 3px;
   display: flex;
@@ -2760,8 +2789,27 @@ body.modal-locked {
   display: block;
 }
 
+.docs-group__content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  gap: 32px;
+}
+
 .deduct-rate[hidden] {
   display: none !important;
+}
+
+.field-counter {
+  text-align: right;
+  color: #BCBDBD;
+  font-size: 12px;
+  margin-top: 6px;
+}
+
+#docNotes.is-filled {
+  font-weight: 600;
+  color: #0f172a;
 }
 
 .summary-box .summary-pair--sub {
@@ -3137,6 +3185,7 @@ body.modal-locked {
 }
 
 .upload-item {
+  min-height: 80px;
   display: grid;
   grid-template-columns: 32px 1fr auto;
   align-items: center;

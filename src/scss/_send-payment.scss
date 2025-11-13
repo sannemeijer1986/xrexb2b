@@ -644,11 +644,7 @@
   .summary-pair {
     align-items: center;
   }
-  .summary-pair strong, .summary-pair .muted {
-    font-weight: 500;
-    color: $text-primary;
-    font-size: 16px;
-  }
+  .summary-pair strong, .summary-pair .muted { font-weight: 500; color: $text-primary; font-size: 16px; }
   
   .convert-rate-link {
     background: none;
@@ -667,6 +663,13 @@
   }
 }
 
+// Docs section dividers (icon + title + divider)
+.docs-section { margin: 12px 0 32px; }
+.docs-section__head { display: flex; align-items: center; gap: 8px; }
+.docs-section__icon { width: 16px; height: 16px; display: block; }
+.docs-section__title { font-family: $font-family-sans; font-weight: 700; font-size: 14px; color: $text-primary; }
+.docs-section__divider { height: 1px; background: $border-color; margin-top: 16px; }
+
 // Deduct rate helper lines on separate rows
 .deduct-rate {
   margin-top: 3px;
@@ -679,8 +682,25 @@
   }
 }
 
+// Group wrapper for docs sections so spacing between header and content is controllable
+.docs-group__content { display: flex; flex-direction: column; gap: 16px; gap: 32px;}
+
 // Ensure hidden always overrides layout
 .deduct-rate[hidden] { display: none !important; }
+
+// Inline field character counter
+.field-counter {
+  text-align: right;
+  color: #BCBDBD;
+  font-size: 12px;
+  margin-top: 6px;
+}
+
+// Notes input heavier when filled
+#docNotes.is-filled {
+  font-weight: 600;
+  color: $text-primary;
+}
 
 .summary-box .summary-pair--sub {
   padding-left: 24px;
@@ -951,6 +971,7 @@
   }
 }
 .upload-item {
+  min-height: 80px;
   display: grid;
   grid-template-columns: 32px 1fr auto;
   align-items: center;
