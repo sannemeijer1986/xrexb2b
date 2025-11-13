@@ -199,9 +199,9 @@ function initSendPayment() {
         const docNum = document.getElementById('piNumber');
         const uploads = document.querySelectorAll('#docs-pre .upload-item');
         const docTypeOk = isFilledSelect(docType);
-        const docNumOk = isFilledText(docNum);
         const uploadsOk = Array.from(uploads).every(item => item.classList.contains('is-uploaded'));
-        docsOk = docTypeOk && docNumOk && uploadsOk;
+        // Make PI/PO number optional for prototype; only type + upload required
+        docsOk = docTypeOk && uploadsOk;
       } else if (post && !post.hidden) {
         const ciNum = document.getElementById('ciNumber');
         const uploads = document.querySelectorAll('#docs-post .upload-item');
@@ -366,7 +366,7 @@ function initSendPayment() {
         summaryRows.conversion.style.display = 'none';
       }
     }
-    // Populate Convert details modal (only meaningful when conversion applies)
+    // Populate Convert details modal (populate whatever fields exist)
     (function populateConvertModal() {
       const cvFromEl = document.getElementById('cv-from');
       const cvFeePctEl = document.getElementById('cv-fee-pct');
@@ -374,17 +374,16 @@ function initSendPayment() {
       const cvNetEl = document.getElementById('cv-net');
       const cvRateEl = document.getElementById('cv-rate');
       const cvToEl = document.getElementById('cv-to');
-      if (!cvFromEl || !cvFeePctEl || !cvFeeAmtEl || !cvNetEl || !cvRateEl || !cvToEl) return;
       // Currently 0% conversion fee and 1:1 rate
       const convertFeePct = 0.00;
       const convertFeeAmt = 0.00;
       const convertFrom = amount; // amount is in payeeCurrency; rate is 1:1
-      cvFromEl.textContent = formatAmount(convertFrom, payerCurrency);
-      cvFeePctEl.textContent = `${convertFeePct.toFixed(2)}%`;
-      cvFeeAmtEl.textContent = convertFeeAmt ? formatAmount(convertFeeAmt, payerCurrency) : '--';
-      cvNetEl.textContent = formatAmount(convertFrom - convertFeeAmt, payerCurrency);
-      cvRateEl.textContent = `1 ${payerCurrency} = 1 ${payeeCurrency}`;
-      cvToEl.textContent = formatAmount(amount, payeeCurrency);
+      if (cvFromEl) cvFromEl.textContent = formatAmount(convertFrom, payerCurrency);
+      if (cvFeePctEl) cvFeePctEl.textContent = `${convertFeePct.toFixed(2)}%`;
+      if (cvFeeAmtEl) cvFeeAmtEl.textContent = convertFeeAmt ? formatAmount(convertFeeAmt, payerCurrency) : '--';
+      if (cvNetEl) cvNetEl.textContent = formatAmount(convertFrom - convertFeeAmt, payerCurrency);
+      if (cvRateEl) cvRateEl.textContent = `1 ${payerCurrency} = 1 ${payeeCurrency}`;
+      if (cvToEl) cvToEl.textContent = formatAmount(amount, payeeCurrency);
     })();
     // Update Fees Details modal fields when present
     const setText = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
