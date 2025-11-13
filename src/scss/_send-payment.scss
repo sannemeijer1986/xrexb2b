@@ -554,6 +554,18 @@
   align-items: center;
   padding: 0;
 }
+
+.convertrate-wrapper {
+  display: flex;
+  align-items: flex-end;
+  flex-direction: column;
+}
+
+// .summary-pair--convertrate {
+//   align-items: flex-start;
+//   flex-direction: row;
+// }
+
 .summary-box .summary-pair .muted {
   color: $text-secondary;
   font-weight: 600;
@@ -593,7 +605,7 @@
   padding: 0;
   color: #336AFF;
   font-weight: 700;
-  font-size: 14px;
+  font-size: 12px;
   cursor: pointer;
 }
 
@@ -627,7 +639,7 @@
 
 .summary-box .summary-pair--sub .muted { font-size: 14px; color: $text-secondary; font-weight: 600; }
 .summary-box .summary-pair--sub strong { font-size: 14px; color: $text-primary; font-weight: 700; }
-.summary-box .summary-pair--totalreceive .muted { font-size: 18px; color: $text-primary; font-weight: 600; }
+.summary-box .summary-pair--totalreceive .muted { font-size: 18px; color: $text-primary; font-weight: 700; }
 .summary-box .summary-pair--totalreceive span { color: $text-primary; font-size: 18px; font-weight: 700; }
 .summary-box .summary-pair--totalreceive strong { font-size: 18px; font-weight: 700; color: $text-primary; }
 .summary-box .summary-pair--totalreceive .summary-total--primary {

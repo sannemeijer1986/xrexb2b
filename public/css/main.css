@@ -2624,6 +2624,12 @@ body.modal-locked {
   padding: 0;
 }
 
+.convertrate-wrapper {
+  display: flex;
+  align-items: flex-end;
+  flex-direction: column;
+}
+
 .summary-box .summary-pair .muted {
   color: #797A7B;
   font-weight: 600;
@@ -2665,7 +2671,7 @@ body.modal-locked {
   padding: 0;
   color: #336AFF;
   font-weight: 700;
-  font-size: 14px;
+  font-size: 12px;
   cursor: pointer;
 }
 
@@ -2727,7 +2733,7 @@ body.modal-locked {
 .summary-box .summary-pair--totalreceive .muted {
   font-size: 18px;
   color: #0f172a;
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .summary-box .summary-pair--totalreceive span {

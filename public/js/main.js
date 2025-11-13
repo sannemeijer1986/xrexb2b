@@ -143,7 +143,7 @@ function initSendPayment() {
     purpose: findSummaryRow('Purpose'),
     youPay: findSummaryRow('To be deducted'),
     payeeReceives: findSummaryRow('Send to receiver'),
-    conversion: findSummaryRow('Conversion rate'),
+    conversion: findSummaryRow('Convert rate'),
   };
 
   const getPayerCurrency = () => {
