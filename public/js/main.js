@@ -617,25 +617,97 @@ function initSendPayment() {
 
   // ---- Upload item interactions ----
   const initUploadItems = () => {
-    const allUploadButtons = document.querySelectorAll('.upload-item .btn');
-    allUploadButtons.forEach((btn) => {
+    const ensureActions = (item) => {
+      let actions = item.querySelector('.upload-item__actions');
+      if (!actions) {
+        actions = document.createElement('div');
+        actions.className = 'upload-item__actions';
+        const btn = item.querySelector('.btn');
+        if (btn) {
+          item.replaceChild(actions, btn);
+          actions.appendChild(btn);
+        } else {
+          item.appendChild(actions);
+        }
+      }
+      return actions;
+    };
+    const setNotUploaded = (item) => {
+      item.classList.remove('is-uploaded');
+      const badgeImg = item.querySelector('.upload-item__badge img');
+      if (badgeImg) badgeImg.src = 'assets/icon_upload_1.svg';
+      const subEl = item.querySelector('.upload-item__meta small');
+      const inPre = !!item.closest('#docs-pre');
+      const inPost = !!item.closest('#docs-post');
+      if (subEl) {
+        subEl.textContent = inPre ? '' : 'Description';
+      }
+      const actions = ensureActions(item);
+      const mainBtn = actions.querySelector('.btn');
+      if (mainBtn) {
+        mainBtn.classList.add('btn--primary');
+        mainBtn.classList.remove('btn--secondary');
+        mainBtn.textContent = 'Upload';
+      }
+      const resetBtn = actions.querySelector('.upload-reset');
+      if (resetBtn) resetBtn.remove();
+      if (typeof validateSendForm === 'function') validateSendForm();
+    };
+    const setUploaded = (item) => {
+      item.classList.add('is-uploaded');
+      const actions = ensureActions(item);
+      // Subtitle per context
+      const subEl = item.querySelector('.upload-item__meta small');
+      const inPre = !!item.closest('#docs-pre');
+      const inPost = !!item.closest('#docs-post');
+      if (subEl) {
+        if (inPre) {
+          subEl.textContent = 'Invoice123.pdf';
+        } else if (inPost) {
+          const list = Array.from(item.parentElement?.querySelectorAll('.upload-item') || []);
+          const idx = Math.max(0, list.indexOf(item));
+          const labels = ['AInvoice123.pdf', 'BInvoice123.pdf', 'CInvoice123.pdf'];
+          subEl.textContent = labels[idx] || 'Document123.pdf';
+        } else {
+          subEl.textContent = 'Document123.pdf';
+        }
+      }
+      // Badge icon success
+      const badgeImg = item.querySelector('.upload-item__badge img');
+      if (badgeImg) badgeImg.src = 'assets/icon_snackbar_success.svg';
+      // Main button to secondary + text
+      let mainBtn = actions.querySelector('.btn');
+      if (mainBtn) {
+        mainBtn.classList.remove('btn--primary');
+        mainBtn.classList.add('btn--secondary');
+        mainBtn.textContent = 'Re-upload';
+      }
+      // Add reset button
+      if (!actions.querySelector('.upload-reset')) {
+        const resetBtn = document.createElement('button');
+        resetBtn.type = 'button';
+        resetBtn.className = 'btn btn--secondary btn--sm btn--icon upload-reset';
+        resetBtn.setAttribute('aria-label', 'Reset upload');
+        resetBtn.innerHTML = '<img src="assets/icon_close_blue.svg" width="16" height="16" alt="">';
+        resetBtn.addEventListener('click', () => setNotUploaded(item));
+        actions.appendChild(resetBtn);
+      }
+      if (typeof validateSendForm === 'function') validateSendForm();
+    };
+    // Ensure initial structure and default subtitles per context
+    document.querySelectorAll('.upload-item').forEach((item) => {
+      ensureActions(item);
+      setNotUploaded(item);
+    });
+    // Wire main buttons (Re-upload is a no-op in prototype)
+    document.querySelectorAll('.upload-item .upload-item__actions .btn').forEach((btn) => {
       btn.addEventListener('click', () => {
         const item = btn.closest('.upload-item');
         if (!item) return;
-        // Mark as uploaded
-        item.classList.add('is-uploaded');
-        // Title and subtitle
-        const titleEl = item.querySelector('.upload-item__title');
-        const subEl = item.querySelector('.upload-item__meta small');
-        if (subEl) subEl.textContent = 'Document123.pdf';
-        // Badge background handled via CSS; swap icon
-        const badgeImg = item.querySelector('.upload-item__badge img');
-        if (badgeImg) badgeImg.src = 'assets/icon_snackbar_success.svg';
-        // Button to secondary + text
-        btn.classList.remove('btn--primary');
-        btn.classList.add('btn--secondary');
-        btn.textContent = 'Re-upload';
-        if (typeof validateSendForm === 'function') validateSendForm();
+        // If already uploaded, "Re-upload" does nothing (prototype requirement)
+        if (item.classList.contains('is-uploaded')) return;
+        // Otherwise, perform upload transition
+        setUploaded(item);
       }, { passive: true });
     });
   };
@@ -763,25 +835,13 @@ function initSendPayment() {
     const postUploads = Array.from(root.querySelectorAll('#docs-post .upload-item'));
 
     const trigger = (el) => { if (!el) return; el.dispatchEvent(new Event('input', { bubbles: true })); el.dispatchEvent(new Event('change', { bubbles: true })); };
-    const setUploaded = (item, filename = 'Document123.pdf') => {
-      if (!item) return;
-      item.classList.add('is-uploaded');
-      const sub = item.querySelector('.upload-item__meta small');
-      if (sub) sub.textContent = filename;
-      const badgeImg = item.querySelector('.upload-item__badge img');
-      if (badgeImg) badgeImg.src = 'assets/icon_snackbar_success.svg';
-      const btn = item.querySelector('.btn');
-      if (btn) { btn.classList.remove('btn--primary'); btn.classList.add('btn--secondary'); btn.textContent = 'Re-upload'; }
+    const clickMainUploadBtn = (item) => {
+      const btn = item?.querySelector('.upload-item__actions .btn') || item?.querySelector('.btn');
+      if (btn) btn.click();
     };
-    const resetUploaded = (item) => {
-      if (!item) return;
-      item.classList.remove('is-uploaded');
-      const sub = item.querySelector('.upload-item__meta small');
-      if (sub) sub.textContent = 'Description';
-      const badgeImg = item.querySelector('.upload-item__badge img');
-      if (badgeImg) badgeImg.src = 'assets/icon_upload_1.svg';
-      const btn = item.querySelector('.btn');
-      if (btn) { btn.classList.remove('btn--secondary'); btn.classList.add('btn--primary'); btn.textContent = 'Upload'; }
+    const clickResetBtn = (item) => {
+      const btn = item?.querySelector('.upload-item__actions .upload-reset');
+      if (btn) btn.click();
     };
 
     fillBtn.addEventListener('click', (e) => {
@@ -794,7 +854,18 @@ function initSendPayment() {
       // Docs (pre-shipment)
       if (docTypeEl) { docTypeEl.value = 'PI'; trigger(docTypeEl); }
       if (piNumberEl) { piNumberEl.value = 'PI-001234'; trigger(piNumberEl); }
-      if (preUpload) setUploaded(preUpload, 'PI-001234.pdf');
+      // Upload PI in pre-shipment group
+      if (preUpload) {
+        // toggle to uploaded via main button
+        if (!preUpload.classList.contains('is-uploaded')) clickMainUploadBtn(preUpload);
+        // ensure display name
+        const sub = preUpload.querySelector('.upload-item__meta small');
+        if (sub) sub.textContent = 'PI-001234.pdf';
+      }
+      // For demo, also upload all post-shipment documents with A/B/C names
+      postUploads.forEach((it) => {
+        if (!it.classList.contains('is-uploaded')) clickMainUploadBtn(it);
+      });
       // Ensure validation runs
       if (typeof validateSendForm === 'function') validateSendForm();
     });
@@ -808,8 +879,9 @@ function initSendPayment() {
       if (docTypeEl) { docTypeEl.value = ''; trigger(docTypeEl); }
       if (piNumberEl) { piNumberEl.value = ''; trigger(piNumberEl); }
       if (ciNumberEl) { ciNumberEl.value = ''; trigger(ciNumberEl); }
-      if (preUpload) resetUploaded(preUpload);
-      postUploads.forEach(resetUploaded);
+      // Reset uploads to 'not uploaded' state via reset button if present
+      if (preUpload && preUpload.classList.contains('is-uploaded')) clickResetBtn(preUpload);
+      postUploads.forEach((it) => { if (it.classList.contains('is-uploaded')) clickResetBtn(it); });
       // Clear inline errors if any
       const amountError = document.getElementById('amount-error');
       if (amountError) amountError.hidden = true;

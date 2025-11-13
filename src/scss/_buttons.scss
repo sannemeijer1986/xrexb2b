@@ -32,6 +32,16 @@
   font-weight: 700;
 }
 
+/* Icon-only circular button, pairs with size modifiers (e.g., btn--sm) */
+.btn--icon {
+  padding: 0;
+  min-width: 32px;
+  width: 32px;
+  height: 32px;
+  display: inline-grid;
+  place-items: center;
+}
+
 /* Secondary (light blue) and medium size to mirror xrextgbot */
 .btn--secondary {
   background: #EBF2FF;

@@ -978,13 +978,14 @@
   border: 1px solid $border-color;
   border-radius: $radius-md;
   padding: 14px 16px;
-  background: #fff;
+  background: #FCFCFC;
 }
+.upload-item__actions { display: inline-flex; align-items: center; gap: 8px; }
 .upload-item__badge {
   width: 32px;
   height: 32px;
   border-radius: 999px;
-  background: $bg-subtle;
+  background: #EEEEEE;
   display: grid;
   place-items: center;
   font-family: $font-family-sans;
@@ -993,6 +994,12 @@
   color: $primary-600;
 }
 .upload-item__badge img { width: 20px; height: 20px; display: block; }
+.upload-item, .upload-item * {
+  transition: none !important;
+  animation: none !important;
+}
+.upload-item .btn { transition: none !important; }
+.upload-item .btn:active { transform: none !important; }
 .deduct-footer {
   display: flex;
   align-items: flex-start;
@@ -1046,9 +1053,15 @@
 
 // Uploaded state styling
 .upload-item.is-uploaded {
-  .upload-item__title { color: #2F9752; }
-  .upload-item__meta .muted { color: $text-primary; }
-  .upload-item__badge { background: #D2F5DE; }
+  .upload-item__meta .muted { color: #2F9752; }
+  .upload-item__badge { 
+    background: transparent; 
+
+    img {
+      width: 32px;
+      height: 32px;
+    }
+   }
 }
 
 // Normalize all form labels on Send Payment page
