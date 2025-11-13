@@ -359,7 +359,7 @@
   border-bottom: 1px solid $border-color;
 
   @media screen and (min-width: $bp-desktop) {
-    padding: 32px 24px;
+    padding: 32px 32px;
   }
 }
 .modal-header h2 {
@@ -383,7 +383,13 @@
   align-items: center;
   justify-content: center;
 }
-.modal-body { padding: 24px; }
+.modal-body { 
+  padding: 24px; 
+
+  @media screen and (min-width: $bp-desktop) {
+    padding: 32px;
+  }
+}
 .modal-footer {
   padding: 24px;
   display: flex;
@@ -391,7 +397,7 @@
   justify-content: flex-end;
 
   @media screen and (min-width: $bp-desktop) {
-    padding: 16px 24px 24px;
+    padding: 16px 32px 32px;
   }
 }
 .modal-footer .btn { /* size will follow btn modifiers; mobile sizes set in media rule below */ }
