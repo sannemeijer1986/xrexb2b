@@ -561,10 +561,9 @@
   flex-direction: column;
 }
 
-// .summary-pair--convertrate {
-//   align-items: flex-start;
-//   flex-direction: row;
-// }
+.summary-pair--convertrate {
+  align-items: flex-start !important;
+}
 
 .summary-box .summary-pair .muted {
   color: $text-secondary;

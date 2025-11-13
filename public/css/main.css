@@ -2630,6 +2630,10 @@ body.modal-locked {
   flex-direction: column;
 }
 
+.summary-pair--convertrate {
+  align-items: flex-start !important;
+}
+
 .summary-box .summary-pair .muted {
   color: #797A7B;
   font-weight: 600;
