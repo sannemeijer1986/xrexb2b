@@ -2693,15 +2693,23 @@ body.modal-locked {
 .convert-modal {
   padding-top: 20px;
 }
+.convert-modal .modal-body {
+  padding-top: 16px;
+}
 
 .convert-modal__icon {
-  width: 64px;
-  height: 64px;
+  width: 100px;
+  height: 100px;
   border-radius: 999px;
-  background: #f8fafc;
-  margin: 0 auto 12px auto;
+  background: #ffffff;
+  margin: 24px auto 0px auto;
+  border: 1px solid #eeeeee;
   display: grid;
   place-items: center;
+}
+.convert-modal__icon img {
+  width: 60px;
+  height: 60px;
 }
 
 .convert-modal__title {
@@ -2710,7 +2718,7 @@ body.modal-locked {
   font-weight: 700;
   font-size: 20px;
   color: #0f172a;
-  margin: 32px 0 24px 0;
+  margin: 0 0 24px 0;
 }
 
 .convert-box {
