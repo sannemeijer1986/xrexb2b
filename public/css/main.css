@@ -2192,7 +2192,6 @@ body.modal-locked {
 .page--send .recipient-select {
   cursor: not-allowed;
   background-color: #FCFCFC;
-  border: 0px;
 }
 
 .page--send .recipient-select:focus,
