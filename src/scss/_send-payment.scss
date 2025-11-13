@@ -625,26 +625,38 @@
   text-align: center;
   font-family: $font-family-sans;
   font-weight: 700;
-  font-size: 18px;
+  font-size: 20px;
   color: $text-primary;
-  margin: 6px 0 14px 0;
+  margin: 32px 0 24px 0;
 }
 .convert-box {
+  background-color: #F8F8F8;
+  border: 1px solid $border-color;
+  padding: 24px;
+
   .summary-pair {
     align-items: center;
   }
-  .summary-pair strong {
-    font-weight: 700;
+  .summary-pair strong, .summary-pair .muted {
+    font-weight: 500;
     color: $text-primary;
+    font-size: 16px;
   }
+  
   .convert-rate-link {
     background: none;
     border: 0;
     padding: 0;
-    font-size: 14px;
-    font-weight: 700;
-    color: #336AFF;
+    font-size: 16px;
+    font-weight: 600;
+    color: #73A2F5;
     cursor: default;
+  }
+
+  .summary-pair--convertfrom .muted, .summary-pair--convertto .muted, .summary-pair--convertto strong, .summary-pair--convertfrom strong {
+    font-size: 16px ;
+    color: $text-primary;
+    font-weight: 700;
   }
 }
 
