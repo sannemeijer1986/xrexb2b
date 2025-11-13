@@ -1145,10 +1145,15 @@ textarea {
 }
 
 .modal-footer {
-  padding: 16px 24px 24px;
+  padding: 24px;
   display: flex;
-  gap: 10px;
+  gap: 16px;
   justify-content: flex-end;
+}
+@media screen and (min-width: 1280px) {
+  .modal-footer {
+    padding: 16px 24px 24px;
+  }
 }
 
 .modal-footer .btn { /* size will follow btn modifiers; mobile sizes set in media rule below */ }
@@ -2677,6 +2682,47 @@ body.modal-locked {
   font-weight: 700;
   font-size: 12px;
   cursor: pointer;
+}
+
+/* Convert details modal */
+.convert-modal {
+  padding-top: 20px;
+}
+
+.convert-modal__icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 999px;
+  background: #f8fafc;
+  margin: 0 auto 12px auto;
+  display: grid;
+  place-items: center;
+}
+
+.convert-modal__title {
+  text-align: center;
+  font-family: "Manrope", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  color: #0f172a;
+  margin: 6px 0 14px 0;
+}
+
+.convert-box .summary-pair {
+  align-items: center;
+}
+.convert-box .summary-pair strong {
+  font-weight: 700;
+  color: #0f172a;
+}
+.convert-box .convert-rate-link {
+  background: none;
+  border: 0;
+  padding: 0;
+  font-size: 14px;
+  font-weight: 700;
+  color: #336AFF;
+  cursor: default;
 }
 
 .deduct-rate {

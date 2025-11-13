@@ -143,7 +143,7 @@ function initSendPayment() {
     purpose: findSummaryRow('Purpose'),
     youPay: findSummaryRow('To be deducted'),
     payeeReceives: findSummaryRow('Send to receiver'),
-    conversion: findSummaryRow('Convert rate'),
+    conversion: findSummaryRowStartsWith('Convert'),
   };
 
   const getPayerCurrency = () => {
@@ -366,6 +366,26 @@ function initSendPayment() {
         summaryRows.conversion.style.display = 'none';
       }
     }
+    // Populate Convert details modal (only meaningful when conversion applies)
+    (function populateConvertModal() {
+      const cvFromEl = document.getElementById('cv-from');
+      const cvFeePctEl = document.getElementById('cv-fee-pct');
+      const cvFeeAmtEl = document.getElementById('cv-fee-amt');
+      const cvNetEl = document.getElementById('cv-net');
+      const cvRateEl = document.getElementById('cv-rate');
+      const cvToEl = document.getElementById('cv-to');
+      if (!cvFromEl || !cvFeePctEl || !cvFeeAmtEl || !cvNetEl || !cvRateEl || !cvToEl) return;
+      // Currently 0% conversion fee and 1:1 rate
+      const convertFeePct = 0.00;
+      const convertFeeAmt = 0.00;
+      const convertFrom = amount; // amount is in payeeCurrency; rate is 1:1
+      cvFromEl.textContent = formatAmount(convertFrom, payerCurrency);
+      cvFeePctEl.textContent = `${convertFeePct.toFixed(2)}%`;
+      cvFeeAmtEl.textContent = convertFeeAmt ? formatAmount(convertFeeAmt, payerCurrency) : '--';
+      cvNetEl.textContent = formatAmount(convertFrom - convertFeeAmt, payerCurrency);
+      cvRateEl.textContent = `1 ${payerCurrency} = 1 ${payeeCurrency}`;
+      cvToEl.textContent = formatAmount(amount, payeeCurrency);
+    })();
     // Update Fees Details modal fields when present
     const setText = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
     setText('fd-subtotal', formatAmount(subtotal, payeeCurrency)); // subtotal is in USD
@@ -605,12 +625,12 @@ function initSendPayment() {
   };
   initUploadItems();
 
-  // Open fees details modal
+  // Open convert/fees details modal
   const feesOpen = document.getElementById('fees-details-open');
   if (feesOpen) {
     feesOpen.addEventListener('click', (e) => {
       e.preventDefault();
-      const modal = document.getElementById('feesDetailsModal');
+      const modal = document.getElementById('convertDetailsModal') || document.getElementById('feesDetailsModal');
       if (!modal) return;
       modal.setAttribute('aria-hidden', 'false');
       document.documentElement.classList.add('modal-open');

@@ -608,6 +608,46 @@
   cursor: pointer;
 }
 
+/* Convert details modal */
+.convert-modal {
+  padding-top: 20px;
+}
+.convert-modal__icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 999px;
+  background: $bg-subtle;
+  margin: 0 auto 12px auto;
+  display: grid;
+  place-items: center;
+}
+.convert-modal__title {
+  text-align: center;
+  font-family: $font-family-sans;
+  font-weight: 700;
+  font-size: 18px;
+  color: $text-primary;
+  margin: 6px 0 14px 0;
+}
+.convert-box {
+  .summary-pair {
+    align-items: center;
+  }
+  .summary-pair strong {
+    font-weight: 700;
+    color: $text-primary;
+  }
+  .convert-rate-link {
+    background: none;
+    border: 0;
+    padding: 0;
+    font-size: 14px;
+    font-weight: 700;
+    color: #336AFF;
+    cursor: default;
+  }
+}
+
 // Deduct rate helper lines on separate rows
 .deduct-rate {
   margin-top: 3px;

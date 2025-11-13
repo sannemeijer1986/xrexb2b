@@ -103,6 +103,46 @@
       </section>
     </main>
 
+    <!-- Modal: Convert details -->
+    <div id="convertDetailsModal" class="modal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="convertDetailsTitle">
+      <div class="modal-wrapper">
+        <div class="modal-content convert-modal">
+          <div class="convert-modal__icon">
+            <img src="assets/icon_convert.svg" alt="" width="28" height="28" />
+          </div>
+          <div class="modal-body">
+            <h2 id="convertDetailsTitle" class="convert-modal__title">Convert details for this payment</h2>
+            <div class="summary-box convert-box">
+              <div class="summary-pair">
+                <span class="muted">Convert from</span>
+                <strong id="rcv-cv-from">-</strong>
+              </div>
+              <div class="summary-pair">
+                <span class="muted">Conversion fee (<span id="rcv-cv-fee-pct">0.00%</span>)</span>
+                <strong id="rcv-cv-fee-amt">--</strong>
+              </div>
+              <div class="summary-pair">
+                <span class="muted">Net amount to convert</span>
+                <strong id="rcv-cv-net">-</strong>
+              </div>
+              <div class="summary-pair">
+                <button type="button" class="convert-rate-link">Rate</button>
+                <strong id="rcv-cv-rate">1 USDT = 1 USD</strong>
+              </div>
+              <div class="summary-separator"></div>
+              <div class="summary-pair">
+                <span class="muted">Convert to</span>
+                <strong id="rcv-cv-to">-</strong>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn--secondary btn--md" data-modal-close>Dismiss</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <footer class="site-footer">
       <div class="footer__inner">
         <div class="footer__copy">© XREX Pay Limited 2025</div>
