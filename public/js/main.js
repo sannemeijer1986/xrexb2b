@@ -664,7 +664,22 @@ function initSendPayment() {
       const inPre = !!item.closest('#docs-pre');
       const inPost = !!item.closest('#docs-post');
       if (subEl) {
-        subEl.textContent = inPre ? '' : 'Description';
+        if (inPre) {
+          subEl.textContent = '';
+        } else if (inPost) {
+          const titleTxt = (item.querySelector('.upload-item__title')?.textContent || '').toLowerCase();
+          let desc = '';
+          if (titleTxt.includes('commercial invoice')) {
+            desc = 'The official invoice issued by the seller after shipment';
+          } else if (titleTxt.includes('transport')) {
+            desc = 'Proof of shipment, ex. Bill of lading, Airway bill, or Courier waybill';
+          } else if (titleTxt.includes('packing')) {
+            desc = 'Detailed list of goods included in the shipment';
+          }
+          subEl.textContent = desc;
+        } else {
+          subEl.textContent = '';
+        }
       }
       const actions = ensureActions(item);
       const mainBtn = actions.querySelector('.btn');
@@ -737,10 +752,84 @@ function initSendPayment() {
   };
   initUploadItems();
 
-  // Revalidate when post-shipment missing-document checkboxes change
+  // Revalidate + UI when post-shipment missing-document checkboxes change
+  const updateMissingDocsUI = () => {
+    const post = document.getElementById('docs-post');
+    if (!post) return;
+    const declare = post.querySelector('#docsDeclare');
+    const missRows = Array.from(post.querySelectorAll('.doc-miss-row'));
+    const missingTypes = [];
+    missRows.forEach((row) => {
+      const cb = row.querySelector('input[type="checkbox"]');
+      const prev = row.previousElementSibling;
+      const item = (prev && prev.classList && prev.classList.contains('upload-item')) ? prev : null;
+      if (!cb || !item) return;
+      const titleEl = item.querySelector('.upload-item__title');
+      const title = (titleEl && titleEl.textContent || '').trim();
+      const isTransport = /transport/i.test(title);
+      const isPacking = /pack/i.test(title);
+      if (cb.checked) {
+        // Mark as missing and reset to default
+        item.classList.add('is-missing');
+        // reset upload state
+        item.classList.remove('is-uploaded');
+        const badgeImg = item.querySelector('.upload-item__badge img');
+        if (badgeImg) badgeImg.src = 'assets/icon_upload_1.svg';
+        const subEl = item.querySelector('.upload-item__meta small');
+        if (subEl) {
+          const lower = title.toLowerCase();
+          if (lower.includes('commercial invoice')) {
+            subEl.textContent = 'The official invoice issued by the seller after shipment';
+          } else if (isTransport) {
+            subEl.textContent = 'Proof of shipment, ex. Bill of lading, Airway bill, or Courier waybill';
+          } else if (isPacking) {
+            subEl.textContent = 'Detailed list of goods included in the shipment';
+          } else {
+            subEl.textContent = '';
+          }
+        }
+        // disable actions and normalize main button
+        const actions = item.querySelector('.upload-item__actions');
+        if (actions) {
+          const mainBtn = actions.querySelector('.btn:not(.upload-reset)');
+          if (mainBtn) {
+            mainBtn.classList.add('btn--primary');
+            mainBtn.classList.remove('btn--secondary');
+            mainBtn.textContent = 'Upload';
+            mainBtn.disabled = true;
+          }
+          const resetBtn = actions.querySelector('.upload-reset');
+          if (resetBtn) resetBtn.remove();
+        }
+        if (isTransport) missingTypes.push('transport document');
+        if (isPacking) missingTypes.push('packing list');
+      } else {
+        // unmark missing and re-enable actions
+        item.classList.remove('is-missing');
+        const actions = item.querySelector('.upload-item__actions');
+        if (actions) {
+          actions.querySelectorAll('button').forEach(b => { b.disabled = false; });
+        }
+      }
+    });
+    const unique = Array.from(new Set(missingTypes));
+    if (declare) {
+      if (unique.length > 0) {
+        const typesText = unique.length === 1 ? unique[0] : `${unique[0]} or ${unique[1]}`;
+        const span = declare.querySelector('#docsDeclareTypes');
+        if (span) span.textContent = typesText;
+        declare.hidden = false;
+      } else {
+        declare.hidden = true;
+      }
+    }
+    if (typeof validateSendForm === 'function') validateSendForm();
+  };
   document.querySelectorAll('#docs-post .doc-miss-row input[type=\"checkbox\"]').forEach((chk) => {
-    chk.addEventListener('change', () => { if (typeof validateSendForm === 'function') validateSendForm(); });
+    chk.addEventListener('change', updateMissingDocsUI, { passive: true });
   });
+  // run once on init
+  updateMissingDocsUI();
 
   // Open convert/fees details modal
   const feesOpen = document.getElementById('fees-details-open');

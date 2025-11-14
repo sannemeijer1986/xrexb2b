@@ -683,7 +683,10 @@
 }
 
 // Group wrapper for docs sections so spacing between header and content is controllable
-.docs-group__content { display: flex; flex-direction: column; gap: 16px; gap: 32px;}
+.docs-group__content { display: flex; flex-direction: column; gap: 40px;}
+
+#docs-post .docs-group__content--first { display: flex; flex-direction: column; gap: 16px;}
+#docs-post .docs-post__attach { margin-bottom: 0px !important; }
 
 // Ensure hidden always overrides layout
 .deduct-rate[hidden] { display: none !important; }
@@ -977,7 +980,7 @@
   .upload-list { display: grid; gap: 12px; margin-bottom: 16px; }
   .doc-miss-row { display:flex; justify-content: flex-end; }
   .doc-miss { display: inline-flex; align-items: center; gap: 8px; color: $text-secondary; font-size: 14px; }
-  .docs-declare { margin-top: 16px; border:1px solid $border-color; border-radius: $radius-md; padding:16px; background:#FCFCFC; }
+  .docs-declare { margin-top: 0px; margin-bottom: 40px; border:1px solid $border-color; border-radius: $radius-md; padding:16px; background:#FCFCFC; }
   .docs-declare__label { display:flex; align-items:center; gap:8px; color:$text-primary; font-size:14px; }
 }
 .upload-item {
@@ -1005,6 +1008,7 @@
   color: $primary-600;
 }
 .upload-item__badge img { width: 20px; height: 20px; display: block; }
+.upload-item.is-missing { opacity: .35; }
 .upload-item, .upload-item * {
   transition: none !important;
   animation: none !important;
@@ -1076,9 +1080,14 @@
 }
 
 .upload-list--post {
+margin-bottom: 0px;
 
   .doc-miss-row {
     margin-bottom: 24px;
+  }
+
+  .doc-miss-row:last-child {
+    margin-bottom: 0px;
   }
 
   .upload-item:first-child {

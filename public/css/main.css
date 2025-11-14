@@ -2802,8 +2802,17 @@ body.modal-locked {
 .docs-group__content {
   display: flex;
   flex-direction: column;
+  gap: 40px;
+}
+
+#docs-post .docs-group__content--first {
+  display: flex;
+  flex-direction: column;
   gap: 16px;
-  gap: 32px;
+}
+
+#docs-post .docs-post__attach {
+  margin-bottom: 0px !important;
 }
 
 .deduct-rate[hidden] {
@@ -3222,7 +3231,8 @@ body.modal-locked {
   font-size: 14px;
 }
 #docs-post .docs-declare {
-  margin-top: 16px;
+  margin-top: 0px;
+  margin-bottom: 40px;
   border: 1px solid #eeeeee;
   border-radius: 8px;
   padding: 16px;
@@ -3271,6 +3281,10 @@ body.modal-locked {
   width: 20px;
   height: 20px;
   display: block;
+}
+
+.upload-item.is-missing {
+  opacity: 0.35;
 }
 
 .upload-item, .upload-item * {
@@ -3357,8 +3371,14 @@ body.modal-locked {
   height: 32px;
 }
 
+.upload-list--post {
+  margin-bottom: 0px;
+}
 .upload-list--post .doc-miss-row {
   margin-bottom: 24px;
+}
+.upload-list--post .doc-miss-row:last-child {
+  margin-bottom: 0px;
 }
 .upload-list--post .upload-item:first-child {
   margin-bottom: 48px;
