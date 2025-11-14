@@ -701,6 +701,26 @@
   color: $text-primary;
 }
 
+// Review Payment page layout adjustments
+.page--review {
+  .container { max-width: 700px; }
+  .receipt__note {
+    text-align: center;
+    color: #73A2F5;
+  }
+  .receipt__actions {
+    display: flex;
+    flex-direction: column-reverse; // primary on top (second in DOM)
+    gap: 12px;
+    .btn { width: 100%; }
+    @media (min-width: $bp-desktop) {
+      flex-direction: row;
+      justify-content: flex-end;
+      .btn { width: 180px; }
+    }
+  }
+}
+
 .summary-box .summary-pair--sub {
   padding-left: 24px;
 }

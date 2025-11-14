@@ -42,6 +42,7 @@
       </div>
       <section class="container">
 
+        <h3 class="card__title">Receiver</h3>
         <div class="card card--section receipt__card">
           <div class="receipt__row receipt__row--first">
             <span class="muted">Receiver</span>
@@ -56,6 +57,7 @@
           </div>
         </div>
 
+        <h3 class="card__title">Payment details</h3>
         <div class="card card--section receipt__card">
           <div class="receipt__row">
             <span class="muted">Nature of payment</span>
@@ -75,6 +77,7 @@
           </div>
         </div>
 
+        <h3 class="card__title">Amount and fees</h3>
         <div class="card card--section receipt__card">
           <div class="receipt__row">
             <span class="muted">Amount payable</span>
@@ -87,8 +90,8 @@
           <div class="receipt__row" id="convRow" hidden>
             <span class="muted">Convert to USD at a rate of</span>
             <strong id="convVal">1 USDT = 1 USD</strong>
+            <button id="fees-details-open" type="button" class="summary-title-link">See convert details</button>
           </div>
-          <button id="fees-details-open" type="button" class="summary-title-link">See convert details</button>
           <div class="receipt__row">
             <span class="muted">Service fee</span>
             <strong id="feePct">1.00%</strong>

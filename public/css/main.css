@@ -2821,6 +2821,31 @@ body.modal-locked {
   color: #0f172a;
 }
 
+.page--review .container {
+  max-width: 700px;
+}
+.page--review .receipt__note {
+  text-align: center;
+  color: #73A2F5;
+}
+.page--review .receipt__actions {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 12px;
+}
+.page--review .receipt__actions .btn {
+  width: 100%;
+}
+@media (min-width: 1280px) {
+  .page--review .receipt__actions {
+    flex-direction: row;
+    justify-content: flex-end;
+  }
+  .page--review .receipt__actions .btn {
+    width: 180px;
+  }
+}
+
 .summary-box .summary-pair--sub {
   padding-left: 24px;
 }
