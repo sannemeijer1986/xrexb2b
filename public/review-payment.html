@@ -43,20 +43,22 @@
       <section class="container container--review">
 
         <div class="review-block">
-        <h3 class="card__title">Receiver</h3>
-        <div class="card card--section receipt__card">
-          <div class="receipt__row receipt__row--first">
-            <span class="muted">Receiver</span>
-            <span class="receipt__rcv">
-              <span class="receipt__badge"><img src="assets/icon_bankaccount_grey.svg" alt="" /></span>
-              <strong id="rcvName">-</strong>
-            </span>
+          <h3 class="card__title">Receiver</h3>
+          <div class="card card--section receipt__card">
+            <div class="summary-recipient">
+              <span class="recipient-select__avatar">
+                <img src="assets/icon_bankaccount_grey.svg" alt="" />
+              </span>
+              <span class="recipient-select__content">
+                <span class="recipient-select__title" id="rcvName">-</span>
+                <span class="recipient-select__subtitle" id="rcvBank">-</span>
+              </span>
+              <span class="summary-recipient__currency">
+                <span class="summary-recipient__currency-text" id="rcvCurrencyText">USD account</span>
+                <img src="assets/icon_USD.svg" alt="" />
+              </span>
+            </div>
           </div>
-          <div class="receipt__row">
-            <span class="muted">To bank account</span>
-            <strong id="rcvBank">-</strong>
-          </div>
-        </div>
         </div>
 
         <div class="review-block">
@@ -71,12 +73,12 @@
             <strong id="purposeVal">-</strong>
           </div>
           <div class="receipt__row">
-            <span class="muted">Commercial invoice number</span>
-            <strong id="docNumVal">-</strong>
-          </div>
-          <div class="receipt__row">
             <span class="muted">Attached documents</span>
             <strong id="attachedDocs">-</strong>
+          </div>
+          <div class="receipt__row">
+            <span class="muted">{SuppDocsOptional1}</span>
+            <strong id="docNumVal">-</strong>
           </div>
         </div>
         </div>
@@ -118,7 +120,7 @@
             <span class="muted">Send to receiver</span>
             <strong id="receiverGets">-</strong>
           </div>
-          <div class="receipt__note">Received amount may differ due to bank or currency exchange fees. Receiver will be billed in US Dollar.</div>
+          <div class="receipt__note">Received amount may differ due to bank or currency exchange fees. <br />Receiver will be billed in US Dollar.</div>
         </div>
         </div>
 
@@ -235,6 +237,7 @@
           const set = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
           set('rcvName', (d.receiverName || '').replace(/^To\\s+/i,''));
           set('rcvBank', d.receiverBank || '');
+          set('rcvCurrencyText', d.deductedFrom || 'USD account');
           set('natureVal', d.nature || '');
           set('purposeVal', d.purpose || '');
           set('docNumVal', d.docNumber || '');

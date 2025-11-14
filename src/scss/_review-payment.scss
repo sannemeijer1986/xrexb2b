@@ -9,6 +9,7 @@
   .receipt__note {
     text-align: center;
     color: #73A2F5;
+    margin: 24px 0px 8px 0px;
   }
   .page__header {
     margin-bottom: 0px;
@@ -25,8 +26,12 @@
     text-align: right;
     display: inline-block;
   }
+
+  .summary-recipient {
+    margin-bottom: 0px;
+  }
   // Group (title + card) vertical rhythm
-  .review-block { margin-bottom: 24px; }
+  .review-block { margin-bottom: 40px; }
   // CTA layout: stacked on mobile, right-aligned fixed width on desktop
   .receipt__actions {
     display: flex;

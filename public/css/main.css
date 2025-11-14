@@ -3422,6 +3422,7 @@ body.modal-locked {
 .page--review .receipt__note {
   text-align: center;
   color: #73A2F5;
+  margin: 24px 0px 8px 0px;
 }
 .page--review .page__header {
   margin-bottom: 0px;
@@ -3436,8 +3437,11 @@ body.modal-locked {
   text-align: right;
   display: inline-block;
 }
+.page--review .summary-recipient {
+  margin-bottom: 0px;
+}
 .page--review .review-block {
-  margin-bottom: 24px;
+  margin-bottom: 40px;
 }
 .page--review .receipt__actions {
   display: flex;
