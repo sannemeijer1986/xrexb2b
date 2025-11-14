@@ -1,6 +1,225 @@
 <!doctype html>
 <html lang="en">
   <head>
+    <title>XREX Pay - Review payment</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Sora:wght@400;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="css/main.css" />
+    <link rel="icon" href="assets/favicons/xrex-favicon-16x16.png" sizes="16x16" type="image/png" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container header__content">
+        <a class="brand" href="index.html" aria-label="XREX Pay">
+          <img class="brand__img" src="assets/logo_xrexpay.svg" alt="XREX Pay" />
+        </a>
+        <div class="header__spacer"></div>
+        <div class="header__actions">
+          <a class="circle-icon" href="https://intercom.help/xrex-sg/en/" target="_blank" rel="noopener noreferrer" title="Support">
+            <img src="assets/icon_support.svg" alt="support" width="20" height="20" />
+          </a>
+          <a class="account-chip" href="#">
+            <span class="chip-avatar"><img src="assets/logo_agp.svg" alt="AGP" /></span>
+            <span class="chip-name">AGP Technology</span>
+            <img class="chevron" src="assets/icon_chevron_right.svg" alt="more" width="20" height="20" />
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <main class="page page--review">
+      <section class="container">
+        <h1 class="receipt__title" style="text-align:left;">Review payment</h1>
+
+        <div class="card card--section receipt__card">
+          <div class="receipt__row receipt__row--first">
+            <span class="muted">Receiver</span>
+            <span class="receipt__rcv">
+              <span class="receipt__badge"><img src="assets/icon_bankaccount_grey.svg" alt="" /></span>
+              <strong id="rcvName">-</strong>
+            </span>
+          </div>
+          <div class="receipt__row">
+            <span class="muted">To bank account</span>
+            <strong id="rcvBank">-</strong>
+          </div>
+        </div>
+
+        <div class="card card--section receipt__card">
+          <div class="receipt__row">
+            <span class="muted">Nature of payment</span>
+            <strong id="natureVal">-</strong>
+          </div>
+          <div class="receipt__row">
+            <span class="muted">Purpose of payment</span>
+            <strong id="purposeVal">-</strong>
+          </div>
+          <div class="receipt__row">
+            <span class="muted">Commercial invoice number</span>
+            <strong id="docNumVal">-</strong>
+          </div>
+          <div class="receipt__row">
+            <span class="muted">Attached documents</span>
+            <strong id="attachedDocs">-</strong>
+          </div>
+        </div>
+
+        <div class="card card--section receipt__card">
+          <div class="receipt__row">
+            <span class="muted">Amount payable</span>
+            <strong id="amtPayable">-</strong>
+          </div>
+          <div class="receipt__row">
+            <span class="muted">Deduct from</span>
+            <strong id="deductedFrom">-</strong>
+          </div>
+          <div class="receipt__row" id="convRow" hidden>
+            <span class="muted">Convert to USD at a rate of</span>
+            <strong id="convVal">1 USDT = 1 USD</strong>
+          </div>
+          <div class="receipt__row">
+            <span class="muted">Service fee</span>
+            <strong id="feePct">1.00%</strong>
+          </div>
+          <div class="receipt__subrow">
+            <span class="muted" id="payerShareLabel">-</span>
+            <strong id="payerShareAmt">-</strong>
+          </div>
+          <div class="receipt__subrow">
+            <span class="muted" id="receiverShareLabel">-</span>
+            <strong id="receiverShareAmt">-</strong>
+          </div>
+          <div class="receipt__divider"></div>
+          <div class="receipt__row">
+            <span class="muted">To be deducted</span>
+            <strong id="toBeDeducted">-</strong>
+          </div>
+          <div class="receipt__row receipt__row--em">
+            <span class="muted">Send to receiver</span>
+            <strong id="receiverGets">-</strong>
+          </div>
+          <div class="receipt__note">Received amount may differ due to bank or currency exchange fees. Receiver will be billed in US Dollar.</div>
+        </div>
+
+        <div class="receipt__actions">
+          <a class="btn btn--secondary btn--md" href="send-payment.html">Back</a>
+          <button class="btn btn--primary btn--md" id="review-confirm">Confirm payment</button>
+        </div>
+      </section>
+    </main>
+
+    <!-- Modal: Confirm send (2FA) -->
+    <div id="confirmPaymentModal" class="modal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="unlinkTitle">
+      <div class="modal-wrapper">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h2 id="unlinkTitle">Two-factor authentication</h2>
+            <button class="modal-close" data-modal-close aria-label="Close modal">
+              <img src="assets/icon_close.svg" width="24" height="24" alt="close">
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="m-step">
+              <div class="m-step-title">Please enter the 6-digit code from your authenticator app</div>
+              <div class="m-link">How to enter your authenticator code?</div>
+              <div class="m-field">
+                <div class="m-field-group">
+                  <label class="m-label" for="unlinkCodeInput">Authentication code</label>
+                  <div class="m-input-row">
+                    <input id="unlinkCodeInput" class="m-input" type="text" inputmode="numeric" autocomplete="one-time-code" placeholder="Enter 6-digit code" maxlength="6">
+                    <button id="unlinkClearBtn" class="m-clear is-hidden" type="button" aria-label="Clear input">
+                      <img src="assets/icon_clear.svg" width="16" height="16" alt="">
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn--secondary btn--md" data-modal-close id="unlinkCancel">Back</button>
+            <button class="btn btn--primary btn--md" id="unlinkConfirm" disabled>Confirm</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Loading Modal -->
+    <div id="loadingModal" class="modal modal-loading" role="dialog" aria-modal="true" aria-hidden="true">
+      <div class="modal-wrapper">
+        <div class="modal-content">
+          <div class="loading-spinner" aria-live="polite" aria-label="Loading">
+            <img src="assets/loader.svg" alt="" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer class="site-footer">
+      <div class="footer__inner">
+        <div class="footer__copy">© XREX Pay Limited 2025</div>
+        <div class="footer__links">
+          <a href="https://intercom.help/xrex-sg/en/" target="_blank" rel="noopener noreferrer">Support</a>
+          <a href="https://info.xrex.sg/doc" target="_blank" rel="noopener noreferrer">Terms of Use</a>
+          <a href="https://info.xrex.sg/doc" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
+        </div>
+      </div>
+    </footer>
+    <script defer src="js/main.js?v=20251108"></script>
+    <script>
+      (function populateReview() {
+        try {
+          const raw = sessionStorage.getItem('receiptData');
+          const d = raw ? JSON.parse(raw) : null;
+          if (!d) return;
+          const set = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
+          set('rcvName', (d.receiverName || '').replace(/^To\\s+/i,''));
+          set('rcvBank', d.receiverBank || '');
+          set('natureVal', d.nature || '');
+          set('purposeVal', d.purpose || '');
+          set('docNumVal', d.docNumber || '');
+          set('attachedDocs', d.attachedDocs || '');
+          set('amtPayable', d.amountPayableFmt || '');
+          set('deductedFrom', d.deductedFrom || '');
+          set('feePct', d.feePct || '1.00%');
+          set('payerShareLabel', d.payerShareLabel || '');
+          set('payerShareAmt', d.payerShareAmt || '');
+          set('receiverShareLabel', d.receiverShareLabel || '');
+          set('receiverShareAmt', d.receiverShareAmt || '');
+          set('toBeDeducted', d.toBeDeducted || '');
+          set('receiverGets', d.receiverGets || '');
+          var convRow = document.getElementById('convRow');
+          if (convRow) {
+            if (d.conversion) {
+              set('convVal', d.conversion);
+              convRow.hidden = false;
+              convRow.style.display = '';
+            } else {
+              convRow.hidden = true;
+              convRow.style.display = 'none';
+            }
+          }
+        } catch (_) {}
+      })();
+      (function wireReviewConfirm() {
+        const btn = document.getElementById('review-confirm');
+        if (!btn) return;
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          const modal = document.getElementById('confirmPaymentModal');
+          if (!modal) return;
+          modal.setAttribute('aria-hidden', 'false');
+          document.documentElement.classList.add('modal-open');
+          document.body.classList.add('modal-open');
+        });
+      })();
+    </script>
+  </body>
+  </html>
+
+<!doctype html>
+<html lang="en">
+  <head>
     <title>XREX Pay - Payment submitted</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />

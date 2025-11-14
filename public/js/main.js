@@ -730,7 +730,7 @@ function initSendPayment() {
       } catch (_) {}
     });
   }
-  // Open confirm modal on button click (button is outside <form>)
+  // Review payment navigation (button is outside <form>)
   const confirmTrigger = document.getElementById('confirm-send');
   if (confirmTrigger) {
     confirmTrigger.addEventListener('click', (e) => {
@@ -761,30 +761,77 @@ function initSendPayment() {
         }
         return;
       }
-      const modal = document.getElementById('confirmPaymentModal');
-      if (modal) {
-        modal.setAttribute('aria-hidden', 'false');
+      // Build receipt data to review
+      try {
+        const getText = (sel) => (document.querySelector(sel)?.textContent || '').trim();
+        const amountInput = document.getElementById('amount');
+        const rawAmt = (amountInput?.value || '').replace(/,/g, '');
+        const amount = parseFloat(rawAmt) || 0;
+        const feeRate = 0.01;
+        // Fee mode
+        const feeSel = Array.from(document.querySelectorAll('input[type="radio"][name="fee"]')).find(r => r.checked)?.value || 'you';
+        let payerRate = 0, receiverRate = 0;
+        if (feeSel === 'you') { payerRate = feeRate; receiverRate = 0; }
+        else if (feeSel === 'receiver') { payerRate = 0; receiverRate = feeRate; }
+        else { payerRate = feeRate/2; receiverRate = feeRate/2; }
+        // Payer currency
+        const payerCurrency = Array.from(document.querySelectorAll('input[type="radio"][name="deduct"]')).find(r => r.checked)?.value || 'USD';
+        const payeeCurrency = 'USD';
+        const payerFee = amount * payerRate;
+        const receiverFee = amount * receiverRate;
+        const youPay = amount + payerFee;
+        const payeeGets = amount - receiverFee;
+        const fmt = (v, cur) => `${Number(v||0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ${cur}`;
+        // Nature/Purpose labels
+        const natureSel = document.getElementById('nature');
+        const purposeSel = document.getElementById('purpose');
+        const natureLabel = natureSel?.selectedOptions?.[0]?.textContent?.trim() || '';
+        const purposeLabel = purposeSel?.selectedOptions?.[0]?.textContent?.trim() || '';
+        // Doc numbers and attached docs
+        const piNumber = document.getElementById('piNumber')?.value || '';
+        const ciNumber = document.getElementById('ciNumber')?.value || '';
+        let docNumber = piNumber || ciNumber || '';
+        const attached = [];
+        document.querySelectorAll('#docs-pre .upload-item, #docs-post .upload-item').forEach((it) => {
+          const title = it.querySelector('.upload-item__title')?.textContent?.trim();
+          if (title) attached.push(title);
+        });
+        const data = {
+          receiverName: (getText('.summary-recipient .recipient-select__title') || '').replace(/^To\s+/i,''),
+          receiverBank: getText('.summary-recipient .recipient-select__subtitle'),
+          amountPayableFmt: fmt(amount, payeeCurrency),
+          deductedFrom: `${payerCurrency} account`,
+          feePct: `${(feeRate*100).toFixed(2)}%`,
+          payerShareLabel: `${(payerRate*100).toFixed(2)}% paid by you`,
+          payerShareAmt: fmt(payerFee, payerCurrency),
+          receiverShareLabel: `${(receiverRate*100).toFixed(2)}% paid by receiver`,
+          receiverShareAmt: fmt(receiverFee, payeeCurrency),
+          toBeDeducted: fmt(youPay, payerCurrency),
+          receiverGets: fmt(payeeGets, payeeCurrency),
+          conversion: payerCurrency !== payeeCurrency ? `1 ${payerCurrency} = 1 ${payeeCurrency}` : '',
+          nature: natureLabel,
+          purpose: purposeLabel,
+          docNumber,
+          attachedDocs: attached.join(', '),
+          dateTime: new Date().toLocaleString('en-GB', { hour12: false }),
+          status: 'Processing',
+        };
+        sessionStorage.setItem('receiptData', JSON.stringify(data));
+      } catch (_) {}
+      // Show loading then navigate to review page
+      const loading = document.getElementById('loadingModal');
+      if (loading) {
+        loading.setAttribute('aria-hidden', 'false');
         document.documentElement.classList.add('modal-open');
         document.body.classList.add('modal-open');
-        // Lock scroll (mirror helper)
         try {
           const y = window.scrollY || window.pageYOffset || 0;
           document.body.dataset.scrollY = String(y);
           document.body.style.top = `-${y}px`;
           document.body.classList.add('modal-locked');
         } catch (_) {}
-        // Reset 2FA input UI on open
-        try {
-          const uiInput = document.getElementById('unlinkCodeInput');
-          const uiConfirm = document.getElementById('unlinkConfirm');
-          const uiErr = document.getElementById('unlinkCodeError');
-          const uiClear = document.getElementById('unlinkClearBtn');
-          if (uiInput) uiInput.value = '';
-          if (uiConfirm) uiConfirm.disabled = true;
-          if (uiErr) uiErr.hidden = true;
-          if (uiClear) uiClear.classList.add('is-hidden');
-        } catch (_) {}
       }
+      setTimeout(() => { window.location.href = 'review-payment.html'; }, 600);
     });
     // Desktop hover tooltip when inactive
     confirmTrigger.addEventListener('mouseenter', () => {
