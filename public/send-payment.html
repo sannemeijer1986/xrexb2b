@@ -296,44 +296,42 @@
 
               <!-- Variant B: Post-shipment -->
               <div id="docs-post" class="docs-variant" hidden>
-                <div class="docs-head">
-                  <h1>UNDER CONSTRUCTION</h1>
-                  <span class="docs-head__label">Upload 3 documents</span>
-                  <span class="docs-head__meta">PDF, PNG, JPG under 50mb</span>
-                </div>
-                <div class="upload-list">
-                  <div class="upload-item">
-                    <span class="upload-item__badge"><img src="assets/icon_upload_1.svg" alt=""></span>
-                    <div class="upload-item__meta">
-                      <span class="upload-item__title">Bill of Lading (BL)</span>
-                      <small class="muted">Description</small>
+                <div class="docs-uc">Under construction</div>
+                <div class="docs-group docs-group--required">
+                  <div class="docs-section">
+                    <div class="docs-section__head">
+                      <img class="docs-section__icon" src="assets/icon_required.svg" alt="" width="16" height="16" />
+                      <span class="docs-section__title">Required</span>
                     </div>
-                    <button type="button" class="btn btn--primary btn--sm">Upload</button>
+                    <div class="docs-section__divider"></div>
                   </div>
-                  <div class="upload-item">
-                    <span class="upload-item__badge"><img src="assets/icon_upload_1.svg" alt=""></span>
-                    <div class="upload-item__meta">
-                      <span class="upload-item__title">Packing List (PL)</span>
-                      <small class="muted">Description</small>
+                  <div class="docs-group__content">
+                    <div class="docs-post__attach">
+                      <span class="muted">Attach the following documents</span>
+                      <small class="muted">PDF, PNG, JPG under 50mb per document</small>
                     </div>
-                    <button type="button" class="btn btn--primary btn--sm">Upload</button>
-                  </div>
-                  <div class="upload-item">
-                    <span class="upload-item__badge"><img src="assets/icon_upload_1.svg" alt=""></span>
-                    <div class="upload-item__meta">
-                      <span class="upload-item__title">Commercial Invoice (CI)</span>
-                      <small class="muted">Description</small>
-                    </div>
-                    <button type="button" class="btn btn--primary btn--sm">Upload</button>
-                  </div>
-                </div>
-                <div class="form__row">
-                  <div class="form__field">
-                    <label for="ciNumber">Commercial Invoice (CI) number</label>
-                    <input id="ciNumber" name="ciNumber" type="text" placeholder="Enter CI number" />
-                  </div>
-                </div>
-              </div>
+                    <div class="upload-list">
+                      <div class="upload-item">
+                        <span class="upload-item__badge"><img src="assets/icon_upload_1.svg" alt=""></span>
+                        <div class="upload-item__meta">
+                          <span class="upload-item__title">Commercial invoice (CI)</span>
+                          <small class="muted">Under construction</small>
+                        </div>
+                        <div class="upload-item__actions">
+                          <button type="button" class="btn btn--primary btn--sm">Upload</button>
+                        </div>
+                      </div>
+                      <div class="upload-item">
+                        <span class="upload-item__badge"><img src="assets/icon_upload_1.svg" alt=""></span>
+                        <div class="upload-item__meta">
+                          <span class="upload-item__title">Transport document</span>
+                          <small class="muted">Under construction</small>
+                        </div>
+                        <div class="upload-item__actions">
+                          <button type="button" class="btn btn--primary btn--sm">Upload</button>
+                        </div>
+                      </div>
+                      <div class=\"doc-miss-row\"><label class=\"doc-miss\"><input type=\"checkbox\" /> <span>I don’t have this document</span></label></div>\n                      <div class=\"upload-item\">\n                        <span class=\"upload-item__badge\"><img src=\"assets/icon_upload_1.svg\" alt=\"\"></span>\n                        <div class=\"upload-item__meta\">\n                          <span class=\"upload-item__title\">Packing list (PL)</span>\n                          <small class=\"muted\">Under construction</small>\n                        </div>\n                        <div class=\"upload-item__actions\">\n                          <button type=\"button\" class=\"btn btn--primary btn--sm\">Upload</button>\n                        </div>\n                      </div>\n                      <div class=\"doc-miss-row\"><label class=\"doc-miss\"><input type=\"checkbox\" /> <span>I don’t have this document</span></label></div>\n                    </div>\n                  </div>\n                </div>\n                <div class=\"docs-group docs-group--optional\">\n                  <div class=\"docs-section\">\n                    <div class=\"docs-section__head\">\n                      <img class=\"docs-section__icon\" src=\"assets/icon_optional.svg\" alt=\"\" width=\"16\" height=\"16\" />\n                      <span class=\"docs-section__title\">Optional</span>\n                    </div>\n                    <div class=\"docs-section__divider\"></div>\n                  </div>\n                  <div class=\"docs-group__content\">\n                    <div class=\"form__field\">\n                      <label for=\"ciNumber\">Commercial invoice number</label>\n                      <input id=\"ciNumber\" name=\"ciNumber\" type=\"text\" placeholder=\"Enter CI number\" />\n                    </div>\n                  </div>\n                </div>\n                <div class=\"docs-declare\">\n                  <label class=\"docs-declare__label\">\n                    <input type=\"checkbox\" />\n                    <span>I hereby declare that the payment for this transaction is not supported by any {Transport document/Packing list}.</span>\n                  </label>\n                </div>\n              </div>
             </div>
           </div>
 
