@@ -2828,6 +2828,15 @@ body.modal-locked {
   text-align: center;
   color: #73A2F5;
 }
+.page--review .receipt__row strong,
+.page--review .receipt__subrow strong {
+  margin-left: auto;
+  text-align: right;
+  display: inline-block;
+}
+.page--review .review-block {
+  margin-bottom: 24px;
+}
 .page--review .receipt__actions {
   display: flex;
   flex-direction: column-reverse;

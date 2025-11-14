@@ -40,7 +40,7 @@
           <h1 id="rv-back-title" class="page__title">Review payment</h1>
         </section>
       </div>
-      <section class="container">
+      <section class="container container--review">
 
         <h3 class="card__title">Receiver</h3>
         <div class="card card--section receipt__card">
@@ -261,6 +261,36 @@
         btn.addEventListener('click', (e) => {
           e.preventDefault();
           const modal = document.getElementById('confirmPaymentModal');
+          if (!modal) return;
+          modal.setAttribute('aria-hidden', 'false');
+          document.documentElement.classList.add('modal-open');
+          document.body.classList.add('modal-open');
+        });
+      })();
+      (function wireConvertDetails() {
+        const link = document.getElementById('fees-details-open');
+        if (!link) return;
+        link.addEventListener('click', (e) => {
+          e.preventDefault();
+          // Populate values
+          try {
+            const raw = sessionStorage.getItem('receiptData');
+            const d = raw ? JSON.parse(raw) : null;
+            if (d) {
+              const set = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
+              const payerCur = (d.deductedFrom || '').replace(/account/i, '').trim() || 'USD';
+              const amountNum = (d.amountPayableFmt || '0').replace(/[^\d.]/g, '');
+              const fmt = (v, cur) => `${Number(v||0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ${cur}`;
+              set('cv-from', fmt(amountNum, payerCur));
+              set('cv-fee-pct', '0.00%');
+              set('cv-fee-amt', '--');
+              set('cv-net', fmt(amountNum, payerCur));
+              const rate = d.conversion || `1 ${payerCur} = 1 USD`;
+              set('cv-rate', rate);
+              set('cv-to', d.amountPayableFmt || fmt(amountNum, 'USD'));
+            }
+          } catch (_) {}
+          const modal = document.getElementById('convertDetailsModal');
           if (!modal) return;
           modal.setAttribute('aria-hidden', 'false');
           document.documentElement.classList.add('modal-open');
