@@ -878,7 +878,7 @@ function initSendPayment() {
           docNotes,
           attachedDocs: attached.join(', '),
           dateTime: new Date().toLocaleString('en-GB', { hour12: false }),
-          status: 'Processing',
+          status: 'Pending verification',
         };
         sessionStorage.setItem('receiptData', JSON.stringify(data));
       } catch (_) {}
@@ -1072,7 +1072,7 @@ if (document.readyState === 'loading') {
             receiverGets: fmt(payeeGets, payeeCurrency),
             conversion: payerCurrency !== payeeCurrency ? `1 ${payerCurrency} = 1 ${payeeCurrency}` : '',
             dateTime: new Date().toLocaleString('en-GB', { hour12: false }),
-            status: 'Processing',
+            status: 'Pending verification',
           };
           sessionStorage.setItem('receiptData', JSON.stringify(data));
         } else if (isReviewPage) {

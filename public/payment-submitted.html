@@ -34,7 +34,11 @@
           <div class="receipt__icon">
             <img src="assets/icon_snackbar_success.svg" alt="" />
           </div>
-          <h1 class="receipt__title">Payment submitted</h1>
+
+          <div class="receipt__content">
+            <h1 class="receipt__title">Payment submitted!</h1>
+            <div class="receipt__subtitle">We’re processing your payment</div>
+          </div>
 
           <div class="card card--section receipt__card">
           <div class="receipt__row receipt__row--first">
@@ -83,7 +87,7 @@
               </span>
             <strong id="receiverGets">100,000.00 USD</strong>
             </div>
-          <div class="receipt__note">Receiver is billed in US Dollar</div>
+          <div class="receipt__note" style="display:none;">Receiver is billed in US Dollar</div>
             <div class="receipt__foot">
               <div class="receipt__row">
                 <span class="muted">Date</span>
@@ -195,7 +199,7 @@
           }
         }
         set('dtVal', d.dateTime || '');
-        set('statusVal', d.status || 'Processing');
+        set('statusVal', d.status || 'Pending verification');
       } catch (_) {}
     })();
   </script>

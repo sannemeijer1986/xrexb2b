@@ -2821,10 +2821,19 @@ body.modal-locked {
   color: #0f172a;
 }
 
+.page--receipt .receipt__subtitle {
+  text-align: center;
+  color: #0f172a;
+  font-size: 18px;
+  font-weight: 700;
+  margin-top: 8px;
+  margin-bottom: 16px;
+}
 .page--receipt .receipt__actions {
   display: flex;
   flex-direction: column-reverse;
   gap: 12px;
+  margin-top: 8px;
 }
 .page--receipt .receipt__actions .btn {
   width: 100%;
@@ -2834,9 +2843,7 @@ body.modal-locked {
     flex-direction: row;
     justify-content: flex-end;
   }
-  .page--receipt .receipt__actions .btn {
-    width: 180px;
-  }
+
 }
 
 .summary-box .summary-pair--sub {

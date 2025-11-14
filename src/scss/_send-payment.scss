@@ -705,6 +705,14 @@
 
 // Payment submitted page CTA layout
 .page--receipt {
+  .receipt__subtitle {
+    text-align: center;
+    color: $text-primary;
+    font-size: 18px;
+    font-weight: 700;
+    margin-top: 8px;
+    margin-bottom: 16px;
+  }
   .receipt__actions {
     display: flex;
     flex-direction: column-reverse; // primary button first on mobile
