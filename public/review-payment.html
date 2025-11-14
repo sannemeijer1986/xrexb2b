@@ -54,7 +54,7 @@
                 <span class="recipient-select__subtitle" id="rcvBank">-</span>
               </span>
               <span class="summary-recipient__currency">
-                <span class="summary-recipient__currency-text" id="rcvCurrencyText">USD account</span>
+                <span class="summary-recipient__currency-text">USD account</span>
                 <img src="assets/icon_USD.svg" alt="" />
               </span>
             </div>
@@ -79,6 +79,10 @@
           <div class="receipt__row" id="docNumRow">
             <span class="muted" id="docNumLabelTxt">{SuppDocsOptional1}</span>
             <strong id="docNumVal">-</strong>
+          </div>
+          <div class="receipt__row" id="docNotesRow">
+            <span class="muted">Notes</span>
+            <strong id="docNotesVal">-</strong>
           </div>
         </div>
         </div>
@@ -260,6 +264,14 @@
             if (lblEl) lblEl.textContent = label || '';
             var valEl = document.getElementById('docNumVal');
             if (valEl) valEl.textContent = val || '';
+          })();
+          // Notes (optional)
+          (function () {
+            var row = document.getElementById('docNotesRow');
+            var val = (d.docNotes || '').trim();
+            if (row) row.style.display = val ? '' : 'none';
+            var el = document.getElementById('docNotesVal');
+            if (el) el.textContent = val || '';
           })();
           set('amtPayable', d.amountPayableFmt || '');
           set('deductedFrom', d.deductedFrom || '');

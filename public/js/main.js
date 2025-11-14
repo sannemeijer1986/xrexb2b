@@ -504,12 +504,21 @@ function initSendPayment() {
     const ciNumber = document.getElementById('ciNumber');
     const docNotes = document.getElementById('docNotes');
     const notesCounter = document.getElementById('docNotesCounter');
+    const docNotesPost = document.getElementById('docNotesPost');
+    const notesCounterPost = document.getElementById('docNotesPostCounter');
     const updateNotesCounter = () => {
-      if (!docNotes || !notesCounter) return;
-      const len = String(docNotes.value || '').length;
-      const capped = Math.min(25, len);
-      notesCounter.textContent = `${capped}/25`;
-      docNotes.classList.toggle('is-filled', capped > 0);
+      if (docNotes && notesCounter) {
+        const len = String(docNotes.value || '').length;
+        const capped = Math.min(25, len);
+        notesCounter.textContent = `${capped}/25`;
+        docNotes.classList.toggle('is-filled', capped > 0);
+      }
+      if (docNotesPost && notesCounterPost) {
+        const len2 = String(docNotesPost.value || '').length;
+        const capped2 = Math.min(25, len2);
+        notesCounterPost.textContent = `${capped2}/25`;
+        docNotesPost.classList.toggle('is-filled', capped2 > 0);
+      }
     };
     if (piNumber) {
       piNumber.addEventListener('input', () => { if (typeof validateSendForm === 'function') validateSendForm(); }, { passive: true });
@@ -525,6 +534,13 @@ function initSendPayment() {
       updateNotesCounter();
     } else if (notesCounter) {
       notesCounter.textContent = '0/25';
+    }
+    if (docNotesPost) {
+      docNotesPost.addEventListener('input', () => { updateNotesCounter(); if (typeof validateSendForm === 'function') validateSendForm(); }, { passive: true });
+      docNotesPost.addEventListener('change', () => { updateNotesCounter(); if (typeof validateSendForm === 'function') validateSendForm(); });
+      updateNotesCounter();
+    } else if (notesCounterPost) {
+      notesCounterPost.textContent = '0/25';
     }
   };
 
@@ -804,7 +820,7 @@ function initSendPayment() {
         // Doc numbers and attached docs (vary by nature)
         const piNumber = document.getElementById('piNumber')?.value || '';
         const ciNumber = document.getElementById('ciNumber')?.value || '';
-        const docNotes = document.getElementById('docNotes')?.value || '';
+        const docNotes = document.getElementById('docNotes')?.value || document.getElementById('docNotesPost')?.value || '';
         let docNumber = '';
         let docNumLabel = '';
         let attached = [];

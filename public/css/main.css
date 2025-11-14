@@ -2275,7 +2275,7 @@ body.modal-locked {
   font-family: "Manrope", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
   font-weight: 600;
   font-size: 14px;
-  color: #797A7B;
+  color: #BCBDBD;
   white-space: nowrap;
 }
 
@@ -2962,7 +2962,7 @@ body.modal-locked {
   font-family: "Manrope", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
   font-weight: 700;
   font-size: 14px;
-  color: #797A7B;
+  color: #BCBDBD;
 }
 
 .kv {
