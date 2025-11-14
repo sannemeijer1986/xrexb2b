@@ -2832,7 +2832,7 @@ body.modal-locked {
 .page--receipt .receipt__actions {
   display: flex;
   flex-direction: column-reverse;
-  gap: 12px;
+  gap: 16px;
   margin-top: 8px;
 }
 .page--receipt .receipt__actions .btn {
@@ -2843,7 +2843,6 @@ body.modal-locked {
     flex-direction: row;
     justify-content: flex-end;
   }
-
 }
 
 .summary-box .summary-pair--sub {
@@ -3193,12 +3192,18 @@ body.modal-locked {
 #docs-post .docs-post__attach {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  gap: 8px;
   margin-bottom: 12px;
 }
-#docs-post .docs-post__attach .muted {
+#docs-post .docs-post__attach > .muted {
   font-weight: 600;
+  font-size: 14px;
   color: #797A7B;
+}
+#docs-post .docs-post__attach small.muted {
+  font-weight: 600;
+  font-size: 14px;
+  color: #BCBDBD;
 }
 #docs-post .upload-list {
   display: grid;
@@ -3350,6 +3355,13 @@ body.modal-locked {
 .upload-item.is-uploaded .upload-item__badge img {
   width: 32px;
   height: 32px;
+}
+
+.upload-list--post .doc-miss-row {
+  margin-bottom: 24px;
+}
+.upload-list--post .upload-item:first-child {
+  margin-bottom: 48px;
 }
 
 .page--send .form label {

@@ -58,7 +58,7 @@
                   </div>
                   <button id="pay-to" type="button" class="recipient-select" aria-haspopup="listbox" aria-expanded="false">
                     <span class="recipient-select__avatar">
-                      <img src="assets/icon_bankaccount_grey.svg" alt="" />
+                      <img src="assets/icon_bank_cp.svg" alt="" />
                     </span>
                     <span class="recipient-select__content">
                       <span class="recipient-select__title">NovaQuill</span>
@@ -296,7 +296,6 @@
 
               <!-- Variant B: Post-shipment -->
               <div id="docs-post" class="docs-variant" hidden>
-                <div class="docs-uc">Under construction</div>
                 <div class="docs-group docs-group--required">
                   <div class="docs-section">
                     <div class="docs-section__head">
@@ -310,7 +309,7 @@
                       <span class="muted">Attach the following documents</span>
                       <small class="muted">PDF, PNG, JPG under 50mb per document</small>
                     </div>
-                    <div class="upload-list">
+                    <div class="upload-list upload-list--post">
                       <div class="upload-item">
                         <span class="upload-item__badge"><img src="assets/icon_upload_1.svg" alt=""></span>
                         <div class="upload-item__meta">
@@ -348,6 +347,11 @@
                         <label class="doc-miss"><input type="checkbox" /> <span>I don’t have this document</span></label>
                       </div>
                     </div>
+
+                    <div class="docs-declare">
+
+                    </div>
+
                   </div>
                 </div>
                 <div class="docs-group docs-group--optional">
@@ -372,12 +376,6 @@
                     </div>
                   </div>
                 </div>
-                <div class="docs-declare">
-                  <label class="docs-declare__label">
-                    <input type="checkbox" />
-                    <span>I hereby declare that the payment for this transaction is not supported by any {Transport document/Packing list}.</span>
-                  </label>
-                </div>
               </div>
             </div>
           </div>
@@ -387,7 +385,7 @@
             <div class="card card--section card--summary">
               <div class="summary-recipient">
                 <span class="recipient-select__avatar">
-                  <img src="assets/icon_bankaccount_grey.svg" alt="" />
+                  <img src="assets/icon_bank_cp.svg" alt="" />
                 </span>
                 <span class="recipient-select__content">
                   <span class="recipient-select__title">To NovaQuill</span>

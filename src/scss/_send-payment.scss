@@ -716,12 +716,12 @@
   .receipt__actions {
     display: flex;
     flex-direction: column-reverse; // primary button first on mobile
-    gap: 12px;
+    gap: 16px;
+    margin-top: 8px;
     .btn { width: 100%; }
     @media (min-width: $bp-desktop) {
       flex-direction: row;
       justify-content: flex-end;
-      .btn { width: 180px; }
     }
   }
 }
@@ -971,8 +971,9 @@
 }
 // Post-shipment specific layout adjustments
 #docs-post {
-  .docs-post__attach { display:flex; align-items:center; justify-content: space-between; margin-bottom: 12px; }
-  .docs-post__attach .muted { font-weight: 600; color: $text-secondary; }
+  .docs-post__attach { display:flex; align-items:center; gap: 8px; margin-bottom: 12px; }
+  .docs-post__attach > .muted { font-weight: 600; font-size: 14px; color: $text-secondary; }
+  .docs-post__attach small.muted { font-weight: 600; font-size: 14px; color: #BCBDBD; }
   .upload-list { display: grid; gap: 12px; margin-bottom: 16px; }
   .doc-miss-row { display:flex; justify-content: flex-end; }
   .doc-miss { display: inline-flex; align-items: center; gap: 8px; color: $text-secondary; font-size: 14px; }
@@ -1073,6 +1074,18 @@
     }
    }
 }
+
+.upload-list--post {
+
+  .doc-miss-row {
+    margin-bottom: 24px;
+  }
+
+  .upload-item:first-child {
+    margin-bottom: 48px ;
+  }
+}
+
 
 // Normalize all form labels on Send Payment page
 .page--send .form label {
