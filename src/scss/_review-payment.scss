@@ -1,0 +1,34 @@
+// Review Payment page layout and overrides
+
+// Constrain review page content regardless of breakpoint
+.container--review { max-width: 700px; }
+
+.page--review {
+  .receipt__note {
+    text-align: center;
+    color: #73A2F5;
+  }
+  // Right column alignment in summary rows
+  .receipt__row strong,
+  .receipt__subrow strong {
+    margin-left: auto;
+    text-align: right;
+    display: inline-block;
+  }
+  // Group (title + card) vertical rhythm
+  .review-block { margin-bottom: 24px; }
+  // CTA layout: stacked on mobile, right-aligned fixed width on desktop
+  .receipt__actions {
+    display: flex;
+    flex-direction: column-reverse; // primary on top
+    gap: 12px;
+    .btn { width: 100%; }
+    @media (min-width: $bp-desktop) {
+      flex-direction: row;
+      justify-content: flex-end;
+      .btn { width: 180px; }
+    }
+  }
+}
+
+

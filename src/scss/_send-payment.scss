@@ -701,30 +701,7 @@
   color: $text-primary;
 }
 
-// Review Payment page layout adjustments
-.page--review {
-  .container { max-width: 700px; }
-  .receipt__note {
-    text-align: center;
-    color: #73A2F5;
-  }
-  // Right column alignment
-  .receipt__row strong,
-  .receipt__subrow strong { margin-left: auto; text-align: right; display: inline-block; }
-  // Section block spacing
-  .review-block { margin-bottom: 24px; }
-  .receipt__actions {
-    display: flex;
-    flex-direction: column-reverse; // primary on top (second in DOM)
-    gap: 12px;
-    .btn { width: 100%; }
-    @media (min-width: $bp-desktop) {
-      flex-direction: row;
-      justify-content: flex-end;
-      .btn { width: 180px; }
-    }
-  }
-}
+// Review Payment page styles moved to _review-payment.scss
 
 .summary-box .summary-pair--sub {
   padding-left: 24px;
