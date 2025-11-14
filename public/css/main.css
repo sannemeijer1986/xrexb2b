@@ -3231,19 +3231,38 @@ body.modal-locked {
   font-size: 14px;
 }
 #docs-post .docs-declare {
-  margin-top: 0px;
+  margin-top: 12px;
   margin-bottom: 40px;
-  border: 1px solid #eeeeee;
+  border: 0;
   border-radius: 8px;
   padding: 16px;
-  background: #FCFCFC;
+  background: #EAF2FF;
+  color: #73A2F5;
 }
-#docs-post .docs-declare__label {
+#docs-post .docs-declare__box {
+  display: block;
+}
+#docs-post .docs-declare__head {
   display: flex;
   align-items: center;
   gap: 8px;
-  color: #0f172a;
+  margin-bottom: 6px;
+}
+#docs-post .docs-declare__icon {
+  width: 16px;
+  height: 16px;
+}
+#docs-post .docs-declare__title {
   font-size: 14px;
+  font-weight: 700;
+  color: #73A2F5;
+}
+#docs-post .docs-declare__text {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 400;
+  color: #73A2F5;
+  line-height: 1.5;
 }
 
 .upload-item {
