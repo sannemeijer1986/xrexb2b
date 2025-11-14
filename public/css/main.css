@@ -3419,6 +3419,10 @@ body.modal-locked {
   max-width: 700px;
 }
 
+#convRow {
+  align-items: flex-start;
+}
+
 .page--review .receipt__note {
   text-align: center;
   color: #73A2F5;
@@ -3459,6 +3463,12 @@ body.modal-locked {
   .page--review .receipt__actions .btn {
     width: 180px;
   }
+}
+.page--review .convertrate-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
 }
 
 /* Auto-mirrored from src/css/overrides.css when running `npm run dev:with-css-edit` */
