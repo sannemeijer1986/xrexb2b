@@ -801,15 +801,47 @@ function initSendPayment() {
         const purposeSel = document.getElementById('purpose');
         const natureLabel = natureSel?.selectedOptions?.[0]?.textContent?.trim() || '';
         const purposeLabel = purposeSel?.selectedOptions?.[0]?.textContent?.trim() || '';
-        // Doc numbers and attached docs
+        // Doc numbers and attached docs (vary by nature)
         const piNumber = document.getElementById('piNumber')?.value || '';
         const ciNumber = document.getElementById('ciNumber')?.value || '';
-        let docNumber = piNumber || ciNumber || '';
-        const attached = [];
-        document.querySelectorAll('#docs-pre .upload-item, #docs-post .upload-item').forEach((it) => {
-          const title = it.querySelector('.upload-item__title')?.textContent?.trim();
-          if (title) attached.push(title);
-        });
+        const docNotes = document.getElementById('docNotes')?.value || '';
+        let docNumber = '';
+        let docNumLabel = '';
+        let attached = [];
+        const natureVal = natureSel?.value || '';
+        if (natureVal === 'pre_shipment') {
+          const docTypeSel = document.getElementById('docType');
+          const docTypeVal = docTypeSel ? docTypeSel.value : '';
+          if (docTypeVal === 'PI') {
+            attached = ['Proforma invoice (PI)'];
+            docNumLabel = 'Proforma invoice number';
+            docNumber = piNumber || '';
+          } else if (docTypeVal === 'PO') {
+            attached = ['Purchase order (PO)'];
+            docNumLabel = 'Purchase order number';
+            docNumber = piNumber || '';
+          } else {
+            attached = [];
+            docNumLabel = '';
+            docNumber = '';
+          }
+        } else {
+          // Post-shipment: list uploaded or declared-missing docs
+          document.querySelectorAll('#docs-post .upload-item').forEach((it) => {
+            const title = it.querySelector('.upload-item__title')?.textContent?.trim();
+            if (!title) return;
+            const uploaded = it.classList.contains('is-uploaded');
+            let missedOk = false;
+            const maybeMissRow = it.nextElementSibling;
+            if (maybeMissRow && maybeMissRow.classList && maybeMissRow.classList.contains('doc-miss-row')) {
+              const missChk = maybeMissRow.querySelector('input[type=\"checkbox\"]');
+              if (missChk) missedOk = !!missChk.checked;
+            }
+            if (uploaded || missedOk) attached.push(title);
+          });
+          docNumLabel = 'Commercial invoice number';
+          docNumber = ciNumber || '';
+        }
         const data = {
           receiverName: (getText('.summary-recipient .recipient-select__title') || '').replace(/^To\s+/i,''),
           receiverBank: getText('.summary-recipient .recipient-select__subtitle'),
@@ -825,7 +857,9 @@ function initSendPayment() {
           conversion: payerCurrency !== payeeCurrency ? `1 ${payerCurrency} = 1 ${payeeCurrency}` : '',
           nature: natureLabel,
           purpose: purposeLabel,
+          docNumLabel,
           docNumber,
+          docNotes,
           attachedDocs: attached.join(', '),
           dateTime: new Date().toLocaleString('en-GB', { hour12: false }),
           status: 'Processing',

@@ -72,12 +72,12 @@
             <span class="muted">Purpose of payment</span>
             <strong id="purposeVal">-</strong>
           </div>
-          <div class="receipt__row">
+          <div class="receipt__row" id="attachedDocsRow">
             <span class="muted">Attached documents</span>
             <strong id="attachedDocs">-</strong>
           </div>
-          <div class="receipt__row">
-            <span class="muted">{SuppDocsOptional1}</span>
+          <div class="receipt__row" id="docNumRow">
+            <span class="muted" id="docNumLabelTxt">{SuppDocsOptional1}</span>
             <strong id="docNumVal">-</strong>
           </div>
         </div>
@@ -242,8 +242,25 @@
           set('rcvCurrencyText', d.deductedFrom || 'USD account');
           set('natureVal', d.nature || '');
           set('purposeVal', d.purpose || '');
-          set('docNumVal', d.docNumber || '');
-          set('attachedDocs', d.attachedDocs || '');
+          // Attached documents
+          (function () {
+            var row = document.getElementById('attachedDocsRow');
+            var val = (d.attachedDocs || '').trim();
+            if (row) row.style.display = val ? '' : 'none';
+            var el = document.getElementById('attachedDocs');
+            if (el) el.textContent = val || '';
+          })();
+          // Doc number label/value (optional)
+          (function () {
+            var row = document.getElementById('docNumRow');
+            var label = (d.docNumLabel || '').trim();
+            var val = (d.docNumber || '').trim();
+            if (row) row.style.display = (label && val) ? '' : 'none';
+            var lblEl = document.getElementById('docNumLabelTxt');
+            if (lblEl) lblEl.textContent = label || '';
+            var valEl = document.getElementById('docNumVal');
+            if (valEl) valEl.textContent = val || '';
+          })();
           set('amtPayable', d.amountPayableFmt || '');
           set('deductedFrom', d.deductedFrom || '');
           set('feePct', d.feePct || '1.00%');
