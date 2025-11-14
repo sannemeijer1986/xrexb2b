@@ -203,11 +203,20 @@ function initSendPayment() {
         // Make PI/PO number optional for prototype; only type + upload required
         docsOk = docTypeOk && uploadsOk;
       } else if (post && !post.hidden) {
-        const ciNum = document.getElementById('ciNumber');
         const uploads = document.querySelectorAll('#docs-post .upload-item');
-        const ciOk = isFilledText(ciNum);
-        const uploadsOk = Array.from(uploads).every(item => item.classList.contains('is-uploaded'));
-        docsOk = ciOk && uploadsOk;
+        const uploadsOk = Array.from(uploads).every((item) => {
+          const uploaded = item.classList.contains('is-uploaded');
+          // Treat the adjacent \"I don't have this document\" checkbox as a valid alternative
+          let missedOk = false;
+          const maybeMissRow = item.nextElementSibling;
+          if (maybeMissRow && maybeMissRow.classList && maybeMissRow.classList.contains('doc-miss-row')) {
+            const missChk = maybeMissRow.querySelector('input[type=\"checkbox\"]');
+            if (missChk) missedOk = !!missChk.checked;
+          }
+          return uploaded || missedOk;
+        });
+        // CI number becomes optional; only document states matter
+        docsOk = uploadsOk;
       }
     } else {
       docsOk = false;
@@ -711,6 +720,11 @@ function initSendPayment() {
     });
   };
   initUploadItems();
+
+  // Revalidate when post-shipment missing-document checkboxes change
+  document.querySelectorAll('#docs-post .doc-miss-row input[type=\"checkbox\"]').forEach((chk) => {
+    chk.addEventListener('change', () => { if (typeof validateSendForm === 'function') validateSendForm(); });
+  });
 
   // Open convert/fees details modal
   const feesOpen = document.getElementById('fees-details-open');

@@ -3423,6 +3423,13 @@ body.modal-locked {
   text-align: center;
   color: #73A2F5;
 }
+.page--review .page__header {
+  margin-bottom: 0px;
+}
+.page--review .container--review {
+  margin-top: 0px;
+  padding-top: 16px;
+}
 .page--review .receipt__row strong,
 .page--review .receipt__subrow strong {
   margin-left: auto;

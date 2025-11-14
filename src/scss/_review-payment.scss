@@ -3,10 +3,20 @@
 // Constrain review page content regardless of breakpoint
 .container--review { max-width: 700px; }
 
+
+
 .page--review {
   .receipt__note {
     text-align: center;
     color: #73A2F5;
+  }
+  .page__header {
+    margin-bottom: 0px;
+  }
+
+  .container--review {
+    margin-top: 0px;
+    padding-top: 16px;
   }
   // Right column alignment in summary rows
   .receipt__row strong,
