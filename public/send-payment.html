@@ -354,7 +354,7 @@
                 </span>
               </div>
 
-              <div class="summary-box">
+              <div class="summary-box" style="display:none;">
                 <div class="summary-pair">
                   <span class="muted">Nature</span>
                   <strong>Pre-shipment advance</strong>
@@ -367,10 +367,10 @@
 
               <!-- Amount and fees breakdown panel -->
 
-              <div class="summary-section-head">
+              <div class="summary-section-head" style="display:none;">
                 <span class="summary-section-title">Amount and fees</span>
               </div>
-              <div class="summary-box">
+              <div class="summary-box" style="margin-top:16px;">
                 <div class="summary-pair">
                   <span class="muted">Amount payable</span>
                   <strong>0.00 USD</strong>
@@ -380,10 +380,10 @@
                   <strong>USD account</strong>
                 </div>
                 <div class="summary-pair summary-pair--convertrate">
-                  <span class="muted">Convert rate</span>
+                  <span class="muted">Convert to USD at a rate of</span>
                   <div class="convertrate-wrapper">
                     <strong>1 USDT = 1 USD</strong>
-                    <button id="fees-details-open" type="button" class="summary-title-link">See convert details</button>
+                    <button id="fees-details-open" type="button" class="summary-title-link" style="display:none;">See convert details</button>
                   </div>
                 </div>
                 <div class="summary-pair" data-summary="service-title">
@@ -407,9 +407,9 @@
                   <span class="muted">Send to receiver</span>
                   <strong class="summary-total--primary">0.00 USD</strong>
                 </div>
-                <div class="summary-note">Received amount may differ due to bank or currency exchange fees. Receiver will be billed in US Dollar.</div>
+                <div class="summary-note" style="display:none;">Received amount may differ due to bank or currency exchange fees. Receiver will be billed in US Dollar.</div>
               </div>
-              <button id="confirm-send" class="btn btn--primary btn--block" aria-disabled="true" disabled>Confirm send</button>
+              <button id="confirm-send" class="btn btn--primary btn--block" aria-disabled="true" disabled>Review payment</button>
               <div id="confirm-tip" class="btn-tip" role="tooltip" hidden>Please fill in all fields</div>
             </div>
           </aside>
