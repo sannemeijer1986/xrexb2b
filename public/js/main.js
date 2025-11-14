@@ -970,43 +970,54 @@ if (document.readyState === 'loading') {
   }
   if (confirm) {
     confirm.addEventListener('click', () => {
-      // Capture receipt data before leaving
+      // Capture or preserve receipt data before leaving
       try {
-        const getText = (sel) => (document.querySelector(sel)?.textContent || '').trim();
-        const amountInput = document.getElementById('amount');
-        const rawAmt = (amountInput?.value || '').replace(/,/g, '');
-        const amount = parseFloat(rawAmt) || 0;
-        const feeRate = 0.01;
-        // Fee mode
-        const feeSel = Array.from(document.querySelectorAll('input[type=\"radio\"][name=\"fee\"]')).find(r => r.checked)?.value || 'you';
-        let payerRate = 0, receiverRate = 0;
-        if (feeSel === 'you') { payerRate = feeRate; receiverRate = 0; }
-        else if (feeSel === 'receiver') { payerRate = 0; receiverRate = feeRate; }
-        else { payerRate = feeRate/2; receiverRate = feeRate/2; }
-        // Payer currency
-        const payerCurrency = Array.from(document.querySelectorAll('input[type=\"radio\"][name=\"deduct\"]')).find(r => r.checked)?.value || 'USD';
-        const payerFee = amount * payerRate;
-        const receiverFee = amount * receiverRate;
-        const youPay = amount + payerFee;
-        const payeeGets = amount - receiverFee;
-        const fmt = (v, cur) => `${Number(v||0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ${cur}`;
-        const data = {
-          receiverName: (getText('.summary-recipient .recipient-select__title') || '').replace(/^To\s+/i,''),
-          receiverBank: getText('.summary-recipient .recipient-select__subtitle'),
-          amountPayableFmt: fmt(amount, 'USD'),
-          deductedFrom: `${payerCurrency} account`,
-          feePct: `${(feeRate*100).toFixed(2)}%`,
-          payerShareLabel: `${(payerRate*100).toFixed(2)}% paid by you`,
-          payerShareAmt: fmt(payerFee, payerCurrency),
-          receiverShareLabel: `${(receiverRate*100).toFixed(2)}% paid by receiver`,
-          receiverShareAmt: fmt(receiverFee, 'USD'),
-          toBeDeducted: fmt(youPay, payerCurrency),
-          receiverGets: fmt(payeeGets, 'USD'),
-          conversion: payerCurrency !== 'USD' ? `1 ${payerCurrency} = 1 USD` : '',
-          dateTime: new Date().toLocaleString('en-GB', { hour12: false }),
-          status: 'Processing',
-        };
-        sessionStorage.setItem('receiptData', JSON.stringify(data));
+        const isSendPage = !!document.querySelector('main.page--send');
+        const isReviewPage = !!document.querySelector('main.page--review');
+        if (isSendPage) {
+          const getText = (sel) => (document.querySelector(sel)?.textContent || '').trim();
+          const amountInput = document.getElementById('amount');
+          const rawAmt = (amountInput?.value || '').replace(/,/g, '');
+          const amount = parseFloat(rawAmt) || 0;
+          const feeRate = 0.01;
+          // Fee mode
+          const feeSel = Array.from(document.querySelectorAll('input[type="radio"][name="fee"]')).find(r => r.checked)?.value || 'you';
+          let payerRate = 0, receiverRate = 0;
+          if (feeSel === 'you') { payerRate = feeRate; receiverRate = 0; }
+          else if (feeSel === 'receiver') { payerRate = 0; receiverRate = feeRate; }
+          else { payerRate = feeRate/2; receiverRate = feeRate/2; }
+          // Payer currency
+          const payerCurrency = Array.from(document.querySelectorAll('input[type="radio"][name="deduct"]')).find(r => r.checked)?.value || 'USD';
+          const payeeCurrency = 'USD';
+          const payerFee = amount * payerRate;
+          const receiverFee = amount * receiverRate;
+          const youPay = amount + payerFee;
+          const payeeGets = amount - receiverFee;
+          const fmt = (v, cur) => `${Number(v||0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ${cur}`;
+          const data = {
+            receiverName: (getText('.summary-recipient .recipient-select__title') || '').replace(/^To\s+/i,''),
+            receiverBank: getText('.summary-recipient .recipient-select__subtitle'),
+            amountPayableFmt: fmt(amount, payeeCurrency),
+            deductedFrom: `${payerCurrency} account`,
+            feePct: `${(feeRate*100).toFixed(2)}%`,
+            payerShareLabel: `${(payerRate*100).toFixed(2)}% paid by you`,
+            payerShareAmt: fmt(payerFee, payerCurrency),
+            receiverShareLabel: `${(receiverRate*100).toFixed(2)}% paid by receiver`,
+            receiverShareAmt: fmt(receiverFee, payeeCurrency),
+            toBeDeducted: fmt(youPay, payerCurrency),
+            receiverGets: fmt(payeeGets, payeeCurrency),
+            conversion: payerCurrency !== payeeCurrency ? `1 ${payerCurrency} = 1 ${payeeCurrency}` : '',
+            dateTime: new Date().toLocaleString('en-GB', { hour12: false }),
+            status: 'Processing',
+          };
+          sessionStorage.setItem('receiptData', JSON.stringify(data));
+        } else if (isReviewPage) {
+          // Preserve existing review data; only refresh timestamp
+          const raw = sessionStorage.getItem('receiptData');
+          const d = raw ? JSON.parse(raw) : {};
+          d.dateTime = new Date().toLocaleString('en-GB', { hour12: false });
+          sessionStorage.setItem('receiptData', JSON.stringify(d));
+        }
       } catch (_) {}
       // Close confirm modal
       modal.setAttribute('aria-hidden', 'true');

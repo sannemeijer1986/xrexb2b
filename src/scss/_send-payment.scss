@@ -703,6 +703,21 @@
 
 // Review Payment page styles moved to _review-payment.scss
 
+// Payment submitted page CTA layout
+.page--receipt {
+  .receipt__actions {
+    display: flex;
+    flex-direction: column-reverse; // primary button first on mobile
+    gap: 12px;
+    .btn { width: 100%; }
+    @media (min-width: $bp-desktop) {
+      flex-direction: row;
+      justify-content: flex-end;
+      .btn { width: 180px; }
+    }
+  }
+}
+
 .summary-box .summary-pair--sub {
   padding-left: 24px;
 }
