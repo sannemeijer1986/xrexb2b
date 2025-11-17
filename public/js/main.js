@@ -162,6 +162,46 @@ function initSendPayment() {
 
   const syncAccountDisplay = () => {};
 
+  // Sticky summary (mobile): show at top when near "Amount and fees"
+  const stickySummary = summaryContainer;
+  const getHeaderHeight = () => {
+    const el = document.querySelector('.site-header .header__content');
+    return el ? el.offsetHeight : 64;
+  };
+  const getAmountTitleEl = () => {
+    // Find the H2 with "Amount and fees"
+    const titles = Array.from(document.querySelectorAll('h2.card__title'));
+    return titles.find(t => (t.textContent || '').trim().toLowerCase().includes('amount and fees'));
+  };
+  const updateStickySummary = () => {
+    if (!stickySummary) return;
+    const isMobile = window.innerWidth < DESKTOP_BP;
+    // Always hide on desktop
+    if (!isMobile) {
+      stickySummary.classList.remove('is-sticky-visible');
+      return;
+    }
+    // Set top offset to header height
+    const hh = getHeaderHeight();
+    stickySummary.style.top = `${hh}px`;
+    const target = getAmountTitleEl();
+    if (!target) {
+      stickySummary.classList.remove('is-sticky-visible');
+      return;
+    }
+    const threshold = target.getBoundingClientRect().top - hh - 8;
+    // When the top of "Amount and fees" crosses into viewport (accounting header), show sticky
+    if (threshold <= 0) {
+      stickySummary.classList.add('is-sticky-visible');
+    } else {
+      stickySummary.classList.remove('is-sticky-visible');
+    }
+  };
+  window.addEventListener('scroll', updateStickySummary, { passive: true });
+  window.addEventListener('resize', updateStickySummary);
+  // initial run
+  updateStickySummary();
+
   // ---- Enable/disable Confirm send based on filled inputs/selects ----
   const confirmBtn = document.getElementById('confirm-send');
   const confirmBtnInline = document.getElementById('confirm-send-inline');
