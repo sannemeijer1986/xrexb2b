@@ -44,7 +44,7 @@
 
         <section class="grid">
           <div class="grid__col grid__col--primary">
-            <h2 id="send-payment-title" class="card__title">Payment to</h2>
+            <h2 id="send-payment-title" class="card__title">Payment information</h2>
             <form class="card card--section form card--paymentto" aria-labelledby="send-payment-title">
 
               <div class="form__row">
@@ -109,14 +109,14 @@
 
               <div class="form__row form__row--amount">
                 <div class="form__field">
-                  <label for="amount">Amount payable <span class="label__meta">Billed in US Dollar</span></label>
+                  <label for="amount">Amount payable <span class="label__meta">Billed in USD</span></label>
                   <div class="amount-input">
                     <span class="amount-input__prefix"><img src="assets/icon_USD.svg" alt="" /></span>
                     <input id="amount" name="amount" type="text" inputmode="decimal" placeholder="0" autocomplete="off" />
                     <span class="amount-input__suffix">USD</span>
                   </div>
                   <div class="amount-meta">
-                    <span class="amount-meta__text">Limit per tx: {$value} USD</span>
+                    <span class="amount-meta__text">Transaction limit: {$value} USD</span>
                     <!-- <img class="amount-meta__icon" src="assets/icon_info.svg" width="16" height="16" alt=""> -->
                   </div>
                 </div>
@@ -136,7 +136,7 @@
 
               <div class="form__row">
                 <div class="form__field form__field--fees">
-                  <label>Deduct amount payable from</label>
+                  <label>Deduct from</label>
                   <div class="fee-options fee-options--deduct" id="deduct-options">
                     <label class="fee-option">
                       <span class="fee-option__icon fee-option__icon--deduct">
@@ -173,7 +173,7 @@
 
               <div class="form__row">
                 <div class="form__field form__field--fees">
-                  <label>Who pays 1% service fee?</label>
+                  <label>Service fee (1.00%) paid by</label>
                   <div class="fee-options">
                     <label class="fee-option">
                       <span class="fee-option__icon">
@@ -181,7 +181,7 @@
                       </span>
                       <span class="fee-option__content">
                         <span class="fee-option__title">Paid by you</span>
-                        <small class="muted">Added to total</small>
+                        <small class="muted">Added to your cost</small>
                       </span>
                       <input type="radio" name="fee" value="you" checked />
                       <span class="fee-option__check" aria-hidden="true"></span>
@@ -192,7 +192,7 @@
                       </span>
                       <span class="fee-option__content">      
                         <span class="fee-option__title">Share 50/50</span>
-                        <small class="muted">Partially added to total, partially deducted from payment</small>
+                        <small class="muted">Partially added to your cost and deducted from amount to send</small>
                       </span>
                       <input type="radio" name="fee" value="split" />
                       <span class="fee-option__check" aria-hidden="true"></span>
@@ -203,7 +203,7 @@
                       </span>
                       <span class="fee-option__content">
                         <span class="fee-option__title">Paid by receiver</span>
-                        <small class="muted">Deducted from payment</small>
+                        <small class="muted">Deducted from amount to send</small>
                       </span>
                       <input type="radio" name="fee" value="receiver" />
                       <span class="fee-option__check" aria-hidden="true"></span>
@@ -242,8 +242,8 @@
                           <!-- overlay select for dropdown interaction -->
                           <select id="docType" name="docType" class="doc-type-select">
                             <option value="" selected>Select</option>
-                            <option value="PI">Proforma Invoice (PI)</option>
-                            <option value="PO">Purchase Order (PO)</option>
+                            <option value="PI">Proforma invoice (PI)</option>
+                            <option value="PO">Purchase order (PO)</option>
                           </select>
                         </div>
                       </div>
@@ -251,7 +251,7 @@
                     <div class="docs-upload" id="docUploadBlock" hidden>
                       <div class="docs-head" id="docUploadHead">
                         <span class="docs-head__label">Attach document</span>
-                        <span class="docs-head__meta">PDF, PNG, JPG under 50mb</span>
+                        <span class="docs-head__meta">PDF, PNG, JPG under 50MB</span>
                       </div>
                       <div class="upload-list" id="docUploadList">
                         <div class="upload-item">

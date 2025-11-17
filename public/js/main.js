@@ -292,8 +292,8 @@ function initSendPayment() {
     }
     if (amountMetaText) {
       amountMetaText.textContent = amountOverPerTx
-        ? `Amount payable exceeds ${formatAmount(PER_TX_LIMIT, 'USD')} limit per tx`
-        : `Limit per tx: ${formatAmount(PER_TX_LIMIT, 'USD')}`;
+        ? `Amount payable exceeds ${formatAmount(PER_TX_LIMIT, 'USD')} transaction limit`
+        : `Transaction limit: ${formatAmount(PER_TX_LIMIT, 'USD')}`;
     }
     // Inline error for amount exceeding selected account balance (consider payer fee share)
     const amountError = document.getElementById('amount-error');
