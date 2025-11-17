@@ -980,6 +980,21 @@
   .upload-list { display: grid; gap: 12px; margin-bottom: 16px; }
   .doc-miss-row { display:flex; justify-content: flex-end; }
   .doc-miss { display: inline-flex; align-items: center; gap: 8px; color: $text-secondary; font-size: 14px; }
+  .doc-miss input[type="checkbox"] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    min-width: 20px;
+    background: url('../assets/icon_checkbox_off.svg') no-repeat center / contain;
+    border: 0;
+    border-radius: 4px;
+    cursor: pointer;
+    outline: none;
+  }
+  .doc-miss input[type="checkbox"]:checked {
+    background-image: url('../assets/icon_checkbox_on.svg');
+  }
   .docs-declare { margin-top: 12px; margin-bottom: 40px; border: 0; border-radius: $radius-md; padding: 8px; background: #EAF2FF; color: #73A2F5; }
   .docs-declare__box { display: block; }
   .docs-declare__head { display: flex; align-items: center; gap: 8px; }
@@ -1085,6 +1100,10 @@
 
 .upload-list--post {
 margin-bottom: 0px;
+
+  .doc-miss span {
+    margin-top: 2px;
+  }
 
   .doc-miss-row {
     margin-bottom: 24px;

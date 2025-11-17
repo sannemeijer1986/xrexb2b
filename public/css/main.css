@@ -3230,6 +3230,21 @@ body.modal-locked {
   color: #797A7B;
   font-size: 14px;
 }
+#docs-post .doc-miss input[type=checkbox] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  min-width: 20px;
+  background: url("../assets/icon_checkbox_off.svg") no-repeat center/contain;
+  border: 0;
+  border-radius: 4px;
+  cursor: pointer;
+  outline: none;
+}
+#docs-post .doc-miss input[type=checkbox]:checked {
+  background-image: url("../assets/icon_checkbox_on.svg");
+}
 #docs-post .docs-declare {
   margin-top: 12px;
   margin-bottom: 40px;
@@ -3391,6 +3406,9 @@ body.modal-locked {
 
 .upload-list--post {
   margin-bottom: 0px;
+}
+.upload-list--post .doc-miss span {
+  margin-top: 2px;
 }
 .upload-list--post .doc-miss-row {
   margin-bottom: 24px;
