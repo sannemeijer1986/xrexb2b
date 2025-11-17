@@ -3591,7 +3591,7 @@ body.modal-locked {
   }
   .page--send .build-badge {
     bottom: 48px;
-    z-index: 4001;
+    z-index: 400;
   }
 }
 .page--send ~ .build-badge {

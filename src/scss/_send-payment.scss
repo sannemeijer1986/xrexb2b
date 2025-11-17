@@ -1216,7 +1216,7 @@ margin-bottom: 0px;
         &.is-sticky-visible { display: grid; }
     }
     // Hide everything except the two target rows
-    .card--summary .card__title,
+    .card--summary .card__title, 
     .card--summary .summary-recipient,
     .card--summary .summary-section-head,
     .card--summary .summary-pair:not(.summary-pair--yourtotal):not(.summary-pair--totalreceive),
@@ -1231,7 +1231,7 @@ margin-bottom: 0px;
     // Inline CTA at bottom of primary content
     .mobile-cta { display: block; margin-top: 16px; }
     // Move build badge above sticky summary on this page
-    .build-badge { bottom: 48px; z-index: 4001; }
+    .build-badge { bottom: 48px; z-index: 400; }
   }
 }
 
