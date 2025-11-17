@@ -714,22 +714,12 @@ function initSendPayment() {
       // Badge icon success
       const badgeImg = item.querySelector('.upload-item__badge img');
       if (badgeImg) badgeImg.src = 'assets/icon_snackbar_success.svg';
-      // Main button to secondary + text
+      // Main button shows "Remove file" while uploaded
       let mainBtn = actions.querySelector('.btn');
       if (mainBtn) {
         mainBtn.classList.remove('btn--primary');
         mainBtn.classList.add('btn--secondary');
-        mainBtn.textContent = 'Re-upload';
-      }
-      // Add reset button
-      if (!actions.querySelector('.upload-reset')) {
-        const resetBtn = document.createElement('button');
-        resetBtn.type = 'button';
-        resetBtn.className = 'btn btn--secondary btn--sm btn--icon upload-reset';
-        resetBtn.setAttribute('aria-label', 'Reset upload');
-        resetBtn.innerHTML = '<img src="assets/icon_close_blue.svg" width="16" height="16" alt="">';
-        resetBtn.addEventListener('click', () => setNotUploaded(item));
-        actions.appendChild(resetBtn);
+        mainBtn.textContent = 'Remove file';
       }
       if (typeof validateSendForm === 'function') validateSendForm();
     };
@@ -738,15 +728,16 @@ function initSendPayment() {
       ensureActions(item);
       setNotUploaded(item);
     });
-    // Wire main buttons (Re-upload is a no-op in prototype)
+    // Wire main buttons: toggle state on click
     document.querySelectorAll('.upload-item .upload-item__actions .btn').forEach((btn) => {
       btn.addEventListener('click', () => {
         const item = btn.closest('.upload-item');
         if (!item) return;
-        // If already uploaded, "Re-upload" does nothing (prototype requirement)
-        if (item.classList.contains('is-uploaded')) return;
-        // Otherwise, perform upload transition
-        setUploaded(item);
+        if (item.classList.contains('is-uploaded')) {
+          setNotUploaded(item);
+        } else {
+          setUploaded(item);
+        }
       }, { passive: true });
     });
   };
