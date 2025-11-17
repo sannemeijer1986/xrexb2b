@@ -162,60 +162,7 @@ function initSendPayment() {
 
   const syncAccountDisplay = () => {};
 
-  // Sticky summary (mobile): show at top when near "Amount and fees"
-  const stickySummary = summaryContainer;
-  const headerEl = document.querySelector('.site-header');
-  const getHeaderHeight = () => {
-    const el = document.querySelector('.site-header .header__content');
-    return el ? el.offsetHeight : 64;
-  };
-  const getAmountTitleEl = () => {
-    // Find the H2 with "Amount and fees"
-    const titles = Array.from(document.querySelectorAll('h2.card__title'));
-    return titles.find(t => (t.textContent || '').trim().toLowerCase().includes('amount and fees'));
-  };
-  const updateStickySummary = () => {
-    if (!stickySummary) return;
-    const isMobile = window.innerWidth < DESKTOP_BP;
-    // Always hide on desktop
-    if (!isMobile) {
-      stickySummary.classList.remove('is-sticky-visible');
-      return;
-    }
-    // Account for iOS virtual keyboard via visualViewport offset
-    const vvp = window.visualViewport;
-    const vvTop = vvp ? Math.max(0, vvp.offsetTop || 0) : 0;
-    // Pin header to visual viewport
-    if (headerEl) {
-      headerEl.style.top = `${vvTop}px`;
-    }
-    // Set top offset to header height plus visual viewport offset
-    const hh = getHeaderHeight() + vvTop;
-    stickySummary.style.top = `${hh}px`;
-    const target = getAmountTitleEl();
-    if (!target) {
-      stickySummary.classList.remove('is-sticky-visible');
-      return;
-    }
-    const threshold = target.getBoundingClientRect().top - hh - 8;
-    // When the top of "Amount and fees" crosses into viewport (accounting header), show sticky
-    if (threshold <= 0) {
-      stickySummary.classList.add('is-sticky-visible');
-    } else {
-      stickySummary.classList.remove('is-sticky-visible');
-    }
-  };
-  window.addEventListener('scroll', updateStickySummary, { passive: true });
-  window.addEventListener('resize', updateStickySummary);
-  if (window.visualViewport) {
-    window.visualViewport.addEventListener('resize', updateStickySummary);
-    window.visualViewport.addEventListener('scroll', updateStickySummary);
-  }
-  // Recompute when focusing inputs (iOS keyboard open/close)
-  document.addEventListener('focusin', updateStickySummary, true);
-  document.addEventListener('focusout', () => setTimeout(updateStickySummary, 0), true);
-  // initial run
-  updateStickySummary();
+  // Sticky summary handled with CSS position: sticky on mobile; no JS needed
 
   // ---- Enable/disable Confirm send based on filled inputs/selects ----
   const confirmBtn = document.getElementById('confirm-send');

@@ -1202,20 +1202,14 @@ margin-bottom: 0px;
   .page--send {
     z-index: 2;
     .card--summary {
-      position: fixed;
-        left: 0;
-        right: 0;
-        top: 64px; // will be updated by JS; default mobile header height
-      width: 100vw;
-        border-radius: 0;
+      position: sticky;
+      top: 64px; // below header
+      width: auto;
+      border-radius: 0;
       margin: 0;
       padding: 16px;
-        z-index: 4000; // above site footer and badges
+      z-index: 2; // above site footer and badges
       box-shadow: 0 -12px 30px rgba(0,0,0,0.08);
-        display: none; // hidden until scrolled near section
-        &.is-sticky-visible { display: grid; }
-        will-change: transform, top;
-        transform: translateZ(0);
     }
     // Hide everything except the two target rows
     .card--summary .card__title, 
@@ -1228,8 +1222,8 @@ margin-bottom: 0px;
     }
     .card--summary .summary-pair { margin: 0; }
     .card--summary .summary-pair--yourtotal { margin-bottom: 8px; }
-      // No bottom padding needed when sticky is at top
-      .grid__col--primary { padding-bottom: 0; }
+    // No bottom padding needed when sticky is at top
+    .grid__col--primary { padding-bottom: 0; }
     // Inline CTA at bottom of primary content
     .mobile-cta { display: block; margin-top: 16px; }
     // Move build badge above sticky summary on this page
