@@ -141,7 +141,7 @@ function initSendPayment() {
     deductFrom: findSummaryRow('Deduct from'),
     nature: findSummaryRow('Nature'),
     purpose: findSummaryRow('Purpose'),
-    youPay: findSummaryRow('To be deducted'),
+    youPay: findSummaryRow('Paid by you'),
     payeeReceives: findSummaryRow('Send to receiver'),
     conversion: findSummaryRowStartsWith('Convert'),
   };
@@ -672,7 +672,7 @@ function initSendPayment() {
           if (titleTxt.includes('commercial invoice')) {
             desc = 'The official invoice issued by the seller after shipment';
           } else if (titleTxt.includes('transport')) {
-            desc = 'Proof of shipment, ex. Bill of lading, Airway bill, or Courier waybill';
+            desc = 'Proof of shipment, ex. bill of lading, airway bill, or courier waybill';
           } else if (titleTxt.includes('packing')) {
             desc = 'Detailed list of goods included in the shipment';
           }
@@ -772,7 +772,7 @@ function initSendPayment() {
           if (lower.includes('commercial invoice')) {
             subEl.textContent = 'The official invoice issued by the seller after shipment';
           } else if (isTransport) {
-            subEl.textContent = 'Proof of shipment, ex. Bill of lading, Airway bill, or Courier waybill';
+            subEl.textContent = 'Proof of shipment, ex. bill of lading, airway bill, or courier waybill';
           } else if (isPacking) {
             subEl.textContent = 'Detailed list of goods included in the shipment';
           } else {
@@ -806,9 +806,17 @@ function initSendPayment() {
     const unique = Array.from(new Set(missingTypes));
     if (declare) {
       if (unique.length > 0) {
-        const typesText = unique.length === 1 ? unique[0] : `${unique[0]} or ${unique[1]}`;
+        // Singular label for legacy span (as originally designed)
+        const singularText = unique.length === 1 ? unique[0] : unique.slice(0, 2).join(' or ');
+        // Pluralize each type for title sentence variant
+        const pluralized = unique.map(t => t.endsWith('s') ? t : `${t}s`);
+        const pluralText = pluralized.length === 1 ? pluralized[0] : pluralized.slice(0, 2).join(' or ');
         const span = declare.querySelector('#docsDeclareTypes');
-        if (span) span.textContent = typesText;
+        if (span) span.textContent = singularText;
+        const titleEl = declare.querySelector('.docs-declare__title');
+        if (titleEl) {
+          titleEl.textContent = `By proceeding, I confirm that this payment does not involve any ${pluralText}`;
+        }
         declare.hidden = false;
       } else {
         declare.hidden = true;
