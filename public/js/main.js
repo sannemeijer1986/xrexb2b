@@ -141,7 +141,7 @@ function initSendPayment() {
     deductFrom: findSummaryRow('Deduct from'),
     nature: findSummaryRow('Nature'),
     purpose: findSummaryRow('Purpose'),
-    youPay: findSummaryRow('Paid by you'),
+    youPay: findSummaryRow('You pay'),
     payeeReceives: findSummaryRow('Send to receiver'),
     conversion: findSummaryRowStartsWith('Convert'),
   };
@@ -164,6 +164,7 @@ function initSendPayment() {
 
   // ---- Enable/disable Confirm send based on filled inputs/selects ----
   const confirmBtn = document.getElementById('confirm-send');
+  const confirmBtnInline = document.getElementById('confirm-send-inline');
   const isElementVisible = (el) => {
     if (!el) return false;
     if (el.hidden) return false;
@@ -171,8 +172,19 @@ function initSendPayment() {
     const rect = el.getBoundingClientRect();
     return !(rect.width === 0 && rect.height === 0);
   };
+  const setConfirmDisabled = (disabled) => {
+    [confirmBtn, confirmBtnInline].forEach((btn) => {
+      if (!btn) return;
+      if (disabled) {
+        btn.setAttribute('aria-disabled', 'true');
+        btn.disabled = true;
+      } else {
+        btn.setAttribute('aria-disabled', 'false');
+        btn.disabled = false;
+      }
+    });
+  };
   const validateSendForm = () => {
-    if (!confirmBtn) return;
     const natureEl = document.getElementById('nature');
     const purposeEl = document.getElementById('purpose');
     const amountEl = document.getElementById('amount');
@@ -230,8 +242,7 @@ function initSendPayment() {
       (domAmountError && domAmountError.hidden === false);
 
     const allValid = natureOk && purposeOk && amountOk && docsOk && !hasInlineError;
-    confirmBtn.setAttribute('aria-disabled', allValid ? 'false' : 'true');
-    confirmBtn.disabled = !allValid;
+    setConfirmDisabled(!allValid);
   };
 
   const getFeeMode = () => {
@@ -735,6 +746,21 @@ function initSendPayment() {
         if (!item) return;
         if (item.classList.contains('is-uploaded')) {
           setNotUploaded(item);
+          // Snackbar: File removed
+          if (typeof window.showSnackbar === 'function') {
+            window.showSnackbar('File removed');
+          } else {
+            // fallback
+            const el = document.createElement('div');
+            el.className = 'snackbar snackbar--success';
+            el.innerHTML = '<img class="snackbar__icon" src="assets/icon_snackbar_success.svg" alt=""/><span>File removed</span>';
+            document.body.appendChild(el);
+            requestAnimationFrame(() => el.classList.add('is-visible'));
+            setTimeout(() => {
+              el.classList.remove('is-visible');
+              setTimeout(() => el.remove(), 250);
+            }, 2000);
+          }
         } else {
           setUploaded(item);
         }
@@ -1013,6 +1039,112 @@ function initSendPayment() {
     });
   }
 
+// Mirror confirm handler for inline mobile CTA (no tooltip)
+const confirmTriggerInline = document.getElementById('confirm-send-inline');
+if (confirmTriggerInline) {
+  confirmTriggerInline.addEventListener('click', (e) => {
+    e.preventDefault();
+    if (confirmTriggerInline.disabled) return;
+    try {
+      const getText = (sel) => (document.querySelector(sel)?.textContent || '').trim();
+      const amountInput = document.getElementById('amount');
+      const rawAmt = (amountInput?.value || '').replace(/,/g, '');
+      const amount = parseFloat(rawAmt) || 0;
+      const feeRate = 0.01;
+      const feeSel = Array.from(document.querySelectorAll('input[type="radio"][name="fee"]')).find(r => r.checked)?.value || 'you';
+      let payerRate = 0, receiverRate = 0;
+      if (feeSel === 'you') { payerRate = feeRate; receiverRate = 0; }
+      else if (feeSel === 'receiver') { payerRate = 0; receiverRate = feeRate; }
+      else { payerRate = feeRate/2; receiverRate = feeRate/2; }
+      const payerCurrency = Array.from(document.querySelectorAll('input[type="radio"][name="deduct"]')).find(r => r.checked)?.value || 'USD';
+      const payeeCurrency = 'USD';
+      const payerFee = amount * payerRate;
+      const receiverFee = amount * receiverRate;
+      const youPay = amount + payerFee;
+      const payeeGets = amount - receiverFee;
+      const fmt = (v, cur) => `${Number(v||0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ${cur}`;
+      const natureSel = document.getElementById('nature');
+      const purposeSel = document.getElementById('purpose');
+      const natureLabel = natureSel?.selectedOptions?.[0]?.textContent?.trim() || '';
+      const purposeLabel = purposeSel?.selectedOptions?.[0]?.textContent?.trim() || '';
+      const piNumber = document.getElementById('piNumber')?.value || '';
+      const ciNumber = document.getElementById('ciNumber')?.value || '';
+      const docNotes = document.getElementById('docNotes')?.value || document.getElementById('docNotesPost')?.value || '';
+      let docNumber = '';
+      let docNumLabel = '';
+      let attached = [];
+      const natureVal = natureSel?.value || '';
+      if (natureVal === 'pre_shipment') {
+        const docTypeSel = document.getElementById('docType');
+        const docTypeVal = docTypeSel ? docTypeSel.value : '';
+        if (docTypeVal === 'PI') {
+          attached = ['Proforma invoice (PI)'];
+          docNumLabel = 'Proforma invoice number';
+          docNumber = piNumber || '';
+        } else if (docTypeVal === 'PO') {
+          attached = ['Purchase order (PO)'];
+          docNumLabel = 'Purchase order number';
+          docNumber = piNumber || '';
+        } else {
+          attached = [];
+          docNumLabel = '';
+          docNumber = '';
+        }
+      } else {
+        document.querySelectorAll('#docs-post .upload-item').forEach((it) => {
+          const title = it.querySelector('.upload-item__title')?.textContent?.trim();
+          if (!title) return;
+          const uploaded = it.classList.contains('is-uploaded');
+          let missedOk = false;
+          const maybeMissRow = it.nextElementSibling;
+          if (maybeMissRow && maybeMissRow.classList && maybeMissRow.classList.contains('doc-miss-row')) {
+            const missChk = maybeMissRow.querySelector('input[type="checkbox"]');
+            if (missChk) missedOk = !!missChk.checked;
+          }
+          if (uploaded || missedOk) attached.push(title);
+        });
+        docNumLabel = 'Commercial invoice number';
+        docNumber = ciNumber || '';
+      }
+      const data = {
+        receiverName: (getText('.summary-recipient .recipient-select__title') || '').replace(/^To\s+/i,''),
+        receiverBank: getText('.summary-recipient .recipient-select__subtitle'),
+        amountPayableFmt: fmt(amount, payeeCurrency),
+        deductedFrom: `${payerCurrency} account`,
+        feePct: `${(feeRate*100).toFixed(2)}%`,
+        payerShareLabel: `${(payerRate*100).toFixed(2)}% paid by you`,
+        payerShareAmt: fmt(payerFee, payerCurrency),
+        receiverShareLabel: `${(receiverRate*100).toFixed(2)}% paid by receiver`,
+        receiverShareAmt: fmt(receiverFee, payeeCurrency),
+        toBeDeducted: fmt(youPay, payerCurrency),
+        receiverGets: fmt(payeeGets, payeeCurrency),
+        conversion: payerCurrency !== payeeCurrency ? `1 ${payerCurrency} = 1 ${payeeCurrency}` : '',
+        nature: natureLabel,
+        purpose: purposeLabel,
+        docNumLabel,
+        docNumber,
+        docNotes,
+        attachedDocs: attached.join(', '),
+        dateTime: new Date().toLocaleString('en-GB', { hour12: false }),
+        status: 'Pending verification',
+      };
+      sessionStorage.setItem('receiptData', JSON.stringify(data));
+    } catch (_) {}
+    const loading = document.getElementById('loadingModal');
+    if (loading) {
+      loading.setAttribute('aria-hidden', 'false');
+      document.documentElement.classList.add('modal-open');
+      document.body.classList.add('modal-open');
+      try {
+        const y = window.scrollY || window.pageYOffset || 0;
+        document.body.dataset.scrollY = String(y);
+        document.body.style.top = `-${y}px`;
+        document.body.classList.add('modal-locked');
+      } catch (_) {}
+    }
+    setTimeout(() => { window.location.href = 'review-payment.html'; }, 600);
+  });
+}
   // Send Payment: dev tools (Fill / Clear) in build-badge
   (function initSendDevTools() {
     const root = document.querySelector('main.page--send');
@@ -1256,6 +1388,29 @@ if (document.readyState === 'loading') {
       btn.addEventListener('click', () => close(modal));
     });
   });
+
+  // Global snackbar helper (idempotent)
+  window.showSnackbar = function(message, durationMs = 2000) {
+    try {
+      let el = document.getElementById('app-snackbar');
+      if (!el) {
+        el = document.createElement('div');
+        el.id = 'app-snackbar';
+        el.className = 'snackbar snackbar--success';
+        el.innerHTML = '<img class="snackbar__icon" src="assets/icon_snackbar_success.svg" alt=""/><span class="snackbar__text"></span>';
+        document.body.appendChild(el);
+      }
+      const text = el.querySelector('.snackbar__text');
+      if (text) text.textContent = message || '';
+      // show
+      requestAnimationFrame(() => el.classList.add('is-visible'));
+      // hide after duration
+      clearTimeout(el._hideTimer);
+      el._hideTimer = setTimeout(() => {
+        el.classList.remove('is-visible');
+      }, durationMs);
+    } catch (_) { /* noop */ }
+  };
 
   // Select-counterparty: block unverified items
   const list = document.querySelector('.cp-list');

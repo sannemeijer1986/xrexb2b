@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>XREX Pay - Review payment</title>
+    <title>XREX Pay - Review Payment</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Sora:wght@400;600;700&display=swap" rel="stylesheet" />
@@ -39,7 +39,7 @@
               <img src="assets/icon_header_back_mobile.svg" width="32" height="32" alt="">
             </picture>
           </a>
-          <h1 id="rv-back-title" class="page__title">Review payment</h1>
+          <h1 id="rv-back-title" class="page__title">Review Payment</h1>
         </section>
       </div>
       <section class="container container--review">
@@ -101,15 +101,19 @@
             <strong id="deductedFrom">-</strong>
           </div>
           <div class="receipt__row" id="totalConvertRow">
-            <span class="muted">Total to convert</span>
+            <span class="muted">Convert from</span>
             <strong id="totalConvert">-</strong>
           </div>
           <div class="receipt__row" id="convRow" hidden>
             <span class="muted">Conversion rate</span>
             <div class="convertrate-wrapper">
               <strong id="convVal">1 USDT = 1 USD</strong>
-              <button id="fees-details-open" type="button" class="summary-title-link">See convert details</button>
+              <!-- <button id="fees-details-open" type="button" class="summary-title-link">See convert details</button> -->
             </div>
+          </div>
+          <div class="receipt__row" id="convertToRow" hidden>
+            <span class="muted">Convert to</span>
+            <strong id="convertTo">-</strong>
           </div>
           <div class="receipt__row">
             <span class="muted">Service fee</span>
@@ -125,14 +129,25 @@
           </div>
           <div class="receipt__divider"></div>
           <div class="receipt__row">
-            <span class="muted">Paid by you</span>
+            <span class="muted">You pay</span>
             <strong id="toBeDeducted">-</strong>
           </div>
           <div class="receipt__row receipt__row--em">
             <span class="muted">Send to receiver</span>
             <strong id="receiverGets">-</strong>
           </div>
-          <div class="receipt__note">Received amount may differ due to bank or currency exchange fees. <br />Receiver will be billed in US Dollar.</div>
+          <div class="receipt__note">Received amount may differ due to bank or currency exchange fees. <br />Payment will typically be processed within X–X business days.<br/>Receiver will be billed in US Dollar.</div>
+          <div class="review-declare">
+            <div class="review-declare__box">
+              <div class="review-declare__head">
+                <img class="review-declare__icon" src="assets/icon_info_blue.svg" width="16" height="16" alt="">
+                <span class="review-declare__title">                By proceeding, you agree to our
+                  <a href="https://www.google.com" target="_blank" rel="noopener noreferrer">Returns Policy</a>
+                  and
+                  <a href="https://www.google.com" target="_blank" rel="noopener noreferrer">Terms and Conditions</a>.</span>
+              </div>
+            </div>
+          </div>
         </div>
         </div>
 
@@ -188,7 +203,7 @@
       <div class="modal-wrapper">
         <div class="modal-content">
           <div class="modal-header">
-            <h2 id="unlinkTitle">Two-factor authentication</h2>
+            <h2 id="unlinkTitle">Two-Factor Authentication</h2>
             <button class="modal-close" data-modal-close aria-label="Close modal">
               <img src="assets/icon_close.svg" width="24" height="24" alt="close">
             </button>
@@ -297,6 +312,8 @@
             var isUSDT = /USDT/.test(payerCur);
             if (!isUSDT) {
               row.style.display = 'none';
+              var toRowHide = document.getElementById('convertToRow');
+              if (toRowHide) toRowHide.style.display = 'none';
               return;
             }
             // Extract numeric from Billing amount and render as USDT
@@ -305,6 +322,14 @@
             var txt = n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' USDT';
             valEl.textContent = txt;
             row.style.display = '';
+            // Convert to (USD) mirrors amount and appears below conversion rate
+            var toRow = document.getElementById('convertToRow');
+            var toEl = document.getElementById('convertTo');
+            if (toRow && toEl) {
+              var toTxt = n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' USD';
+              toEl.textContent = toTxt;
+              toRow.style.display = '';
+            }
           })();
           var convRow = document.getElementById('convRow');
           if (convRow) {

@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>XREX Pay - Send payment</title>
+    <title>XREX Pay - Send Payment</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Sora:wght@400;600;700&display=swap" rel="stylesheet" />
@@ -39,7 +39,7 @@
               <img src="assets/icon_header_back_mobile.svg" width="32" height="32" alt="">
             </picture>
           </a>
-          <h1 id="sp-back-title" class="page__title">Send payment</h1>
+          <h1 id="sp-back-title" class="page__title">Send Payment</h1>
         </section>
 
         <section class="grid">
@@ -109,7 +109,7 @@
 
               <div class="form__row form__row--amount">
                 <div class="form__field">
-                  <label for="amount">Billing amount<span class="label__meta">Billed in USD</span></label>
+                  <label for="amount">Billing amount<span class="label__meta" style="display:none;">Billed in USD</span></label>
                   <div class="amount-input">
                     <span class="amount-input__prefix"><img src="assets/icon_USD.svg" alt="" /></span>
                     <input id="amount" name="amount" type="text" inputmode="decimal" placeholder="0" autocomplete="off" />
@@ -181,7 +181,7 @@
                       </span>
                       <span class="fee-option__content">
                         <span class="fee-option__title">Paid by you</span>
-                        <small class="muted">Added to your cost</small>
+                        <small class="muted">Added to your billing amount</small>
                       </span>
                       <input type="radio" name="fee" value="you" checked />
                       <span class="fee-option__check" aria-hidden="true"></span>
@@ -192,7 +192,7 @@
                       </span>
                       <span class="fee-option__content">      
                         <span class="fee-option__title">Share 50/50</span>
-                        <small class="muted">Partially added to your cost and deducted from amount to send</small>
+                        <small class="muted">Partially added to your billing amount and deducted from amount to send</small>
                       </span>
                       <input type="radio" name="fee" value="split" />
                       <span class="fee-option__check" aria-hidden="true"></span>
@@ -382,7 +382,12 @@
                   </div>
                 </div>
               </div>
-            </div>
+          </div>
+
+          <!-- Mobile inline CTA (shown only below desktop) -->
+          <div class="mobile-cta">
+            <button id="confirm-send-inline" class="btn btn--primary btn--block" aria-disabled="true" disabled>Review payment</button>
+          </div>
           </div>
 
           <aside class="grid__col grid__col--sidebar">
@@ -418,7 +423,7 @@
               <div class="summary-section-head" style="display:none;">
                 <span class="summary-section-title">Amount and fees</span>
               </div>
-              <div class="summary-box" style="margin-top:16px;">
+              <div class="summary-box">
                 <div class="summary-pair">
                   <span class="muted">Billing amount</span>
                   <strong>0.00 USD</strong>
@@ -448,7 +453,7 @@
                 </div>
                 <div class="summary-separator"></div>
                 <div class="summary-pair summary-pair--yourtotal">
-                  <span class="muted">Paid by you</span>
+                  <span class="muted">You pay</span>
                   <strong>0.00 USD</strong>
                 </div>
                 <div class="summary-pair summary-pair--totalreceive">
@@ -491,11 +496,11 @@
               </div>
               <div class="summary-separator"></div>
               <div class="summary-pair">
-                <span class="muted">Paid by you</span>
+                <span class="muted">You padasfasdg</span>
                 <strong id="fd-youpay">-</strong>
               </div>
               <div class="summary-pair">
-                <span class="muted">Receiver gets</span>
+                <span class="muted">Receiver gedsagts</span>
                 <strong id="fd-getspaid">-</strong>
               </div>
             </div>

@@ -10,8 +10,8 @@
 .page--review {
   .receipt__note {
     text-align: right;
-    color: #73A2F5;
-    margin: 24px 0px 8px 0px;
+    color: #4D88FF;
+    margin: 8px 0px 8px 0px;
   }
   .page__header {
     margin-bottom: 0px;
@@ -27,6 +27,10 @@
     margin-left: auto;
     text-align: right;
     display: inline-block;
+  }
+  
+  .receipt__subrow strong {
+    font-weight: 400;
   }
 
   .summary-recipient {
@@ -51,6 +55,20 @@
     flex-direction: column;
     align-items: flex-end;
     gap: 4px;
+  }
+  // Info notice below summary (matches docs-declare look)
+  .review-declare {
+    margin-top: 24px;
+    border: 0;
+    border-radius: $radius-md;
+    padding: 8px;
+    background: #EAF2FF;
+    color: #4D88FF;
+    .review-declare__head { display: flex; align-items: center; gap: 8px; }
+    .review-declare__icon { width: 16px; height: 16px; }
+    .review-declare__title { font-size: 14px; font-weight: 600; color: #4D88FF; }
+    .review-declare__text { margin: 0; font-size: 14px; font-weight: 600; color: #4D88FF; line-height: 1.5; }
+    .review-declare__title a { color: #4D88FF; text-decoration: underline; font-weight: 700; }
   }
 }
 

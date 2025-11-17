@@ -178,7 +178,38 @@
   .page__subheader .btn .btn-icon { display: none; }
 }
 
-
+// Snackbar / Toast (lightweight)
+.snackbar {
+  position: fixed;
+  left: 50%;
+  top: 24px; // appear from top
+  transform: translateX(-50%) translateY(-8px);
+  z-index: 10000;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 20px; // bigger
+  border-radius: 16px; // rounder
+  background: #111827; // neutral dark
+  color: #fff;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.2);
+  font-family: $font-family-sans;
+  font-weight: 700;
+  font-size: 16px; // bigger text
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .2s ease, transform .2s ease;
+}
+.snackbar.is-visible {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+.snackbar__icon {
+  width: 24px;
+  height: 24px;
+  display: block;
+}
+.snackbar--success { background: #111827; color: #fff; }
 .cp-toolbar {
   display: flex;
   align-items: center;
@@ -400,7 +431,7 @@
     padding: 16px 32px 32px;
   }
 }
-.modal-footer .btn { /* size will follow btn modifiers; mobile sizes set in media rule below */ }
+.modal-footer .btn { line-height: inherit; } // keep rule non-empty; sizes follow btn modifiers
 .modal__content {
   display: flex;
   flex-direction: column;
@@ -580,7 +611,7 @@
   margin-top: 2px;
 }
 @media (min-width: $bp-desktop) {
-  .receipt__title { font-size: 22px; }
+  .receipt__title { font-size: 28px; font-family: $font-sora; font-weight: 700;}
 }
 
 // Ensure loading modal keeps card style on mobile/tablet (override full-screen modal rules)
