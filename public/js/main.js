@@ -137,7 +137,7 @@ function initSendPayment() {
     serviceTitle: (summaryContainer || document).querySelector('.summary-pair[data-summary="service-title"]'),
     servicePayer: (summaryContainer || document).querySelector('[data-summary="service-payer"]'),
     servicePayee: (summaryContainer || document).querySelector('[data-summary="service-payee"]'),
-    amountPayable: findSummaryRow('Amount payable'),
+    amountPayable: findSummaryRow('Billing amount'),
     deductFrom: findSummaryRow('Deduct from'),
     nature: findSummaryRow('Nature'),
     purpose: findSummaryRow('Purpose'),
@@ -292,7 +292,7 @@ function initSendPayment() {
     }
     if (amountMetaText) {
       amountMetaText.textContent = amountOverPerTx
-        ? `Amount payable exceeds ${formatAmount(PER_TX_LIMIT, 'USD')} transaction limit`
+        ? `Billing amount exceeds ${formatAmount(PER_TX_LIMIT, 'USD')} transaction limit`
         : `Transaction limit: ${formatAmount(PER_TX_LIMIT, 'USD')}`;
     }
     // Inline error for amount exceeding selected account balance (consider payer fee share)
@@ -310,7 +310,7 @@ function initSendPayment() {
         // Compose message: show Amount payable + X% fee (computed total) exceeds avail <currency> balance
         const pctNum = (typeof payerPctAbs === 'number' && payerPctAbs > 0) ? payerPctAbs : 0;
         const pctStr = Number(pctNum).toFixed(2);
-        const label = pctNum > 0 ? `Amount payable + ${pctStr}% fee` : 'Amount payable';
+        const label = pctNum > 0 ? `Billing amount + ${pctStr}% fee` : 'Billing amount';
         const totalStr = Number(youPay || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
         amountError.textContent = `${label} (${totalStr}) exceeds balance`;
       }

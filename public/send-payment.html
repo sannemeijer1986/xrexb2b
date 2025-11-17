@@ -109,7 +109,7 @@
 
               <div class="form__row form__row--amount">
                 <div class="form__field">
-                  <label for="amount">Amount payable <span class="label__meta">Billed in USD</span></label>
+                  <label for="amount">Billing amount<span class="label__meta">Billed in USD</span></label>
                   <div class="amount-input">
                     <span class="amount-input__prefix"><img src="assets/icon_USD.svg" alt="" /></span>
                     <input id="amount" name="amount" type="text" inputmode="decimal" placeholder="0" autocomplete="off" />
@@ -162,7 +162,7 @@
                     </label>
                   </div>
                   <div class="deduct-footer">
-                    <div id="amount-error" class="form-error" hidden>Amount payable exceeds available balance</div>
+                    <div id="amount-error" class="form-error" hidden>Billing amount exceeds available balance</div>
                     <div id="deduct-rate" class="deduct-rate" hidden>
                       <span class="deduct-rate__sub">USDT will be converted to USD</span>
                       <span class="deduct-rate__main">Rate: 1 USDT = 1 USD</span>
@@ -421,7 +421,7 @@
               </div>
               <div class="summary-box" style="margin-top:16px;">
                 <div class="summary-pair">
-                  <span class="muted">Amount payable</span>
+                  <span class="muted">Billing amount</span>
                   <strong>0.00 USD</strong>
                 </div>
                 <div class="summary-pair">
@@ -479,7 +479,7 @@
           <div class="modal-body">
             <div class="summary-box">
               <div class="summary-pair">
-                <span class="muted">Amount payable</span>
+                <span class="muted">Billing amount</span>
                 <strong id="fd-subtotal">-</strong>
               </div>
               <div class="summary-pair">
