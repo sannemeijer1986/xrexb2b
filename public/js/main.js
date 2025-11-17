@@ -436,7 +436,7 @@ function initSendPayment() {
     docsTitle.hidden = !isChosen;
     docsWrap.hidden = !isChosen;
     if (!isChosen) return;
-    if (spanNature) spanNature.textContent = natureTxt;
+    if (spanNature) spanNature.textContent = natureTxt.toLowerCase();
     const isPre = natureVal === 'pre_shipment';
     const isNatureChanged = natureVal !== lastNatureVal;
     pre.hidden = !isPre;
@@ -672,7 +672,7 @@ function initSendPayment() {
           if (titleTxt.includes('commercial invoice')) {
             desc = 'The official invoice issued by the seller after shipment';
           } else if (titleTxt.includes('transport')) {
-            desc = 'Proof of shipment, ex. bill of lading, airway bill, or courier waybill';
+            desc = 'Proof of shipment e.g., bill of lading, airway bill, or courier waybill';
           } else if (titleTxt.includes('packing')) {
             desc = 'Detailed list of goods included in the shipment';
           }
@@ -772,7 +772,7 @@ function initSendPayment() {
           if (lower.includes('commercial invoice')) {
             subEl.textContent = 'The official invoice issued by the seller after shipment';
           } else if (isTransport) {
-            subEl.textContent = 'Proof of shipment, ex. bill of lading, airway bill, or courier waybill';
+            subEl.textContent = 'Proof of shipment e.g., bill of lading, airway bill, or courier waybill';
           } else if (isPacking) {
             subEl.textContent = 'Detailed list of goods included in the shipment';
           } else {

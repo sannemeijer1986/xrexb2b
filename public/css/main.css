@@ -3235,7 +3235,7 @@ body.modal-locked {
   margin-bottom: 40px;
   border: 0;
   border-radius: 8px;
-  padding: 16px;
+  padding: 8px;
   background: #EAF2FF;
   color: #73A2F5;
 }
@@ -3246,7 +3246,6 @@ body.modal-locked {
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-bottom: 6px;
 }
 #docs-post .docs-declare__icon {
   width: 16px;
@@ -3254,7 +3253,7 @@ body.modal-locked {
 }
 #docs-post .docs-declare__title {
   font-size: 14px;
-  font-weight: 700;
+  font-weight: 600;
   color: #73A2F5;
 }
 #docs-post .docs-declare__text {

@@ -980,11 +980,11 @@
   .upload-list { display: grid; gap: 12px; margin-bottom: 16px; }
   .doc-miss-row { display:flex; justify-content: flex-end; }
   .doc-miss { display: inline-flex; align-items: center; gap: 8px; color: $text-secondary; font-size: 14px; }
-  .docs-declare { margin-top: 12px; margin-bottom: 40px; border: 0; border-radius: $radius-md; padding: 16px; background: #EAF2FF; color: #73A2F5; }
+  .docs-declare { margin-top: 12px; margin-bottom: 40px; border: 0; border-radius: $radius-md; padding: 8px; background: #EAF2FF; color: #73A2F5; }
   .docs-declare__box { display: block; }
-  .docs-declare__head { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+  .docs-declare__head { display: flex; align-items: center; gap: 8px; }
   .docs-declare__icon { width: 16px; height: 16px; }
-  .docs-declare__title { font-size: 14px; font-weight: 700; color: #73A2F5; }
+  .docs-declare__title { font-size: 14px; font-weight: 600; color: #73A2F5; }
   .docs-declare__text { margin: 0; font-size: 14px; font-weight: 400; color: #73A2F5; line-height: 1.5; }
 }
 .upload-item {
