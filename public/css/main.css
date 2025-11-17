@@ -102,6 +102,8 @@ html {
   z-index: 50;
   background: #F8F8F8;
   border-bottom: 1px solid #eeeeee;
+  will-change: transform, top;
+  transform: translateZ(0);
 }
 .site-header .header__content {
   display: flex;
@@ -3567,6 +3569,10 @@ body.modal-locked {
   }
   .page--send .card--summary.is-sticky-visible {
     display: grid;
+  }
+  .page--send .card--summary {
+    will-change: transform, top;
+    transform: translateZ(0);
   }
   .page--send .card--summary .card__title,
   .page--send .card--summary .summary-recipient,

@@ -1214,6 +1214,8 @@ margin-bottom: 0px;
       box-shadow: 0 -12px 30px rgba(0,0,0,0.08);
         display: none; // hidden until scrolled near section
         &.is-sticky-visible { display: grid; }
+        will-change: transform, top;
+        transform: translateZ(0);
     }
     // Hide everything except the two target rows
     .card--summary .card__title, 
