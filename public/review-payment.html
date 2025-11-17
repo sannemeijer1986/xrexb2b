@@ -64,7 +64,7 @@
         </div>
 
         <div class="review-block">
-        <h3 class="card__title">Payment details</h3>
+        <h3 class="card__title">Payment information</h3>
         <div class="card card--section receipt__card">
           <div class="receipt__row">
             <span class="muted">Nature of payment</span>
@@ -75,7 +75,7 @@
             <strong id="purposeVal">-</strong>
           </div>
           <div class="receipt__row" id="attachedDocsRow">
-            <span class="muted">Attached documents</span>
+            <span class="muted">Attached document(s)</span>
             <strong id="attachedDocs">-</strong>
           </div>
           <div class="receipt__row" id="docNumRow">
@@ -93,15 +93,19 @@
         <h3 class="card__title">Amount and fees</h3>
         <div class="card card--section receipt__card">
           <div class="receipt__row">
-            <span class="muted">Amount payable</span>
+            <span class="muted">Billing amount</span>
             <strong id="amtPayable">-</strong>
           </div>
           <div class="receipt__row">
             <span class="muted">Deduct from</span>
             <strong id="deductedFrom">-</strong>
           </div>
+          <div class="receipt__row" id="totalConvertRow">
+            <span class="muted">Total to convert</span>
+            <strong id="totalConvert">-</strong>
+          </div>
           <div class="receipt__row" id="convRow" hidden>
-            <span class="muted">Convert to USD at a rate of</span>
+            <span class="muted">Conversion rate</span>
             <div class="convertrate-wrapper">
               <strong id="convVal">1 USDT = 1 USD</strong>
               <button id="fees-details-open" type="button" class="summary-title-link">See convert details</button>
@@ -121,7 +125,7 @@
           </div>
           <div class="receipt__divider"></div>
           <div class="receipt__row">
-            <span class="muted">To be deducted</span>
+            <span class="muted">Paid by you</span>
             <strong id="toBeDeducted">-</strong>
           </div>
           <div class="receipt__row receipt__row--em">
@@ -284,6 +288,24 @@
           set('receiverShareAmt', d.receiverShareAmt || '');
           set('toBeDeducted', d.toBeDeducted || '');
           set('receiverGets', d.receiverGets || '');
+          // Total to convert: only when deducting from USDT
+          (function () {
+            var row = document.getElementById('totalConvertRow');
+            var valEl = document.getElementById('totalConvert');
+            if (!row || !valEl) return;
+            var payerCur = (d.deductedFrom || '').toUpperCase();
+            var isUSDT = /USDT/.test(payerCur);
+            if (!isUSDT) {
+              row.style.display = 'none';
+              return;
+            }
+            // Extract numeric from Billing amount and render as USDT
+            var num = (d.amountPayableFmt || '0').replace(/[^\d.]/g, '');
+            var n = Number(num || 0);
+            var txt = n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' USDT';
+            valEl.textContent = txt;
+            row.style.display = '';
+          })();
           var convRow = document.getElementById('convRow');
           if (convRow) {
             if (d.conversion) {

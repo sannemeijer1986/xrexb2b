@@ -3499,7 +3499,7 @@ body.modal-locked {
 }
 
 .page--review .receipt__note {
-  text-align: center;
+  text-align: right;
   color: #73A2F5;
   margin: 24px 0px 8px 0px;
 }
