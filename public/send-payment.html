@@ -100,6 +100,10 @@
                   </select>
                 </div>
               </div>
+              <div class="form__field" id="purpose-others-field" style="display: none;">
+                <label for="purposeOthers">Specify purpose of payment</label>
+                <input id="purposeOthers" name="purposeOthers" type="text" placeholder="E.g., commission, service fee, materials" maxlength="50" />
+              </div>
 
             </form>
 
@@ -181,7 +185,7 @@
                       </span>
                       <span class="fee-option__content">
                         <span class="fee-option__title">Paid by you</span>
-                        <small class="muted">Added to your billing amount</small>
+                        <small class="muted">Added to amount payable</small>
                       </span>
                       <input type="radio" name="fee" value="you" checked />
                       <span class="fee-option__check" aria-hidden="true"></span>
@@ -192,7 +196,7 @@
                       </span>
                       <span class="fee-option__content">      
                         <span class="fee-option__title">Share 50/50</span>
-                        <small class="muted">Partially added to your billing amount and deducted from amount to send</small>
+                        <small class="muted">Partially added to amount payable and deducted from amount to send</small>
                       </span>
                       <input type="radio" name="fee" value="split" />
                       <span class="fee-option__check" aria-hidden="true"></span>

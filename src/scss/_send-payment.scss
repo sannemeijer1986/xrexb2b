@@ -983,6 +983,7 @@
 [data-docs-nature] { color: #73A2F5; }
 #docs label { font-family: $font-family-sans; font-weight: 600; font-size: 14px; color: $text-secondary; }
 #piNumber:not(:placeholder-shown) { font-weight: 600; }
+#purposeOthers:not(:placeholder-shown) { font-weight: 600; }
 .upload-list {
   display: grid;
   gap: 12px;

@@ -234,7 +234,15 @@ function initSendPayment() {
     const isFilledSelect = (el) => !!(el && String(el.value || '') !== '');
 
     const natureOk = isFilledSelect(natureEl);
-    const purposeOk = isFilledSelect(purposeEl);
+    const purposeElValue = purposeEl ? purposeEl.value : '';
+    const purposeOthersEl = document.getElementById('purposeOthers');
+    // Purpose is valid if it's selected
+    // If "others" is selected, the purposeOthers field becomes required and must be filled
+    let purposeOk = isFilledSelect(purposeEl);
+    if (purposeOk && purposeElValue === 'others') {
+      // When "Others" is selected, the purposeOthers field is required
+      purposeOk = purposeOthersEl && isFilledText(purposeOthersEl);
+    }
     // Amount must be a positive number; treat empty or 0 as not filled
     let amountOk = false;
     if (amountEl) {
@@ -670,10 +678,44 @@ function initSendPayment() {
   feeRadios.forEach(r => r.addEventListener('change', () => { updateSummary(); if (typeof validateSendForm === 'function') validateSendForm(); }));
   deductRadios.forEach(r => r.addEventListener('change', () => { updateSummary(); if (typeof validateSendForm === 'function') validateSendForm(); }));
   if (natureSelect) natureSelect.addEventListener('change', () => { updateNaturePurpose(); if (typeof validateSendForm === 'function') validateSendForm(); });
-  if (purposeSelect) purposeSelect.addEventListener('change', () => { 
-    if (typeof updatePurposeOnly === 'function') updatePurposeOnly(); 
-    if (typeof validateSendForm === 'function') validateSendForm(); 
-  });
+  const purposeOthersField = document.getElementById('purpose-others-field');
+  const purposeOthersInput = document.getElementById('purposeOthers');
+  if (purposeSelect) {
+    purposeSelect.addEventListener('change', () => { 
+      const isOthers = purposeSelect.value === 'others';
+      if (purposeOthersField) {
+        purposeOthersField.style.display = isOthers ? '' : 'none';
+      }
+      if (isOthers && purposeOthersInput) {
+        // Auto-focus when "Others" is selected
+        setTimeout(() => {
+          purposeOthersInput.focus();
+        }, 10);
+      } else if (purposeOthersInput) {
+        // Clear the field when switching away from "Others"
+        purposeOthersInput.value = '';
+        purposeOthersInput.classList.remove('is-filled');
+      }
+      if (typeof updatePurposeOnly === 'function') updatePurposeOnly(); 
+      if (typeof validateSendForm === 'function') validateSendForm(); 
+    });
+  }
+  // Handle input styling for purposeOthers field
+  if (purposeOthersInput) {
+    purposeOthersInput.addEventListener('input', () => {
+      const hasValue = purposeOthersInput.value.trim().length > 0;
+      purposeOthersInput.classList.toggle('is-filled', hasValue);
+      if (typeof validateSendForm === 'function') validateSendForm();
+    }, { passive: true });
+    purposeOthersInput.addEventListener('change', () => {
+      if (typeof validateSendForm === 'function') validateSendForm();
+    });
+  }
+  // Initialize purposeOthers field visibility on page load
+  if (purposeSelect && purposeOthersField) {
+    const isOthers = purposeSelect.value === 'others';
+    purposeOthersField.style.display = isOthers ? '' : 'none';
+  }
   // Generic listeners so clearing any field re-validates immediately
   const attachValidationListeners = () => {
     const formRoot = document.querySelector('.form');
@@ -1416,6 +1458,8 @@ if (confirmTriggerInline) {
       if (amountEl) { amountEl.value = ''; trigger(amountEl); }
       if (natureEl) { natureEl.value = ''; trigger(natureEl); }
       if (purposeEl) { purposeEl.value = ''; trigger(purposeEl); }
+      const purposeOthersEl = document.getElementById('purposeOthers');
+      if (purposeOthersEl) { purposeOthersEl.value = ''; trigger(purposeOthersEl); }
       if (deductUSD) { deductUSD.checked = true; trigger(deductUSD); }
       if (docTypeEl) { docTypeEl.value = ''; trigger(docTypeEl); }
       if (piNumberEl) { piNumberEl.value = ''; trigger(piNumberEl); }
