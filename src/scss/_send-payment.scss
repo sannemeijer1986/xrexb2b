@@ -1238,7 +1238,7 @@ bottom: 96px !important;
     justify-content: center;
     gap: 12px;
     z-index: 4000;
-    border-radius: 16px 16px 0 0;
+    border-radius: 0;
   }
   .mobile-stickybar__inner {
     width: 100%;
@@ -1283,6 +1283,13 @@ bottom: 96px !important;
   }
   .mobile-stickybar .ms-review {
     min-width: 110px;
+  }
+}
+
+// When any modal is open, hide the mobile sticky summary bar so it doesn't overlap
+@media (max-width: ($bp-desktop - 1px)) {
+  body.modal-open .mobile-stickybar {
+    display: none !important;
   }
 }
 

@@ -229,6 +229,7 @@ html {
 }
 .page .page__header .page__title {
   margin: 0;
+  cursor: pointer;
   font-size: 14px;
   font-weight: 700;
   color: #336AFF;
@@ -3657,7 +3658,7 @@ body.modal-locked {
     justify-content: center;
     gap: 12px;
     z-index: 4000;
-    border-radius: 16px 16px 0 0;
+    border-radius: 0;
   }
   .mobile-stickybar__inner {
     width: 100%;
@@ -3704,6 +3705,11 @@ body.modal-locked {
   }
   .mobile-stickybar .ms-review {
     min-width: 110px;
+  }
+}
+@media (max-width: 1279px) {
+  body.modal-open .mobile-stickybar {
+    display: none !important;
   }
 }
 .page--send ~ .build-badge {
