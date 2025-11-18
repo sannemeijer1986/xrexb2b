@@ -922,39 +922,79 @@ function initSendPayment() {
   if (mobileSummaryOpen) {
     mobileSummaryOpen.addEventListener('click', (e) => {
       e.preventDefault();
-      const host = document.getElementById('mobileSummaryContent');
-      const card = document.querySelector('.card--summary');
-      const recip = document.querySelector('.summary-recipient');
-      const modal = document.getElementById('mobileSummaryModal');
-      if (host && card) {
-        const box = card.querySelector('.summary-box');
-        host.innerHTML = '';
-        // Wrapper styling hook
-        const wrap = document.createElement('div');
-        wrap.className = 'summary-modal-copy';
-        if (recip) {
-          const r = recip.cloneNode(true);
-          wrap.appendChild(r);
-        }
+      // Ensure summary is up to date before cloning
+      updateSummary();
+      // Small delay to ensure DOM updates
+      setTimeout(() => {
+        const host = document.getElementById('mobileSummaryContent');
+        const card = document.querySelector('.card--summary');
+        const recip = document.querySelector('.summary-recipient');
+        const modal = document.getElementById('mobileSummaryModal');
+        if (host && card) {
+          const sectionHead = card.querySelector('.summary-section-head');
+          const box = card.querySelector('.summary-box');
+          host.innerHTML = '';
+          // Wrapper styling hook
+          const wrap = document.createElement('div');
+          wrap.className = 'summary-modal-copy';
+          if (recip) {
+            const r = recip.cloneNode(true);
+            wrap.appendChild(r);
+          }
+          // Clone section head if it exists - force it visible
+          if (sectionHead) {
+            const sh = sectionHead.cloneNode(true);
+            sh.style.cssText = 'display: flex !important; visibility: visible !important; opacity: 1 !important;';
+            wrap.appendChild(sh);
+          }
         if (box) {
           const b = box.cloneNode(true);
-          // Remove any inline styles that hide items in the sidebar version
-          b.querySelectorAll('[style]').forEach(el => el.removeAttribute('style'));
+          // Ensure the box itself is visible
+          b.style.display = 'block';
+          b.style.visibility = 'visible';
+          b.style.opacity = '1';
+          // Remove any inline styles that hide items
+          b.querySelectorAll('[style]').forEach(el => {
+            const style = el.getAttribute('style');
+            if (style && (style.includes('display:none') || style.includes('display: none'))) {
+              el.removeAttribute('style');
+            }
+          });
+          // Force ALL summary pairs and content to be visible with inline styles
+          const pairs = b.querySelectorAll('.summary-pair');
+          pairs.forEach(el => {
+            el.style.cssText = 'display: flex !important; visibility: visible !important; opacity: 1 !important;';
+            el.classList.remove('is-hidden');
+            // Make all children visible too
+            el.querySelectorAll('*').forEach(child => {
+              child.style.cssText += 'visibility: visible !important; opacity: 1 !important;';
+            });
+          });
+          b.querySelectorAll('.summary-separator').forEach(el => {
+            el.style.cssText = 'display: block !important; visibility: visible !important; opacity: 1 !important;';
+          });
+          b.querySelectorAll('.summary-note').forEach(el => {
+            el.style.cssText = 'display: block !important; visibility: visible !important; opacity: 1 !important;';
+          });
           wrap.appendChild(b);
+        } else {
+          console.warn('Summary box not found for cloning');
         }
         host.appendChild(wrap);
+        
+        if (modal) {
+          modal.setAttribute('aria-hidden', 'false');
+          document.documentElement.classList.add('modal-open');
+          document.body.classList.add('modal-open');
+          try {
+            const y = window.scrollY || window.pageYOffset || 0;
+            document.body.dataset.scrollY = String(y);
+            document.body.style.top = `-${y}px`;
+            document.body.classList.add('modal-locked');
+          } catch (_) {}
+        }
       }
-      if (modal) {
-        modal.setAttribute('aria-hidden', 'false');
-        document.documentElement.classList.add('modal-open');
-        document.body.classList.add('modal-open');
-        try {
-          const y = window.scrollY || window.pageYOffset || 0;
-          document.body.dataset.scrollY = String(y);
-          document.body.style.top = `-${y}px`;
-          document.body.classList.add('modal-locked');
-        } catch (_) {}
-      }
+      }, 10); // Small delay to ensure DOM updates
     });
   }
   // Review payment navigation (button is outside <form>)

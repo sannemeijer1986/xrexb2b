@@ -1291,7 +1291,7 @@ bottom: 96px !important;
 .page--send ~ .build-badge { bottom: 48px; z-index: 4001; }
 .page--send ~ .site-footer { position: relative; z-index: 1; }
 
-// Mobile summary modal tweaks
+// Mobile summary modal tweaks - ensure all content is visible
 #mobileSummaryModal {
   .modal-header {
     justify-content: center;
@@ -1300,11 +1300,75 @@ bottom: 96px !important;
     .modal-close { position: absolute; left: 8px; top: 8px; }
   }
   .modal-body {
-    .summary-recipient { margin-bottom: 12px; }
-    .summary-box { border-radius: $radius-md; }
+    // Override ALL .card--summary hiding rules for modal content
+    // Use maximum specificity to ensure these rules win
+    .summary-recipient { 
+      margin-bottom: 12px;
+      display: flex !important;
+      visibility: visible !important;
+      opacity: 1 !important;
+    }
+    .summary-modal-copy {
+      .summary-section-head {
+        display: flex !important;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 16px;
+        visibility: visible !important;
+        opacity: 1 !important;
+      }
+      .summary-box {
+        border-radius: $radius-md;
+        // Force all children visible
+        .summary-pair,
+        .summary-pair--sub,
+        .summary-pair--convertrate,
+        .summary-pair--yourtotal,
+        .summary-pair--totalreceive {
+          display: flex !important;
+          visibility: visible !important;
+          opacity: 1 !important;
+        }
+        .summary-separator {
+          display: block !important;
+          visibility: visible !important;
+          opacity: 1 !important;
+        }
+        .summary-note {
+          display: block !important;
+          visibility: visible !important;
+          opacity: 1 !important;
+        }
+      }
+    }
+    // Fallback: target any summary elements directly in modal-body
+    .summary-section-head,
+    .summary-pair,
+    .summary-pair--sub,
+    .summary-pair--convertrate,
+    .summary-pair--yourtotal,
+    .summary-pair--totalreceive {
+      display: flex !important;
+      visibility: visible !important;
+      opacity: 1 !important;
+    }
+    .summary-separator,
+    .summary-note {
+      display: block !important;
+      visibility: visible !important;
+      opacity: 1 !important;
+    }
   }
   .modal-footer {
     .btn { width: 100%; }
+  }
+}
+// Extra override: ensure modal content is never affected by sidebar hiding rules
+@media (max-width: ($bp-desktop - 1px)) {
+  #mobileSummaryModal .modal-body .summary-pair:not(.summary-pair--yourtotal):not(.summary-pair--totalreceive) {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
   }
 }
 @media (min-width: $bp-desktop) {

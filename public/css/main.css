@@ -3694,14 +3694,67 @@ body.modal-locked {
 }
 #mobileSummaryModal .modal-body .summary-recipient {
   margin-bottom: 12px;
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
 }
-#mobileSummaryModal .modal-body .summary-box {
+#mobileSummaryModal .modal-body .summary-modal-copy .summary-section-head {
+  display: flex !important;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+#mobileSummaryModal .modal-body .summary-modal-copy .summary-box {
   border-radius: 8px;
+}
+#mobileSummaryModal .modal-body .summary-modal-copy .summary-box .summary-pair,
+#mobileSummaryModal .modal-body .summary-modal-copy .summary-box .summary-pair--sub,
+#mobileSummaryModal .modal-body .summary-modal-copy .summary-box .summary-pair--convertrate,
+#mobileSummaryModal .modal-body .summary-modal-copy .summary-box .summary-pair--yourtotal,
+#mobileSummaryModal .modal-body .summary-modal-copy .summary-box .summary-pair--totalreceive {
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+#mobileSummaryModal .modal-body .summary-modal-copy .summary-box .summary-separator {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+#mobileSummaryModal .modal-body .summary-modal-copy .summary-box .summary-note {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+#mobileSummaryModal .modal-body .summary-section-head,
+#mobileSummaryModal .modal-body .summary-pair,
+#mobileSummaryModal .modal-body .summary-pair--sub,
+#mobileSummaryModal .modal-body .summary-pair--convertrate,
+#mobileSummaryModal .modal-body .summary-pair--yourtotal,
+#mobileSummaryModal .modal-body .summary-pair--totalreceive {
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+#mobileSummaryModal .modal-body .summary-separator,
+#mobileSummaryModal .modal-body .summary-note {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
 }
 #mobileSummaryModal .modal-footer .btn {
   width: 100%;
 }
 
+@media (max-width: 1279px) {
+  #mobileSummaryModal .modal-body .summary-pair:not(.summary-pair--yourtotal):not(.summary-pair--totalreceive) {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+}
 @media (min-width: 1280px) {
   .mobile-cta {
     display: none;
