@@ -130,12 +130,21 @@
     </main>
 
     <!-- Modal: Unverified bank account -->
-    <div id="accountNotVerifiedModal" class="modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="accountNotVerifiedTitle">
+    <div id="accountNotVerifiedModal" class="modal modal--dialog" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="accountNotVerifiedTitle">
       <div class="modal__dialog">
         <div class="modal__content">
-          <h2 id="accountNotVerifiedTitle" class="modal__title">This bank account can’t be used at the moment</h2>
-          <p class="modal__desc">Only verified bank accounts can be used for payments. You can choose a verified account, add a new one, or wait for the reviewing process to complete.</p>
-          <div class="modal__actions">
+          <div class="modal__header">
+            <button class="modal__close" data-modal-close aria-label="Close modal">
+              <img src="assets/icon_close.svg" width="24" height="24" alt="close" />
+            </button>
+          </div>
+          <div class="modal__body">
+            <h2 id="accountNotVerifiedTitle" class="modal__title">This bank account can’t be used at the moment</h2>
+            <p class="modal__desc">
+              Only verified bank accounts can be used for payments. You can choose a verified account, add a new one, or wait for the reviewing process to complete.
+            </p>
+          </div>
+          <div class="modal__footer">
             <button type="button" class="btn btn--secondary btn--md" data-modal-close>Understood</button>
           </div>
         </div>

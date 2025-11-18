@@ -803,3 +803,67 @@ body.modal-locked {
     padding-top: 32px; // a bit more space on desktop and above
   }
 }
+
+// Dialog-style modals using .modal__dialog on mobile/tablet
+@media (max-width: ($bp-desktop - 1px)) {
+  .modal.modal--dialog {
+    // Full viewport sheet with white background (no visible dim layer)
+    align-items: stretch;
+    justify-content: stretch;
+    background: #ffffff;
+    z-index: 4001; // above cp-sticky and other fixed elements
+  }
+  .modal.modal--dialog .modal__dialog {
+    width: 100%;
+    max-width: 768px;
+    height: 100%;
+    min-width: 0;
+    margin: 0 auto;
+    display: flex;
+  }
+  .modal.modal--dialog .modal__content {
+    width: 100%;
+    border-radius: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+    box-shadow: none;
+  }
+  .modal.modal--dialog .modal__header,
+  .modal.modal--dialog .modal__body,
+  .modal.modal--dialog .modal__footer {
+    width: 100%;
+    max-width: 768px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .modal.modal--dialog .modal__header {
+    padding: 16px 16px 0;
+    border-bottom: none;
+    justify-content: flex-start; // X on the left
+  }
+  .modal.modal--dialog .modal__title {
+    text-align: center;
+    margin: 0 0 8px;
+  }
+  .modal.modal--dialog .modal__body {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 16px 24px 8px;
+    text-align: center;
+  }
+  .modal.modal--dialog .modal__desc {
+    text-align: center;
+  }
+  .modal.modal--dialog .modal__footer {
+    padding: 16px 24px 32px;
+    border-top: none;
+    justify-content: center;
+  }
+  .modal.modal--dialog .modal__footer .btn {
+    width: 100%;
+  }
+}
