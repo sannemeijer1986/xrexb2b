@@ -3569,7 +3569,15 @@ body.modal-locked {
 }
 
 .upload-item.is-uploaded .upload-item__meta .muted {
-  color: #2F9752;
+  color: #336AFF;
+  font-weight: 700;
+}
+.upload-item.is-uploaded .upload-item__meta .muted a {
+  color: inherit;
+  text-decoration: none;
+}
+.upload-item.is-uploaded .upload-item__meta .muted a:hover {
+  text-decoration: none;
 }
 .upload-item.is-uploaded .upload-item__badge {
   background: transparent;

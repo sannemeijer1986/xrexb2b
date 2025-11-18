@@ -755,16 +755,19 @@ function initSendPayment() {
       const inPre = !!item.closest('#docs-pre');
       const inPost = !!item.closest('#docs-post');
       if (subEl) {
+        let filename = '';
         if (inPre) {
-          subEl.textContent = 'Invoice123.pdf';
+          filename = 'Invoice123.pdf';
         } else if (inPost) {
           const list = Array.from(item.parentElement?.querySelectorAll('.upload-item') || []);
           const idx = Math.max(0, list.indexOf(item));
           const labels = ['AInvoice123.pdf', 'BInvoice123.pdf', 'CInvoice123.pdf'];
-          subEl.textContent = labels[idx] || 'Document123.pdf';
+          filename = labels[idx] || 'Document123.pdf';
         } else {
-          subEl.textContent = 'Document123.pdf';
+          filename = 'Document123.pdf';
         }
+        // Wrap filename in a link for prototype realism
+        subEl.innerHTML = `<a href="#" target="_blank">${filename}</a>`;
       }
       // Badge icon success
       const badgeImg = item.querySelector('.upload-item__badge img');
@@ -812,6 +815,14 @@ function initSendPayment() {
     });
   };
   initUploadItems();
+  
+  // Prevent default link behavior for uploaded file name links (prototype only)
+  document.addEventListener('click', (e) => {
+    const link = e.target.closest('.upload-item.is-uploaded .upload-item__meta .muted a');
+    if (link) {
+      e.preventDefault();
+    }
+  }, { passive: false });
 
   // Revalidate + UI when post-shipment missing-document checkboxes change
   const updateMissingDocsUI = () => {
@@ -1326,9 +1337,13 @@ if (confirmTriggerInline) {
       if (preUpload) {
         // toggle to uploaded via main button
         if (!preUpload.classList.contains('is-uploaded')) clickMainUploadBtn(preUpload);
-        // ensure display name
-        const sub = preUpload.querySelector('.upload-item__meta small');
-        if (sub) sub.textContent = 'PI-001234.pdf';
+        // ensure display name with link (after setUploaded creates the link structure)
+        setTimeout(() => {
+          const sub = preUpload.querySelector('.upload-item__meta small');
+          if (sub && preUpload.classList.contains('is-uploaded')) {
+            sub.innerHTML = `<a href="#" target="_blank">PI-001234.pdf</a>`;
+          }
+        }, 10);
       }
       // For demo, also upload all post-shipment documents with A/B/C names
       postUploads.forEach((it) => {
