@@ -3706,6 +3706,14 @@ body.modal-locked {
   visibility: visible !important;
   opacity: 1 !important;
 }
+#mobileSummaryModal .modal-body .summary-modal-copy .summary-modal-card {
+  margin-top: 16px;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
+}
+#mobileSummaryModal .modal-body .summary-modal-copy .summary-modal-card .summary-recipient {
+  margin-bottom: 16px;
+}
 #mobileSummaryModal .modal-body .summary-modal-copy .summary-box {
   border-radius: 8px;
 }

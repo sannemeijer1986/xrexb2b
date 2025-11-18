@@ -932,55 +932,69 @@ function initSendPayment() {
         const modal = document.getElementById('mobileSummaryModal');
         if (host && card) {
           const sectionHead = card.querySelector('.summary-section-head');
-          const box = card.querySelector('.summary-box');
+          // Prefer the amount & fees box; fall back to second summary-box, then any
+          let box = card.querySelector('#summaryBoxAmount');
+          if (!box) {
+            const allBoxes = card.querySelectorAll('.summary-box');
+            if (allBoxes.length > 1) {
+              box = allBoxes[1];
+            } else {
+              box = allBoxes[0] || null;
+            }
+          }
           host.innerHTML = '';
-          // Wrapper styling hook
+          // Outer wrapper for modal layout
           const wrap = document.createElement('div');
           wrap.className = 'summary-modal-copy';
+          // Card wrapper that mimics desktop summary card but without .card--summary
+          const modalCard = document.createElement('div');
+          modalCard.className = 'card card--section summary-modal-card';
+          // Clone recipient chip
           if (recip) {
             const r = recip.cloneNode(true);
-            wrap.appendChild(r);
+            modalCard.appendChild(r);
           }
           // Clone section head if it exists - force it visible
           if (sectionHead) {
             const sh = sectionHead.cloneNode(true);
             sh.style.cssText = 'display: flex !important; visibility: visible !important; opacity: 1 !important;';
-            wrap.appendChild(sh);
+            modalCard.appendChild(sh);
           }
-        if (box) {
-          const b = box.cloneNode(true);
-          // Ensure the box itself is visible
-          b.style.display = 'block';
-          b.style.visibility = 'visible';
-          b.style.opacity = '1';
-          // Remove any inline styles that hide items
-          b.querySelectorAll('[style]').forEach(el => {
-            const style = el.getAttribute('style');
-            if (style && (style.includes('display:none') || style.includes('display: none'))) {
-              el.removeAttribute('style');
-            }
-          });
-          // Force ALL summary pairs and content to be visible with inline styles
-          const pairs = b.querySelectorAll('.summary-pair');
-          pairs.forEach(el => {
-            el.style.cssText = 'display: flex !important; visibility: visible !important; opacity: 1 !important;';
-            el.classList.remove('is-hidden');
-            // Make all children visible too
-            el.querySelectorAll('*').forEach(child => {
-              child.style.cssText += 'visibility: visible !important; opacity: 1 !important;';
+          if (box) {
+            const b = box.cloneNode(true);
+            // Ensure the box itself is visible
+            b.style.display = 'block';
+            b.style.visibility = 'visible';
+            b.style.opacity = '1';
+            // Remove any inline styles that hide items
+            b.querySelectorAll('[style]').forEach(el => {
+              const style = el.getAttribute('style');
+              if (style && (style.includes('display:none') || style.includes('display: none'))) {
+                el.removeAttribute('style');
+              }
             });
-          });
-          b.querySelectorAll('.summary-separator').forEach(el => {
-            el.style.cssText = 'display: block !important; visibility: visible !important; opacity: 1 !important;';
-          });
-          b.querySelectorAll('.summary-note').forEach(el => {
-            el.style.cssText = 'display: block !important; visibility: visible !important; opacity: 1 !important;';
-          });
-          wrap.appendChild(b);
-        } else {
-          console.warn('Summary box not found for cloning');
-        }
-        host.appendChild(wrap);
+            // Force ALL summary pairs and content to be visible with inline styles
+            const pairs = b.querySelectorAll('.summary-pair');
+            pairs.forEach(el => {
+              el.style.cssText = 'display: flex !important; visibility: visible !important; opacity: 1 !important;';
+              el.classList.remove('is-hidden');
+              // Make all children visible too
+              el.querySelectorAll('*').forEach(child => {
+                child.style.cssText += 'visibility: visible !important; opacity: 1 !important;';
+              });
+            });
+            b.querySelectorAll('.summary-separator').forEach(el => {
+              el.style.cssText = 'display: block !important; visibility: visible !important; opacity: 1 !important;';
+            });
+            b.querySelectorAll('.summary-note').forEach(el => {
+              el.style.cssText = 'display: block !important; visibility: visible !important; opacity: 1 !important;';
+            });
+            modalCard.appendChild(b);
+          } else {
+            console.warn('Summary box not found for cloning');
+          }
+          wrap.appendChild(modalCard);
+          host.appendChild(wrap);
         
         if (modal) {
           modal.setAttribute('aria-hidden', 'false');

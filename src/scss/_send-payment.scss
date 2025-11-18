@@ -1317,6 +1317,14 @@ bottom: 96px !important;
         visibility: visible !important;
         opacity: 1 !important;
       }
+      .summary-modal-card {
+        margin-top: 16px;
+        border-radius: $radius-lg;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.04);
+        .summary-recipient {
+          margin-bottom: 16px;
+        }
+      }
       .summary-box {
         border-radius: $radius-md;
         // Force all children visible
