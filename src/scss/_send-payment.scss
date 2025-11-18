@@ -1004,7 +1004,7 @@
   .doc-miss input[type="checkbox"]:checked {
     background-image: url('../assets/icon_checkbox_on.svg');
   }
-  .docs-declare { margin-top: 12px; margin-bottom: 40px; border: 0; border-radius: $radius-md; padding: 8px; background: #EAF2FF; color: #73A2F5; }
+  .docs-declare { margin-top: 12px; margin-bottom: 40px; border: 0; border-radius: $radius-md; padding: 8px; background: #EAF2FF; color: #73A2F5; display: none;}
   .docs-declare__box { display: block; }
   .docs-declare__head { display: flex; align-items: center; gap: 8px; }
   .docs-declare__icon { width: 16px; height: 16px; }

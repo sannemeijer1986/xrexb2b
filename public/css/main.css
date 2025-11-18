@@ -3322,6 +3322,7 @@ body.modal-locked {
   padding: 8px;
   background: #EAF2FF;
   color: #73A2F5;
+  display: none;
 }
 #docs-post .docs-declare__box {
   display: block;
