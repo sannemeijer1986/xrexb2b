@@ -137,7 +137,7 @@ function initSendPayment() {
     serviceTitle: (summaryContainer || document).querySelector('.summary-pair[data-summary="service-title"]'),
     servicePayer: (summaryContainer || document).querySelector('[data-summary="service-payer"]'),
     servicePayee: (summaryContainer || document).querySelector('[data-summary="service-payee"]'),
-    amountPayable: findSummaryRow('Billing amount'),
+    amountPayable: findSummaryRow('Invoice amount'),
     deductFrom: findSummaryRow('Deduct from'),
     nature: findSummaryRow('Nature'),
     purpose: findSummaryRow('Purpose'),
@@ -342,7 +342,7 @@ function initSendPayment() {
     }
     if (amountMetaText) {
       amountMetaText.textContent = amountOverPerTx
-        ? `Billing amount exceeds ${formatAmount(PER_TX_LIMIT, 'USD')} transaction limit`
+        ? `Invoice amount exceeds ${formatAmount(PER_TX_LIMIT, 'USD')} transaction limit`
         : `Transaction limit: ${formatAmount(PER_TX_LIMIT, 'USD')}`;
     }
     // Inline error for amount exceeding selected account balance (consider payer fee share)
@@ -360,7 +360,7 @@ function initSendPayment() {
         // Compose message: show Amount payable + X% fee (computed total) exceeds avail <currency> balance
         const pctNum = (typeof payerPctAbs === 'number' && payerPctAbs > 0) ? payerPctAbs : 0;
         const pctStr = Number(pctNum).toFixed(2);
-        const label = pctNum > 0 ? `Billing amount + ${pctStr}% fee` : 'Billing amount';
+        const label = pctNum > 0 ? `Invoice amount + ${pctStr}% fee` : 'Invoice amount';
         const totalStr = Number(youPay || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
         amountError.textContent = `${label} (${totalStr}) exceeds balance`;
       }
@@ -1643,6 +1643,29 @@ if (document.readyState === 'loading') {
     if (window.innerWidth < DESKTOP_BP) {
       e.preventDefault();
       window.location.href = 'select-counterparty.html';
+    }
+  };
+  crumb.addEventListener('click', handleBack);
+  if (title) {
+    title.addEventListener('click', handleBack);
+    title.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') handleBack(e);
+    });
+  }
+})();
+
+// Review Payment: back crumb and title go to Send payment on tablet and below
+(function initReviewBackNavigation() {
+  const isReview = document.querySelector('main.page--review');
+  if (!isReview) return;
+  const crumb = document.querySelector('.page__header--crumb .crumb');
+  const title = document.getElementById('rv-back-title');
+  if (!crumb) return;
+  const handleBack = (e) => {
+    const DESKTOP_BP = 1280;
+    if (window.innerWidth < DESKTOP_BP) {
+      e.preventDefault();
+      window.location.href = 'send-payment.html';
     }
   };
   crumb.addEventListener('click', handleBack);

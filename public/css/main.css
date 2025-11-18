@@ -655,6 +655,9 @@ textarea {
   .page--addbank .page__header--crumb .page__title {
     cursor: pointer;
   }
+  .page--review .page__header--crumb .page__title {
+    cursor: pointer;
+  }
 }
 
 .page--cp .page__header--crumb {

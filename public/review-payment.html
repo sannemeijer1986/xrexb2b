@@ -92,8 +92,8 @@
         <div class="review-block">
         <h3 class="card__title">Amount and fees</h3>
         <div class="card card--section receipt__card">
-          <div class="receipt__row">
-            <span class="muted">Billing amount</span>
+                    <div class="receipt__row">
+                      <span class="muted">Invoice amount</span>
             <strong id="amtPayable">-</strong>
           </div>
           <div class="receipt__row">
@@ -316,7 +316,7 @@
               if (toRowHide) toRowHide.style.display = 'none';
               return;
             }
-            // Extract numeric from Billing amount and render as USDT
+            // Extract numeric from Invoice amount and render as USDT
             var num = (d.amountPayableFmt || '0').replace(/[^\d.]/g, '');
             var n = Number(num || 0);
             var txt = n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' USDT';
