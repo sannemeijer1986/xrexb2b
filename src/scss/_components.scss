@@ -822,7 +822,7 @@ body.modal-locked {
   }
   .modal.modal--dialog .modal__dialog {
     width: 100%;
-    max-width: 768px;
+    max-width: 100%;
     height: 100%;
     min-width: 0;
     margin: 0 auto;
