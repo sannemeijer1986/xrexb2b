@@ -143,7 +143,8 @@ function initSendPayment() {
     purpose: findSummaryRow('Purpose'),
     youPay: findSummaryRow('You pay'),
     payeeReceives: findSummaryRow('Send to receiver'),
-    conversion: findSummaryRowStartsWith('Convert'),
+    // Conversion row label starts with \"Conversion\" (e.g. \"Conversion rate\")
+    conversion: findSummaryRowStartsWith('Conversion'),
   };
 
   const getPayerCurrency = () => {
