@@ -2956,6 +2956,12 @@ body.modal-locked {
   color: #0f172a;
 }
 
+@media (max-width: 1279px) {
+  .docs-section__title--optional {
+    margin-top: 16px;
+  }
+}
+
 .docs-section__divider {
   height: 1px;
   background: #eeeeee;
@@ -3419,6 +3425,17 @@ body.modal-locked {
 #docs-post .doc-miss input[type=checkbox]:checked {
   background-image: url("../assets/icon_checkbox_on.svg");
 }
+#docs-post .doc-miss-row.is-disabled {
+  opacity: 0.35;
+}
+#docs-post .doc-miss-row.is-disabled .doc-miss {
+  cursor: not-allowed;
+  pointer-events: auto;
+}
+#docs-post .doc-miss-row.is-disabled .doc-miss input[type=checkbox] {
+  cursor: not-allowed;
+  pointer-events: none;
+}
 #docs-post .docs-declare {
   margin-top: 12px;
   margin-bottom: 40px;
@@ -3454,6 +3471,11 @@ body.modal-locked {
   line-height: 1.5;
 }
 
+@media screen and (max-width: 1279px) {
+  .doc-miss-row {
+    justify-content: flex-start !important;
+  }
+}
 .upload-item {
   min-height: 80px;
   display: grid;

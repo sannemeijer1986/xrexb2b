@@ -711,6 +711,24 @@ function initSendPayment() {
       }
       return actions;
     };
+    // Update doc-miss-row disabled state based on upload-item state
+    const updateDocMissRowState = (item) => {
+      const nextSibling = item.nextElementSibling;
+      const missRow = nextSibling && nextSibling.classList.contains('doc-miss-row') ? nextSibling : null;
+      if (missRow) {
+        const checkbox = missRow.querySelector('input[type="checkbox"]');
+        const isUploaded = item.classList.contains('is-uploaded');
+        if (checkbox) {
+          checkbox.disabled = isUploaded;
+          if (isUploaded) {
+            checkbox.checked = false; // Uncheck if uploaded
+            missRow.classList.add('is-disabled');
+          } else {
+            missRow.classList.remove('is-disabled');
+          }
+        }
+      }
+    };
     const setNotUploaded = (item) => {
       item.classList.remove('is-uploaded');
       const badgeImg = item.querySelector('.upload-item__badge img');
@@ -745,6 +763,8 @@ function initSendPayment() {
       }
       const resetBtn = actions.querySelector('.upload-reset');
       if (resetBtn) resetBtn.remove();
+      // Re-enable doc-miss-row when not uploaded
+      updateDocMissRowState(item);
       if (typeof validateSendForm === 'function') validateSendForm();
     };
     const setUploaded = (item) => {
@@ -779,6 +799,8 @@ function initSendPayment() {
         mainBtn.classList.add('btn--secondary');
         mainBtn.textContent = 'Remove file';
       }
+      // Disable doc-miss-row when uploaded
+      updateDocMissRowState(item);
       if (typeof validateSendForm === 'function') validateSendForm();
     };
     // Ensure initial structure and default subtitles per context
@@ -873,6 +895,9 @@ function initSendPayment() {
           const resetBtn = actions.querySelector('.upload-reset');
           if (resetBtn) resetBtn.remove();
         }
+        // Remove disabled state from doc-miss-row since item is now not uploaded
+        row.classList.remove('is-disabled');
+        cb.disabled = false;
         if (isTransport) missingTypes.push('transport document');
         if (isPacking) missingTypes.push('packing list');
       } else {
@@ -881,6 +906,22 @@ function initSendPayment() {
         const actions = item.querySelector('.upload-item__actions');
         if (actions) {
           actions.querySelectorAll('button').forEach(b => { b.disabled = false; });
+        }
+        // Update disabled state of doc-miss-row based on upload state
+        const nextSibling = item.nextElementSibling;
+        const missRow = nextSibling && nextSibling.classList.contains('doc-miss-row') ? nextSibling : null;
+        if (missRow) {
+          const missCb = missRow.querySelector('input[type="checkbox"]');
+          const isUploaded = item.classList.contains('is-uploaded');
+          if (missCb) {
+            missCb.disabled = isUploaded;
+            if (isUploaded) {
+              missCb.checked = false;
+              missRow.classList.add('is-disabled');
+            } else {
+              missRow.classList.remove('is-disabled');
+            }
+          }
         }
       }
     });
@@ -907,6 +948,23 @@ function initSendPayment() {
   };
   document.querySelectorAll('#docs-post .doc-miss-row input[type=\"checkbox\"]').forEach((chk) => {
     chk.addEventListener('change', updateMissingDocsUI, { passive: true });
+    // Prevent clicks on disabled checkboxes
+    chk.addEventListener('click', (e) => {
+      if (chk.disabled) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+    }, { passive: false });
+    // Also prevent clicks on the label when checkbox is disabled
+    const label = chk.closest('.doc-miss');
+    if (label) {
+      label.addEventListener('click', (e) => {
+        if (chk.disabled) {
+          e.preventDefault();
+          e.stopPropagation();
+        }
+      }, { passive: false });
+    }
   });
   // run once on init
   updateMissingDocsUI();

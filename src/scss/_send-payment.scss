@@ -677,6 +677,12 @@
 .docs-section__head { display: flex; align-items: center; gap: 8px; }
 .docs-section__icon { width: 16px; height: 16px; display: block; }
 .docs-section__title { font-family: $font-family-sans; font-weight: 700; font-size: 14px; color: $text-primary; }
+
+.docs-section__title--optional {
+  @media (max-width: ($bp-desktop - 1px)) {
+    margin-top: 16px;
+  }
+}
 .docs-section__divider { height: 1px; background: $border-color; margin-top: 16px; }
 
 // Deduct rate helper lines on separate rows
@@ -1004,6 +1010,18 @@
   .doc-miss input[type="checkbox"]:checked {
     background-image: url('../assets/icon_checkbox_on.svg');
   }
+  .doc-miss-row.is-disabled {
+    opacity: 0.35;
+    .doc-miss {
+      cursor: not-allowed;
+      pointer-events: auto; // Allow pointer events so cursor shows
+    }
+    .doc-miss input[type="checkbox"] {
+      cursor: not-allowed;
+      pointer-events: none; // Prevent checkbox interaction
+    }
+
+  }
   .docs-declare { margin-top: 12px; margin-bottom: 40px; border: 0; border-radius: $radius-md; padding: 8px; background: #EAF2FF; color: #73A2F5; display: none;}
   .docs-declare__box { display: block; }
   .docs-declare__head { display: flex; align-items: center; gap: 8px; }
@@ -1011,6 +1029,13 @@
   .docs-declare__title { font-size: 14px; font-weight: 600; color: #4D88FF; }
   .docs-declare__text { margin: 0; font-size: 14px; font-weight: 400; color: #4D88FF; line-height: 1.5; }
 }
+
+@media screen and (max-width: ($bp-desktop - 1px)) {
+  .doc-miss-row {
+    justify-content: flex-start !important;
+  }
+}
+
 .upload-item {
   min-height: 80px;
   display: grid;
