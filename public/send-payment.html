@@ -383,11 +383,6 @@
                 </div>
               </div>
           </div>
-
-          <!-- Mobile inline CTA (shown only below desktop) -->
-          <div class="mobile-cta">
-            <button id="confirm-send-inline" class="btn btn--primary btn--block" aria-disabled="true" disabled>Review payment</button>
-          </div>
           </div>
 
           <aside class="grid__col grid__col--sidebar">
@@ -470,6 +465,17 @@
       </div>
     </main>
 
+    <!-- Mobile sticky summary bar -->
+    <div id="mobileSticky" class="mobile-stickybar" aria-hidden="false">
+      <div class="mobile-stickybar__inner">
+        <button id="mobileSummaryOpen" type="button" class="ms-left" aria-label="Open summary">
+          <span class="ms-label">Send to receiver</span>
+          <strong id="mobileStickyAmount">0.00 USD</strong>
+        </button>
+        <button id="confirm-send-sticky" class="btn btn--primary ms-review" aria-disabled="true" disabled>Review</button>
+      </div>
+    </div>
+
     <!-- Modal: Fees Details -->
     <div id="feesDetailsModal" class="modal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="feesDetailsTitle">
       <div class="modal-wrapper">
@@ -507,6 +513,26 @@
           </div>
           <div class="modal-actions">
             <button type="button" class="btn btn--secondary btn--md" data-modal-close>Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal: Mobile Quick Summary -->
+    <div id="mobileSummaryModal" class="modal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="mobileSummaryTitle">
+      <div class="modal-wrapper">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h2 id="mobileSummaryTitle">Quick summary</h2>
+            <button class="modal-close" data-modal-close aria-label="Close modal">
+              <img src="assets/icon_close.svg" width="24" height="24" alt="close">
+            </button>
+          </div>
+          <div class="modal-body">
+            <div id="mobileSummaryContent"></div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn--secondary btn--md" data-modal-close>Back</button>
           </div>
         </div>
       </div>

@@ -59,14 +59,22 @@
 .tabbar {
   position: fixed;
   left: 0; right: 0; bottom: 0;
+  width: 100vw;
   height: 56px;
   background: #ffffff;
   border-top: 1px solid #eeeeee;
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  display: flex;
+  justify-content: center;
   align-items: center;
   z-index: 90;
   @media (min-width: $bp-desktop) { display: none; }
+}
+.tabbar__inner {
+  width: 100%;
+  max-width: 768px;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  align-items: center;
 }
 .tabbar__btn {
   appearance: none;

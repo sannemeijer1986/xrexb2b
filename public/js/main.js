@@ -162,11 +162,47 @@ function initSendPayment() {
 
   const syncAccountDisplay = () => {};
 
-  // Sticky summary handled with CSS position: sticky on mobile; no JS needed
+  // Mobile summary fixed fallback: pin when near "Amount and fees"
+  (function initMobileSummaryPin() {
+    const root = document.querySelector('main.page--send');
+    if (!root) return;
+    const summaryCard = document.querySelector('.card--summary');
+    if (!summaryCard) return;
+    const getHeaderH = () => {
+      const h = document.querySelector('.site-header .header__content');
+      return h ? h.offsetHeight : 64;
+    };
+    const getAmtTitle = () => {
+      const nodes = Array.from(document.querySelectorAll('h2.card__title'));
+      return nodes.find(n => (n.textContent || '').trim().toLowerCase().includes('amount and fees'));
+    };
+    const onScroll = () => {
+      const isMobile = window.innerWidth < DESKTOP_BP;
+      if (!isMobile) {
+        summaryCard.classList.remove('is-fixed-mobile');
+        return;
+      }
+      const t = getAmtTitle();
+      if (!t) return;
+      const headerH = getHeaderH();
+      const top = t.getBoundingClientRect().top;
+      // If the section header has reached the viewport (under the header), fix it
+      if (top <= headerH + 8) {
+        summaryCard.classList.add('is-fixed-mobile');
+        summaryCard.style.top = `${headerH}px`;
+      } else {
+        summaryCard.classList.remove('is-fixed-mobile');
+        summaryCard.style.top = '';
+      }
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    onScroll();
+  })();
 
   // ---- Enable/disable Confirm send based on filled inputs/selects ----
   const confirmBtn = document.getElementById('confirm-send');
-  const confirmBtnInline = document.getElementById('confirm-send-inline');
+  const confirmBtnSticky = document.getElementById('confirm-send-sticky');
   const isElementVisible = (el) => {
     if (!el) return false;
     if (el.hidden) return false;
@@ -175,7 +211,7 @@ function initSendPayment() {
     return !(rect.width === 0 && rect.height === 0);
   };
   const setConfirmDisabled = (disabled) => {
-    [confirmBtn, confirmBtnInline].forEach((btn) => {
+    [confirmBtn, confirmBtnSticky].forEach((btn) => {
       if (!btn) return;
       if (disabled) {
         btn.setAttribute('aria-disabled', 'true');
@@ -377,6 +413,11 @@ function initSendPayment() {
     if (summaryRows.payeeReceives) {
       const v = summaryRows.payeeReceives.querySelector('strong');
       if (v) v.textContent = formatAmount(payeeGets, payeeCurrency);
+    }
+    // Update mobile sticky amount
+    const stickyAmt = document.getElementById('mobileStickyAmount');
+    if (stickyAmt) {
+      stickyAmt.textContent = formatAmount(payeeGets, payeeCurrency);
     }
     if (summaryRows.conversion) {
       // Show only if payer currency differs from payee currency
@@ -876,6 +917,46 @@ function initSendPayment() {
       } catch (_) {}
     });
   }
+  // Mobile summary modal open
+  const mobileSummaryOpen = document.getElementById('mobileSummaryOpen');
+  if (mobileSummaryOpen) {
+    mobileSummaryOpen.addEventListener('click', (e) => {
+      e.preventDefault();
+      const host = document.getElementById('mobileSummaryContent');
+      const card = document.querySelector('.card--summary');
+      const recip = document.querySelector('.summary-recipient');
+      const modal = document.getElementById('mobileSummaryModal');
+      if (host && card) {
+        const box = card.querySelector('.summary-box');
+        host.innerHTML = '';
+        // Wrapper styling hook
+        const wrap = document.createElement('div');
+        wrap.className = 'summary-modal-copy';
+        if (recip) {
+          const r = recip.cloneNode(true);
+          wrap.appendChild(r);
+        }
+        if (box) {
+          const b = box.cloneNode(true);
+          // Remove any inline styles that hide items in the sidebar version
+          b.querySelectorAll('[style]').forEach(el => el.removeAttribute('style'));
+          wrap.appendChild(b);
+        }
+        host.appendChild(wrap);
+      }
+      if (modal) {
+        modal.setAttribute('aria-hidden', 'false');
+        document.documentElement.classList.add('modal-open');
+        document.body.classList.add('modal-open');
+        try {
+          const y = window.scrollY || window.pageYOffset || 0;
+          document.body.dataset.scrollY = String(y);
+          document.body.style.top = `-${y}px`;
+          document.body.classList.add('modal-locked');
+        } catch (_) {}
+      }
+    });
+  }
   // Review payment navigation (button is outside <form>)
   const confirmTrigger = document.getElementById('confirm-send');
   if (confirmTrigger) {
@@ -1041,8 +1122,8 @@ function initSendPayment() {
     });
   }
 
-// Mirror confirm handler for inline mobile CTA (no tooltip)
-const confirmTriggerInline = document.getElementById('confirm-send-inline');
+// Mobile sticky confirm ("Review") button
+const confirmTriggerInline = document.getElementById('confirm-send-sticky');
 if (confirmTriggerInline) {
   confirmTriggerInline.addEventListener('click', (e) => {
     e.preventDefault();
