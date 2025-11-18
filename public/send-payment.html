@@ -109,7 +109,7 @@
 
               <div class="form__row form__row--amount">
                 <div class="form__field">
-                  <label for="amount">Invoice amount<span class="label__meta" style="display:none;">Billed in USD</span></label>
+                  <label for="amount">Amount payable<span class="label__meta" style="display:none;">Billed in USD</span></label>
                   <div class="amount-input">
                     <span class="amount-input__prefix"><img src="assets/icon_USD.svg" alt="" /></span>
                     <input id="amount" name="amount" type="text" inputmode="decimal" placeholder="0" autocomplete="off" />
@@ -162,7 +162,7 @@
                     </label>
                   </div>
                   <div class="deduct-footer">
-                    <div id="amount-error" class="form-error" hidden>Invoice amount exceeds available balance</div>
+                    <div id="amount-error" class="form-error" hidden>Amount payable exceeds available balance</div>
                     <div id="deduct-rate" class="deduct-rate" hidden>
                       <span class="deduct-rate__sub">USDT will be converted to USD</span>
                       <span class="deduct-rate__main">Rate: 1 USDT = 1 USD</span>
@@ -271,7 +271,7 @@
                 <div class="docs-group docs-group--optional">
                   <div class="docs-section">
                     <div class="docs-section__head">
-                      <img class="docs-section__icon" src="assets/icon_optional.svg" alt="" width="16" height="16" />
+                      <!-- <img class="docs-section__icon" src="assets/icon_optional.svg" alt="" width="16" height="16" /> -->
                       <span class="docs-section__title">Optional</span>
                     </div>
                     <div class="docs-section__divider"></div>
@@ -420,7 +420,7 @@
               </div>
               <div class="summary-box" id="summaryBoxAmount">
                 <div class="summary-pair">
-                  <span class="muted">Invoice amount</span>
+                  <span class="muted">Amount payable</span>
                   <strong>0.00 USD</strong>
                 </div>
                 <div class="summary-pair">
@@ -490,7 +490,7 @@
           <div class="modal-body">
             <div class="summary-box">
               <div class="summary-pair">
-                <span class="muted">Invoice amount</span>
+                <span class="muted">Amount payable</span>
                 <strong id="fd-subtotal">-</strong>
               </div>
               <div class="summary-pair">

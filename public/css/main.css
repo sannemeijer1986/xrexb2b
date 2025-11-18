@@ -989,6 +989,10 @@ textarea {
   border-bottom-right-radius: 8px;
 }
 
+.cp-item.is-verified.is-filtered {
+  border-radius: 8px;
+}
+
 .cp-item:hover {
   background: #f1f5f9;
   text-decoration: none;

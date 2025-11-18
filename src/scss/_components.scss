@@ -285,6 +285,10 @@
 .cp-list li + li .cp-item { border-top: none; }
 .cp-list li:first-child .cp-item { border-top-left-radius: $radius-md; border-top-right-radius: $radius-md; }
 .cp-list li:last-child .cp-item { border-bottom-left-radius: $radius-md; border-bottom-right-radius: $radius-md; }
+// When filtered, verified item should have border-radius on all corners
+.cp-item.is-verified.is-filtered {
+  border-radius: $radius-md;
+}
 .cp-item:hover { background: $gray-100; text-decoration: none; }
 .cp-item__icon {
   width: 32px;
