@@ -354,6 +354,20 @@
           modal.setAttribute('aria-hidden', 'false');
           document.documentElement.classList.add('modal-open');
           document.body.classList.add('modal-open');
+
+          // Reset and autofocus 2FA input on open
+          const input = document.getElementById('unlinkCodeInput');
+          const clearBtn = document.getElementById('unlinkClearBtn');
+          if (input) {
+            input.value = '';
+            // Trigger the same validation logic as typing
+            const ev = new Event('input', { bubbles: true });
+            input.dispatchEvent(ev);
+            // Hide clear button until user types again
+            if (clearBtn) clearBtn.classList.add('is-hidden');
+            // Focus the field for immediate entry
+            input.focus();
+          }
         });
       })();
       (function wireConvertDetails() {
