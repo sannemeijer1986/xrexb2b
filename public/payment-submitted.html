@@ -92,12 +92,12 @@
           <div class="receipt__note" style="display:none;">Receiver is billed in US Dollar</div>
             <div class="receipt__foot">
               <div class="receipt__row">
-                <span class="muted">Date</span>
+                <span class="muted">Request date</span>
               <strong id="dtVal">31/08/2022, 12:00:00</strong>
               </div>
               <div class="receipt__row">
                 <span class="muted">Status</span>
-              <strong id="statusVal">Pending verification</strong>
+              <strong id="statusVal">{$status}</strong>
               </div>
             </div>
           </div>
@@ -201,7 +201,7 @@
           }
         }
         set('dtVal', d.dateTime || '');
-        set('statusVal', d.status || 'Pending verification');
+        set('statusVal', d.status || '{$status}');
       } catch (_) {}
     })();
   </script>

@@ -611,7 +611,7 @@
   margin-top: 2px;
 }
 @media (min-width: $bp-desktop) {
-  .receipt__title { font-size: 28px; font-family: $font-sora; font-weight: 700;}
+  .receipt__title { font-size: 28px; font-weight: 700;}
 }
 
 // Ensure loading modal keeps card style on mobile/tablet (override full-screen modal rules)
@@ -695,6 +695,45 @@ body.modal-locked {
     box-shadow: none;
     padding: 0;
   }
+}
+
+// Select Counterparty - mobile sticky footer CTA
+@media (max-width: ($bp-desktop - 1px)) {
+  .page--cp {
+    // Make space so list content isn't hidden behind sticky CTA
+    padding-bottom: 96px;
+    .page__subheader .cp-header-cta {
+      display: none;
+    }
+  }
+  .cp-sticky {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100vw;
+    background: #ffffff;
+    border-top: 1px solid #eeeeee;
+    box-shadow: 0 -12px 28px rgba(0, 0, 0, 0.08);
+    padding: 12px 16px;
+    display: flex;
+    justify-content: center;
+    z-index: 3000;
+  }
+  .cp-sticky__inner {
+    width: 100%;
+    max-width: 768px;
+  }
+  .cp-sticky__btn {
+    width: 100%;
+  }
+  // Lift build badge above sticky CTA for this page
+  .page--cp ~ .build-badge {
+    bottom: 96px;
+  }
+}
+@media (min-width: $bp-desktop) {
+  .cp-sticky { display: none; }
 }
 
 

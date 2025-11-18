@@ -1556,7 +1556,6 @@ textarea {
 @media (min-width: 1280px) {
   .receipt__title {
     font-size: 28px;
-    font-family: "Sora", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
     font-weight: 700;
   }
 }
@@ -1640,6 +1639,43 @@ body.modal-locked {
   padding: 0;
 }
 
+@media (max-width: 1279px) {
+  .page--cp {
+    padding-bottom: 96px;
+  }
+  .page--cp .page__subheader .cp-header-cta {
+    display: none;
+  }
+  .cp-sticky {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100vw;
+    background: #ffffff;
+    border-top: 1px solid #eeeeee;
+    box-shadow: 0 -12px 28px rgba(0, 0, 0, 0.08);
+    padding: 12px 16px;
+    display: flex;
+    justify-content: center;
+    z-index: 3000;
+  }
+  .cp-sticky__inner {
+    width: 100%;
+    max-width: 768px;
+  }
+  .cp-sticky__btn {
+    width: 100%;
+  }
+  .page--cp ~ .build-badge {
+    bottom: 96px;
+  }
+}
+@media (min-width: 1280px) {
+  .cp-sticky {
+    display: none;
+  }
+}
 @media (min-width: 1280px) {
   .modal-wrapper, .modal-content {
     min-height: 500px;
