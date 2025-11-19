@@ -568,7 +568,7 @@
 .summary-box .summary-pair {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   padding: 0;
 }
 
@@ -619,10 +619,10 @@
   background: none;
   border: 0;
   padding: 0;
-  color: #336AFF;
+  color: #73A2F5;
   font-weight: 700;
   font-size: 12px;
-  cursor: pointer;
+  // cursor: pointer;
 }
 
 /* Convert details modal */

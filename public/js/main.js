@@ -418,6 +418,11 @@ function initSendPayment() {
     if (summaryRows.deductFrom) {
       const v = summaryRows.deductFrom.querySelector('strong');
       if (v) v.textContent = `${getPayerCurrency()} account`;
+      // Show/hide "See convert details" button based on USDT selection
+      const convertDetailsBtn = document.getElementById('fees-details-open');
+      if (convertDetailsBtn) {
+        convertDetailsBtn.style.display = showConversion ? '' : 'none';
+      }
     }
     if (summaryRows.payeeReceives) {
       const v = summaryRows.payeeReceives.querySelector('strong');
@@ -1018,23 +1023,23 @@ function initSendPayment() {
   updateMissingDocsUI();
 
   // Open convert/fees details modal
-  const feesOpen = document.getElementById('fees-details-open');
-  if (feesOpen) {
-    feesOpen.addEventListener('click', (e) => {
-      e.preventDefault();
-      const modal = document.getElementById('convertDetailsModal') || document.getElementById('feesDetailsModal');
-      if (!modal) return;
-      modal.setAttribute('aria-hidden', 'false');
-      document.documentElement.classList.add('modal-open');
-      document.body.classList.add('modal-open');
-      try {
-        const y = window.scrollY || window.pageYOffset || 0;
-        document.body.dataset.scrollY = String(y);
-        document.body.style.top = `-${y}px`;
-        document.body.classList.add('modal-locked');
-      } catch (_) {}
-    });
-  }
+  // const feesOpen = document.getElementById('fees-details-open');
+  // if (feesOpen) {
+  //   feesOpen.addEventListener('click', (e) => {
+  //     e.preventDefault();
+  //     const modal = document.getElementById('convertDetailsModal') || document.getElementById('feesDetailsModal');
+  //     if (!modal) return;
+  //     modal.setAttribute('aria-hidden', 'false');
+  //     document.documentElement.classList.add('modal-open');
+  //     document.body.classList.add('modal-open');
+  //     try {
+  //       const y = window.scrollY || window.pageYOffset || 0;
+  //       document.body.dataset.scrollY = String(y);
+  //       document.body.style.top = `-${y}px`;
+  //       document.body.classList.add('modal-locked');
+  //     } catch (_) {}
+  //   });
+  // }
   // Mobile summary modal open
   const mobileSummaryOpen = document.getElementById('mobileSummaryOpen');
   if (mobileSummaryOpen) {
