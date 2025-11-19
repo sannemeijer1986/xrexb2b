@@ -4054,6 +4054,9 @@ body.modal-locked {
 #mobileSummaryModal .modal-body .summary-modal-copy .summary-modal-card .summary-recipient {
   margin-bottom: 16px;
 }
+#mobileSummaryModal .modal-body .summary-modal-copy .summary-modal-card > .summary-note {
+  margin-top: 16px;
+}
 #mobileSummaryModal .modal-body .summary-modal-copy .summary-box {
   border-radius: 8px;
 }

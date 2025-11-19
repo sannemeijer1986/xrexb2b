@@ -1144,6 +1144,13 @@ function initSendPayment() {
           } else {
             console.warn('Summary box not found for cloning');
           }
+          // Clone summary-note if it exists (it's outside the summary-box)
+          const summaryNote = card.querySelector('.summary-note');
+          if (summaryNote) {
+            const noteClone = summaryNote.cloneNode(true);
+            noteClone.style.cssText = 'display: block !important; visibility: visible !important; opacity: 1 !important;';
+            modalCard.appendChild(noteClone);
+          }
           wrap.appendChild(modalCard);
           host.appendChild(wrap);
         

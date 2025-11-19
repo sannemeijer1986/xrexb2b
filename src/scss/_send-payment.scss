@@ -1524,6 +1524,10 @@ bottom: 96px !important;
         .summary-recipient {
           margin-bottom: 16px;
         }
+        // Summary note outside summary-box
+        > .summary-note {
+          margin-top: 16px;
+        }
       }
       .summary-box {
         border-radius: $radius-md;
