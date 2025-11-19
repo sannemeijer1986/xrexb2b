@@ -6,7 +6,8 @@ html { overflow-y: scroll; }
 .site-header {
   position: fixed;
   top: 0;
-  width: 100vw;
+  left: 0;
+  right: 0;
   z-index: 50;
   background: $bg-page;
   border-bottom: 1px solid #eeeeee;

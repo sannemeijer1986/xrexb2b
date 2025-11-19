@@ -98,7 +98,8 @@ html {
 .site-header {
   position: fixed;
   top: 0;
-  width: 100vw;
+  left: 0;
+  right: 0;
   z-index: 50;
   background: #F8F8F8;
   border-bottom: 1px solid #eeeeee;
@@ -3781,7 +3782,6 @@ body.modal-locked {
     left: 0;
     right: 0;
     bottom: 0;
-    width: 100vw;
     background: #ffffff;
     border-top: 1px solid #eee;
     box-shadow: 0 -12px 28px rgba(0, 0, 0, 0.08);
