@@ -785,6 +785,7 @@ body.modal-locked {
       flex: 1;
       text-align: center; // Center the title
       margin: 0; // Remove default margin
+      padding-right: 32px; // Balance the close button on the left (32px width)
     }
   }
   .modal-body {

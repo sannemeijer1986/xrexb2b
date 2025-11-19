@@ -1735,6 +1735,7 @@ body.modal-locked {
     flex: 1;
     text-align: center;
     margin: 0;
+    padding-right: 32px;
   }
   .modal-body {
     flex: 1 1 auto;
@@ -2531,11 +2532,6 @@ body.modal-locked {
   margin-bottom: 56px;
 }
 
-@media (max-width: 1279px) {
-  .page--send .grid__col--primary .card__title + .card--section {
-    margin-bottom: 0px;
-  }
-}
 .page--send .card__title {
   font-size: 17px;
   font-weight: 700;

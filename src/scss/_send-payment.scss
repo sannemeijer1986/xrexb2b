@@ -299,13 +299,13 @@
   }
 }
 
-@media (max-width: ($bp-desktop - 1px)) {
-  .page--send .grid__col--primary {
-    .card__title + .card--section {
-      margin-bottom: 0px;
-    }
-  }
-}
+// @media (max-width: ($bp-desktop - 1px)) {
+//   .page--send .grid__col--primary {
+//     .card__title + .card--section {
+//       margin-bottom: 0px;
+//     }
+//   }
+// }
 
 .page--send .card__title {
   font-size: 17px;

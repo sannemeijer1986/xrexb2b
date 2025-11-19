@@ -1476,6 +1476,36 @@ if (confirmTriggerInline) {
       if (typeof validateSendForm === 'function') validateSendForm();
     });
   })();
+
+  // Close mobile summary modal when resizing from mobile to desktop
+  let previousWidth = window.innerWidth;
+  window.addEventListener('resize', () => {
+    const currentWidth = window.innerWidth;
+    const wasMobile = previousWidth < DESKTOP_BP;
+    const isDesktop = currentWidth >= DESKTOP_BP;
+    
+    // If transitioning from mobile to desktop, close the modal
+    if (wasMobile && isDesktop) {
+      const modal = document.getElementById('mobileSummaryModal');
+      if (modal && modal.getAttribute('aria-hidden') === 'false') {
+        const close = (el) => {
+          if (!el) return;
+          el.setAttribute('aria-hidden', 'true');
+          document.documentElement.classList.remove('modal-open');
+          document.body.classList.remove('modal-open');
+          try {
+            const y = parseInt(document.body.dataset.scrollY || '0', 10) || 0;
+            document.body.classList.remove('modal-locked');
+            document.body.style.top = '';
+            delete document.body.dataset.scrollY;
+            window.scrollTo(0, y);
+          } catch (_) {}
+        };
+        close(modal);
+      }
+    }
+    previousWidth = currentWidth;
+  });
 }
 
 // Run immediately if DOM is already parsed (defer), otherwise wait
