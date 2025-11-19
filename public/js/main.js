@@ -426,7 +426,13 @@ function initSendPayment() {
     // Update mobile sticky amount
     const stickyAmt = document.getElementById('mobileStickyAmount');
     if (stickyAmt) {
+      // Preserve the chevron image if it exists
+      const chevron = stickyAmt.querySelector('.ms-chevron');
+      const chevronClone = chevron ? chevron.cloneNode(true) : null;
       stickyAmt.textContent = formatAmount(payeeGets, payeeCurrency);
+      if (chevronClone) {
+        stickyAmt.appendChild(chevronClone);
+      }
     }
     if (summaryRows.conversion) {
       // Show only if payer currency differs from payee currency

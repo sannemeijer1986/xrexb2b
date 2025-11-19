@@ -3805,7 +3805,7 @@ body.modal-locked {
     display: inline-flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: 4px;
+    gap: 0px;
     padding: 0;
     background: transparent;
     border: 0;
@@ -3822,19 +3822,15 @@ body.modal-locked {
     font-weight: 800;
     font-size: 20px;
     color: #336AFF;
-    position: relative;
-    padding-right: 14px;
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
   }
-  .mobile-stickybar #mobileStickyAmount::after {
-    content: "";
-    position: absolute;
-    right: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 12px;
-    height: 12px;
-    background: url("../assets/icon_chevron_right.svg") no-repeat center/12px 12px;
-    opacity: 0.8;
+  .mobile-stickybar #mobileStickyAmount .ms-chevron {
+    display: inline-block;
+    flex-shrink: 0;
+    width: 16px;
+    height: 16px;
   }
   .mobile-stickybar .ms-review {
     min-width: 110px;
