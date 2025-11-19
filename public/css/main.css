@@ -91,6 +91,33 @@ main.page {
   margin-top: 64px;
 }
 
+.show-mobile-only {
+  display: none;
+}
+
+@media (max-width: 1279px) {
+  .show-mobile-only {
+    display: block;
+  }
+}
+.show-desktop-only {
+  display: none;
+}
+
+@media (min-width: 1280px) {
+  .show-desktop-only {
+    display: block;
+  }
+}
+.show-desktop-only {
+  display: none;
+}
+
+@media (min-width: 1280px) {
+  .show-desktop-only {
+    display: block;
+  }
+}
 html {
   overflow-y: scroll;
 }
@@ -2416,6 +2443,12 @@ body.modal-locked {
   box-shadow: none;
 }
 
+.recipient-select__currency {
+  color: #BCBDBD;
+  font-size: 14px;
+  font-weight: 600;
+}
+
 .recipient-select__avatar {
   width: 32px;
   height: 32px;
@@ -2434,6 +2467,11 @@ body.modal-locked {
   display: flex;
   flex-direction: column;
   min-width: 0;
+}
+@media (max-width: 1279px) {
+  .recipient-select__content {
+    width: calc(100% - 76px);
+  }
 }
 
 .recipient-select__title {

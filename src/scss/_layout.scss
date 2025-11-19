@@ -1,6 +1,20 @@
 .root-scrollbar {
   // placeholder to avoid accidental class collision
 }
+
+.show-mobile-only { display: none; }
+@media (max-width: ($bp-desktop - 1px)) {
+  .show-mobile-only { display: block; }
+}
+.show-desktop-only { display: none; }
+@media (min-width: $bp-desktop) {
+  .show-desktop-only { display: block; }
+}
+.show-desktop-only { display: none; }
+@media (min-width: $bp-desktop) {
+  .show-desktop-only { display: block; }
+}
+
 // Prevent layout shift when scrollbar appears
 html { overflow-y: scroll; }
 .site-header {
@@ -33,6 +47,8 @@ html { overflow-y: scroll; }
       gap: 32px;
     }
   }
+
+
 
 
   .circle-icon {
