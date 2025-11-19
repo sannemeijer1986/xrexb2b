@@ -3974,6 +3974,7 @@ body.modal-locked {
     align-items: flex-start;
     gap: 0px;
     padding: 0;
+    margin-top: 2px;
     background: transparent;
     border: 0;
     text-align: left;
