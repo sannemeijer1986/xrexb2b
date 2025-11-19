@@ -1081,10 +1081,27 @@
   display: flex;
   align-items: flex-start;
   gap: 8px;
+
   // Let the error text occupy remaining space; rate aligns to the right
   .form-error { flex: 1 1 auto; }
   .deduct-rate { margin-left: auto; }
 }
+
+@media (max-width: ($bp-desktop - 1px)) {
+  .deduct-footer {
+    flex-direction: column;
+    width: 100%;
+    align-items: flex-start;
+    gap: 4px;
+  
+    .deduct-rate {
+      width: 100%;
+      text-align: left;
+      margin-left: 0px;
+    }
+  }
+}
+
 .form-error {
   font-family: $font-family-sans;
   font-weight: 600;
@@ -1096,7 +1113,7 @@
   font-family: $font-family-sans;
   font-weight: 600;
   font-size: 14px;
-  width: 30%;
+  width: 35%;
 }
 
 .deduct-rate__sub {

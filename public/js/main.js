@@ -1112,6 +1112,13 @@ function initSendPayment() {
             b.querySelectorAll('.summary-note').forEach(el => {
               el.style.cssText = 'display: block !important; visibility: visible !important; opacity: 1 !important;';
             });
+            // Hide conversion rate element if USD is selected (after cloning, check current state)
+            const payerCurrency = getPayerCurrency();
+            const showConversion = payerCurrency !== payeeCurrency;
+            const clonedConvertDetails = b.querySelector('#fees-details-open');
+            if (clonedConvertDetails) {
+              clonedConvertDetails.style.display = showConversion ? '' : 'none';
+            }
             modalCard.appendChild(b);
           } else {
             console.warn('Summary box not found for cloning');
