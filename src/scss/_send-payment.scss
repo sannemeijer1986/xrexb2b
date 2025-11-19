@@ -299,6 +299,14 @@
   }
 }
 
+@media (max-width: ($bp-desktop - 1px)) {
+  .page--send .grid__col--primary {
+    .card__title + .card--section {
+      margin-bottom: 0px;
+    }
+  }
+}
+
 .page--send .card__title {
   font-size: 17px;
   font-weight: 700;
@@ -1241,7 +1249,7 @@ bottom: 96px !important;
 @media (max-width: ($bp-desktop - 1px)) {
   .page--send {
     z-index: 2;
-    .grid__col--sidebar { position: static; }
+    .grid__col--sidebar { position: static; display: none; }
     .card--summary { border-radius: 0; }
     // Hide everything except the two target rows
     .card--summary .card__title, 
@@ -1255,7 +1263,7 @@ bottom: 96px !important;
     .card--summary .summary-pair { margin: 0; }
     .card--summary .summary-pair--yourtotal { margin-bottom: 8px; }
     // Space for sticky bar
-    .grid__col--primary { padding-bottom: 104px; }
+    .grid__col--primary { padding-bottom: 0px; }
     .build-badge { bottom: 104px; z-index: 400; }
   }
   .mobile-stickybar {
@@ -1331,13 +1339,18 @@ bottom: 96px !important;
 .page--send ~ .build-badge { bottom: 48px; z-index: 4001; }
 .page--send ~ .site-footer { position: relative; z-index: 1; }
 
+@media (max-width: ($bp-desktop - 1px)) {
+  .page--send ~ .site-footer { padding-bottom: 100px;}
+}
+
+
 // Mobile summary modal tweaks - ensure all content is visible
 #mobileSummaryModal {
   .modal-header {
     justify-content: center;
     position: relative;
     h2 { text-align: center; margin: 0 auto; }
-    .modal-close { position: absolute; left: 8px; top: 8px; }
+    .modal-close { flex-order: 0; }
   }
   .modal-body {
     // Override ALL .card--summary hiding rules for modal content
@@ -1359,8 +1372,11 @@ bottom: 96px !important;
       }
       .summary-modal-card {
         margin-top: 16px;
+        border: 0px;
         border-radius: $radius-lg;
-        box-shadow: 0 8px 24px rgba(0,0,0,0.04);
+        background-color: transparent;
+        padding: 0px;
+        margin: 0px;
         .summary-recipient {
           margin-bottom: 16px;
         }
