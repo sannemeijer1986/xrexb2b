@@ -3606,12 +3606,25 @@ body.modal-locked {
   display: flex;
   align-items: flex-start;
   gap: 8px;
+  flex-wrap: wrap;
 }
 .deduct-footer .form-error {
   flex: 1 1 auto;
 }
 .deduct-footer .deduct-rate {
   margin-left: auto;
+}
+.deduct-footer .conversion-terms {
+  flex-basis: 100%;
+  order: 10;
+  margin-bottom: 16px;
+  margin-top: 8px;
+}
+@media (max-width: 1279px) {
+  .deduct-footer .conversion-terms {
+    margin-top: 32px;
+    margin-bottom: 24px;
+  }
 }
 
 @media (max-width: 1279px) {
@@ -3625,6 +3638,12 @@ body.modal-locked {
     width: 100%;
     text-align: left;
     margin-left: 0px;
+  }
+  .deduct-footer .conversion-terms {
+    width: 100%;
+    max-width: 100%;
+    flex-basis: auto;
+    order: 0;
   }
 }
 .form-error {
@@ -3643,7 +3662,7 @@ body.modal-locked {
 }
 
 .deduct-rate__sub {
-  color: #797A7B;
+  color: #73A2F5;
   font-size: 12px;
   width: 100%;
 }
@@ -3653,6 +3672,89 @@ body.modal-locked {
   width: 100%;
 }
 
+.conversion-terms {
+  margin-top: 16px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.conversion-terms[hidden] {
+  display: none !important;
+}
+
+.conversion-terms__label {
+  font-family: "Manrope", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  color: #797A7B;
+  line-height: 100%;
+}
+
+.conversion-terms__card {
+  background: #FCFCFC;
+  border: 1px solid #EEEEEE;
+  border-radius: 8px;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.conversion-terms__card input[type=checkbox] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  min-width: 20px;
+  min-height: 20px;
+  border: 0;
+  border-radius: 4px;
+  background: url("../assets/icon_checkbox_off.svg") no-repeat center/contain;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.conversion-terms__card input[type=checkbox]:checked {
+  background-image: url("../assets/icon_checkbox_on.svg");
+}
+.conversion-terms__card input[type=checkbox]:focus {
+  outline: 0px solid #3b82f6;
+  outline-offset: 0px;
+}
+
+.conversion-terms__text {
+  font-family: "Manrope", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  color: #797A7B;
+  line-height: normal;
+  cursor: pointer;
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+}
+
+@media (max-width: 1279px) {
+  .conversion-terms {
+    margin-top: 16px;
+    gap: 16px;
+  }
+  .conversion-terms__label {
+    font-size: 12px;
+  }
+  .conversion-terms__card {
+    padding: 12px 16px;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+  .conversion-terms__text {
+    font-size: 12px;
+  }
+}
 .upload-item__meta {
   display: flex;
   flex-direction: column;

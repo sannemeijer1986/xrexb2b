@@ -288,7 +288,12 @@ function initSendPayment() {
       (amountWrap && amountWrap.classList.contains('is-error')) ||
       (domAmountError && domAmountError.hidden === false);
 
-    const allValid = natureOk && purposeOk && amountOk && docsOk && !hasInlineError;
+    // Conversion terms checkbox validation (required when USDT is selected)
+    const payerCurrency = getPayerCurrency();
+    const conversionTermsCheckbox = document.getElementById('conversionTermsCheckbox');
+    const conversionTermsOk = payerCurrency !== 'USDT' || (conversionTermsCheckbox && conversionTermsCheckbox.checked);
+
+    const allValid = natureOk && purposeOk && amountOk && docsOk && !hasInlineError && conversionTermsOk;
     setConfirmDisabled(!allValid);
   };
 
@@ -338,6 +343,18 @@ function initSendPayment() {
     const deductRate = document.getElementById('deduct-rate');
     if (deductRate) {
       deductRate.hidden = payerCurrency !== 'USDT';
+    }
+    // Toggle conversion terms checkbox section
+    const conversionTerms = document.getElementById('conversion-terms');
+    if (conversionTerms) {
+      conversionTerms.hidden = payerCurrency !== 'USDT';
+      // Reset checkbox when hidden
+      if (payerCurrency !== 'USDT') {
+        const checkbox = document.getElementById('conversionTermsCheckbox');
+        if (checkbox) {
+          checkbox.checked = false;
+        }
+      }
     }
     // Amount per-tx limit inline error + input underline color
     const PER_TX_LIMIT = 1000000;
@@ -688,6 +705,10 @@ function initSendPayment() {
   }
   feeRadios.forEach(r => r.addEventListener('change', () => { updateSummary(); if (typeof validateSendForm === 'function') validateSendForm(); }));
   deductRadios.forEach(r => r.addEventListener('change', () => { updateSummary(); if (typeof validateSendForm === 'function') validateSendForm(); }));
+  const conversionTermsCheckbox = document.getElementById('conversionTermsCheckbox');
+  if (conversionTermsCheckbox) {
+    conversionTermsCheckbox.addEventListener('change', () => { if (typeof validateSendForm === 'function') validateSendForm(); });
+  }
   if (natureSelect) natureSelect.addEventListener('change', () => { updateNaturePurpose(); if (typeof validateSendForm === 'function') validateSendForm(); });
   const purposeOthersField = document.getElementById('purpose-others-field');
   const purposeOthersInput = document.getElementById('purposeOthers');
