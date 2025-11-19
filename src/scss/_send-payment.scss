@@ -825,11 +825,15 @@
 
 .summary-recipient {
   border-radius: $radius-md;
-  margin-bottom: 12px;
+  margin-bottom: 0px;
   display: grid;
   grid-template-columns: auto 1fr auto;
   align-items: center;
   gap: 12px;
+
+  @media screen and (min-width: $bp-desktop) {
+    margin-bottom: 12px;
+  }
 }
 // Reuse recipient-select avatar/content styles for visual consistency
 .summary-recipient__currency {
@@ -1500,19 +1504,19 @@ bottom: 96px !important;
     // Override ALL .card--summary hiding rules for modal content
     // Use maximum specificity to ensure these rules win
     .summary-recipient { 
-      margin-bottom: 12px;
+      margin-bottom: 0px;
       display: flex !important;
       visibility: visible !important;
       opacity: 1 !important;
     }
     .summary-modal-copy {
       .summary-section-head {
-        display: flex !important;
         align-items: center;
         justify-content: space-between;
         margin-bottom: 16px;
-        visibility: visible !important;
+        margin-top: 0px;
         opacity: 1 !important;
+        display: none !important;
       }
       .summary-modal-card {
         margin-top: 16px;
@@ -1522,7 +1526,7 @@ bottom: 96px !important;
         padding: 0px;
         margin: 0px;
         .summary-recipient {
-          margin-bottom: 16px;
+          margin-bottom: 0px;
         }
         // Summary note outside summary-box
         > .summary-note {
@@ -1530,6 +1534,7 @@ bottom: 96px !important;
         }
       }
       .summary-box {
+        margin: 0px;
         border-radius: $radius-md;
         // Force all children visible
         .summary-pair,
@@ -1550,6 +1555,17 @@ bottom: 96px !important;
           display: block !important;
           visibility: visible !important;
           opacity: 1 !important;
+        }
+
+        .summary-pair {
+          margin: 16px 0px;
+        }
+        .summary-pair:first-child {
+          margin: 0px 0px 8px 0px;
+        }
+
+        .summary-pair:last-child {
+          margin: 8px 0px 0px 0px;
         }
       }
     }
@@ -1575,6 +1591,20 @@ bottom: 96px !important;
     .btn { width: 100%; }
   }
 }
+
+// Style summary-box in mobile modal to match desktop appearance
+@media (max-width: ($bp-desktop - 1px)) {
+  #mobileSummaryModal .modal-body .summary-modal-copy .summary-box {
+    display: grid;
+    background: #FCFCFC;
+    border-radius: $radius-md;
+    padding: 16px;
+    gap: 16px;
+    margin-bottom: 16px;
+    margin-top: 16px;
+  }
+}
+
 // Extra override: ensure modal content is never affected by sidebar hiding rules
 @media (max-width: ($bp-desktop - 1px)) {
   #mobileSummaryModal .modal-body .summary-pair:not(.summary-pair--yourtotal):not(.summary-pair--totalreceive) {

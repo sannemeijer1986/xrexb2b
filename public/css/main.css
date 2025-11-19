@@ -3213,11 +3213,16 @@ body.modal-locked {
 
 .summary-recipient {
   border-radius: 8px;
-  margin-bottom: 12px;
+  margin-bottom: 0px;
   display: grid;
   grid-template-columns: auto 1fr auto;
   align-items: center;
   gap: 12px;
+}
+@media screen and (min-width: 1280px) {
+  .summary-recipient {
+    margin-bottom: 12px;
+  }
 }
 
 .summary-recipient__currency {
@@ -4030,18 +4035,18 @@ body.modal-locked {
   flex-order: 0;
 }
 #mobileSummaryModal .modal-body .summary-recipient {
-  margin-bottom: 12px;
+  margin-bottom: 0px;
   display: flex !important;
   visibility: visible !important;
   opacity: 1 !important;
 }
 #mobileSummaryModal .modal-body .summary-modal-copy .summary-section-head {
-  display: flex !important;
   align-items: center;
   justify-content: space-between;
   margin-bottom: 16px;
-  visibility: visible !important;
+  margin-top: 0px;
   opacity: 1 !important;
+  display: none !important;
 }
 #mobileSummaryModal .modal-body .summary-modal-copy .summary-modal-card {
   margin-top: 16px;
@@ -4052,12 +4057,13 @@ body.modal-locked {
   margin: 0px;
 }
 #mobileSummaryModal .modal-body .summary-modal-copy .summary-modal-card .summary-recipient {
-  margin-bottom: 16px;
+  margin-bottom: 0px;
 }
 #mobileSummaryModal .modal-body .summary-modal-copy .summary-modal-card > .summary-note {
   margin-top: 16px;
 }
 #mobileSummaryModal .modal-body .summary-modal-copy .summary-box {
+  margin: 0px;
   border-radius: 8px;
 }
 #mobileSummaryModal .modal-body .summary-modal-copy .summary-box .summary-pair,
@@ -4079,6 +4085,15 @@ body.modal-locked {
   visibility: visible !important;
   opacity: 1 !important;
 }
+#mobileSummaryModal .modal-body .summary-modal-copy .summary-box .summary-pair {
+  margin: 16px 0px;
+}
+#mobileSummaryModal .modal-body .summary-modal-copy .summary-box .summary-pair:first-child {
+  margin: 0px 0px 8px 0px;
+}
+#mobileSummaryModal .modal-body .summary-modal-copy .summary-box .summary-pair:last-child {
+  margin: 8px 0px 0px 0px;
+}
 #mobileSummaryModal .modal-body .summary-section-head,
 #mobileSummaryModal .modal-body .summary-pair,
 #mobileSummaryModal .modal-body .summary-pair--sub,
@@ -4099,6 +4114,17 @@ body.modal-locked {
   width: 100%;
 }
 
+@media (max-width: 1279px) {
+  #mobileSummaryModal .modal-body .summary-modal-copy .summary-box {
+    display: grid;
+    background: #FCFCFC;
+    border-radius: 8px;
+    padding: 16px;
+    gap: 16px;
+    margin-bottom: 16px;
+    margin-top: 16px;
+  }
+}
 @media (max-width: 1279px) {
   #mobileSummaryModal .modal-body .summary-pair:not(.summary-pair--yourtotal):not(.summary-pair--totalreceive) {
     display: flex !important;
