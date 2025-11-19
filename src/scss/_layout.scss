@@ -172,6 +172,9 @@ html { overflow-y: scroll; }
   display: flex;
   align-items: center;
 
+  @media (max-width: ($bp-desktop - 1px)) {
+    background: #F8F8F8;
+  }
   @media (min-width: $bp-desktop) {
     padding: 16px 16px;
   }

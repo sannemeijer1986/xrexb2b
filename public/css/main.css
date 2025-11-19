@@ -337,6 +337,11 @@ html {
   display: flex;
   align-items: center;
 }
+@media (max-width: 1279px) {
+  .site-footer {
+    background: #F8F8F8;
+  }
+}
 @media (min-width: 1280px) {
   .site-footer {
     padding: 16px 16px;
@@ -1161,9 +1166,11 @@ textarea {
 }
 
 .modal-header {
+  background-color: #fff;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  border-radius: 16px 16px 0 0;
   padding: 20px 24px;
   border-bottom: 1px solid #eeeeee;
 }
@@ -1706,6 +1713,7 @@ body.modal-locked {
     max-height: 100vh;
     display: flex;
     flex-direction: column;
+    background: #F8F8F8;
   }
   .modal-header, .modal-body, .modal-footer {
     width: 100%;
@@ -1716,7 +1724,7 @@ body.modal-locked {
   .modal-header {
     position: sticky;
     top: 0;
-    background: #fff;
+    background: #f8f8f8;
     z-index: 2;
     border-bottom: 1px solid #eeeeee;
   }
@@ -1728,7 +1736,7 @@ body.modal-locked {
   .modal-footer {
     position: sticky;
     bottom: 0;
-    background: #fff;
+    background: #F8F8F8;
     border-top: 1px solid #eeeeee;
     z-index: 2;
   }
@@ -1738,6 +1746,9 @@ body.modal-locked {
     height: 52px;
     font-size: 16px;
     border-radius: 8px;
+  }
+  .modal__dialog {
+    background: #F8F8F8;
   }
 }
 @media (min-width: 1280px) {
@@ -1756,7 +1767,7 @@ body.modal-locked {
   .modal.modal--dialog {
     align-items: stretch;
     justify-content: stretch;
-    background: #ffffff;
+    background: #F8F8F8;
     z-index: 4001;
   }
   .modal.modal--dialog .modal__dialog {
@@ -1767,6 +1778,9 @@ body.modal-locked {
     margin: 0 auto;
     display: flex;
   }
+  .modal .modal__content {
+    background: #F8F8F8;
+  }
   .modal.modal--dialog .modal__content {
     width: 100%;
     border-radius: 0;
@@ -1774,6 +1788,7 @@ body.modal-locked {
     flex-direction: column;
     min-height: 100%;
     box-shadow: none;
+    background: #F8F8F8;
   }
   .modal.modal--dialog .modal__header,
   .modal.modal--dialog .modal__body,
@@ -1808,6 +1823,7 @@ body.modal-locked {
     padding: 16px 24px 32px;
     border-top: none;
     justify-content: center;
+    background: #F8F8F8;
   }
   .modal.modal--dialog .modal__footer .btn {
     width: 100%;
@@ -1911,6 +1927,11 @@ body.modal-locked {
 @media (min-width: 1280px) {
   .tabbar {
     display: none;
+  }
+}
+@media (max-width: 1279px) {
+  .tabbar {
+    background: #F8F8F8;
   }
 }
 

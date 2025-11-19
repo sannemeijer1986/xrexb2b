@@ -68,6 +68,9 @@
   align-items: center;
   z-index: 90;
   @media (min-width: $bp-desktop) { display: none; }
+  @media (max-width: ($bp-desktop - 1px)) {
+    background: #F8F8F8;
+  }
 }
 .tabbar__inner {
   width: 100%;

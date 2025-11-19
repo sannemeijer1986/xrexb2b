@@ -390,9 +390,11 @@
   flex-direction: column;
 }
 .modal-header {
+  background-color: #fff;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  border-radius: $radius-lg $radius-lg 0 0;
   padding: 20px 24px;
   border-bottom: 1px solid $border-color;
 
@@ -762,6 +764,7 @@ body.modal-locked {
     max-height: 100vh;
     display: flex;
     flex-direction: column;
+    background: #F8F8F8;
   }
   .modal-header, .modal-body, .modal-footer {
     width: 100%;
@@ -772,7 +775,7 @@ body.modal-locked {
   .modal-header {
     position: sticky;
     top: 0;
-    background: #fff;
+    background: #f8f8f8;
     z-index: 2;
     border-bottom: 1px solid $border-color;
   }
@@ -784,7 +787,7 @@ body.modal-locked {
   .modal-footer {
     position: sticky;
     bottom: 0;
-    background: #fff;
+    background: #F8F8F8;
     border-top: 1px solid $border-color;
     z-index: 2;
   }
@@ -794,6 +797,9 @@ body.modal-locked {
     height: 52px;
     font-size: 16px;
     border-radius: 8px;
+  }
+  .modal__dialog {
+    background: #F8F8F8;
   }
 }
 
@@ -814,10 +820,10 @@ body.modal-locked {
 // Dialog-style modals using .modal__dialog on mobile/tablet
 @media (max-width: ($bp-desktop - 1px)) {
   .modal.modal--dialog {
-    // Full viewport sheet with white background (no visible dim layer)
+    // Full viewport sheet with light gray background (no visible dim layer)
     align-items: stretch;
     justify-content: stretch;
-    background: #ffffff;
+    background: #F8F8F8;
     z-index: 4001; // above cp-sticky and other fixed elements
   }
   .modal.modal--dialog .modal__dialog {
@@ -828,6 +834,11 @@ body.modal-locked {
     margin: 0 auto;
     display: flex;
   }
+
+  .modal .modal__content {
+    background: #F8F8F8;
+  }
+
   .modal.modal--dialog .modal__content {
     width: 100%;
     border-radius: 0;
@@ -835,6 +846,7 @@ body.modal-locked {
     flex-direction: column;
     min-height: 100%;
     box-shadow: none;
+    background: #F8F8F8;
   }
   .modal.modal--dialog .modal__header,
   .modal.modal--dialog .modal__body,
@@ -869,6 +881,7 @@ body.modal-locked {
     padding: 16px 24px 32px;
     border-top: none;
     justify-content: center;
+    background: #F8F8F8;
   }
   .modal.modal--dialog .modal__footer .btn {
     width: 100%;
