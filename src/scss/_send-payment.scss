@@ -232,8 +232,12 @@
 .recipient-select__title {
   font-family: $font-family-sans;
   font-weight: 700;
-  font-size: 18px;
+  font-size: 16px;
   color: $text-primary;
+
+  @media (min-width: $bp-desktop) {
+    font-size: 18px;
+  }
 }
 .recipient-select__subtitle {
   font-family: $font-family-sans;
@@ -610,10 +614,14 @@
 }
 
 .summary-section-title {
-  display: inline-flex;
+  display: none;
   font-size: 16px;
   font-weight: 700;
   color: $text-primary;
+
+  @media (min-width: $bp-desktop) {
+    display: inline-flex;
+  }
 }
 
 .summary-section-head {
