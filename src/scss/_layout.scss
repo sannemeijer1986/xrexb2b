@@ -179,6 +179,14 @@ html { overflow-y: scroll; }
   }
 }
 
+.modal--addbusiness .alert {
+  margin-bottom: 24px;
+}
+
+.modal--addbusiness .form__row {  
+  gap: 32px;
+}
+
 .grid--home .grid__col--sidebar { top: 84px; }
 
 /* Footer (match xrextgbot proportions) */

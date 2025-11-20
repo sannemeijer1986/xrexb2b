@@ -105,7 +105,9 @@
 
 // Add Bank - steps timeline (desktop)
 .ab-steps { display: grid; }
-.ab-step__content { margin-bottom: 24px;}
+.ab-step__content { margin-bottom: 48px;}
+
+.ab-step:last-child .ab-step__content { margin-bottom: 0px; }
 .ab-step {
   display: grid;
   grid-template-columns: 16px 1fr;
@@ -121,6 +123,7 @@
 .ab-step:not(.has-line) .ab-line { display: none; }
 .ab-step__label {
   font-family: $font-family-sans;
+  margin-top: -3px;
   font-weight: 700;
   font-size: 14px;
   color: $text-secondary;

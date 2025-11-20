@@ -1972,6 +1972,39 @@ if (document.readyState === 'loading') {
     }
     if (f.email) f.email.value = 'accounts@novaquill.com';
     Object.values(f).forEach(trigger);
+    
+    // Also fill modal fields
+    const modal = document.getElementById('businessAddressModal');
+    if (modal) {
+      const addressCountry = modal.querySelector('#addressCountry');
+      const addressState = modal.querySelector('#addressState');
+      const addressCity = modal.querySelector('#addressCity');
+      const addressLine1 = modal.querySelector('#addressLine1');
+      const addressLine2 = modal.querySelector('#addressLine2');
+      const addressPostal = modal.querySelector('#addressPostal');
+      
+      if (addressCountry) addressCountry.value = 'Singapore';
+      if (addressState) addressState.value = 'Central Region';
+      if (addressCity) addressCity.value = 'Singapore';
+      if (addressLine1) addressLine1.value = '5 Battery Road';
+      if (addressLine2) addressLine2.value = 'Suite 1001';
+      if (addressPostal) addressPostal.value = '049901';
+      
+      // Trigger change events to update is-filled classes and validate
+      [addressCountry, addressState, addressCity, addressLine1, addressLine2, addressPostal].forEach((el) => {
+        if (el) {
+          el.dispatchEvent(new Event('input', { bubbles: true }));
+          el.dispatchEvent(new Event('change', { bubbles: true }));
+        }
+      });
+      
+      // Trigger validation for save button after a short delay to ensure events have fired
+      setTimeout(() => {
+        if (typeof window.updateBusinessAddressSaveButton === 'function') {
+          window.updateBusinessAddressSaveButton();
+        }
+      }, 10);
+    }
   });
 
   clearBtn.addEventListener('click', (e) => {
@@ -1983,6 +2016,39 @@ if (document.readyState === 'loading') {
     const businessAddressIcon = document.getElementById('businessAddressIcon');
     if (businessAddress) businessAddress.value = '';
     if (businessAddressIcon) businessAddressIcon.src = 'assets/icon_add.svg';
+    
+    // Also clear modal fields
+    const modal = document.getElementById('businessAddressModal');
+    if (modal) {
+      const addressCountry = modal.querySelector('#addressCountry');
+      const addressState = modal.querySelector('#addressState');
+      const addressCity = modal.querySelector('#addressCity');
+      const addressLine1 = modal.querySelector('#addressLine1');
+      const addressLine2 = modal.querySelector('#addressLine2');
+      const addressPostal = modal.querySelector('#addressPostal');
+      
+      if (addressCountry) addressCountry.value = '';
+      if (addressState) addressState.value = '';
+      if (addressCity) addressCity.value = '';
+      if (addressLine1) addressLine1.value = '';
+      if (addressLine2) addressLine2.value = '';
+      if (addressPostal) addressPostal.value = '';
+      
+      // Trigger change events to update is-filled classes and validate
+      [addressCountry, addressState, addressCity, addressLine1, addressLine2, addressPostal].forEach((el) => {
+        if (el) {
+          el.dispatchEvent(new Event('input', { bubbles: true }));
+          el.dispatchEvent(new Event('change', { bubbles: true }));
+        }
+      });
+      
+      // Trigger validation for save button after a short delay to ensure events have fired
+      setTimeout(() => {
+        if (typeof window.updateBusinessAddressSaveButton === 'function') {
+          window.updateBusinessAddressSaveButton();
+        }
+      }, 10);
+    }
   });
 })();
 
@@ -2127,11 +2193,44 @@ if (document.readyState === 'loading') {
     });
   }
   
+  // Validation function to check if all required fields are filled
+  const validateModalForm = () => {
+    const country = document.getElementById('addressCountry')?.value || '';
+    const city = document.getElementById('addressCity')?.value || '';
+    const line1 = document.getElementById('addressLine1')?.value || '';
+    const postal = document.getElementById('addressPostal')?.value || '';
+    
+    // All required fields must have values
+    const isValid = country && country.trim() !== '' &&
+                    city && city.trim() !== '' &&
+                    line1 && line1.trim() !== '' &&
+                    postal && postal.trim() !== '';
+    
+    return isValid;
+  };
+  
+  // Update save button state (expose globally so Fill/Clear can call it)
+  window.updateBusinessAddressSaveButton = () => {
+    const saveBtn = document.getElementById('saveBusinessAddress');
+    if (!saveBtn) return;
+    
+    const isValid = validateModalForm();
+    saveBtn.disabled = !isValid;
+    saveBtn.setAttribute('aria-disabled', String(!isValid));
+  };
+  
+  const updateSaveButton = window.updateBusinessAddressSaveButton;
+  
   // Save button
   const saveBtn = document.getElementById('saveBusinessAddress');
   if (saveBtn) {
+    // Initially disable the button
+    saveBtn.disabled = true;
+    saveBtn.setAttribute('aria-disabled', 'true');
+    
     saveBtn.addEventListener('click', (e) => {
       e.preventDefault();
+      if (!validateModalForm()) return; // Double-check before saving
       saveAddress();
     });
   }
@@ -2151,6 +2250,35 @@ if (document.readyState === 'loading') {
   // Watch for external changes (e.g., from Fill/Clear buttons)
   businessAddressInput.addEventListener('input', updateIcon);
   businessAddressInput.addEventListener('change', updateIcon);
+  
+  // Toggle is-filled class on modal inputs and selects when they have values
+  const toggleFilled = (el) => {
+    if (!el) return;
+    if (el.tagName === 'SELECT') {
+      // For selects, only mark as filled if value exists and is not empty string (placeholder)
+      const hasValue = el.value && el.value !== '';
+      el.classList.toggle('is-filled', hasValue);
+    } else {
+      el.classList.toggle('is-filled', el.value && el.value.trim() !== '');
+    }
+  };
+  
+  // Get all inputs and selects in the modal
+  const modalInputs = modal.querySelectorAll('input[type="text"], select');
+  modalInputs.forEach((input) => {
+    // Initialize state
+    toggleFilled(input);
+    // Update on change
+    const updateField = () => {
+      toggleFilled(input);
+      updateSaveButton(); // Also validate form when field changes
+    };
+    input.addEventListener('input', updateField);
+    input.addEventListener('change', updateField);
+  });
+  
+  // Initial validation when modal opens
+  updateSaveButton();
 })();
 
 

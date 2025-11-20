@@ -154,6 +154,31 @@ textarea { resize: vertical; }
 
 // Required field asterisk
 .required {
+  color: #DD483C;
+}
+
+// Business address modal labels
+#businessAddressModal label {
+  font-size: 14px;
+  font-weight: 600;
+  color: $text-secondary;
+}
+
+// Business address modal inputs - heavier when filled
+#businessAddressModal input:not(:placeholder-shown) {
+  font-weight: 600;
+  color: $text-primary;
+}
+
+// Business address modal selects - default placeholder styling
+#businessAddressModal select {
+  color: #BCBDBD; // Placeholder color
+  font-weight: 400; // Normal weight
+}
+
+// Business address modal selects - heavier when a real value is selected (not placeholder)
+#businessAddressModal select.is-filled {
+  font-weight: 600;
   color: $text-primary;
 }
 

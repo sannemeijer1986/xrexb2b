@@ -353,6 +353,14 @@ html {
   }
 }
 
+.modal--addbusiness .alert {
+  margin-bottom: 24px;
+}
+
+.modal--addbusiness .form__row {
+  gap: 32px;
+}
+
 .grid--home .grid__col--sidebar {
   top: 84px;
 }
@@ -616,6 +624,27 @@ textarea {
 }
 
 .required {
+  color: #DD483C;
+}
+
+#businessAddressModal label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #797A7B;
+}
+
+#businessAddressModal input:not(:placeholder-shown) {
+  font-weight: 600;
+  color: #0f172a;
+}
+
+#businessAddressModal select {
+  color: #BCBDBD;
+  font-weight: 400;
+}
+
+#businessAddressModal select.is-filled {
+  font-weight: 600;
   color: #0f172a;
 }
 
@@ -864,7 +893,11 @@ textarea {
 }
 
 .ab-step__content {
-  margin-bottom: 24px;
+  margin-bottom: 48px;
+}
+
+.ab-step:last-child .ab-step__content {
+  margin-bottom: 0px;
 }
 
 .ab-step {
@@ -905,6 +938,7 @@ textarea {
 
 .ab-step__label {
   font-family: "Manrope", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+  margin-top: -3px;
   font-weight: 700;
   font-size: 14px;
   color: #797A7B;
