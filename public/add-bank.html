@@ -44,7 +44,8 @@
 
         <section class="grid">
           <div class="grid__col grid__col--primary">
-            <form class="card card--section form" aria-label="Receiver information">
+            <!-- Step 1: Receiver information -->
+            <form id="step1-form" class="card card--section form" aria-label="Receiver information">
               <h2 class="card__title card__title--within">Enter receiver information</h2>
               <div class="form__row">
                 <div class="form__field">
@@ -98,11 +99,81 @@
                 <button id="ab-next" class="btn btn--primary btn--md" type="button" disabled aria-disabled="true">Next</button>
               </div>
             </form>
+            
+            <!-- Step 2: Bank account details -->
+            <form id="step2-form" class="card card--section form" aria-label="Bank account details" hidden>
+              <h2 class="card__title card__title--within">Enter bank account details</h2>
+              <div class="form__row">
+                <div class="form__field">
+                  <label for="accountHolderName">Account holder name</label>
+                  <input id="accountHolderName" name="accountHolderName" type="text" placeholder="Enter account Holder Name" />
+                </div>
+              </div>
+              <div class="form__row">
+                <div class="form__field form__field--clickable">
+                  <label for="bankDetails">Bank details</label>
+                  <div class="clickable-input">
+                    <input id="bankDetails" name="bankDetails" type="text" placeholder="Add bank details" readonly />
+                    <button type="button" class="clickable-input__icon" aria-label="Add bank details">
+                      <img src="assets/icon_add.svg" alt="" width="24" height="24" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="form__row">
+                <div class="form__field form__field--clickable">
+                  <label for="accountDeclaration">Account declaration</label>
+                  <div class="clickable-input">
+                    <input id="accountDeclaration" name="accountDeclaration" type="text" placeholder="Add declaration" readonly />
+                    <button type="button" class="clickable-input__icon" aria-label="Add declaration">
+                      <img src="assets/icon_add.svg" alt="" width="24" height="24" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div style="height: 1px; background: #EEEEEE; margin: 24px 0;"></div>
+              <div class="form__row">
+                <div class="form__field">
+                  <h3 class="card__title card__title--within" style="margin-bottom: 16px;">Bank account document proof</h3>
+                  <div class="upload-area" style="border: 1px solid #EEEEEE; border-radius: 8px; padding: 32px; text-align: center; background: #fff;">
+                    <div style="display: flex; flex-direction: column; gap: 32px; align-items: center;">
+                      <div style="display: flex; flex-direction: column; gap: 16px; align-items: center; width: 100%;">
+                        <div style="width: 60px; height: 60px; border-radius: 50%; background: #EEEEEE; display: flex; align-items: center; justify-content: center;">
+                          <img src="assets/icon_upload_1.svg" alt="" width="28" height="28" />
+                        </div>
+                        <div>
+                          <p style="font-family: 'Manrope', sans-serif; font-weight: 700; font-size: 18px; color: #2D2F2F; margin: 0 0 4px 0;">Bank account document proof</p>
+                          <p style="font-family: 'Manrope', sans-serif; font-weight: 600; font-size: 14px; color: #797A7B; margin: 0;">(jpg, png, pdf under 50 MB)</p>
+                        </div>
+                        <div class="alert alert--info" style="background: rgba(77, 136, 255, 0.15); border-radius: 8px; padding: 8px; width: 100%; max-width: 320px;">
+                          <div class="alert__header" style="display: flex; gap: 8px; align-items: flex-start;">
+                            <img class="alert__icon" src="assets/icon_info.svg" alt="" width="16" height="16" />
+                            <div style="flex: 1;">
+                              <p style="font-family: 'Manrope', sans-serif; font-weight: 600; font-size: 14px; color: #4D88FF; margin: 0 0 4px 0;">Document proof must include:</p>
+                              <ul style="font-family: 'Manrope', sans-serif; font-weight: 400; font-size: 14px; color: #4D88FF; margin: 0; padding-left: 21px; line-height: 20px;">
+                                <li>Beneficiary name</li>
+                                <li>Bank name</li>
+                                <li>Account number</li>
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <button type="button" class="btn btn--primary btn--sm" style="width: 200px;">Upload</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="form__actions">
+                <button id="ab-back" class="btn btn--secondary btn--md" type="button">Back</button>
+                <button id="ab-next-step2" class="btn btn--primary btn--md" type="button" disabled aria-disabled="true">Next</button>
+              </div>
+            </form>
           </div>
           <aside class="grid__col grid__col--sidebar addbank-steps">
             <div class="card card--section">
               <div class="ab-steps">
-                <div class="ab-step is-active has-line">
+                <div class="ab-step has-line" id="step-indicator-1" data-step="1">
                   <div class="ab-step__rail">
                     <span class="ab-dot"></span>
                     <span class="ab-line"></span>
@@ -112,23 +183,23 @@
                     <div class="ab-step__title">Receiver information</div>
                   </div>
                 </div>
-                <div class="ab-step has-line">
+                <div class="ab-step has-line" id="step-indicator-2" data-step="2">
                   <div class="ab-step__rail">
                     <span class="ab-dot"></span>
                     <span class="ab-line"></span>
                   </div>
                   <div class="ab-step__content">
                     <div class="ab-step__label">Step 2</div>
-                    <div class="ab-step__title is-muted">Bank account details</div>
+                    <div class="ab-step__title">Bank account details</div>
                   </div>
                 </div>
-                <div class="ab-step">
+                <div class="ab-step" id="step-indicator-3" data-step="3">
                   <div class="ab-step__rail">
                     <span class="ab-dot"></span>
                   </div>
                   <div class="ab-step__content">
                     <div class="ab-step__label">Step 3</div>
-                    <div class="ab-step__title is-muted">Review & submit</div>
+                    <div class="ab-step__title">Review & submit</div>
                   </div>
                 </div>
               </div>
@@ -148,6 +219,27 @@
         </div>
       </div>
     </footer>
+
+    <!-- Modal: Cancel confirmation -->
+    <div id="cancelConfirmModal" class="modal modal--dialog" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="cancelConfirmTitle">
+      <div class="modal__dialog">
+        <div class="modal__content">
+          <div class="modal__header">
+            <button class="modal-close" data-modal-close aria-label="Close modal">
+              <img src="assets/icon_close.svg" width="24" height="24" alt="close" />
+            </button>
+          </div>
+          <div class="modal__body">
+            <h2 id="cancelConfirmTitle" class="modal__title">Attention</h2>
+            <p class="modal__desc">The counterparty account setup is incomplete. Do you want to cancel anyway?</p>
+          </div>
+          <div class="modal__footer">
+            <button type="button" class="btn btn--secondary btn--md" id="cancelConfirmContinue">Continue setup</button>
+            <button type="button" class="btn btn--primary btn--md" id="cancelConfirmCancel">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <!-- Modal: Add business address -->
     <div id="businessAddressModal" class="modal modal--large modal--addbusiness" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="businessAddressModalTitle">

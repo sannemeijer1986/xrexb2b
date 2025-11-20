@@ -1840,14 +1840,34 @@ if (document.readyState === 'loading') {
   const crumb = document.querySelector('.page__header--crumb .crumb');
   const title = document.getElementById('ab-back-title');
   if (!crumb) return;
+  
+  // Back navigation is now handled by initAddBankSteps for step management
+  // This handler only manages mobile title click
   const handleBack = (e) => {
     const DESKTOP_BP = 1280;
     if (window.innerWidth < DESKTOP_BP) {
-      e.preventDefault();
-      window.location.href = 'select-counterparty.html';
+      // On mobile, check if we're on step 2+ via the steps handler
+      const step2Form = document.getElementById('step2-form');
+      if (step2Form && !step2Form.hasAttribute('hidden')) {
+        e.preventDefault();
+        // Trigger the modal via the steps handler
+        const cancelModal = document.getElementById('cancelConfirmModal');
+        if (cancelModal) {
+          cancelModal.setAttribute('aria-hidden', 'false');
+          document.documentElement.classList.add('modal-open');
+          document.body.classList.add('modal-open');
+          try {
+            const y = window.scrollY || window.pageYOffset || 0;
+            document.body.dataset.scrollY = String(y);
+            document.body.style.top = `-${y}px`;
+            document.body.classList.add('modal-locked');
+          } catch (_) {}
+        }
+      }
     }
   };
-  crumb.addEventListener('click', handleBack);
+  
+  // Crumb is handled by initAddBankSteps, only handle title on mobile
   if (title) {
     title.addEventListener('click', handleBack);
     title.addEventListener('keydown', (e) => {
@@ -1879,11 +1899,228 @@ if (document.readyState === 'loading') {
   }
 })();
 
+// Add Bank: Step navigation and state management
+(function initAddBankSteps() {
+  const root = document.querySelector('main.page--addbank');
+  if (!root) return;
+  
+  let currentStep = 1;
+  const stepData = { step1: {}, step2: {} };
+  
+  const step1Form = document.getElementById('step1-form');
+  const step2Form = document.getElementById('step2-form');
+  const nextBtn = document.getElementById('ab-next');
+  const nextBtnStep2 = document.getElementById('ab-next-step2');
+  const backBtnStep2 = document.getElementById('ab-back');
+  const cancelModal = document.getElementById('cancelConfirmModal');
+  const cancelContinueBtn = document.getElementById('cancelConfirmContinue');
+  const cancelCancelBtn = document.getElementById('cancelConfirmCancel');
+  const crumb = document.querySelector('.page__header--crumb .crumb');
+  
+  if (!step1Form || !step2Form) return;
+  
+  // Store step 1 data
+  const storeStep1Data = () => {
+    stepData.step1 = {
+      companyName: document.getElementById('companyName')?.value || '',
+      regDate: document.getElementById('regDate')?.value || '',
+      country: document.getElementById('country')?.value || '',
+      regNum: document.getElementById('regNum')?.value || '',
+      businessAddress: document.getElementById('businessAddress')?.value || '',
+      email: document.getElementById('email')?.value || ''
+    };
+  };
+  
+  // Update step indicator
+  const updateStepIndicator = (step) => {
+    [1, 2, 3].forEach((s) => {
+      const indicator = document.getElementById(`step-indicator-${s}`);
+      if (!indicator) return;
+      const dot = indicator.querySelector('.ab-dot');
+      const title = indicator.querySelector('.ab-step__title');
+      const label = indicator.querySelector('.ab-step__label');
+      
+      if (s < step) {
+        // Completed step
+        indicator.classList.remove('is-active');
+        if (dot) dot.style.background = '#3FAE64';
+        if (title) {
+          title.classList.remove('is-muted');
+          title.style.color = '';
+        }
+        if (label) label.style.color = '#3FAE64';
+      } else if (s === step) {
+        // Current step
+        indicator.classList.add('is-active');
+        if (dot) dot.style.background = '#3FAE64';
+        if (title) {
+          title.classList.remove('is-muted');
+          title.style.fontWeight = '700';
+          title.style.color = '#2D2F2F';
+        }
+        if (label) label.style.color = '#3FAE64';
+      } else {
+        // Future step
+        indicator.classList.remove('is-active');
+        if (dot) dot.style.background = '#DBDBDC';
+        if (title) {
+          title.classList.add('is-muted');
+          title.style.fontWeight = '';
+          title.style.color = '#BCBDBD';
+        }
+        if (label) label.style.color = '#BCBDBD';
+      }
+    });
+  };
+  
+  // Show step
+  const showStep = (step) => {
+    if (step === 1) {
+      step1Form.removeAttribute('hidden');
+      step1Form.style.display = '';
+      step2Form.setAttribute('hidden', '');
+      step2Form.style.display = 'none';
+    } else if (step === 2) {
+      step1Form.setAttribute('hidden', '');
+      step1Form.style.display = 'none';
+      step2Form.removeAttribute('hidden');
+      step2Form.style.display = '';
+    }
+    currentStep = step;
+    updateStepIndicator(step);
+  };
+  
+  // Navigate to step 2
+  const goToStep2 = () => {
+    storeStep1Data();
+    showStep(2);
+  };
+  
+  // Navigate back to step 1
+  const goToStep1 = () => {
+    showStep(1);
+  };
+  
+  // Handle header back button
+  const handleHeaderBack = (e) => {
+    if (currentStep > 1) {
+      e.preventDefault();
+      if (cancelModal) {
+        cancelModal.setAttribute('aria-hidden', 'false');
+        document.documentElement.classList.add('modal-open');
+        document.body.classList.add('modal-open');
+        try {
+          const y = window.scrollY || window.pageYOffset || 0;
+          document.body.dataset.scrollY = String(y);
+          document.body.style.top = `-${y}px`;
+          document.body.classList.add('modal-locked');
+        } catch (_) {}
+      }
+    }
+  };
+  
+  // Next button step 1
+  if (nextBtn) {
+    nextBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      goToStep2();
+    });
+  }
+  
+  // Back button step 2
+  if (backBtnStep2) {
+    backBtnStep2.addEventListener('click', (e) => {
+      e.preventDefault();
+      goToStep1();
+    });
+  }
+  
+  // Cancel modal handlers
+  if (cancelContinueBtn) {
+    cancelContinueBtn.addEventListener('click', () => {
+      if (cancelModal) {
+        cancelModal.setAttribute('aria-hidden', 'true');
+        document.documentElement.classList.remove('modal-open');
+        document.body.classList.remove('modal-open');
+        try {
+          const y = parseInt(document.body.dataset.scrollY || '0', 10) || 0;
+          document.body.classList.remove('modal-locked');
+          document.body.style.top = '';
+          delete document.body.dataset.scrollY;
+          window.scrollTo(0, y);
+        } catch (_) {}
+      }
+    });
+  }
+  
+  if (cancelCancelBtn) {
+    cancelCancelBtn.addEventListener('click', () => {
+      window.location.href = 'select-counterparty.html';
+    });
+  }
+  
+  // Close modal on backdrop click
+  if (cancelModal) {
+    cancelModal.addEventListener('click', (e) => {
+      if (e.target === cancelModal) {
+        cancelModal.setAttribute('aria-hidden', 'true');
+        document.documentElement.classList.remove('modal-open');
+        document.body.classList.remove('modal-open');
+        try {
+          const y = parseInt(document.body.dataset.scrollY || '0', 10) || 0;
+          document.body.classList.remove('modal-locked');
+          document.body.style.top = '';
+          delete document.body.dataset.scrollY;
+          window.scrollTo(0, y);
+        } catch (_) {}
+      }
+    });
+    
+    cancelModal.querySelectorAll('[data-modal-close]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        cancelModal.setAttribute('aria-hidden', 'true');
+        document.documentElement.classList.remove('modal-open');
+        document.body.classList.remove('modal-open');
+        try {
+          const y = parseInt(document.body.dataset.scrollY || '0', 10) || 0;
+          document.body.classList.remove('modal-locked');
+          document.body.style.top = '';
+          delete document.body.dataset.scrollY;
+          window.scrollTo(0, y);
+        } catch (_) {}
+      });
+    });
+  }
+  
+  // Update header back button handler
+  if (crumb) {
+    crumb.addEventListener('click', handleHeaderBack);
+  }
+  
+  // Initialize step indicator and ensure step 1 is visible
+  updateStepIndicator(1);
+  showStep(1); // Ensure step 1 is visible on load
+  
+  // Step 2 form validation
+  const accountHolderName = document.getElementById('accountHolderName');
+  if (nextBtnStep2 && accountHolderName) {
+    const validateStep2 = () => {
+      const hasName = accountHolderName.value && accountHolderName.value.trim() !== '';
+      nextBtnStep2.disabled = !hasName;
+      nextBtnStep2.setAttribute('aria-disabled', String(!hasName));
+    };
+    
+    accountHolderName.addEventListener('input', validateStep2);
+    accountHolderName.addEventListener('change', validateStep2);
+    validateStep2();
+  }
+})();
+
 // Add Bank: enable Next when all fields are filled (reusable helper)
 (function initAddBankFormState() {
   const root = document.querySelector('main.page--addbank');
   if (!root) return;
-  const form = root.querySelector('form');
+  const form = document.getElementById('step1-form');
   const nextBtn = document.getElementById('ab-next');
   if (!form || !nextBtn) return;
 
