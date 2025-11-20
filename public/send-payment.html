@@ -296,7 +296,8 @@
                     <div class="docs-num" id="docNumberField" hidden>
                       <div class="form__field">
                         <label for="piNumber" id="docNumberLabel">Proforma Invoice (PI) number</label>
-                        <input id="piNumber" name="piNumber" type="text" placeholder="Enter number" />
+                        <input id="piNumber" name="piNumber" type="text" placeholder="Enter number" maxlength="50" />
+                        <div class="field-counter" id="piNumberCounter">0/50</div>
                       </div>
                     </div>
                     <div class="docs-notes" id="docNotesField">
@@ -386,7 +387,8 @@
                   <div class="docs-group__content">
                     <div class="form__field">
                       <label for="ciNumber">Commercial invoice number</label>
-                      <input id="ciNumber" name="ciNumber" type="text" placeholder="Enter CI number" />
+                      <input id="ciNumber" name="ciNumber" type="text" placeholder="Enter CI number" maxlength="50" />
+                      <div class="field-counter" id="ciNumberCounter">0/50</div>
                     </div>
                     <div class="docs-notes" id="docNotesFieldPost">
                       <div class="form__field">

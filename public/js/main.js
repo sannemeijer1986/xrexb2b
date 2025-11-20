@@ -691,7 +691,9 @@ function initSendPayment() {
 
     // Attach validation to docs inputs so changing them re-validates immediately
     const piNumber = document.getElementById('piNumber');
+    const piNumberCounter = document.getElementById('piNumberCounter');
     const ciNumber = document.getElementById('ciNumber');
+    const ciNumberCounter = document.getElementById('ciNumberCounter');
     const docNotes = document.getElementById('docNotes');
     const notesCounter = document.getElementById('docNotesCounter');
     const docNotesPost = document.getElementById('docNotesPost');
@@ -710,13 +712,49 @@ function initSendPayment() {
         docNotesPost.classList.toggle('is-filled', capped2 > 0);
       }
     };
+    const updateDocNumberCounters = () => {
+      if (piNumber && piNumberCounter) {
+        const len = String(piNumber.value || '').length;
+        const capped = Math.min(50, len);
+        piNumberCounter.textContent = `${capped}/50`;
+        piNumber.classList.toggle('is-filled', capped > 0);
+      } else if (piNumberCounter) {
+        piNumberCounter.textContent = '0/50';
+      }
+      if (ciNumber && ciNumberCounter) {
+        const len2 = String(ciNumber.value || '').length;
+        const capped2 = Math.min(50, len2);
+        ciNumberCounter.textContent = `${capped2}/50`;
+        ciNumber.classList.toggle('is-filled', capped2 > 0);
+      } else if (ciNumberCounter) {
+        ciNumberCounter.textContent = '0/50';
+      }
+    };
     if (piNumber) {
-      piNumber.addEventListener('input', () => { if (typeof validateSendForm === 'function') validateSendForm(); }, { passive: true });
-      piNumber.addEventListener('change', () => { if (typeof validateSendForm === 'function') validateSendForm(); });
+      piNumber.addEventListener('input', () => {
+        updateDocNumberCounters();
+        if (typeof validateSendForm === 'function') validateSendForm();
+      }, { passive: true });
+      piNumber.addEventListener('change', () => {
+        updateDocNumberCounters();
+        if (typeof validateSendForm === 'function') validateSendForm();
+      });
+      updateDocNumberCounters();
+    } else if (piNumberCounter) {
+      piNumberCounter.textContent = '0/50';
     }
     if (ciNumber) {
-      ciNumber.addEventListener('input', () => { if (typeof validateSendForm === 'function') validateSendForm(); }, { passive: true });
-      ciNumber.addEventListener('change', () => { if (typeof validateSendForm === 'function') validateSendForm(); });
+      ciNumber.addEventListener('input', () => {
+        updateDocNumberCounters();
+        if (typeof validateSendForm === 'function') validateSendForm();
+      }, { passive: true });
+      ciNumber.addEventListener('change', () => {
+        updateDocNumberCounters();
+        if (typeof validateSendForm === 'function') validateSendForm();
+      });
+      updateDocNumberCounters();
+    } else if (ciNumberCounter) {
+      ciNumberCounter.textContent = '0/50';
     }
     if (docNotes) {
       docNotes.addEventListener('input', () => { updateNotesCounter(); if (typeof validateSendForm === 'function') validateSendForm(); }, { passive: true });
