@@ -1,3 +1,29 @@
+// Helper function to calculate fees with minimum fee logic (global scope)
+function calculateFees(amount, payerRate, receiverRate) {
+  const feeRate = 0.01; // 1%
+  const MIN_SERVICE_FEE = 60;
+  const calculatedServiceFee = amount * feeRate;
+  const actualServiceFee = (amount === 0 || (calculatedServiceFee > 0 && calculatedServiceFee < MIN_SERVICE_FEE)) 
+    ? MIN_SERVICE_FEE 
+    : calculatedServiceFee;
+  const isBelowMinimum = amount === 0 || (calculatedServiceFee > 0 && calculatedServiceFee < MIN_SERVICE_FEE);
+  
+  // Distribute the actual service fee according to fee distribution rates
+  // payerRate and receiverRate are proportions of the feeRate (e.g., 0.01, 0.005, 0)
+  // The total of payerRate + receiverRate always equals feeRate (0.01)
+  let payerFee, receiverFee;
+  if (payerRate === 0 && receiverRate === 0) {
+    payerFee = 0;
+    receiverFee = 0;
+  } else {
+    // Distribute proportionally based on the ratio of each rate to the total feeRate
+    payerFee = actualServiceFee * (payerRate / feeRate);
+    receiverFee = actualServiceFee * (receiverRate / feeRate);
+  }
+  
+  return { payerFee, receiverFee, isBelowMinimum, actualServiceFee };
+}
+
 function initSendPayment() {
   // Mobile quick menu toggle
   const tabMenu = document.getElementById('tab-menu');
@@ -302,11 +328,26 @@ function initSendPayment() {
     return selected ? selected.value : 'you';
   };
 
-  const setServiceBreakdown = (payerPctAbs, payeePctAbs) => {
-    const payerLabel = summaryRows.servicePayer && summaryRows.servicePayer.querySelector('.muted');
-    const payeeLabel = summaryRows.servicePayee && summaryRows.servicePayee.querySelector('.muted');
-    if (payerLabel) payerLabel.textContent = `${Number(payerPctAbs).toFixed(2)}% paid by you`;
-    if (payeeLabel) payeeLabel.textContent = `${Number(payeePctAbs).toFixed(2)}% paid by receiver`;
+  const setServiceBreakdown = (payerPctAbs, payeePctAbs, hidePercentage = false) => {
+    // Re-query elements to ensure we have fresh references
+    const payerRow = (summaryContainer || document).querySelector('[data-summary="service-payer"]');
+    const payeeRow = (summaryContainer || document).querySelector('[data-summary="service-payee"]');
+    const payerLabel = payerRow && payerRow.querySelector('.muted');
+    const payeeLabel = payeeRow && payeeRow.querySelector('.muted');
+    if (payerLabel) {
+      if (hidePercentage) {
+        payerLabel.textContent = 'Paid by you';
+      } else {
+        payerLabel.textContent = `${Number(payerPctAbs).toFixed(2)}% paid by you`;
+      }
+    }
+    if (payeeLabel) {
+      if (hidePercentage) {
+        payeeLabel.textContent = 'Paid by receiver';
+      } else {
+        payeeLabel.textContent = `${Number(payeePctAbs).toFixed(2)}% paid by receiver`;
+      }
+    }
   };
 
   const updateSummary = () => {
@@ -322,8 +363,8 @@ function initSendPayment() {
     else if (mode === 'receiver') { payerRate = 0; receiverRate = feeRate; }
     else { payerRate = feeRate / 2; receiverRate = feeRate / 2; }
 
-    const payerFee = amount * payerRate;
-    const receiverFee = amount * receiverRate;
+    // Calculate fees with minimum fee logic
+    const { payerFee, receiverFee, isBelowMinimum } = calculateFees(amount, payerRate, receiverRate);
 
     const youPay = amount + payerFee;
     const payeeGets = amount - receiverFee;
@@ -333,7 +374,7 @@ function initSendPayment() {
     // Percentages shown are absolute share of the amount (e.g., 0.5%)
     const payerPctAbs = Math.round(payerRate * 1000) / 10;   // one decimal
     const payeePctAbs = Math.round(receiverRate * 1000) / 10;
-    setServiceBreakdown(payerPctAbs, payeePctAbs);
+    setServiceBreakdown(payerPctAbs, payeePctAbs, isBelowMinimum);
 
     const payerCurrency = getPayerCurrency();
     const showConversion = payerCurrency !== payeeCurrency;
@@ -422,9 +463,7 @@ function initSendPayment() {
       const strongEl = summaryRows.serviceTitle.querySelector('strong');
       
       if (lbl && pctEl && minEl && strongEl) {
-        const serviceFee = amount * feeRate;
-        const MIN_SERVICE_FEE = 60;
-        const isBelowMinimum = amount === 0 || (serviceFee > 0 && serviceFee < MIN_SERVICE_FEE);
+        // isBelowMinimum is already calculated above
         
         if (isBelowMinimum) {
           // Show strikethrough percentage + minimum fee
@@ -438,7 +477,8 @@ function initSendPayment() {
           minEl.style.textDecoration = 'none';
           minEl.style.color = '';
           minEl.style.fontSize = '';
-          minEl.textContent = `${formatAmount(MIN_SERVICE_FEE, 'USD')}`;
+          // Use the fixed minimum service fee amount (60.00 USD) for display
+          minEl.textContent = `${formatAmount(60, 'USD')}`;
           
           // Show min label next to "Service fee"
           if (minLabelEl) {
@@ -465,12 +505,15 @@ function initSendPayment() {
         }
       }
     }
-    if (summaryRows.servicePayer) {
-      const v = summaryRows.servicePayer.querySelector('strong');
+    // Re-query elements to ensure we have fresh references
+    const payerRow = (summaryContainer || document).querySelector('[data-summary="service-payer"]');
+    const payeeRow = (summaryContainer || document).querySelector('[data-summary="service-payee"]');
+    if (payerRow) {
+      const v = payerRow.querySelector('strong');
       if (v) v.textContent = formatAmount(payerFee, payerCurrency);
     }
-    if (summaryRows.servicePayee) {
-      const v = summaryRows.servicePayee.querySelector('strong');
+    if (payeeRow) {
+      const v = payeeRow.querySelector('strong');
       if (v) v.textContent = formatAmount(receiverFee, payeeCurrency);
     }
     if (summaryRows.amountPayable) {
@@ -1268,8 +1311,8 @@ function initSendPayment() {
         // Payer currency
         const payerCurrency = Array.from(document.querySelectorAll('input[type="radio"][name="deduct"]')).find(r => r.checked)?.value || 'USD';
         const payeeCurrency = 'USD';
-        const payerFee = amount * payerRate;
-        const receiverFee = amount * receiverRate;
+        // Calculate fees with minimum fee logic
+        const { payerFee, receiverFee, isBelowMinimum } = calculateFees(amount, payerRate, receiverRate);
         const youPay = amount + payerFee;
         const payeeGets = amount - receiverFee;
         const fmt = (v, cur) => `${Number(v||0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ${cur}`;
@@ -1325,9 +1368,9 @@ function initSendPayment() {
           amountPayableFmt: fmt(amount, payeeCurrency),
           deductedFrom: `${payerCurrency} account`,
           feePct: `${(feeRate*100).toFixed(2)}%`,
-          payerShareLabel: `${(payerRate*100).toFixed(2)}% paid by you`,
+          payerShareLabel: isBelowMinimum ? 'Paid by you' : `${(payerRate*100).toFixed(2)}% paid by you`,
           payerShareAmt: fmt(payerFee, payerCurrency),
-          receiverShareLabel: `${(receiverRate*100).toFixed(2)}% paid by receiver`,
+          receiverShareLabel: isBelowMinimum ? 'Paid by receiver' : `${(receiverRate*100).toFixed(2)}% paid by receiver`,
           receiverShareAmt: fmt(receiverFee, payeeCurrency),
           toBeDeducted: fmt(youPay, payerCurrency),
           receiverGets: fmt(payeeGets, payeeCurrency),
@@ -1405,8 +1448,8 @@ if (confirmTriggerInline) {
       else { payerRate = feeRate/2; receiverRate = feeRate/2; }
       const payerCurrency = Array.from(document.querySelectorAll('input[type="radio"][name="deduct"]')).find(r => r.checked)?.value || 'USD';
       const payeeCurrency = 'USD';
-      const payerFee = amount * payerRate;
-      const receiverFee = amount * receiverRate;
+      // Calculate fees with minimum fee logic
+      const { payerFee, receiverFee, isBelowMinimum } = calculateFees(amount, payerRate, receiverRate);
       const youPay = amount + payerFee;
       const payeeGets = amount - receiverFee;
       const fmt = (v, cur) => `${Number(v||0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ${cur}`;
@@ -1656,8 +1699,8 @@ if (document.readyState === 'loading') {
           // Payer currency
           const payerCurrency = Array.from(document.querySelectorAll('input[type="radio"][name="deduct"]')).find(r => r.checked)?.value || 'USD';
           const payeeCurrency = 'USD';
-          const payerFee = amount * payerRate;
-          const receiverFee = amount * receiverRate;
+          // Calculate fees with minimum fee logic
+          const { payerFee, receiverFee, isBelowMinimum } = calculateFees(amount, payerRate, receiverRate);
           const youPay = amount + payerFee;
           const payeeGets = amount - receiverFee;
           const fmt = (v, cur) => `${Number(v||0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ${cur}`;
@@ -1667,9 +1710,9 @@ if (document.readyState === 'loading') {
             amountPayableFmt: fmt(amount, payeeCurrency),
             deductedFrom: `${payerCurrency} account`,
             feePct: `${(feeRate*100).toFixed(2)}%`,
-            payerShareLabel: `${(payerRate*100).toFixed(2)}% paid by you`,
+            payerShareLabel: isBelowMinimum ? 'Paid by you' : `${(payerRate*100).toFixed(2)}% paid by you`,
             payerShareAmt: fmt(payerFee, payerCurrency),
-            receiverShareLabel: `${(receiverRate*100).toFixed(2)}% paid by receiver`,
+            receiverShareLabel: isBelowMinimum ? 'Paid by receiver' : `${(receiverRate*100).toFixed(2)}% paid by receiver`,
             receiverShareAmt: fmt(receiverFee, payeeCurrency),
             toBeDeducted: fmt(youPay, payerCurrency),
             receiverGets: fmt(payeeGets, payeeCurrency),
