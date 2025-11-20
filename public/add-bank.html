@@ -255,7 +255,7 @@
     </footer>
 
     <!-- Modal: Add bank details -->
-    <div id="bankDetailsModal" class="modal modal--large" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="bankDetailsModalTitle">
+    <div id="bankDetailsModal" class="modal modal--large modal--addbankdetails" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="bankDetailsModalTitle">
       <div class="modal-wrapper">
         <div class="modal-content">
           <div class="modal-header">
@@ -324,7 +324,7 @@
     </div>
 
     <!-- Modal: Account declaration -->
-    <div id="accountDeclarationModal" class="modal modal--large" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="accountDeclarationModalTitle">
+    <div id="accountDeclarationModal" class="modal modal--large modal--accountdeclaration" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="accountDeclarationModalTitle">
       <div class="modal-wrapper">
         <div class="modal-content">
           <div class="modal-header">
@@ -355,12 +355,12 @@
               <div class="form__row form__row--selects">
                 <div class="form__field">
                   <label for="avgTransactions">Average number of transactions per month</label>
-                  <input id="avgTransactions" name="avgTransactions" type="number" placeholder="0" />
+                  <input id="avgTransactions" name="avgTransactions" type="text" inputmode="numeric" placeholder="0" />
                 </div>
                 <div class="form__field">
                   <label for="avgVolume">Average transaction volume per month</label>
                   <div class="input-group">
-                    <input id="avgVolume" name="avgVolume" type="number" placeholder="0.00" />
+                    <input id="avgVolume" name="avgVolume" type="text" inputmode="decimal" placeholder="0.00" />
                     <div class="input-group__badge">
                       <img src="assets/icon_USD.svg" alt="USD" width="16" height="16" />
                       <span>USD</span>
@@ -391,10 +391,10 @@
             <h2 id="cancelConfirmTitle" class="modal__title">Attention</h2>
             <p class="modal__desc">The counterparty account setup is incomplete. Do you want to cancel anyway?</p>
           </div>
-          <div class="modal__footer">
-            <button type="button" class="btn btn--secondary btn--md" id="cancelConfirmContinue">Continue setup</button>
-            <button type="button" class="btn btn--primary btn--md" id="cancelConfirmCancel">Cancel</button>
-          </div>
+                  <div class="modal__footer">
+                    <button type="button" class="btn btn--secondary btn--md" id="cancelConfirmContinue">Continue setup</button>
+                    <button type="button" class="btn btn--alert btn--md" id="cancelConfirmCancel">Cancel</button>
+                  </div>
         </div>
       </div>
     </div>

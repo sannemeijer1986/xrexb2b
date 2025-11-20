@@ -2603,9 +2603,31 @@ if (document.readyState === 'loading') {
   if (bankDetailsWrapper) {
     bankDetailsWrapper.style.cursor = 'pointer';
     bankDetailsWrapper.addEventListener('click', (e) => {
-      if (e.target === bankDetailsWrapper || e.target.closest('.clickable-input__empty')) {
+      // Don't open if clicking the edit icon (it has its own handler)
+      if (e.target === bankDetailsBtn || e.target.closest('#bankDetailsBtn')) {
+        return;
+      }
+      // Open modal when clicking anywhere on the wrapper, display, or empty state
+      if (e.target === bankDetailsWrapper || 
+          e.target.closest('.clickable-input__empty') || 
+          e.target.closest('.clickable-input__display') ||
+          e.target.closest('.clickable-input__display-content')) {
         openModal();
       }
+    });
+  }
+  
+  // Also make the display content clickable
+  if (bankDetailsDisplay) {
+    bankDetailsDisplay.style.cursor = 'pointer';
+    bankDetailsDisplay.addEventListener('click', (e) => {
+      // Don't open if clicking the edit icon (it has its own handler)
+      if (e.target === bankDetailsBtn || e.target.closest('#bankDetailsBtn')) {
+        return;
+      }
+      e.preventDefault();
+      e.stopPropagation();
+      openModal();
     });
   }
   
@@ -2828,9 +2850,31 @@ if (document.readyState === 'loading') {
   if (accountDeclarationWrapper) {
     accountDeclarationWrapper.style.cursor = 'pointer';
     accountDeclarationWrapper.addEventListener('click', (e) => {
-      if (e.target === accountDeclarationWrapper || e.target.closest('.clickable-input__empty')) {
+      // Don't open if clicking the edit icon (it has its own handler)
+      if (e.target === accountDeclarationBtn || e.target.closest('#accountDeclarationBtn')) {
+        return;
+      }
+      // Open modal when clicking anywhere on the wrapper, display, or empty state
+      if (e.target === accountDeclarationWrapper || 
+          e.target.closest('.clickable-input__empty') || 
+          e.target.closest('.clickable-input__display') ||
+          e.target.closest('.clickable-input__display-content')) {
         openModal();
       }
+    });
+  }
+  
+  // Also make the display content clickable
+  if (accountDeclarationDisplay) {
+    accountDeclarationDisplay.style.cursor = 'pointer';
+    accountDeclarationDisplay.addEventListener('click', (e) => {
+      // Don't open if clicking the edit icon (it has its own handler)
+      if (e.target === accountDeclarationBtn || e.target.closest('#accountDeclarationBtn')) {
+        return;
+      }
+      e.preventDefault();
+      e.stopPropagation();
+      openModal();
     });
   }
   

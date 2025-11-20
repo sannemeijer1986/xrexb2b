@@ -353,7 +353,7 @@ html {
   }
 }
 
-.modal--addbusiness .alert {
+.modal--addbusiness .alert, .modal--accountdeclaration .alert, .modal--addbankdetails .alert {
   margin-bottom: 24px;
 }
 
@@ -756,6 +756,25 @@ textarea {
   color: #0f172a;
 }
 
+#accountDeclarationModal select:disabled {
+  background: #F8F8F8;
+  border-color: #DBDBDC;
+  color: #797A7B;
+  cursor: not-allowed;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
 .alert {
   border-radius: 8px;
   padding: 8px;
@@ -839,6 +858,12 @@ textarea {
 .btn--secondary {
   background: #EBF2FF;
   color: #2563eb;
+}
+
+/* Alert button (same as primary but with alert red background) */
+.btn--alert {
+  background: #EB5347;
+  color: #fff;
 }
 
 .btn--md {

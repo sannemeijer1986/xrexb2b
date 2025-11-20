@@ -179,7 +179,7 @@ html { overflow-y: scroll; }
   }
 }
 
-.modal--addbusiness .alert {
+.modal--addbusiness .alert, .modal--accountdeclaration .alert, .modal--addbankdetails .alert {
   margin-bottom: 24px;
 }
 

@@ -47,6 +47,12 @@
   background: #EBF2FF;
   color: #2563eb;
 }
+
+/* Alert button (same as primary but with alert red background) */
+.btn--alert {
+  background: #EB5347;
+  color: #fff;
+}
 .btn--md {
   height: 40px;
   min-width: 160px;
