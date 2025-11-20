@@ -361,6 +361,10 @@ html {
   gap: 32px;
 }
 
+.page--addbank .alert--info--content {
+  text-align: left;
+}
+
 .grid--home .grid__col--sidebar {
   top: 84px;
 }
