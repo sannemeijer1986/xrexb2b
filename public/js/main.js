@@ -2118,33 +2118,91 @@ if (document.readyState === 'loading') {
       if (el) el.textContent = formatOrDash(value);
     };
 
+    const setVisibility = (id, visible) => {
+      const rowId = `${id}-row`;
+      const row = document.getElementById(rowId);
+      if (row) {
+        row.style.display = visible ? '' : 'none';
+      }
+    };
+
+    // Format date from YYYY-MM-DD to DD/MM/YYYY
+    const formatDate = (dateStr) => {
+      if (!dateStr) return '';
+      const parts = dateStr.split('-');
+      if (parts.length === 3) {
+        return `${parts[2]}/${parts[1]}/${parts[0]}`;
+      }
+      return dateStr;
+    };
+
+    // Format number with thousand separators
+    const formatVolume = (value) => {
+      if (!value) return '';
+      const num = parseFloat(value);
+      if (isNaN(num)) return value;
+      return num.toLocaleString('en-US', {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0
+      });
+    };
+
     // Step 1 fields
     setText('ab-summary-companyName', s1.companyName);
-    setText('ab-summary-regDate', s1.regDate);
+    setText('ab-summary-regDate', formatDate(s1.regDate));
     setText('ab-summary-country', s1.country);
     setText('ab-summary-regNum', s1.regNum);
     setText('ab-summary-businessAddress', s1.businessAddress);
     setText('ab-summary-email', s1.email);
 
     // Step 2 - bank details
-    setText('ab-summary-accountNickname', s2.accountNickname);
+    setText('ab-summary-accountNickname', s2.accountNickname || s2.accountNicknameSwift);
     setText('ab-summary-bankName', s2.bankName);
     setText('ab-summary-bankCountry', s2.bankCountry);
     setText('ab-summary-bankCity', s2.bankCity);
     setText('ab-summary-accountHolderName', s2.accountHolderName);
-    setText('ab-summary-accountNumber', s2.accountNumber);
-    setText('ab-summary-ibanNumber', s2.ibanNumber);
-    setText('ab-summary-swiftCode', s2.swiftCode);
 
+    // Determine country type and show/hide IBAN vs SWIFT fields
+    const IBAN_COUNTRIES = [
+      'Albania', 'Austria', 'Belgium', 'Bulgaria', 'Croatia', 'Czech Republic',
+      'Denmark', 'Estonia', 'Finland', 'France', 'Germany', 'Greece', 'Hungary',
+      'Iceland', 'Ireland', 'Italy', 'Latvia', 'Liechtenstein', 'Lithuania',
+      'Luxembourg', 'Malta', 'Netherlands', 'Norway', 'Poland', 'Portugal',
+      'Romania', 'Slovakia', 'Slovenia', 'Spain', 'Sweden', 'Switzerland',
+      'United Kingdom'
+    ];
+    const isIBAN = s2.bankCountry && IBAN_COUNTRIES.includes(s2.bankCountry);
+    
+    if (isIBAN) {
+      setText('ab-summary-ibanNumber', s2.ibanNumber);
+      setVisibility('ab-summary-ibanNumber', true);
+      setVisibility('ab-summary-swiftCode', false);
+      setVisibility('ab-summary-accountNumber', false);
+    } else {
+      setText('ab-summary-swiftCode', s2.swiftCode);
+      setText('ab-summary-accountNumber', s2.accountNumber);
+      setVisibility('ab-summary-ibanNumber', false);
+      setVisibility('ab-summary-swiftCode', true);
+      setVisibility('ab-summary-accountNumber', true);
+    }
+
+    // Document proof
     const docProofEl = document.getElementById('ab-summary-docProof');
     if (docProofEl) {
-      docProofEl.textContent = s2.bankProofFileName ? 'Uploaded' : 'Not uploaded';
+      if (s2.bankProofFileName) {
+        docProofEl.textContent = 'Uploaded';
+        docProofEl.classList.add('step3-kv__value--uploaded');
+      } else {
+        docProofEl.textContent = 'Not uploaded';
+        docProofEl.classList.remove('step3-kv__value--uploaded');
+      }
     }
 
     // Declaration
     setText('ab-summary-avgTransactions', s2.avgTransactions ? `${s2.avgTransactions} Transactions / month` : '');
     if (s2.avgVolume) {
-      setText('ab-summary-avgVolume', `${s2.avgVolume} USD / month`);
+      const formattedVolume = formatVolume(s2.avgVolume);
+      setText('ab-summary-avgVolume', `${formattedVolume} USD / month`);
     } else {
       setText('ab-summary-avgVolume', '');
     }
@@ -2306,11 +2364,24 @@ if (document.readyState === 'loading') {
     });
   }
 
-  // Submit button in step 3 – for prototype, return user to Select counterparty
+  // Submit button in step 3 – show snackbar
   if (submitBtnStep3) {
     submitBtnStep3.addEventListener('click', (e) => {
       e.preventDefault();
-      window.location.href = 'select-counterparty.html';
+      if (typeof window.showSnackbar === 'function') {
+        window.showSnackbar('Under construction');
+      } else {
+        // Fallback snackbar
+        const el = document.createElement('div');
+        el.className = 'snackbar snackbar--success';
+        el.innerHTML = '<img class="snackbar__icon" src="assets/icon_snackbar_success.svg" alt=""/><span>Under construction</span>';
+        document.body.appendChild(el);
+        requestAnimationFrame(() => el.classList.add('is-visible'));
+        setTimeout(() => {
+          el.classList.remove('is-visible');
+          setTimeout(() => el.remove(), 250);
+        }, 2000);
+      }
     });
   }
   
