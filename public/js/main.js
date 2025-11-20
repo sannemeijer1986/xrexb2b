@@ -470,7 +470,9 @@ function initSendPayment() {
           pctEl.style.display = 'inline';
           pctEl.style.textDecoration = 'line-through';
           pctEl.style.color = '#BCBDBD'; // placeholder color
+          pctEl.style.fontWeight = '400'; // font weight
           pctEl.style.fontSize = '12px';
+          pctEl.style.marginRight = '4px';
           pctEl.textContent = `${(feeRate * 100).toFixed(2)}%`;
           
           minEl.style.display = 'inline';
@@ -493,6 +495,8 @@ function initSendPayment() {
           pctEl.style.display = 'inline';
           pctEl.style.textDecoration = 'none';
           pctEl.style.color = '';
+          pctEl.style.fontWeight = '';
+          pctEl.style.marginRight = '';
           pctEl.style.fontSize = '';
           pctEl.textContent = `${(feeRate * 100).toFixed(2)}%`;
           
@@ -1312,7 +1316,7 @@ function initSendPayment() {
         const payerCurrency = Array.from(document.querySelectorAll('input[type="radio"][name="deduct"]')).find(r => r.checked)?.value || 'USD';
         const payeeCurrency = 'USD';
         // Calculate fees with minimum fee logic
-        const { payerFee, receiverFee, isBelowMinimum } = calculateFees(amount, payerRate, receiverRate);
+        const { payerFee, receiverFee, isBelowMinimum, actualServiceFee } = calculateFees(amount, payerRate, receiverRate);
         const youPay = amount + payerFee;
         const payeeGets = amount - receiverFee;
         const fmt = (v, cur) => `${Number(v||0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ${cur}`;
@@ -1374,6 +1378,8 @@ function initSendPayment() {
           receiverShareAmt: fmt(receiverFee, payeeCurrency),
           toBeDeducted: fmt(youPay, payerCurrency),
           receiverGets: fmt(payeeGets, payeeCurrency),
+          serviceMinApplied: !!isBelowMinimum,
+          serviceMinAmount: actualServiceFee,
           conversion: payerCurrency !== payeeCurrency ? `1 ${payerCurrency} = 1 ${payeeCurrency}` : '',
           nature: natureLabel,
           purpose: purposeLabel,
@@ -1449,7 +1455,7 @@ if (confirmTriggerInline) {
       const payerCurrency = Array.from(document.querySelectorAll('input[type="radio"][name="deduct"]')).find(r => r.checked)?.value || 'USD';
       const payeeCurrency = 'USD';
       // Calculate fees with minimum fee logic
-      const { payerFee, receiverFee, isBelowMinimum } = calculateFees(amount, payerRate, receiverRate);
+      const { payerFee, receiverFee, isBelowMinimum, actualServiceFee } = calculateFees(amount, payerRate, receiverRate);
       const youPay = amount + payerFee;
       const payeeGets = amount - receiverFee;
       const fmt = (v, cur) => `${Number(v||0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ${cur}`;
@@ -1704,7 +1710,7 @@ if (document.readyState === 'loading') {
           const youPay = amount + payerFee;
           const payeeGets = amount - receiverFee;
           const fmt = (v, cur) => `${Number(v||0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ${cur}`;
-          const data = {
+      const data = {
             receiverName: (getText('.summary-recipient .recipient-select__title') || '').replace(/^To\s+/i,''),
             receiverBank: getText('.summary-recipient .recipient-select__subtitle'),
             amountPayableFmt: fmt(amount, payeeCurrency),
@@ -1716,6 +1722,8 @@ if (document.readyState === 'loading') {
             receiverShareAmt: fmt(receiverFee, payeeCurrency),
             toBeDeducted: fmt(youPay, payerCurrency),
             receiverGets: fmt(payeeGets, payeeCurrency),
+        serviceMinApplied: !!isBelowMinimum,
+        serviceMinAmount: actualServiceFee,
             conversion: payerCurrency !== payeeCurrency ? `1 ${payerCurrency} = 1 ${payeeCurrency}` : '',
             dateTime: new Date().toLocaleString('en-GB', { hour12: false }),
             status: '{$status}',
