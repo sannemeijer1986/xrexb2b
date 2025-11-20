@@ -600,14 +600,14 @@ function initSendPayment() {
     const updateNotesCounter = () => {
       if (docNotes && notesCounter) {
         const len = String(docNotes.value || '').length;
-        const capped = Math.min(25, len);
-        notesCounter.textContent = `${capped}/25`;
+        const capped = Math.min(40, len);
+        notesCounter.textContent = `${capped}/40`;
         docNotes.classList.toggle('is-filled', capped > 0);
       }
       if (docNotesPost && notesCounterPost) {
         const len2 = String(docNotesPost.value || '').length;
-        const capped2 = Math.min(25, len2);
-        notesCounterPost.textContent = `${capped2}/25`;
+        const capped2 = Math.min(40, len2);
+        notesCounterPost.textContent = `${capped2}/40`;
         docNotesPost.classList.toggle('is-filled', capped2 > 0);
       }
     };

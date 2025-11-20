@@ -43,7 +43,14 @@
     display: flex;
     flex-direction: column-reverse; // primary on top
     gap: 12px;
-    .btn { width: 100%; }
+    .btn { 
+      width: 100%;
+      @media (max-width: ($bp-desktop - 1px)) {
+        // Use large button size on mobile
+        height: 52px;
+        font-size: 16px;
+      }
+    }
     @media (min-width: $bp-desktop) {
       flex-direction: row;
       justify-content: flex-end;

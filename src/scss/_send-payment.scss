@@ -753,10 +753,13 @@
   .receipt__subtitle {
     text-align: center;
     color: $text-primary;
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 700;
     margin-top: 8px;
     margin-bottom: 16px;
+    @media (min-width: $bp-desktop) {
+      font-size: 18px;
+    }
   }
   .receipt__actions {
     display: flex;
