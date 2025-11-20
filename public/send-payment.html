@@ -120,7 +120,7 @@
                     <span class="amount-input__suffix">USD</span>
                   </div>
                   <div class="amount-meta">
-                    <span class="amount-meta__text">Transaction limit: {$value} USD</span>
+                    <span class="amount-meta__text">Min/max per transaction {$minval} - {$maxval}</span>
                     <!-- <img class="amount-meta__icon" src="assets/icon_info.svg" width="16" height="16" alt=""> -->
                   </div>
                 </div>
@@ -449,8 +449,14 @@
                   <strong>1 USDT = 1 USD</strong>
                 </div> -->
                 <div class="summary-pair" data-summary="service-title">
-                  <span class="muted">Service fee</span>
-                  <strong>1.00%</strong>
+                  <span class="muted">
+                    Service fee
+                    <span class="service-fee__min-label" style="display: none;">min. 60 USD</span>
+                  </span>
+                  <strong>
+                    <span class="service-fee__percentage">1.00%</span>
+                    <span class="service-fee__minimum" style="display: none;">60.00 USD</span>
+                  </strong>
                 </div>
                 <div class="summary-pair summary-pair--sub" data-summary="service-payer">
                   <span class="muted">0% paid by you</span>

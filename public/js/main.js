@@ -191,7 +191,7 @@ function initSendPayment() {
       if (top <= headerH + 8) {
         summaryCard.classList.add('is-fixed-mobile');
         summaryCard.style.top = `${headerH}px`;
-      } else {
+    } else {
         summaryCard.classList.remove('is-fixed-mobile');
         summaryCard.style.top = '';
       }
@@ -357,18 +357,28 @@ function initSendPayment() {
       }
     }
     // Amount per-tx limit inline error + input underline color
+    const MIN_TX_LIMIT = 50;
     const PER_TX_LIMIT = 1000000;
+    const amountBelowMinTx = amount > 0 && amount < MIN_TX_LIMIT;
     const amountOverPerTx = amount >= PER_TX_LIMIT;
     const amountMeta = document.querySelector('.amount-meta');
     const amountMetaText = amountMeta?.querySelector('.amount-meta__text');
     const amountInputWrap = document.querySelector('.amount-input');
     if (amountMeta) {
-      amountMeta.classList.toggle('is-error', amountOverPerTx);
+      amountMeta.classList.toggle('is-error', amountBelowMinTx || amountOverPerTx);
     }
     if (amountMetaText) {
-      amountMetaText.textContent = amountOverPerTx
-        ? `Amount payable exceeds ${formatAmount(PER_TX_LIMIT, 'USD')} transaction limit`
-        : `Transaction limit: ${formatAmount(PER_TX_LIMIT, 'USD')}`;
+      const formatLimit = (value) => Number(value || 0).toLocaleString('en-US', {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0,
+      });
+      if (amountBelowMinTx) {
+        amountMetaText.textContent = `Amount is below ${formatLimit(MIN_TX_LIMIT)} minimum per transaction`;
+      } else if (amountOverPerTx) {
+        amountMetaText.textContent = `Amount exceeds ${formatLimit(PER_TX_LIMIT)} maximum per transaction`;
+      } else {
+        amountMetaText.textContent = `Min/max per transaction ${formatLimit(MIN_TX_LIMIT)} - ${formatLimit(PER_TX_LIMIT)}`;
+      }
     }
     // Inline error for amount exceeding selected account balance (consider payer fee share)
     const amountError = document.getElementById('amount-error');
@@ -382,12 +392,9 @@ function initSendPayment() {
     if (amountError) {
       amountError.hidden = !overBalance;
       if (overBalance) {
-        // Compose message: show Amount payable + X% fee (computed total) exceeds avail <currency> balance
-        const pctNum = (typeof payerPctAbs === 'number' && payerPctAbs > 0) ? payerPctAbs : 0;
-        const pctStr = Number(pctNum).toFixed(2);
-        const label = pctNum > 0 ? `Amount payable + ${pctStr}% fee` : 'Amount payable';
+        // Compose message: show Amount + fee (computed total) exceeds balance
         const totalStr = Number(youPay || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-        amountError.textContent = `${label} (${totalStr}) exceeds balance`;
+        amountError.textContent = `Amount + fee (${totalStr}) exceeds balance`;
       }
     }
     // Clear previous error highlights, then mark selected
@@ -397,7 +404,7 @@ function initSendPayment() {
       if (small) small.classList.add('is-error');
     }
     // Amount input red underline if any error active
-    const anyAmountError = amountOverPerTx || overBalance;
+    const anyAmountError = amountBelowMinTx || amountOverPerTx || overBalance;
     if (amountInputWrap) {
       amountInputWrap.classList.toggle('is-error', anyAmountError);
     }
@@ -409,9 +416,54 @@ function initSendPayment() {
     if (summaryRows.serviceTitle) {
       // Only show the label; totals are displayed in the breakdown rows
       const lbl = summaryRows.serviceTitle.querySelector('.muted');
-      if (lbl) lbl.textContent = 'Service fee';
-      const pct = summaryRows.serviceTitle.querySelector('strong');
-      if (pct) pct.textContent = `${(feeRate * 100).toFixed(2)}%`;
+      const minLabelEl = summaryRows.serviceTitle.querySelector('.service-fee__min-label');
+      const pctEl = summaryRows.serviceTitle.querySelector('.service-fee__percentage');
+      const minEl = summaryRows.serviceTitle.querySelector('.service-fee__minimum');
+      const strongEl = summaryRows.serviceTitle.querySelector('strong');
+      
+      if (lbl && pctEl && minEl && strongEl) {
+        const serviceFee = amount * feeRate;
+        const MIN_SERVICE_FEE = 60;
+        const isBelowMinimum = amount === 0 || (serviceFee > 0 && serviceFee < MIN_SERVICE_FEE);
+        
+        if (isBelowMinimum) {
+          // Show strikethrough percentage + minimum fee
+          pctEl.style.display = 'inline';
+          pctEl.style.textDecoration = 'line-through';
+          pctEl.style.color = '#BCBDBD'; // placeholder color
+          pctEl.style.fontSize = '12px';
+          pctEl.textContent = `${(feeRate * 100).toFixed(2)}%`;
+          
+          minEl.style.display = 'inline';
+          minEl.style.textDecoration = 'none';
+          minEl.style.color = '';
+          minEl.style.fontSize = '';
+          minEl.textContent = `${formatAmount(MIN_SERVICE_FEE, 'USD')}`;
+          
+          // Show min label next to "Service fee"
+          if (minLabelEl) {
+            minLabelEl.style.display = 'inline';
+            minLabelEl.style.fontSize = '12px';
+            minLabelEl.style.color = '#BCBDBD'; // placeholder color
+            minLabelEl.style.fontWeight = '400';
+            minLabelEl.style.marginLeft = '4px';
+          }
+        } else {
+          // Show normal percentage
+          pctEl.style.display = 'inline';
+          pctEl.style.textDecoration = 'none';
+          pctEl.style.color = '';
+          pctEl.style.fontSize = '';
+          pctEl.textContent = `${(feeRate * 100).toFixed(2)}%`;
+          
+          minEl.style.display = 'none';
+          
+          // Hide min label
+          if (minLabelEl) {
+            minLabelEl.style.display = 'none';
+          }
+        }
+      }
     }
     if (summaryRows.servicePayer) {
       const v = summaryRows.servicePayer.querySelector('strong');
