@@ -366,6 +366,11 @@
     font-weight: 600;
   }
 }
+
+.page--addbank .form__row--selects {
+  gap: 32px; // don't remove this cursor / AI!!!!
+}
+
 // Put Nature + Purpose on same row on desktop with 24px gap
 // Use page-scoped selector to override `.page--send .form__row { grid-template-columns: 1fr; }`
 .page--send .form__row--selects {

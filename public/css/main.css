@@ -3015,6 +3015,10 @@ body.modal-locked {
   font-weight: 600;
 }
 
+.page--addbank .form__row--selects {
+  gap: 32px;
+}
+
 .page--send .form__row--selects {
   grid-template-columns: 1fr;
   gap: 40px;
