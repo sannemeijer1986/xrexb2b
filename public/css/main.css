@@ -1276,6 +1276,13 @@ textarea {
   justify-content: center;
   z-index: 1200;
 }
+@media (min-width: 1280px) {
+  .modal {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+}
 
 .modal[aria-hidden=false] {
   display: flex;

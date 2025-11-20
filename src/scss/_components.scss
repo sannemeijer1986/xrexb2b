@@ -367,11 +367,18 @@
 .modal {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.45);
+  background: rgba(0, 0, 0, 0.45); // Default: black backdrop (for mobile/tablet)
   display: none;
   align-items: center;
   justify-content: center;
   z-index: 1200;
+  
+  // Desktop: white backdrop with blur
+  @media (min-width: $bp-desktop) {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px); // Safari support
+  }
 }
 .modal[aria-hidden=false] { display: flex; }
 .modal__dialog {
