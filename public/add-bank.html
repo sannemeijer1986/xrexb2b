@@ -111,12 +111,24 @@
               </div>
               <div class="form__row">
                 <div class="form__field form__field--clickable">
-                  <label for="bankDetails">Bank details</label>
+                  <label for="bankDetails">Bank</label>
                   <div class="clickable-input" id="bankDetailsWrapper">
-                    <input id="bankDetails" name="bankDetails" type="text" placeholder="Add bank details" readonly />
-                    <button type="button" class="clickable-input__icon" id="bankDetailsBtn" aria-label="Add bank details">
-                      <img id="bankDetailsIcon" src="assets/icon_add.svg" alt="" width="24" height="24" />
-                    </button>
+                    <input id="bankDetails" name="bankDetails" type="text" placeholder="Add bank details" readonly style="display: none;" />
+                    <div id="bankDetailsDisplay" class="clickable-input__display" style="display: none;">
+                      <div class="clickable-input__display-content">
+                        <div class="clickable-input__display-title" id="bankDetailsTitle"></div>
+                        <div class="clickable-input__display-details" id="bankDetailsDetails"></div>
+                      </div>
+                      <button type="button" class="clickable-input__icon" id="bankDetailsBtn" aria-label="Edit bank details">
+                        <img id="bankDetailsIcon" src="assets/icon_edit.svg" alt="" width="24" height="24" />
+                      </button>
+                    </div>
+                    <div id="bankDetailsEmpty" class="clickable-input__empty">
+                      <input type="text" placeholder="Add bank details" readonly />
+                      <button type="button" class="clickable-input__icon" aria-label="Add bank details">
+                        <img src="assets/icon_add.svg" alt="" width="24" height="24" />
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -124,10 +136,22 @@
                 <div class="form__field form__field--clickable">
                   <label for="accountDeclaration">Account declaration</label>
                   <div class="clickable-input" id="accountDeclarationWrapper">
-                    <input id="accountDeclaration" name="accountDeclaration" type="text" placeholder="Add declaration" readonly />
-                    <button type="button" class="clickable-input__icon" id="accountDeclarationBtn" aria-label="Add declaration">
-                      <img id="accountDeclarationIcon" src="assets/icon_add.svg" alt="" width="24" height="24" />
-                    </button>
+                    <input id="accountDeclaration" name="accountDeclaration" type="text" placeholder="Add declaration" readonly style="display: none;" />
+                    <div id="accountDeclarationDisplay" class="clickable-input__display" style="display: none;">
+                      <div class="clickable-input__display-content">
+                        <div class="clickable-input__display-title" id="accountDeclarationTitle"></div>
+                        <div class="clickable-input__display-details" id="accountDeclarationDetails"></div>
+                      </div>
+                      <button type="button" class="clickable-input__icon" id="accountDeclarationBtn" aria-label="Edit account declaration">
+                        <img id="accountDeclarationIcon" src="assets/icon_edit.svg" alt="" width="24" height="24" />
+                      </button>
+                    </div>
+                    <div id="accountDeclarationEmpty" class="clickable-input__empty">
+                      <input type="text" placeholder="Add declaration" readonly />
+                      <button type="button" class="clickable-input__icon" aria-label="Add declaration">
+                        <img src="assets/icon_add.svg" alt="" width="24" height="24" />
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -135,8 +159,8 @@
               <div class="form__row">
                 <div class="form__field">
                   <h3 class="card__title card__title--within" style="margin-bottom: 16px;">Bank account document proof</h3>
-                  <div class="upload-area" style="border: 1px solid #EEEEEE; border-radius: 8px; padding: 32px; text-align: center; background: #fff;">
-                    <div style="display: flex; flex-direction: column; gap: 32px; align-items: center;">
+                  <div id="bankProofUpload" class="upload-area" style="border: 1px solid #EEEEEE; border-radius: 8px; padding: 32px; text-align: center; background: #fff;">
+                    <div id="bankProofUploadEmpty" style="display: flex; flex-direction: column; gap: 32px; align-items: center;">
                       <div style="display: flex; flex-direction: column; gap: 16px; align-items: center; width: 100%;">
                         <div style="width: 60px; height: 60px; border-radius: 50%; background: #EEEEEE; display: flex; align-items: center; justify-content: center;">
                           <img src="assets/icon_upload_1.svg" alt="" width="28" height="28" />
@@ -159,7 +183,17 @@
                           </div>
                         </div>
                       </div>
-                      <button type="button" class="btn btn--primary btn--sm" style="width: 200px;">Upload</button>
+                      <button type="button" id="bankProofUploadBtn" class="btn btn--primary btn--sm" style="width: 200px;">Upload</button>
+                    </div>
+                    <div id="bankProofUploadFilled" style="display: none; flex-direction: column; gap: 16px; align-items: center; width: 100%;">
+                      <div style="width: 60px; height: 60px; border-radius: 50%; background: #D2F5DE; display: flex; align-items: center; justify-content: center;">
+                        <img src="assets/icon_snackbar_success.svg" alt="" width="28" height="28" />
+                      </div>
+                      <div style="text-align: center;">
+                        <p id="bankProofFileName" style="font-family: 'Manrope', sans-serif; font-weight: 700; font-size: 18px; color: #336AFF; margin: 0 0 4px 0;">Proof1.jpg</p>
+                        <p style="font-family: 'Manrope', sans-serif; font-weight: 600; font-size: 14px; color: #797A7B; margin: 0;">(jpg, png, pdf under 50 MB)</p>
+                      </div>
+                      <button type="button" id="bankProofRemoveBtn" class="btn btn--text" style="color: #DD483C; font-weight: 700; font-size: 14px; padding: 0; background: transparent; border: none;">Remove file</button>
                     </div>
                   </div>
                 </div>
@@ -275,7 +309,7 @@
               </div>
               <div class="form__row">
                 <div class="form__field">
-                  <label for="accountNickname">Account nickname (optional)</label>
+                  <label for="accountNickname">Account nickname (Optional)</label>
                   <input id="accountNickname" name="accountNickname" type="text" placeholder="Give your bank account a nickname" />
                 </div>
               </div>
@@ -306,20 +340,15 @@
                   <label for="accountUsedFor">This account is used for</label>
                   <select id="accountUsedFor" name="accountUsedFor">
                     <option value="" selected disabled>Select</option>
-                    <option>Business transactions</option>
-                    <option>Personal transactions</option>
-                    <option>Investment</option>
-                    <option>Other</option>
+                    <option value="incoming">Incoming only: transferring funds from this account</option>
+                    <option value="outgoing">Outgoing only: receiving funds to this account</option>
+                    <option value="both">Both Incoming & Outgoing</option>
                   </select>
                 </div>
                 <div class="form__field form__field--select">
                   <label for="declarationPurpose">Purpose</label>
-                  <select id="declarationPurpose" name="declarationPurpose">
-                    <option value="" selected disabled>Select</option>
-                    <option>Remittance</option>
-                    <option>Payment</option>
-                    <option>Transfer</option>
-                    <option>Other</option>
+                  <select id="declarationPurpose" name="declarationPurpose" disabled>
+                    <option value="remittance" selected>Remittance</option>
                   </select>
                 </div>
               </div>

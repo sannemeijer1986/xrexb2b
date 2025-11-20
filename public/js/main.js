@@ -2097,12 +2097,33 @@ if (document.readyState === 'loading') {
   if (nextBtnStep2 && accountHolderName) {
     const validateStep2 = () => {
       const hasName = accountHolderName.value && accountHolderName.value.trim() !== '';
-      nextBtnStep2.disabled = !hasName;
-      nextBtnStep2.setAttribute('aria-disabled', String(!hasName));
+      const bankDetailsFilled = document.getElementById('bankDetailsDisplay')?.style.display !== 'none';
+      const accountDeclarationFilled = document.getElementById('accountDeclarationDisplay')?.style.display !== 'none';
+      const uploadFilled = typeof window.getBankProofUploaded === 'function' && window.getBankProofUploaded() !== null;
+      
+      const isValid = hasName && bankDetailsFilled && accountDeclarationFilled && uploadFilled;
+      nextBtnStep2.disabled = !isValid;
+      nextBtnStep2.setAttribute('aria-disabled', String(!isValid));
     };
+    
+    // Expose globally for upload handler
+    window.validateStep2Form = validateStep2;
     
     accountHolderName.addEventListener('input', validateStep2);
     accountHolderName.addEventListener('change', validateStep2);
+    
+    // Watch for bank details and account declaration changes
+    const bankDetailsInput = document.getElementById('bankDetails');
+    const accountDeclarationInput = document.getElementById('accountDeclaration');
+    if (bankDetailsInput) {
+      bankDetailsInput.addEventListener('input', validateStep2);
+      bankDetailsInput.addEventListener('change', validateStep2);
+    }
+    if (accountDeclarationInput) {
+      accountDeclarationInput.addEventListener('input', validateStep2);
+      accountDeclarationInput.addEventListener('change', validateStep2);
+    }
+    
     validateStep2();
   }
 })();
@@ -2262,21 +2283,9 @@ if (document.readyState === 'loading') {
       // Fill step 2 fields
       const f = getStep2Fields();
       if (f.accountHolderName) f.accountHolderName.value = 'NovaQuill Ltd';
-      if (f.bankDetails) {
-        f.bankDetails.value = 'DBS Bank • Account: 012-345678-9 • SWIFT: DBSSSGSG • Singapore, Singapore';
-        // Update icon
-        const bankDetailsIcon = document.getElementById('bankDetailsIcon');
-        if (bankDetailsIcon) bankDetailsIcon.src = 'assets/icon_edit.svg';
-      }
-      if (f.accountDeclaration) {
-        f.accountDeclaration.value = 'Used for: Business transactions • Purpose: Remittance • Avg transactions: 50/month • Avg volume: 100000 USD/month';
-        // Update icon
-        const accountDeclarationIcon = document.getElementById('accountDeclarationIcon');
-        if (accountDeclarationIcon) accountDeclarationIcon.src = 'assets/icon_edit.svg';
-      }
       Object.values(f).forEach(trigger);
       
-      // Also fill bank details modal fields
+      // Fill bank details modal fields and trigger save
       const bankDetailsModal = document.getElementById('bankDetailsModal');
       if (bankDetailsModal) {
         const bankCountry = bankDetailsModal.querySelector('#bankCountry');
@@ -2300,9 +2309,17 @@ if (document.readyState === 'loading') {
             el.dispatchEvent(new Event('change', { bubbles: true }));
           }
         });
+        
+        // Trigger save to update filled state UI
+        setTimeout(() => {
+          const saveBtn = document.getElementById('saveBankDetails');
+          if (saveBtn && !saveBtn.disabled) {
+            saveBtn.click();
+          }
+        }, 10);
       }
       
-      // Also fill account declaration modal fields
+      // Fill account declaration modal fields and trigger save
       const accountDeclarationModal = document.getElementById('accountDeclarationModal');
       if (accountDeclarationModal) {
         const accountUsedFor = accountDeclarationModal.querySelector('#accountUsedFor');
@@ -2310,8 +2327,8 @@ if (document.readyState === 'loading') {
         const avgTransactions = accountDeclarationModal.querySelector('#avgTransactions');
         const avgVolume = accountDeclarationModal.querySelector('#avgVolume');
         
-        if (accountUsedFor) accountUsedFor.value = 'Business transactions';
-        if (declarationPurpose) declarationPurpose.value = 'Remittance';
+        if (accountUsedFor) accountUsedFor.value = 'both';
+        if (declarationPurpose) declarationPurpose.value = 'remittance';
         if (avgTransactions) avgTransactions.value = '50';
         if (avgVolume) avgVolume.value = '100000';
         
@@ -2322,6 +2339,19 @@ if (document.readyState === 'loading') {
             el.dispatchEvent(new Event('change', { bubbles: true }));
           }
         });
+        
+        // Trigger save to update filled state UI
+        setTimeout(() => {
+          const saveBtn = document.getElementById('saveAccountDeclaration');
+          if (saveBtn && !saveBtn.disabled) {
+            saveBtn.click();
+          }
+        }, 20);
+      }
+      
+      // Fill upload
+      if (typeof window.setBankProofUploaded === 'function') {
+        window.setBankProofUploaded('Proof1.jpg');
       }
     }
   });
@@ -2376,11 +2406,18 @@ if (document.readyState === 'loading') {
       // Clear step 2 fields
       const f = getStep2Fields();
       Object.values(f).forEach((el) => { if (el) el.value = ''; trigger(el); });
-      // Reset icons
-      const bankDetailsIcon = document.getElementById('bankDetailsIcon');
-      const accountDeclarationIcon = document.getElementById('accountDeclarationIcon');
-      if (bankDetailsIcon) bankDetailsIcon.src = 'assets/icon_add.svg';
-      if (accountDeclarationIcon) accountDeclarationIcon.src = 'assets/icon_add.svg';
+      
+      // Clear bank details filled state UI
+      const bankDetailsDisplay = document.getElementById('bankDetailsDisplay');
+      const bankDetailsEmpty = document.getElementById('bankDetailsEmpty');
+      if (bankDetailsDisplay) bankDetailsDisplay.style.display = 'none';
+      if (bankDetailsEmpty) bankDetailsEmpty.style.display = 'flex';
+      
+      // Clear account declaration filled state UI
+      const accountDeclarationDisplay = document.getElementById('accountDeclarationDisplay');
+      const accountDeclarationEmpty = document.getElementById('accountDeclarationEmpty');
+      if (accountDeclarationDisplay) accountDeclarationDisplay.style.display = 'none';
+      if (accountDeclarationEmpty) accountDeclarationEmpty.style.display = 'flex';
       
       // Also clear bank details modal fields
       const bankDetailsModal = document.getElementById('bankDetailsModal');
@@ -2417,7 +2454,7 @@ if (document.readyState === 'loading') {
         const avgVolume = accountDeclarationModal.querySelector('#avgVolume');
         
         if (accountUsedFor) accountUsedFor.value = '';
-        if (declarationPurpose) declarationPurpose.value = '';
+        if (declarationPurpose) declarationPurpose.value = 'remittance';
         if (avgTransactions) avgTransactions.value = '';
         if (avgVolume) avgVolume.value = '';
         
@@ -2428,6 +2465,11 @@ if (document.readyState === 'loading') {
             el.dispatchEvent(new Event('change', { bubbles: true }));
           }
         });
+      }
+      
+      // Clear upload
+      if (typeof window.setBankProofNotUploaded === 'function') {
+        window.setBankProofNotUploaded();
       }
     }
   });
@@ -2442,12 +2484,20 @@ if (document.readyState === 'loading') {
   const bankDetailsBtn = document.getElementById('bankDetailsBtn');
   const bankDetailsIcon = document.getElementById('bankDetailsIcon');
   const bankDetailsWrapper = document.getElementById('bankDetailsWrapper');
+  const bankDetailsDisplay = document.getElementById('bankDetailsDisplay');
+  const bankDetailsEmpty = document.getElementById('bankDetailsEmpty');
+  const bankDetailsTitle = document.getElementById('bankDetailsTitle');
+  const bankDetailsDetails = document.getElementById('bankDetailsDetails');
   const modal = document.getElementById('bankDetailsModal');
   
-  if (!bankDetailsInput || !bankDetailsBtn || !bankDetailsIcon || !modal) return;
+  if (!bankDetailsInput || !bankDetailsWrapper || !modal) return;
+  
+  // Store bank details data
+  let bankDetailsData = null;
   
   // Format bank details from modal fields
   const formatBankDetails = (data) => {
+    bankDetailsData = data;
     const parts = [];
     if (data.bankName) parts.push(data.bankName);
     if (data.accountNumber) parts.push(`Account: ${data.accountNumber}`);
@@ -2458,13 +2508,34 @@ if (document.readyState === 'loading') {
     return parts.join(' • ') || '';
   };
   
-  // Update icon based on field state
-  const updateIcon = () => {
-    if (bankDetailsInput.value && bankDetailsInput.value.trim()) {
-      bankDetailsIcon.src = 'assets/icon_edit.svg';
-    } else {
-      bankDetailsIcon.src = 'assets/icon_add.svg';
+  // Render filled state UI
+  const renderFilledState = () => {
+    if (!bankDetailsData) return;
+    
+    const title = bankDetailsData.accountNickname || bankDetailsData.bankName || 'Bank Account';
+    const details = [];
+    if (bankDetailsData.bankCountry) details.push(`Country : ${bankDetailsData.bankCountry}`);
+    if (bankDetailsData.bankName) details.push(`Bank: ${bankDetailsData.bankName}`);
+    if (bankDetailsData.bankCity) details.push(`Bank city: ${bankDetailsData.bankCity}`);
+    if (bankDetailsData.swiftCode) details.push(`SWIFT : ${bankDetailsData.swiftCode}`);
+    if (bankDetailsData.accountNumber) details.push(`Account number : ${bankDetailsData.accountNumber}`);
+    
+    if (bankDetailsTitle) bankDetailsTitle.textContent = title;
+    if (bankDetailsDetails) {
+      bankDetailsDetails.innerHTML = details.map(d => `<p style="margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${d}</p>`).join('');
     }
+    
+    if (bankDetailsDisplay) bankDetailsDisplay.style.display = 'flex';
+    if (bankDetailsEmpty) bankDetailsEmpty.style.display = 'none';
+    if (bankDetailsInput) bankDetailsInput.value = formatBankDetails(bankDetailsData);
+  };
+  
+  // Render empty state UI
+  const renderEmptyState = () => {
+    bankDetailsData = null;
+    if (bankDetailsDisplay) bankDetailsDisplay.style.display = 'none';
+    if (bankDetailsEmpty) bankDetailsEmpty.style.display = 'flex';
+    if (bankDetailsInput) bankDetailsInput.value = '';
   };
   
   // Open modal
@@ -2510,9 +2581,8 @@ if (document.readyState === 'loading') {
     }
     
     // Format and set bank details
-    const formatted = formatBankDetails({ bankCountry, bankName, bankCity, swiftCode, accountNumber, accountNickname });
-    bankDetailsInput.value = formatted;
-    updateIcon();
+    formatBankDetails({ bankCountry, bankName, bankCity, swiftCode, accountNumber, accountNickname });
+    renderFilledState();
     
     // Trigger change event
     bankDetailsInput.dispatchEvent(new Event('input', { bubbles: true }));
@@ -2522,25 +2592,29 @@ if (document.readyState === 'loading') {
   };
   
   // Event listeners
-  bankDetailsBtn.addEventListener('click', (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    openModal();
-  });
-  
-  bankDetailsInput.addEventListener('click', (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    openModal();
-  });
+  if (bankDetailsBtn) {
+    bankDetailsBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      openModal();
+    });
+  }
   
   if (bankDetailsWrapper) {
     bankDetailsWrapper.style.cursor = 'pointer';
     bankDetailsWrapper.addEventListener('click', (e) => {
-      if (e.target === bankDetailsWrapper) {
+      if (e.target === bankDetailsWrapper || e.target.closest('.clickable-input__empty')) {
         openModal();
       }
     });
+  }
+  
+  // Initialize state
+  if (bankDetailsInput.value && bankDetailsInput.value.trim()) {
+    // If there's existing data, try to parse it (for Fill/Clear)
+    renderFilledState();
+  } else {
+    renderEmptyState();
   }
   
   // Validation function
@@ -2598,13 +2672,6 @@ if (document.readyState === 'loading') {
     if (e.target === modal) closeModal();
   });
   
-  // Initialize icon state
-  updateIcon();
-  
-  // Watch for external changes
-  bankDetailsInput.addEventListener('input', updateIcon);
-  bankDetailsInput.addEventListener('change', updateIcon);
-  
   // Toggle is-filled class on modal inputs and selects when they have values
   const toggleFilled = (el) => {
     if (!el) return;
@@ -2638,27 +2705,64 @@ if (document.readyState === 'loading') {
   const accountDeclarationBtn = document.getElementById('accountDeclarationBtn');
   const accountDeclarationIcon = document.getElementById('accountDeclarationIcon');
   const accountDeclarationWrapper = document.getElementById('accountDeclarationWrapper');
+  const accountDeclarationDisplay = document.getElementById('accountDeclarationDisplay');
+  const accountDeclarationEmpty = document.getElementById('accountDeclarationEmpty');
+  const accountDeclarationTitle = document.getElementById('accountDeclarationTitle');
+  const accountDeclarationDetails = document.getElementById('accountDeclarationDetails');
   const modal = document.getElementById('accountDeclarationModal');
   
-  if (!accountDeclarationInput || !accountDeclarationBtn || !accountDeclarationIcon || !modal) return;
+  if (!accountDeclarationInput || !accountDeclarationWrapper || !modal) return;
+  
+  // Store account declaration data
+  let accountDeclarationData = null;
+  
+  // Map account used for values to display text
+  const getAccountUsedForText = (value) => {
+    const map = {
+      'incoming': 'Incoming only: transferring funds from this account',
+      'outgoing': 'Outgoing only: receiving funds to this account',
+      'both': 'Both Incoming & Outgoing'
+    };
+    return map[value] || value;
+  };
   
   // Format account declaration from modal fields
   const formatAccountDeclaration = (data) => {
+    accountDeclarationData = data;
     const parts = [];
-    if (data.accountUsedFor) parts.push(`Used for: ${data.accountUsedFor}`);
+    if (data.accountUsedFor) parts.push(`Used for: ${getAccountUsedForText(data.accountUsedFor)}`);
     if (data.purpose) parts.push(`Purpose: ${data.purpose}`);
     if (data.avgTransactions) parts.push(`Avg transactions: ${data.avgTransactions}/month`);
     if (data.avgVolume) parts.push(`Avg volume: ${data.avgVolume} USD/month`);
     return parts.join(' • ') || '';
   };
   
-  // Update icon based on field state
-  const updateIcon = () => {
-    if (accountDeclarationInput.value && accountDeclarationInput.value.trim()) {
-      accountDeclarationIcon.src = 'assets/icon_edit.svg';
-    } else {
-      accountDeclarationIcon.src = 'assets/icon_add.svg';
+  // Render filled state UI
+  const renderFilledState = () => {
+    if (!accountDeclarationData) return;
+    
+    const title = getAccountUsedForText(accountDeclarationData.accountUsedFor) || 'Account Declaration';
+    const details = [];
+    if (accountDeclarationData.purpose) details.push(accountDeclarationData.purpose);
+    if (accountDeclarationData.avgTransactions) details.push(`${accountDeclarationData.avgTransactions} Transactions / month`);
+    if (accountDeclarationData.avgVolume) details.push(`${parseFloat(accountDeclarationData.avgVolume).toLocaleString('en-US')} USD / month`);
+    
+    if (accountDeclarationTitle) accountDeclarationTitle.textContent = title;
+    if (accountDeclarationDetails) {
+      accountDeclarationDetails.innerHTML = details.map(d => `<p style="margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${d}</p>`).join('');
     }
+    
+    if (accountDeclarationDisplay) accountDeclarationDisplay.style.display = 'flex';
+    if (accountDeclarationEmpty) accountDeclarationEmpty.style.display = 'none';
+    if (accountDeclarationInput) accountDeclarationInput.value = formatAccountDeclaration(accountDeclarationData);
+  };
+  
+  // Render empty state UI
+  const renderEmptyState = () => {
+    accountDeclarationData = null;
+    if (accountDeclarationDisplay) accountDeclarationDisplay.style.display = 'none';
+    if (accountDeclarationEmpty) accountDeclarationEmpty.style.display = 'flex';
+    if (accountDeclarationInput) accountDeclarationInput.value = '';
   };
   
   // Open modal
@@ -2702,9 +2806,8 @@ if (document.readyState === 'loading') {
     }
     
     // Format and set account declaration
-    const formatted = formatAccountDeclaration({ accountUsedFor, purpose, avgTransactions, avgVolume });
-    accountDeclarationInput.value = formatted;
-    updateIcon();
+    formatAccountDeclaration({ accountUsedFor, purpose, avgTransactions, avgVolume });
+    renderFilledState();
     
     // Trigger change event
     accountDeclarationInput.dispatchEvent(new Event('input', { bubbles: true }));
@@ -2714,25 +2817,29 @@ if (document.readyState === 'loading') {
   };
   
   // Event listeners
-  accountDeclarationBtn.addEventListener('click', (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    openModal();
-  });
-  
-  accountDeclarationInput.addEventListener('click', (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    openModal();
-  });
+  if (accountDeclarationBtn) {
+    accountDeclarationBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      openModal();
+    });
+  }
   
   if (accountDeclarationWrapper) {
     accountDeclarationWrapper.style.cursor = 'pointer';
     accountDeclarationWrapper.addEventListener('click', (e) => {
-      if (e.target === accountDeclarationWrapper) {
+      if (e.target === accountDeclarationWrapper || e.target.closest('.clickable-input__empty')) {
         openModal();
       }
     });
+  }
+  
+  // Initialize state
+  if (accountDeclarationInput.value && accountDeclarationInput.value.trim()) {
+    // If there's existing data, try to parse it (for Fill/Clear)
+    renderFilledState();
+  } else {
+    renderEmptyState();
   }
   
   // Validation function
@@ -2788,13 +2895,6 @@ if (document.readyState === 'loading') {
     if (e.target === modal) closeModal();
   });
   
-  // Initialize icon state
-  updateIcon();
-  
-  // Watch for external changes
-  accountDeclarationInput.addEventListener('input', updateIcon);
-  accountDeclarationInput.addEventListener('change', updateIcon);
-  
   // Toggle is-filled class on modal inputs and selects when they have values
   const toggleFilled = (el) => {
     if (!el) return;
@@ -2817,6 +2917,84 @@ if (document.readyState === 'loading') {
     input.addEventListener('input', updateField);
     input.addEventListener('change', updateField);
   });
+})();
+
+// Add Bank: Bank proof upload handler
+(function initBankProofUpload() {
+  const root = document.querySelector('main.page--addbank');
+  if (!root) return;
+  
+  const uploadArea = document.getElementById('bankProofUpload');
+  const uploadEmpty = document.getElementById('bankProofUploadEmpty');
+  const uploadFilled = document.getElementById('bankProofUploadFilled');
+  const uploadBtn = document.getElementById('bankProofUploadBtn');
+  const removeBtn = document.getElementById('bankProofRemoveBtn');
+  const fileNameEl = document.getElementById('bankProofFileName');
+  
+  if (!uploadArea || !uploadEmpty || !uploadFilled || !uploadBtn || !removeBtn || !fileNameEl) return;
+  
+  let uploadedFileName = null;
+  
+  // Set uploaded state
+  const setUploaded = (fileName = 'Proof1.jpg') => {
+    uploadedFileName = fileName;
+    fileNameEl.textContent = fileName;
+    uploadEmpty.style.display = 'none';
+    uploadFilled.style.display = 'flex';
+    
+    // Trigger validation update
+    const nextBtn = document.getElementById('ab-next-step2');
+    if (nextBtn && typeof window.validateStep2Form === 'function') {
+      window.validateStep2Form();
+    }
+  };
+  
+  // Set not uploaded state
+  const setNotUploaded = () => {
+    uploadedFileName = null;
+    uploadEmpty.style.display = 'flex';
+    uploadFilled.style.display = 'none';
+    
+    // Show snackbar
+    if (typeof window.showSnackbar === 'function') {
+      window.showSnackbar('File removed');
+    } else {
+      const el = document.createElement('div');
+      el.className = 'snackbar snackbar--success';
+      el.innerHTML = '<img class="snackbar__icon" src="assets/icon_snackbar_success.svg" alt=""/><span>File removed</span>';
+      document.body.appendChild(el);
+      requestAnimationFrame(() => el.classList.add('is-visible'));
+      setTimeout(() => {
+        el.classList.remove('is-visible');
+        setTimeout(() => el.remove(), 250);
+      }, 2000);
+    }
+    
+    // Trigger validation update
+    const nextBtn = document.getElementById('ab-next-step2');
+    if (nextBtn && typeof window.validateStep2Form === 'function') {
+      window.validateStep2Form();
+    }
+  };
+  
+  // Upload button handler
+  uploadBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    // In a real app, this would open a file picker
+    // For prototype, just set uploaded state
+    setUploaded('Proof1.jpg');
+  });
+  
+  // Remove button handler
+  removeBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    setNotUploaded();
+  });
+  
+  // Expose functions for Fill/Clear
+  window.setBankProofUploaded = setUploaded;
+  window.setBankProofNotUploaded = setNotUploaded;
+  window.getBankProofUploaded = () => uploadedFileName;
 })();
 
 // Add Bank: Business address modal handler
