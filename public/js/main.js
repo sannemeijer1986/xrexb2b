@@ -1964,7 +1964,12 @@ if (document.readyState === 'loading') {
     if (f.regDate) f.regDate.value = '2024-01-15';
     if (f.country) f.country.value = 'Singapore';
     if (f.regNum) f.regNum.value = '202401234N';
-    if (f.businessAddress) f.businessAddress.value = '123 Market Street, Singapore 049483';
+    if (f.businessAddress) {
+      f.businessAddress.value = '5 Battery Road, Singapore 049901';
+      // Update icon after setting value
+      const businessAddressIcon = document.getElementById('businessAddressIcon');
+      if (businessAddressIcon) businessAddressIcon.src = 'assets/icon_edit.svg';
+    }
     if (f.email) f.email.value = 'accounts@novaquill.com';
     Object.values(f).forEach(trigger);
   });
@@ -1973,7 +1978,151 @@ if (document.readyState === 'loading') {
     e.preventDefault();
     const f = getFields();
     Object.values(f).forEach((el) => { if (el) el.value = ''; trigger(el); });
+    // Also clear business address and reset icon
+    const businessAddress = form.querySelector('#businessAddress');
+    const businessAddressIcon = document.getElementById('businessAddressIcon');
+    if (businessAddress) businessAddress.value = '';
+    if (businessAddressIcon) businessAddressIcon.src = 'assets/icon_add.svg';
   });
+})();
+
+// Add Bank: Business address modal handler
+(function initBusinessAddressModal() {
+  const root = document.querySelector('main.page--addbank');
+  if (!root) return;
+  
+  const businessAddressInput = document.getElementById('businessAddress');
+  const businessAddressBtn = document.getElementById('businessAddressBtn');
+  const businessAddressIcon = document.getElementById('businessAddressIcon');
+  const businessAddressWrapper = document.getElementById('businessAddressWrapper');
+  const modal = document.getElementById('businessAddressModal');
+  
+  if (!businessAddressInput || !businessAddressBtn || !businessAddressIcon || !modal) return;
+  
+  // Format address from modal fields
+  const formatAddress = (data) => {
+    const parts = [];
+    if (data.line1) parts.push(data.line1);
+    if (data.line2) parts.push(data.line2);
+    if (data.city) parts.push(data.city);
+    if (data.state) parts.push(data.state);
+    if (data.postal) parts.push(data.postal);
+    if (data.country) parts.push(data.country);
+    return parts.join(', ');
+  };
+  
+  // Update icon based on field state
+  const updateIcon = () => {
+    if (businessAddressInput.value && businessAddressInput.value.trim()) {
+      businessAddressIcon.src = 'assets/icon_edit.svg';
+    } else {
+      businessAddressIcon.src = 'assets/icon_add.svg';
+    }
+  };
+  
+  // Open modal
+  const openModal = () => {
+    // Pre-fill modal if address exists
+    const currentValue = businessAddressInput.value;
+    if (currentValue) {
+      // Try to parse existing address (simple approach - in real app would need better parsing)
+      // For now, just clear and let user re-enter
+    }
+    modal.setAttribute('aria-hidden', 'false');
+    document.documentElement.classList.add('modal-open');
+    document.body.classList.add('modal-open');
+    try {
+      const y = window.scrollY || window.pageYOffset || 0;
+      document.body.dataset.scrollY = String(y);
+      document.body.style.top = `-${y}px`;
+      document.body.classList.add('modal-locked');
+    } catch (_) {}
+  };
+  
+  // Close modal
+  const closeModal = () => {
+    modal.setAttribute('aria-hidden', 'true');
+    document.documentElement.classList.remove('modal-open');
+    document.body.classList.remove('modal-open');
+    try {
+      const y = parseInt(document.body.dataset.scrollY || '0', 10) || 0;
+      document.body.classList.remove('modal-locked');
+      document.body.style.top = '';
+      delete document.body.dataset.scrollY;
+      window.scrollTo(0, y);
+    } catch (_) {}
+  };
+  
+  // Save address
+  const saveAddress = () => {
+    const country = document.getElementById('addressCountry')?.value || '';
+    const state = document.getElementById('addressState')?.value || '';
+    const city = document.getElementById('addressCity')?.value || '';
+    const line1 = document.getElementById('addressLine1')?.value || '';
+    const line2 = document.getElementById('addressLine2')?.value || '';
+    const postal = document.getElementById('addressPostal')?.value || '';
+    
+    // Validate required fields
+    if (!country || !city || !line1 || !postal) {
+      // In a real app, show validation errors
+      return;
+    }
+    
+    // Format and set address
+    const formatted = formatAddress({ country, state, city, line1, line2, postal });
+    businessAddressInput.value = formatted;
+    updateIcon();
+    
+    // Trigger change event for form validation
+    businessAddressInput.dispatchEvent(new Event('input', { bubbles: true }));
+    businessAddressInput.dispatchEvent(new Event('change', { bubbles: true }));
+    
+    closeModal();
+  };
+  
+  // Event listeners
+  businessAddressBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    openModal();
+  });
+  
+  businessAddressInput.addEventListener('click', (e) => {
+    e.preventDefault();
+    openModal();
+  });
+  
+  businessAddressWrapper.addEventListener('click', (e) => {
+    // Only handle clicks on the wrapper itself, not on children
+    if (e.target === businessAddressWrapper) {
+      openModal();
+    }
+  });
+  
+  // Save button
+  const saveBtn = document.getElementById('saveBusinessAddress');
+  if (saveBtn) {
+    saveBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      saveAddress();
+    });
+  }
+  
+  // Close button handlers (using existing modal close logic)
+  modal.querySelectorAll('[data-modal-close]').forEach((btn) => {
+    btn.addEventListener('click', () => closeModal());
+  });
+  
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) closeModal();
+  });
+  
+  // Initialize icon state
+  updateIcon();
+  
+  // Watch for external changes (e.g., from Fill/Clear buttons)
+  businessAddressInput.addEventListener('input', updateIcon);
+  businessAddressInput.addEventListener('change', updateIcon);
 })();
 
 

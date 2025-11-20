@@ -100,4 +100,85 @@ textarea { resize: vertical; }
   strong { color: $text-primary; font-weight: 600; }
 }
 
+// Clickable input field (for business address pattern)
+.form__field--clickable {
+  .clickable-input {
+    position: relative;
+    display: flex;
+    align-items: center;
+    
+    input[readonly] {
+      cursor: pointer;
+      padding-right: 48px; // Space for icon
+    }
+    
+    .clickable-input__icon {
+      position: absolute;
+      right: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: transparent;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 20px;
+      height: 20px;
+      z-index: 1;
+      
+      img {
+        display: block;
+        width: 20px;
+        height: 20px;
+      }
+      
+      &:hover {
+        opacity: 0.8;
+      }
+      
+      &:active {
+        transform: translateY(-50%) scale(0.95);
+      }
+    }
+  }
+}
+
+// Required field asterisk
+.required {
+  color: $text-primary;
+}
+
+// Alert warning box
+.alert {
+  border-radius: 8px;
+  padding: 8px;
+  
+  &--warning {
+    background: rgba(242, 132, 86, 0.15);
+  }
+  
+  .alert__header {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  
+  .alert__icon {
+    flex-shrink: 0;
+    width: 16px;
+    height: 16px;
+    margin-top: 2px;
+  }
+  
+  .alert__title {
+    font-family: $font-family-sans;
+    font-size: 14px;
+    font-weight: 600;
+    color: #F28456;
+    line-height: 1.4;
+  }
+}
+
 

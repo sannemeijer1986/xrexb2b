@@ -573,6 +573,73 @@ textarea {
   font-weight: 600;
 }
 
+.form__field--clickable .clickable-input {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.form__field--clickable .clickable-input input[readonly] {
+  cursor: pointer;
+  padding-right: 48px;
+}
+.form__field--clickable .clickable-input .clickable-input__icon {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  z-index: 1;
+}
+.form__field--clickable .clickable-input .clickable-input__icon img {
+  display: block;
+  width: 20px;
+  height: 20px;
+}
+.form__field--clickable .clickable-input .clickable-input__icon:hover {
+  opacity: 0.8;
+}
+.form__field--clickable .clickable-input .clickable-input__icon:active {
+  transform: translateY(-50%) scale(0.95);
+}
+
+.required {
+  color: #0f172a;
+}
+
+.alert {
+  border-radius: 8px;
+  padding: 8px;
+}
+.alert--warning {
+  background: rgba(242, 132, 86, 0.15);
+}
+.alert .alert__header {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+.alert .alert__icon {
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  margin-top: 2px;
+}
+.alert .alert__title {
+  font-family: "Manrope", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: #F28456;
+  line-height: 1.4;
+}
+
 .btn {
   display: inline-flex;
   align-items: center;

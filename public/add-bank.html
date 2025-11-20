@@ -78,9 +78,14 @@
                 </div>
               </div>
               <div class="form__row">
-                <div class="form__field">
+                <div class="form__field form__field--clickable">
                   <label for="businessAddress">Registered business address</label>
-                  <input id="businessAddress" name="businessAddress" type="text" placeholder="Enter registered address" />
+                  <div class="clickable-input" id="businessAddressWrapper">
+                    <input id="businessAddress" name="businessAddress" type="text" placeholder="Enter registered address" readonly />
+                    <button type="button" class="clickable-input__icon" id="businessAddressBtn" aria-label="Add business address">
+                      <img id="businessAddressIcon" src="assets/icon_add.svg" alt="" width="20" height="20" />
+                    </button>
+                  </div>
                 </div>
               </div>
               <div class="form__row">
@@ -143,6 +148,75 @@
         </div>
       </div>
     </footer>
+
+    <!-- Modal: Add business address -->
+    <div id="businessAddressModal" class="modal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="businessAddressModalTitle">
+      <div class="modal-wrapper">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h2 id="businessAddressModalTitle">Add business address</h2>
+            <button class="modal-close" data-modal-close aria-label="Close modal">
+              <img src="assets/icon_close.svg" width="24" height="24" alt="close" />
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="alert alert--warning">
+              <div class="alert__header">
+                <img class="alert__icon" src="assets/icon_info.svg" alt="" width="16" height="16" />
+                <span class="alert__title">Ensure your business address is correct to prevent transaction failure.</span>
+              </div>
+            </div>
+            <div class="form">
+              <div class="form__row form__row--selects">
+                <div class="form__field form__field--select">
+                  <label for="addressCountry">Country <span class="required">*</span></label>
+                  <select id="addressCountry" name="addressCountry">
+                    <option value="" selected disabled>Select</option>
+                    <option>Singapore</option>
+                    <option>United States</option>
+                    <option>Malaysia</option>
+                    <option>Indonesia</option>
+                    <option>Taiwan</option>
+                    <option>Hong Kong</option>
+                    <option>Thailand</option>
+                  </select>
+                </div>
+                <div class="form__field">
+                  <label for="addressState">State / Province</label>
+                  <input id="addressState" name="addressState" type="text" placeholder="State / County / Province / Region" />
+                </div>
+              </div>
+              <div class="form__row">
+                <div class="form__field">
+                  <label for="addressCity">City <span class="required">*</span></label>
+                  <input id="addressCity" name="addressCity" type="text" placeholder="City of address" />
+                </div>
+              </div>
+              <div class="form__row form__row--selects">
+                <div class="form__field">
+                  <label for="addressLine1">Address line 1 <span class="required">*</span></label>
+                  <input id="addressLine1" name="addressLine1" type="text" placeholder="Line one of the street address" />
+                </div>
+                <div class="form__field">
+                  <label for="addressLine2">Address line 2 (Optional)</label>
+                  <input id="addressLine2" name="addressLine2" type="text" placeholder="Apartment, suite, unit, building, floor, etc." />
+                </div>
+              </div>
+              <div class="form__row">
+                <div class="form__field">
+                  <label for="addressPostal">Postal / ZIP code <span class="required">*</span></label>
+                  <input id="addressPostal" name="addressPostal" type="text" placeholder="Postal / ZIP code of the address" />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn--secondary btn--md" data-modal-close>Cancel</button>
+            <button type="button" class="btn btn--primary btn--md" id="saveBusinessAddress">Save</button>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <script defer src="js/main.js?v=20251108"></script>
     <div class="build-badge" role="note">
