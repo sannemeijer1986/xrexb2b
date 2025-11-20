@@ -1940,17 +1940,8 @@ if (document.readyState === 'loading') {
       const title = indicator.querySelector('.ab-step__title');
       const label = indicator.querySelector('.ab-step__label');
       
-      if (s < step) {
-        // Completed step
-        indicator.classList.remove('is-active');
-        if (dot) dot.style.background = '#3FAE64';
-        if (title) {
-          title.classList.remove('is-muted');
-          title.style.color = '';
-        }
-        if (label) label.style.color = '#3FAE64';
-      } else if (s === step) {
-        // Current step
+      if (s === step) {
+        // Current/Active step - green and primary colors
         indicator.classList.add('is-active');
         if (dot) dot.style.background = '#3FAE64';
         if (title) {
@@ -1960,7 +1951,7 @@ if (document.readyState === 'loading') {
         }
         if (label) label.style.color = '#3FAE64';
       } else {
-        // Future step
+        // Completed or future step - placeholder colors
         indicator.classList.remove('is-active');
         if (dot) dot.style.background = '#DBDBDC';
         if (title) {
