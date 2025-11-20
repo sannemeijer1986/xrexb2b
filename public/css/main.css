@@ -3255,6 +3255,20 @@ body.modal-locked {
   font-size: 16px;
   color: #0f172a;
 }
+.form__field--fees .fees-label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.form__field--fees .fees-label__min {
+  margin-left: auto;
+  font-size: 12px;
+  font-weight: 400;
+  color: #BCBDBD;
+  white-space: nowrap;
+  text-align: right;
+}
 
 .fee-option, .fee-option * {
   -webkit-tap-highlight-color: transparent;

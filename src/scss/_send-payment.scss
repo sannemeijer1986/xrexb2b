@@ -553,6 +553,22 @@
     font-size: 16px;
     color: $text-primary;
   }
+
+  .fees-label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  .fees-label__min {
+    margin-left: auto;
+    font-size: 12px;
+    font-weight: 400;
+    color: #BCBDBD; // placeholder color
+    white-space: nowrap;
+    text-align: right;
+  }
 }
 
 // Remove default tap highlight on radios (mobile Safari/Chromium)
