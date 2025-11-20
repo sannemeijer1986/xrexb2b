@@ -2166,19 +2166,40 @@ if (document.readyState === 'loading') {
 (function initAddBankDevTools() {
   const root = document.querySelector('main.page--addbank');
   if (!root) return;
-  const form = root.querySelector('form');
   const fillBtn = document.getElementById('ab-fill');
   const clearBtn = document.getElementById('ab-clear');
-  if (!form || !fillBtn || !clearBtn) return;
+  if (!fillBtn || !clearBtn) return;
 
-  const getFields = () => ({
-    companyName: form.querySelector('#companyName'),
-    regDate: form.querySelector('#regDate'),
-    country: form.querySelector('#country'),
-    regNum: form.querySelector('#regNum'),
-    businessAddress: form.querySelector('#businessAddress'),
-    email: form.querySelector('#email'),
+  // Get current active step
+  const getCurrentStep = () => {
+    const step1Form = document.getElementById('step1-form');
+    const step2Form = document.getElementById('step2-form');
+    if (step1Form && !step1Form.hasAttribute('hidden') && step1Form.style.display !== 'none') {
+      return 1;
+    }
+    if (step2Form && !step2Form.hasAttribute('hidden') && step2Form.style.display !== 'none') {
+      return 2;
+    }
+    return 1; // Default to step 1
+  };
+
+  // Get step 1 fields
+  const getStep1Fields = () => ({
+    companyName: document.getElementById('companyName'),
+    regDate: document.getElementById('regDate'),
+    country: document.getElementById('country'),
+    regNum: document.getElementById('regNum'),
+    businessAddress: document.getElementById('businessAddress'),
+    email: document.getElementById('email'),
   });
+
+  // Get step 2 fields
+  const getStep2Fields = () => ({
+    accountHolderName: document.getElementById('accountHolderName'),
+    bankDetails: document.getElementById('bankDetails'),
+    accountDeclaration: document.getElementById('accountDeclaration'),
+  });
+
   const trigger = (el) => {
     if (!el) return;
     el.dispatchEvent(new Event('input', { bubbles: true }));
@@ -2187,96 +2208,614 @@ if (document.readyState === 'loading') {
 
   fillBtn.addEventListener('click', (e) => {
     e.preventDefault();
-    const f = getFields();
-    if (f.companyName) f.companyName.value = 'NovaQuill Ltd';
-    if (f.regDate) f.regDate.value = '2024-01-15';
-    if (f.country) f.country.value = 'Singapore';
-    if (f.regNum) f.regNum.value = '202401234N';
-    if (f.businessAddress) {
-      f.businessAddress.value = '5 Battery Road, Singapore 049901';
-      // Update icon after setting value
-      const businessAddressIcon = document.getElementById('businessAddressIcon');
-      if (businessAddressIcon) businessAddressIcon.src = 'assets/icon_edit.svg';
-    }
-    if (f.email) f.email.value = 'accounts@novaquill.com';
-    Object.values(f).forEach(trigger);
+    const currentStep = getCurrentStep();
     
-    // Also fill modal fields
-    const modal = document.getElementById('businessAddressModal');
-    if (modal) {
-      const addressCountry = modal.querySelector('#addressCountry');
-      const addressState = modal.querySelector('#addressState');
-      const addressCity = modal.querySelector('#addressCity');
-      const addressLine1 = modal.querySelector('#addressLine1');
-      const addressLine2 = modal.querySelector('#addressLine2');
-      const addressPostal = modal.querySelector('#addressPostal');
+    if (currentStep === 1) {
+      // Fill step 1 fields
+      const f = getStep1Fields();
+      if (f.companyName) f.companyName.value = 'NovaQuill Ltd';
+      if (f.regDate) f.regDate.value = '2024-01-15';
+      if (f.country) f.country.value = 'Singapore';
+      if (f.regNum) f.regNum.value = '202401234N';
+      if (f.businessAddress) {
+        f.businessAddress.value = '5 Battery Road, Singapore 049901';
+        // Update icon after setting value
+        const businessAddressIcon = document.getElementById('businessAddressIcon');
+        if (businessAddressIcon) businessAddressIcon.src = 'assets/icon_edit.svg';
+      }
+      if (f.email) f.email.value = 'accounts@novaquill.com';
+      Object.values(f).forEach(trigger);
       
-      if (addressCountry) addressCountry.value = 'Singapore';
-      if (addressState) addressState.value = 'Central Region';
-      if (addressCity) addressCity.value = 'Singapore';
-      if (addressLine1) addressLine1.value = '5 Battery Road';
-      if (addressLine2) addressLine2.value = 'Suite 1001';
-      if (addressPostal) addressPostal.value = '049901';
+      // Also fill modal fields
+      const modal = document.getElementById('businessAddressModal');
+      if (modal) {
+        const addressCountry = modal.querySelector('#addressCountry');
+        const addressState = modal.querySelector('#addressState');
+        const addressCity = modal.querySelector('#addressCity');
+        const addressLine1 = modal.querySelector('#addressLine1');
+        const addressLine2 = modal.querySelector('#addressLine2');
+        const addressPostal = modal.querySelector('#addressPostal');
+        
+        if (addressCountry) addressCountry.value = 'Singapore';
+        if (addressState) addressState.value = 'Central Region';
+        if (addressCity) addressCity.value = 'Singapore';
+        if (addressLine1) addressLine1.value = '5 Battery Road';
+        if (addressLine2) addressLine2.value = 'Suite 1001';
+        if (addressPostal) addressPostal.value = '049901';
+        
+        // Trigger change events to update is-filled classes and validate
+        [addressCountry, addressState, addressCity, addressLine1, addressLine2, addressPostal].forEach((el) => {
+          if (el) {
+            el.dispatchEvent(new Event('input', { bubbles: true }));
+            el.dispatchEvent(new Event('change', { bubbles: true }));
+          }
+        });
+        
+        // Trigger validation for save button after a short delay to ensure events have fired
+        setTimeout(() => {
+          if (typeof window.updateBusinessAddressSaveButton === 'function') {
+            window.updateBusinessAddressSaveButton();
+          }
+        }, 10);
+      }
+    } else if (currentStep === 2) {
+      // Fill step 2 fields
+      const f = getStep2Fields();
+      if (f.accountHolderName) f.accountHolderName.value = 'NovaQuill Ltd';
+      if (f.bankDetails) {
+        f.bankDetails.value = 'DBS Bank • Account: 012-345678-9 • SWIFT: DBSSSGSG • Singapore, Singapore';
+        // Update icon
+        const bankDetailsIcon = document.getElementById('bankDetailsIcon');
+        if (bankDetailsIcon) bankDetailsIcon.src = 'assets/icon_edit.svg';
+      }
+      if (f.accountDeclaration) {
+        f.accountDeclaration.value = 'Used for: Business transactions • Purpose: Remittance • Avg transactions: 50/month • Avg volume: 100000 USD/month';
+        // Update icon
+        const accountDeclarationIcon = document.getElementById('accountDeclarationIcon');
+        if (accountDeclarationIcon) accountDeclarationIcon.src = 'assets/icon_edit.svg';
+      }
+      Object.values(f).forEach(trigger);
       
-      // Trigger change events to update is-filled classes and validate
-      [addressCountry, addressState, addressCity, addressLine1, addressLine2, addressPostal].forEach((el) => {
-        if (el) {
-          el.dispatchEvent(new Event('input', { bubbles: true }));
-          el.dispatchEvent(new Event('change', { bubbles: true }));
-        }
-      });
+      // Also fill bank details modal fields
+      const bankDetailsModal = document.getElementById('bankDetailsModal');
+      if (bankDetailsModal) {
+        const bankCountry = bankDetailsModal.querySelector('#bankCountry');
+        const bankName = bankDetailsModal.querySelector('#bankName');
+        const bankCity = bankDetailsModal.querySelector('#bankCity');
+        const swiftCode = bankDetailsModal.querySelector('#swiftCode');
+        const accountNumber = bankDetailsModal.querySelector('#accountNumber');
+        const accountNickname = bankDetailsModal.querySelector('#accountNickname');
+        
+        if (bankCountry) bankCountry.value = 'Singapore';
+        if (bankName) bankName.value = 'DBS Bank';
+        if (bankCity) bankCity.value = 'Singapore';
+        if (swiftCode) swiftCode.value = 'DBSSSGSG';
+        if (accountNumber) accountNumber.value = '012-345678-9';
+        if (accountNickname) accountNickname.value = 'Main Business Account';
+        
+        // Trigger change events
+        [bankCountry, bankName, bankCity, swiftCode, accountNumber, accountNickname].forEach((el) => {
+          if (el) {
+            el.dispatchEvent(new Event('input', { bubbles: true }));
+            el.dispatchEvent(new Event('change', { bubbles: true }));
+          }
+        });
+      }
       
-      // Trigger validation for save button after a short delay to ensure events have fired
-      setTimeout(() => {
-        if (typeof window.updateBusinessAddressSaveButton === 'function') {
-          window.updateBusinessAddressSaveButton();
-        }
-      }, 10);
+      // Also fill account declaration modal fields
+      const accountDeclarationModal = document.getElementById('accountDeclarationModal');
+      if (accountDeclarationModal) {
+        const accountUsedFor = accountDeclarationModal.querySelector('#accountUsedFor');
+        const declarationPurpose = accountDeclarationModal.querySelector('#declarationPurpose');
+        const avgTransactions = accountDeclarationModal.querySelector('#avgTransactions');
+        const avgVolume = accountDeclarationModal.querySelector('#avgVolume');
+        
+        if (accountUsedFor) accountUsedFor.value = 'Business transactions';
+        if (declarationPurpose) declarationPurpose.value = 'Remittance';
+        if (avgTransactions) avgTransactions.value = '50';
+        if (avgVolume) avgVolume.value = '100000';
+        
+        // Trigger change events
+        [accountUsedFor, declarationPurpose, avgTransactions, avgVolume].forEach((el) => {
+          if (el) {
+            el.dispatchEvent(new Event('input', { bubbles: true }));
+            el.dispatchEvent(new Event('change', { bubbles: true }));
+          }
+        });
+      }
     }
   });
 
   clearBtn.addEventListener('click', (e) => {
     e.preventDefault();
-    const f = getFields();
-    Object.values(f).forEach((el) => { if (el) el.value = ''; trigger(el); });
-    // Also clear business address and reset icon
-    const businessAddress = form.querySelector('#businessAddress');
-    const businessAddressIcon = document.getElementById('businessAddressIcon');
-    if (businessAddress) businessAddress.value = '';
-    if (businessAddressIcon) businessAddressIcon.src = 'assets/icon_add.svg';
+    const currentStep = getCurrentStep();
     
-    // Also clear modal fields
-    const modal = document.getElementById('businessAddressModal');
-    if (modal) {
-      const addressCountry = modal.querySelector('#addressCountry');
-      const addressState = modal.querySelector('#addressState');
-      const addressCity = modal.querySelector('#addressCity');
-      const addressLine1 = modal.querySelector('#addressLine1');
-      const addressLine2 = modal.querySelector('#addressLine2');
-      const addressPostal = modal.querySelector('#addressPostal');
+    if (currentStep === 1) {
+      // Clear step 1 fields
+      const f = getStep1Fields();
+      Object.values(f).forEach((el) => { if (el) el.value = ''; trigger(el); });
+      // Also clear business address and reset icon
+      const businessAddress = document.getElementById('businessAddress');
+      const businessAddressIcon = document.getElementById('businessAddressIcon');
+      if (businessAddress) businessAddress.value = '';
+      if (businessAddressIcon) businessAddressIcon.src = 'assets/icon_add.svg';
       
-      if (addressCountry) addressCountry.value = '';
-      if (addressState) addressState.value = '';
-      if (addressCity) addressCity.value = '';
-      if (addressLine1) addressLine1.value = '';
-      if (addressLine2) addressLine2.value = '';
-      if (addressPostal) addressPostal.value = '';
+      // Also clear modal fields
+      const modal = document.getElementById('businessAddressModal');
+      if (modal) {
+        const addressCountry = modal.querySelector('#addressCountry');
+        const addressState = modal.querySelector('#addressState');
+        const addressCity = modal.querySelector('#addressCity');
+        const addressLine1 = modal.querySelector('#addressLine1');
+        const addressLine2 = modal.querySelector('#addressLine2');
+        const addressPostal = modal.querySelector('#addressPostal');
+        
+        if (addressCountry) addressCountry.value = '';
+        if (addressState) addressState.value = '';
+        if (addressCity) addressCity.value = '';
+        if (addressLine1) addressLine1.value = '';
+        if (addressLine2) addressLine2.value = '';
+        if (addressPostal) addressPostal.value = '';
+        
+        // Trigger change events to update is-filled classes and validate
+        [addressCountry, addressState, addressCity, addressLine1, addressLine2, addressPostal].forEach((el) => {
+          if (el) {
+            el.dispatchEvent(new Event('input', { bubbles: true }));
+            el.dispatchEvent(new Event('change', { bubbles: true }));
+          }
+        });
+        
+        // Trigger validation for save button after a short delay to ensure events have fired
+        setTimeout(() => {
+          if (typeof window.updateBusinessAddressSaveButton === 'function') {
+            window.updateBusinessAddressSaveButton();
+          }
+        }, 10);
+      }
+    } else if (currentStep === 2) {
+      // Clear step 2 fields
+      const f = getStep2Fields();
+      Object.values(f).forEach((el) => { if (el) el.value = ''; trigger(el); });
+      // Reset icons
+      const bankDetailsIcon = document.getElementById('bankDetailsIcon');
+      const accountDeclarationIcon = document.getElementById('accountDeclarationIcon');
+      if (bankDetailsIcon) bankDetailsIcon.src = 'assets/icon_add.svg';
+      if (accountDeclarationIcon) accountDeclarationIcon.src = 'assets/icon_add.svg';
       
-      // Trigger change events to update is-filled classes and validate
-      [addressCountry, addressState, addressCity, addressLine1, addressLine2, addressPostal].forEach((el) => {
-        if (el) {
-          el.dispatchEvent(new Event('input', { bubbles: true }));
-          el.dispatchEvent(new Event('change', { bubbles: true }));
-        }
-      });
+      // Also clear bank details modal fields
+      const bankDetailsModal = document.getElementById('bankDetailsModal');
+      if (bankDetailsModal) {
+        const bankCountry = bankDetailsModal.querySelector('#bankCountry');
+        const bankName = bankDetailsModal.querySelector('#bankName');
+        const bankCity = bankDetailsModal.querySelector('#bankCity');
+        const swiftCode = bankDetailsModal.querySelector('#swiftCode');
+        const accountNumber = bankDetailsModal.querySelector('#accountNumber');
+        const accountNickname = bankDetailsModal.querySelector('#accountNickname');
+        
+        if (bankCountry) bankCountry.value = '';
+        if (bankName) bankName.value = '';
+        if (bankCity) bankCity.value = '';
+        if (swiftCode) swiftCode.value = '';
+        if (accountNumber) accountNumber.value = '';
+        if (accountNickname) accountNickname.value = '';
+        
+        // Trigger change events
+        [bankCountry, bankName, bankCity, swiftCode, accountNumber, accountNickname].forEach((el) => {
+          if (el) {
+            el.dispatchEvent(new Event('input', { bubbles: true }));
+            el.dispatchEvent(new Event('change', { bubbles: true }));
+          }
+        });
+      }
       
-      // Trigger validation for save button after a short delay to ensure events have fired
-      setTimeout(() => {
-        if (typeof window.updateBusinessAddressSaveButton === 'function') {
-          window.updateBusinessAddressSaveButton();
-        }
-      }, 10);
+      // Also clear account declaration modal fields
+      const accountDeclarationModal = document.getElementById('accountDeclarationModal');
+      if (accountDeclarationModal) {
+        const accountUsedFor = accountDeclarationModal.querySelector('#accountUsedFor');
+        const declarationPurpose = accountDeclarationModal.querySelector('#declarationPurpose');
+        const avgTransactions = accountDeclarationModal.querySelector('#avgTransactions');
+        const avgVolume = accountDeclarationModal.querySelector('#avgVolume');
+        
+        if (accountUsedFor) accountUsedFor.value = '';
+        if (declarationPurpose) declarationPurpose.value = '';
+        if (avgTransactions) avgTransactions.value = '';
+        if (avgVolume) avgVolume.value = '';
+        
+        // Trigger change events
+        [accountUsedFor, declarationPurpose, avgTransactions, avgVolume].forEach((el) => {
+          if (el) {
+            el.dispatchEvent(new Event('input', { bubbles: true }));
+            el.dispatchEvent(new Event('change', { bubbles: true }));
+          }
+        });
+      }
     }
+  });
+})();
+
+// Add Bank: Bank details modal handler
+(function initBankDetailsModal() {
+  const root = document.querySelector('main.page--addbank');
+  if (!root) return;
+  
+  const bankDetailsInput = document.getElementById('bankDetails');
+  const bankDetailsBtn = document.getElementById('bankDetailsBtn');
+  const bankDetailsIcon = document.getElementById('bankDetailsIcon');
+  const bankDetailsWrapper = document.getElementById('bankDetailsWrapper');
+  const modal = document.getElementById('bankDetailsModal');
+  
+  if (!bankDetailsInput || !bankDetailsBtn || !bankDetailsIcon || !modal) return;
+  
+  // Format bank details from modal fields
+  const formatBankDetails = (data) => {
+    const parts = [];
+    if (data.bankName) parts.push(data.bankName);
+    if (data.accountNumber) parts.push(`Account: ${data.accountNumber}`);
+    if (data.swiftCode) parts.push(`SWIFT: ${data.swiftCode}`);
+    if (data.bankCity && data.bankCountry) {
+      parts.push(`${data.bankCity}, ${data.bankCountry}`);
+    }
+    return parts.join(' • ') || '';
+  };
+  
+  // Update icon based on field state
+  const updateIcon = () => {
+    if (bankDetailsInput.value && bankDetailsInput.value.trim()) {
+      bankDetailsIcon.src = 'assets/icon_edit.svg';
+    } else {
+      bankDetailsIcon.src = 'assets/icon_add.svg';
+    }
+  };
+  
+  // Open modal
+  const openModal = () => {
+    modal.setAttribute('aria-hidden', 'false');
+    document.documentElement.classList.add('modal-open');
+    document.body.classList.add('modal-open');
+    try {
+      const y = window.scrollY || window.pageYOffset || 0;
+      document.body.dataset.scrollY = String(y);
+      document.body.style.top = `-${y}px`;
+      document.body.classList.add('modal-locked');
+    } catch (_) {}
+  };
+  
+  // Close modal
+  const closeModal = () => {
+    modal.setAttribute('aria-hidden', 'true');
+    document.documentElement.classList.remove('modal-open');
+    document.body.classList.remove('modal-open');
+    try {
+      const y = parseInt(document.body.dataset.scrollY || '0', 10) || 0;
+      document.body.classList.remove('modal-locked');
+      document.body.style.top = '';
+      delete document.body.dataset.scrollY;
+      window.scrollTo(0, y);
+    } catch (_) {}
+  };
+  
+  // Save bank details
+  const saveBankDetails = () => {
+    const bankCountry = document.getElementById('bankCountry')?.value || '';
+    const bankName = document.getElementById('bankName')?.value || '';
+    const bankCity = document.getElementById('bankCity')?.value || '';
+    const swiftCode = document.getElementById('swiftCode')?.value || '';
+    const accountNumber = document.getElementById('accountNumber')?.value || '';
+    const accountNickname = document.getElementById('accountNickname')?.value || '';
+    
+    // Validate required fields
+    if (!bankCountry || !bankName || !accountNumber) {
+      // In a real app, show validation errors
+      return;
+    }
+    
+    // Format and set bank details
+    const formatted = formatBankDetails({ bankCountry, bankName, bankCity, swiftCode, accountNumber, accountNickname });
+    bankDetailsInput.value = formatted;
+    updateIcon();
+    
+    // Trigger change event
+    bankDetailsInput.dispatchEvent(new Event('input', { bubbles: true }));
+    bankDetailsInput.dispatchEvent(new Event('change', { bubbles: true }));
+    
+    closeModal();
+  };
+  
+  // Event listeners
+  bankDetailsBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    openModal();
+  });
+  
+  bankDetailsInput.addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    openModal();
+  });
+  
+  if (bankDetailsWrapper) {
+    bankDetailsWrapper.style.cursor = 'pointer';
+    bankDetailsWrapper.addEventListener('click', (e) => {
+      if (e.target === bankDetailsWrapper) {
+        openModal();
+      }
+    });
+  }
+  
+  // Validation function
+  const validateBankDetailsForm = () => {
+    const bankCountry = document.getElementById('bankCountry')?.value || '';
+    const bankName = document.getElementById('bankName')?.value || '';
+    const accountNumber = document.getElementById('accountNumber')?.value || '';
+    return bankCountry && bankCountry.trim() !== '' &&
+           bankName && bankName.trim() !== '' &&
+           accountNumber && accountNumber.trim() !== '';
+  };
+  
+  // Update save button state
+  const updateSaveButton = () => {
+    const saveBtn = document.getElementById('saveBankDetails');
+    if (!saveBtn) return;
+    const isValid = validateBankDetailsForm();
+    saveBtn.disabled = !isValid;
+    saveBtn.setAttribute('aria-disabled', String(!isValid));
+  };
+  
+  // Save button
+  const saveBtn = document.getElementById('saveBankDetails');
+  if (saveBtn) {
+    // Initially disable
+    saveBtn.disabled = true;
+    saveBtn.setAttribute('aria-disabled', 'true');
+    
+    saveBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      if (!validateBankDetailsForm()) return;
+      saveBankDetails();
+    });
+    
+    // Add validation listeners to required fields
+    const requiredFields = ['bankCountry', 'bankName', 'accountNumber'];
+    requiredFields.forEach((fieldId) => {
+      const field = document.getElementById(fieldId);
+      if (field) {
+        field.addEventListener('input', updateSaveButton);
+        field.addEventListener('change', updateSaveButton);
+      }
+    });
+    
+    // Initial validation
+    updateSaveButton();
+  }
+  
+  // Close button handlers
+  modal.querySelectorAll('[data-modal-close]').forEach((btn) => {
+    btn.addEventListener('click', () => closeModal());
+  });
+  
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) closeModal();
+  });
+  
+  // Initialize icon state
+  updateIcon();
+  
+  // Watch for external changes
+  bankDetailsInput.addEventListener('input', updateIcon);
+  bankDetailsInput.addEventListener('change', updateIcon);
+  
+  // Toggle is-filled class on modal inputs and selects when they have values
+  const toggleFilled = (el) => {
+    if (!el) return;
+    if (el.tagName === 'SELECT') {
+      const hasValue = el.value && el.value !== '';
+      el.classList.toggle('is-filled', hasValue);
+    } else {
+      el.classList.toggle('is-filled', el.value && el.value.trim() !== '');
+    }
+  };
+  
+  // Get all inputs and selects in the modal
+  const modalInputs = modal.querySelectorAll('input[type="text"], input[type="number"], select');
+  modalInputs.forEach((input) => {
+    toggleFilled(input);
+    const updateField = () => {
+      toggleFilled(input);
+      updateSaveButton();
+    };
+    input.addEventListener('input', updateField);
+    input.addEventListener('change', updateField);
+  });
+})();
+
+// Add Bank: Account declaration modal handler
+(function initAccountDeclarationModal() {
+  const root = document.querySelector('main.page--addbank');
+  if (!root) return;
+  
+  const accountDeclarationInput = document.getElementById('accountDeclaration');
+  const accountDeclarationBtn = document.getElementById('accountDeclarationBtn');
+  const accountDeclarationIcon = document.getElementById('accountDeclarationIcon');
+  const accountDeclarationWrapper = document.getElementById('accountDeclarationWrapper');
+  const modal = document.getElementById('accountDeclarationModal');
+  
+  if (!accountDeclarationInput || !accountDeclarationBtn || !accountDeclarationIcon || !modal) return;
+  
+  // Format account declaration from modal fields
+  const formatAccountDeclaration = (data) => {
+    const parts = [];
+    if (data.accountUsedFor) parts.push(`Used for: ${data.accountUsedFor}`);
+    if (data.purpose) parts.push(`Purpose: ${data.purpose}`);
+    if (data.avgTransactions) parts.push(`Avg transactions: ${data.avgTransactions}/month`);
+    if (data.avgVolume) parts.push(`Avg volume: ${data.avgVolume} USD/month`);
+    return parts.join(' • ') || '';
+  };
+  
+  // Update icon based on field state
+  const updateIcon = () => {
+    if (accountDeclarationInput.value && accountDeclarationInput.value.trim()) {
+      accountDeclarationIcon.src = 'assets/icon_edit.svg';
+    } else {
+      accountDeclarationIcon.src = 'assets/icon_add.svg';
+    }
+  };
+  
+  // Open modal
+  const openModal = () => {
+    modal.setAttribute('aria-hidden', 'false');
+    document.documentElement.classList.add('modal-open');
+    document.body.classList.add('modal-open');
+    try {
+      const y = window.scrollY || window.pageYOffset || 0;
+      document.body.dataset.scrollY = String(y);
+      document.body.style.top = `-${y}px`;
+      document.body.classList.add('modal-locked');
+    } catch (_) {}
+  };
+  
+  // Close modal
+  const closeModal = () => {
+    modal.setAttribute('aria-hidden', 'true');
+    document.documentElement.classList.remove('modal-open');
+    document.body.classList.remove('modal-open');
+    try {
+      const y = parseInt(document.body.dataset.scrollY || '0', 10) || 0;
+      document.body.classList.remove('modal-locked');
+      document.body.style.top = '';
+      delete document.body.dataset.scrollY;
+      window.scrollTo(0, y);
+    } catch (_) {}
+  };
+  
+  // Save account declaration
+  const saveAccountDeclaration = () => {
+    const accountUsedFor = document.getElementById('accountUsedFor')?.value || '';
+    const purpose = document.getElementById('declarationPurpose')?.value || '';
+    const avgTransactions = document.getElementById('avgTransactions')?.value || '';
+    const avgVolume = document.getElementById('avgVolume')?.value || '';
+    
+    // Validate required fields
+    if (!accountUsedFor || !purpose) {
+      // In a real app, show validation errors
+      return;
+    }
+    
+    // Format and set account declaration
+    const formatted = formatAccountDeclaration({ accountUsedFor, purpose, avgTransactions, avgVolume });
+    accountDeclarationInput.value = formatted;
+    updateIcon();
+    
+    // Trigger change event
+    accountDeclarationInput.dispatchEvent(new Event('input', { bubbles: true }));
+    accountDeclarationInput.dispatchEvent(new Event('change', { bubbles: true }));
+    
+    closeModal();
+  };
+  
+  // Event listeners
+  accountDeclarationBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    openModal();
+  });
+  
+  accountDeclarationInput.addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    openModal();
+  });
+  
+  if (accountDeclarationWrapper) {
+    accountDeclarationWrapper.style.cursor = 'pointer';
+    accountDeclarationWrapper.addEventListener('click', (e) => {
+      if (e.target === accountDeclarationWrapper) {
+        openModal();
+      }
+    });
+  }
+  
+  // Validation function
+  const validateAccountDeclarationForm = () => {
+    const accountUsedFor = document.getElementById('accountUsedFor')?.value || '';
+    const purpose = document.getElementById('declarationPurpose')?.value || '';
+    return accountUsedFor && accountUsedFor.trim() !== '' &&
+           purpose && purpose.trim() !== '';
+  };
+  
+  // Update save button state
+  const updateSaveButton = () => {
+    const saveBtn = document.getElementById('saveAccountDeclaration');
+    if (!saveBtn) return;
+    const isValid = validateAccountDeclarationForm();
+    saveBtn.disabled = !isValid;
+    saveBtn.setAttribute('aria-disabled', String(!isValid));
+  };
+  
+  // Save button
+  const saveBtn = document.getElementById('saveAccountDeclaration');
+  if (saveBtn) {
+    // Initially disable
+    saveBtn.disabled = true;
+    saveBtn.setAttribute('aria-disabled', 'true');
+    
+    saveBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      if (!validateAccountDeclarationForm()) return;
+      saveAccountDeclaration();
+    });
+    
+    // Add validation listeners to required fields
+    const requiredFields = ['accountUsedFor', 'declarationPurpose'];
+    requiredFields.forEach((fieldId) => {
+      const field = document.getElementById(fieldId);
+      if (field) {
+        field.addEventListener('input', updateSaveButton);
+        field.addEventListener('change', updateSaveButton);
+      }
+    });
+    
+    // Initial validation
+    updateSaveButton();
+  }
+  
+  // Close button handlers
+  modal.querySelectorAll('[data-modal-close]').forEach((btn) => {
+    btn.addEventListener('click', () => closeModal());
+  });
+  
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) closeModal();
+  });
+  
+  // Initialize icon state
+  updateIcon();
+  
+  // Watch for external changes
+  accountDeclarationInput.addEventListener('input', updateIcon);
+  accountDeclarationInput.addEventListener('change', updateIcon);
+  
+  // Toggle is-filled class on modal inputs and selects when they have values
+  const toggleFilled = (el) => {
+    if (!el) return;
+    if (el.tagName === 'SELECT') {
+      const hasValue = el.value && el.value !== '';
+      el.classList.toggle('is-filled', hasValue);
+    } else {
+      el.classList.toggle('is-filled', el.value && el.value.trim() !== '');
+    }
+  };
+  
+  // Get all inputs and selects in the modal
+  const modalInputs = modal.querySelectorAll('input[type="text"], input[type="number"], select');
+  modalInputs.forEach((input) => {
+    toggleFilled(input);
+    const updateField = () => {
+      toggleFilled(input);
+      updateSaveButton();
+    };
+    input.addEventListener('input', updateField);
+    input.addEventListener('change', updateField);
   });
 })();
 

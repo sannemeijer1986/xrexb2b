@@ -539,24 +539,50 @@ textarea {
 }
 
 .input-group {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  border: 1px solid #eeeeee;
+  display: flex;
+  align-items: center;
+  border: 1px solid #DBDBDC;
   border-radius: 8px;
-  overflow: hidden;
   background: #fff;
+  padding: 0;
 }
 .input-group input {
+  flex: 1;
   border: none;
-  border-right: 1px solid #DBDBDC;
   border-radius: 0;
-  padding: 10px 12px;
+  padding: 16px 16px 16px 16px;
+  height: 60px;
+}
+@media (min-width: 1280px) {
+  .input-group input {
+    height: 74px;
+  }
 }
 .input-group select {
   border: none;
   border-radius: 0;
   padding: 10px 12px;
   min-width: 84px;
+}
+.input-group__badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 8px;
+  margin-right: 16px;
+  background: #F8F8F8;
+  border-radius: 16px;
+  font-family: "Manrope", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+  font-weight: 700;
+  font-size: 12px;
+  color: #0f172a;
+  white-space: nowrap;
+}
+.input-group__badge img {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
 }
 
 .form__actions {
@@ -633,6 +659,13 @@ textarea {
   color: #797A7B;
 }
 
+#bankDetailsModal label,
+#accountDeclarationModal label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #797A7B;
+}
+
 #businessAddressModal input:not(:placeholder-shown) {
   font-weight: 600;
   color: #0f172a;
@@ -644,6 +677,24 @@ textarea {
 }
 
 #businessAddressModal select.is-filled {
+  font-weight: 600;
+  color: #0f172a;
+}
+
+#bankDetailsModal input:not(:placeholder-shown),
+#accountDeclarationModal input:not(:placeholder-shown) {
+  font-weight: 600;
+  color: #0f172a;
+}
+
+#bankDetailsModal select,
+#accountDeclarationModal select {
+  color: #BCBDBD;
+  font-weight: 400;
+}
+
+#bankDetailsModal select.is-filled,
+#accountDeclarationModal select.is-filled {
   font-weight: 600;
   color: #0f172a;
 }

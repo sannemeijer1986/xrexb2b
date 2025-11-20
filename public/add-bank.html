@@ -112,10 +112,10 @@
               <div class="form__row">
                 <div class="form__field form__field--clickable">
                   <label for="bankDetails">Bank details</label>
-                  <div class="clickable-input">
+                  <div class="clickable-input" id="bankDetailsWrapper">
                     <input id="bankDetails" name="bankDetails" type="text" placeholder="Add bank details" readonly />
-                    <button type="button" class="clickable-input__icon" aria-label="Add bank details">
-                      <img src="assets/icon_add.svg" alt="" width="24" height="24" />
+                    <button type="button" class="clickable-input__icon" id="bankDetailsBtn" aria-label="Add bank details">
+                      <img id="bankDetailsIcon" src="assets/icon_add.svg" alt="" width="24" height="24" />
                     </button>
                   </div>
                 </div>
@@ -123,10 +123,10 @@
               <div class="form__row">
                 <div class="form__field form__field--clickable">
                   <label for="accountDeclaration">Account declaration</label>
-                  <div class="clickable-input">
+                  <div class="clickable-input" id="accountDeclarationWrapper">
                     <input id="accountDeclaration" name="accountDeclaration" type="text" placeholder="Add declaration" readonly />
-                    <button type="button" class="clickable-input__icon" aria-label="Add declaration">
-                      <img src="assets/icon_add.svg" alt="" width="24" height="24" />
+                    <button type="button" class="clickable-input__icon" id="accountDeclarationBtn" aria-label="Add declaration">
+                      <img id="accountDeclarationIcon" src="assets/icon_add.svg" alt="" width="24" height="24" />
                     </button>
                   </div>
                 </div>
@@ -220,6 +220,135 @@
       </div>
     </footer>
 
+    <!-- Modal: Add bank details -->
+    <div id="bankDetailsModal" class="modal modal--large" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="bankDetailsModalTitle">
+      <div class="modal-wrapper">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h2 id="bankDetailsModalTitle">Add bank details</h2>
+            <button class="modal-close" data-modal-close aria-label="Close modal">
+              <img src="assets/icon_close.svg" width="24" height="24" alt="close" />
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="alert alert--warning">
+              <div class="alert__header">
+                <img class="alert__icon" src="assets/icon_alert.svg" alt="" width="16" height="16" />
+                <span class="alert__title">Make sure your banking details match your proof documents to prevent failures and extra fees.</span>
+              </div>
+            </div>
+            <div class="form">
+              <div class="form__row form__row--selects">
+                <div class="form__field form__field--select">
+                  <label for="bankCountry">Bank country</label>
+                  <select id="bankCountry" name="bankCountry">
+                    <option value="" selected disabled>Select</option>
+                    <option>Singapore</option>
+                    <option>United States</option>
+                    <option>Malaysia</option>
+                    <option>Indonesia</option>
+                    <option>Taiwan</option>
+                    <option>Hong Kong</option>
+                    <option>Thailand</option>
+                  </select>
+                </div>
+                <div class="form__field">
+                  <label for="bankName">Bank name</label>
+                  <input id="bankName" name="bankName" type="text" placeholder="Name or Abbreviation for the bank" />
+                </div>
+              </div>
+              <div class="form__row">
+                <div class="form__field">
+                  <label for="bankCity">Bank city</label>
+                  <input id="bankCity" name="bankCity" type="text" placeholder="City of address" />
+                </div>
+              </div>
+              <div class="form__row form__row--selects">
+                <div class="form__field">
+                  <label for="swiftCode">SWIFT / BIC code</label>
+                  <input id="swiftCode" name="swiftCode" type="text" placeholder="SWIFT code or BIC code" />
+                </div>
+                <div class="form__field">
+                  <label for="accountNumber">Account number</label>
+                  <input id="accountNumber" name="accountNumber" type="text" placeholder="Account number" />
+                </div>
+              </div>
+              <div class="form__row">
+                <div class="form__field">
+                  <label for="accountNickname">Account nickname (optional)</label>
+                  <input id="accountNickname" name="accountNickname" type="text" placeholder="Give your bank account a nickname" />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn--secondary btn--md" data-modal-close>Cancel</button>
+            <button type="button" class="btn btn--primary btn--md" id="saveBankDetails">Save</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal: Account declaration -->
+    <div id="accountDeclarationModal" class="modal modal--large" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="accountDeclarationModalTitle">
+      <div class="modal-wrapper">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h2 id="accountDeclarationModalTitle">Account declaration</h2>
+            <button class="modal-close" data-modal-close aria-label="Close modal">
+              <img src="assets/icon_close.svg" width="24" height="24" alt="close" />
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="form">
+              <div class="form__row form__row--selects">
+                <div class="form__field form__field--select">
+                  <label for="accountUsedFor">This account is used for</label>
+                  <select id="accountUsedFor" name="accountUsedFor">
+                    <option value="" selected disabled>Select</option>
+                    <option>Business transactions</option>
+                    <option>Personal transactions</option>
+                    <option>Investment</option>
+                    <option>Other</option>
+                  </select>
+                </div>
+                <div class="form__field form__field--select">
+                  <label for="declarationPurpose">Purpose</label>
+                  <select id="declarationPurpose" name="declarationPurpose">
+                    <option value="" selected disabled>Select</option>
+                    <option>Remittance</option>
+                    <option>Payment</option>
+                    <option>Transfer</option>
+                    <option>Other</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form__row form__row--selects">
+                <div class="form__field">
+                  <label for="avgTransactions">Average number of transactions per month</label>
+                  <input id="avgTransactions" name="avgTransactions" type="number" placeholder="0" />
+                </div>
+                <div class="form__field">
+                  <label for="avgVolume">Average transaction volume per month</label>
+                  <div class="input-group">
+                    <input id="avgVolume" name="avgVolume" type="number" placeholder="0.00" />
+                    <div class="input-group__badge">
+                      <img src="assets/icon_USD.svg" alt="USD" width="16" height="16" />
+                      <span>USD</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn--secondary btn--md" data-modal-close>Cancel</button>
+            <button type="button" class="btn btn--primary btn--md" id="saveAccountDeclaration">Save</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Modal: Cancel confirmation -->
     <div id="cancelConfirmModal" class="modal modal--dialog" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="cancelConfirmTitle">
       <div class="modal__dialog">
@@ -274,7 +403,7 @@
                   </select>
                 </div>
                 <div class="form__field">
-                  <label for="addressState">State / Province</label>
+                  <label for="addressState">State / Province (Optional)</label>
                   <input id="addressState" name="addressState" type="text" placeholder="State / County / Province / Region" />
                 </div>
               </div>

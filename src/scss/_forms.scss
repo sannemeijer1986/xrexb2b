@@ -66,23 +66,47 @@ select:focus {
 textarea { resize: vertical; }
 
 .input-group {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  border: 1px solid $border-color;
+  display: flex;
+  align-items: center;
+  border: 1px solid $border-color-hard;
   border-radius: $radius-md;
-  overflow: hidden;
   background: #fff;
+  padding: 0;
   input {
+    flex: 1;
     border: none;
-    border-right: 1px solid $border-color-hard;
     border-radius: 0;
-    padding: 10px 12px;
+    padding: 16px 16px 16px 16px;
+    height: 60px;
+    @media (min-width: $bp-desktop) {
+      height: 74px;
+    }
   }
   select {
     border: none;
     border-radius: 0;
     padding: 10px 12px;
     min-width: 84px;
+  }
+  &__badge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    padding: 8px;
+    margin-right: 16px;
+    background: #F8F8F8;
+    border-radius: 16px;
+    font-family: $font-family-sans;
+    font-weight: 700;
+    font-size: 12px;
+    color: $text-primary;
+    white-space: nowrap;
+    img {
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+    }
   }
 }
 
@@ -164,6 +188,14 @@ textarea { resize: vertical; }
   color: $text-secondary;
 }
 
+// Bank details and account declaration modal labels
+#bankDetailsModal label,
+#accountDeclarationModal label {
+  font-size: 14px;
+  font-weight: 600;
+  color: $text-secondary;
+}
+
 // Business address modal inputs - heavier when filled
 #businessAddressModal input:not(:placeholder-shown) {
   font-weight: 600;
@@ -178,6 +210,27 @@ textarea { resize: vertical; }
 
 // Business address modal selects - heavier when a real value is selected (not placeholder)
 #businessAddressModal select.is-filled {
+  font-weight: 600;
+  color: $text-primary;
+}
+
+// Bank details and account declaration modal inputs - heavier when filled
+#bankDetailsModal input:not(:placeholder-shown),
+#accountDeclarationModal input:not(:placeholder-shown) {
+  font-weight: 600;
+  color: $text-primary;
+}
+
+// Bank details and account declaration modal selects - default placeholder styling
+#bankDetailsModal select,
+#accountDeclarationModal select {
+  color: #BCBDBD; // Placeholder color
+  font-weight: 400; // Normal weight
+}
+
+// Bank details and account declaration modal selects - heavier when a real value is selected (not placeholder)
+#bankDetailsModal select.is-filled,
+#accountDeclarationModal select.is-filled {
   font-weight: 600;
   color: $text-primary;
 }
