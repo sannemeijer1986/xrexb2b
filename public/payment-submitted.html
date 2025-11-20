@@ -97,7 +97,7 @@
               </div>
               <div class="receipt__row">
                 <span class="muted">Status</span>
-              <strong id="statusVal">{$status}</strong>
+              <strong id="statusVal">Processing</strong>
               </div>
             </div>
           </div>
@@ -201,7 +201,7 @@
           }
         }
         set('dtVal', d.dateTime || '');
-        set('statusVal', d.status || '{$status}');
+        set('statusVal', d.status || 'Processing');
       } catch (_) {}
     })();
   </script>

@@ -320,6 +320,129 @@
                 <button id="ab-next-step2" class="btn btn--primary btn--md" type="button" disabled aria-disabled="true">Next</button>
               </div>
             </form>
+
+            <!-- Step 3: Review & submit -->
+            <section id="step3-summary" class="card card--section" aria-label="Review & submit" hidden>
+              <h2 class="card__title card__title--within">Review &amp; submit</h2>
+
+              <!-- Receiver information summary -->
+              <div class="summary-recipient summary-recipient--addbank">
+                <div class="summary-recipient__content">
+                  <div class="summary-recipient__title">Receiver information</div>
+                  <div class="summary-recipient__subtitle">Please review the receiver details before submitting.</div>
+                </div>
+                <button id="ab-edit-step1" type="button" class="summary-title-link">Edit</button>
+              </div>
+
+              <dl class="kv kv--addbank">
+                <div class="kv__row">
+                  <dt>Company legal name</dt>
+                  <dd id="ab-summary-companyName">-</dd>
+                </div>
+                <div class="kv__row">
+                  <dt>Registration date</dt>
+                  <dd id="ab-summary-regDate">-</dd>
+                </div>
+                <div class="kv__row">
+                  <dt>Country of incorporation</dt>
+                  <dd id="ab-summary-country">-</dd>
+                </div>
+                <div class="kv__row">
+                  <dt>Registration number</dt>
+                  <dd id="ab-summary-regNum">-</dd>
+                </div>
+                <div class="kv__row">
+                  <dt>Registered business address</dt>
+                  <dd id="ab-summary-businessAddress">-</dd>
+                </div>
+                <div class="kv__row">
+                  <dt>Contact email</dt>
+                  <dd id="ab-summary-email">-</dd>
+                </div>
+              </dl>
+
+              <div class="summary-separator"></div>
+
+              <!-- Bank account details summary -->
+              <div class="summary-recipient summary-recipient--addbank">
+                <div class="summary-recipient__content">
+                  <div class="summary-recipient__title">Bank account details</div>
+                </div>
+                <button id="ab-edit-step2" type="button" class="summary-title-link">Edit</button>
+              </div>
+
+              <dl class="kv kv--addbank">
+                <div class="kv__row">
+                  <dt>Account nickname</dt>
+                  <dd id="ab-summary-accountNickname">-</dd>
+                </div>
+                <div class="kv__row">
+                  <dt>Bank name</dt>
+                  <dd id="ab-summary-bankName">-</dd>
+                </div>
+                <div class="kv__row">
+                  <dt>Bank country</dt>
+                  <dd id="ab-summary-bankCountry">-</dd>
+                </div>
+                <div class="kv__row">
+                  <dt>Bank city</dt>
+                  <dd id="ab-summary-bankCity">-</dd>
+                </div>
+                <div class="kv__row">
+                  <dt>Account holder name</dt>
+                  <dd id="ab-summary-accountHolderName">-</dd>
+                </div>
+                <div class="kv__row">
+                  <dt>Account number</dt>
+                  <dd id="ab-summary-accountNumber">-</dd>
+                </div>
+                <div class="kv__row">
+                  <dt>IBAN number</dt>
+                  <dd id="ab-summary-ibanNumber">-</dd>
+                </div>
+                <div class="kv__row">
+                  <dt>SWIFT / BIC code</dt>
+                  <dd id="ab-summary-swiftCode">-</dd>
+                </div>
+                <div class="kv__row">
+                  <dt>Bank account document proof</dt>
+                  <dd id="ab-summary-docProof">Not uploaded</dd>
+                </div>
+              </dl>
+
+              <div class="summary-separator"></div>
+
+              <!-- Declaration summary -->
+              <div class="summary-recipient summary-recipient--addbank">
+                <div class="summary-recipient__content">
+                  <div class="summary-recipient__title">Declaration</div>
+                </div>
+              </div>
+
+              <dl class="kv kv--addbank">
+                <div class="kv__row">
+                  <dt>Average number of transactions per month</dt>
+                  <dd id="ab-summary-avgTransactions">-</dd>
+                </div>
+                <div class="kv__row">
+                  <dt>Average transaction volume per month</dt>
+                  <dd id="ab-summary-avgVolume">-</dd>
+                </div>
+                <div class="kv__row">
+                  <dt>This account is used for</dt>
+                  <dd id="ab-summary-accountUsedFor">-</dd>
+                </div>
+              </dl>
+
+              <div class="card card--soft" style="margin-top:24px;">
+                Verification takes 1–3 business days. Once it is complete, you'll be able to send payments to this account.
+              </div>
+
+              <div class="form__actions" style="margin-top:24px;">
+                <button id="ab-cancel-step3" class="btn btn--secondary btn--md" type="button">Cancel</button>
+                <button id="ab-submit-step3" class="btn btn--primary btn--md" type="button">Submit</button>
+              </div>
+            </section>
           </div>
           <aside class="grid__col grid__col--sidebar addbank-steps">
             <div class="card card--section">

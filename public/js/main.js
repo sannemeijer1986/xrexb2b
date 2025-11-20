@@ -1403,7 +1403,7 @@ function initSendPayment() {
           docNotes,
           attachedDocs: attached.join(', '),
           dateTime: new Date().toLocaleString('en-GB', { hour12: false }),
-          status: '{$status}',
+          status: 'Processing',
         };
         sessionStorage.setItem('receiptData', JSON.stringify(data));
       } catch (_) {}
@@ -1537,7 +1537,7 @@ if (confirmTriggerInline) {
         docNotes,
         attachedDocs: attached.join(', '),
         dateTime: new Date().toLocaleString('en-GB', { hour12: false }),
-        status: '{$status}',
+        status: 'Processing',
       };
       sessionStorage.setItem('receiptData', JSON.stringify(data));
     } catch (_) {}
@@ -1741,7 +1741,7 @@ if (document.readyState === 'loading') {
         serviceMinAmount: actualServiceFee,
             conversion: payerCurrency !== payeeCurrency ? `1 ${payerCurrency} = 1 ${payeeCurrency}` : '',
             dateTime: new Date().toLocaleString('en-GB', { hour12: false }),
-            status: '{$status}',
+            status: 'Processing',
           };
           sessionStorage.setItem('receiptData', JSON.stringify(data));
         } else if (isReviewPage) {
@@ -2027,6 +2027,7 @@ if (document.readyState === 'loading') {
   
   const step1Form = document.getElementById('step1-form');
   const step2Form = document.getElementById('step2-form');
+  const step3Summary = document.getElementById('step3-summary');
   const nextBtn = document.getElementById('ab-next');
   const nextBtnStep2 = document.getElementById('ab-next-step2');
   const backBtnStep2 = document.getElementById('ab-back');
@@ -2034,8 +2035,12 @@ if (document.readyState === 'loading') {
   const cancelContinueBtn = document.getElementById('cancelConfirmContinue');
   const cancelCancelBtn = document.getElementById('cancelConfirmCancel');
   const crumb = document.querySelector('.page__header--crumb .crumb');
+  const cancelBtnStep3 = document.getElementById('ab-cancel-step3');
+  const submitBtnStep3 = document.getElementById('ab-submit-step3');
+  const editStep1Btn = document.getElementById('ab-edit-step1');
+  const editStep2Btn = document.getElementById('ab-edit-step2');
   
-  if (!step1Form || !step2Form) return;
+  if (!step1Form || !step2Form || !step3Summary) return;
   
   // Store step 1 data
   const storeStep1Data = () => {
@@ -2047,6 +2052,104 @@ if (document.readyState === 'loading') {
       businessAddress: document.getElementById('businessAddress')?.value || '',
       email: document.getElementById('email')?.value || ''
     };
+  };
+
+  // Store step 2 data
+  const storeStep2Data = () => {
+    const bankCountryEl = document.getElementById('bankCountry');
+    const bankNameEl = document.getElementById('bankName');
+    const bankCityEl = document.getElementById('bankCity');
+    const swiftCodeEl = document.getElementById('swiftCode');
+    const accountNumberEl = document.getElementById('accountNumber');
+    const ibanNumberEl = document.getElementById('ibanNumber');
+    const nickIbanEl = document.getElementById('accountNickname');
+    const nickSwiftEl = document.getElementById('accountNicknameSwift');
+    const accountHolderNameEl = document.getElementById('accountHolderName');
+
+    const accountUsedForEl = document.getElementById('accountUsedFor');
+    const declarationPurposeEl = document.getElementById('declarationPurpose');
+    const avgTransactionsEl = document.getElementById('avgTransactions');
+    const avgVolumeEl = document.getElementById('avgVolume');
+
+    const getUploadedName = () => {
+      if (typeof window.getBankProofUploaded === 'function') {
+        return window.getBankProofUploaded();
+      }
+      return null;
+    };
+
+    stepData.step2 = {
+      bankCountry: bankCountryEl?.value || '',
+      bankName: bankNameEl?.value || '',
+      bankCity: bankCityEl?.value || '',
+      swiftCode: swiftCodeEl?.value || '',
+      accountNumber: accountNumberEl?.value || '',
+      ibanNumber: ibanNumberEl?.value || '',
+      accountNickname: nickIbanEl?.value || nickSwiftEl?.value || '',
+      accountHolderName: accountHolderNameEl?.value || '',
+      accountUsedFor: accountUsedForEl?.value || '',
+      declarationPurpose: declarationPurposeEl?.value || '',
+      avgTransactions: avgTransactionsEl?.value || '',
+      avgVolume: avgVolumeEl?.value || '',
+      bankProofFileName: getUploadedName(),
+    };
+  };
+
+  const getAccountUsedForLabel = (value) => {
+    const map = {
+      incoming: 'Incoming only: transferring funds from this account',
+      outgoing: 'Outgoing only: receiving funds to this account',
+      both: 'Both Incoming & Outgoing',
+    };
+    return map[value] || '';
+  };
+
+  const formatOrDash = (value) => {
+    const v = (value || '').toString().trim();
+    return v ? v : '—';
+  };
+
+  const renderStep3Summary = () => {
+    const s1 = stepData.step1 || {};
+    const s2 = stepData.step2 || {};
+
+    const setText = (id, value) => {
+      const el = document.getElementById(id);
+      if (el) el.textContent = formatOrDash(value);
+    };
+
+    // Step 1 fields
+    setText('ab-summary-companyName', s1.companyName);
+    setText('ab-summary-regDate', s1.regDate);
+    setText('ab-summary-country', s1.country);
+    setText('ab-summary-regNum', s1.regNum);
+    setText('ab-summary-businessAddress', s1.businessAddress);
+    setText('ab-summary-email', s1.email);
+
+    // Step 2 - bank details
+    setText('ab-summary-accountNickname', s2.accountNickname);
+    setText('ab-summary-bankName', s2.bankName);
+    setText('ab-summary-bankCountry', s2.bankCountry);
+    setText('ab-summary-bankCity', s2.bankCity);
+    setText('ab-summary-accountHolderName', s2.accountHolderName);
+    setText('ab-summary-accountNumber', s2.accountNumber);
+    setText('ab-summary-ibanNumber', s2.ibanNumber);
+    setText('ab-summary-swiftCode', s2.swiftCode);
+
+    const docProofEl = document.getElementById('ab-summary-docProof');
+    if (docProofEl) {
+      docProofEl.textContent = s2.bankProofFileName ? 'Uploaded' : 'Not uploaded';
+    }
+
+    // Declaration
+    setText('ab-summary-avgTransactions', s2.avgTransactions ? `${s2.avgTransactions} Transactions / month` : '');
+    if (s2.avgVolume) {
+      setText('ab-summary-avgVolume', `${s2.avgVolume} USD / month`);
+    } else {
+      setText('ab-summary-avgVolume', '');
+    }
+    const usedForLabel = getAccountUsedForLabel(s2.accountUsedFor);
+    setText('ab-summary-accountUsedFor', usedForLabel || s2.accountUsedFor);
   };
   
   // Update step indicator
@@ -2089,11 +2192,22 @@ if (document.readyState === 'loading') {
       step1Form.style.display = '';
       step2Form.setAttribute('hidden', '');
       step2Form.style.display = 'none';
+      step3Summary.setAttribute('hidden', '');
+      step3Summary.style.display = 'none';
     } else if (step === 2) {
       step1Form.setAttribute('hidden', '');
       step1Form.style.display = 'none';
       step2Form.removeAttribute('hidden');
       step2Form.style.display = '';
+      step3Summary.setAttribute('hidden', '');
+      step3Summary.style.display = 'none';
+    } else if (step === 3) {
+      step1Form.setAttribute('hidden', '');
+      step1Form.style.display = 'none';
+      step2Form.setAttribute('hidden', '');
+      step2Form.style.display = 'none';
+      step3Summary.removeAttribute('hidden');
+      step3Summary.style.display = '';
     }
     currentStep = step;
     updateStepIndicator(step);
@@ -2103,6 +2217,14 @@ if (document.readyState === 'loading') {
   const goToStep2 = () => {
     storeStep1Data();
     showStep(2);
+  };
+
+  // Navigate to step 3
+  const goToStep3 = () => {
+    storeStep1Data();
+    storeStep2Data();
+    renderStep3Summary();
+    showStep(3);
   };
   
   // Navigate back to step 1
@@ -2135,12 +2257,60 @@ if (document.readyState === 'loading') {
       goToStep2();
     });
   }
+
+  // Next button step 2
+  if (nextBtnStep2) {
+    nextBtnStep2.addEventListener('click', (e) => {
+      e.preventDefault();
+      goToStep3();
+    });
+  }
   
   // Back button step 2
   if (backBtnStep2) {
     backBtnStep2.addEventListener('click', (e) => {
       e.preventDefault();
       goToStep1();
+    });
+  }
+
+  // Edit buttons in step 3
+  if (editStep1Btn) {
+    editStep1Btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      showStep(1);
+    });
+  }
+  if (editStep2Btn) {
+    editStep2Btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      showStep(2);
+    });
+  }
+
+  // Cancel button in step 3 opens the same cancel confirmation dialog
+  if (cancelBtnStep3) {
+    cancelBtnStep3.addEventListener('click', (e) => {
+      e.preventDefault();
+      if (cancelModal) {
+        cancelModal.setAttribute('aria-hidden', 'false');
+        document.documentElement.classList.add('modal-open');
+        document.body.classList.add('modal-open');
+        try {
+          const y = window.scrollY || window.pageYOffset || 0;
+          document.body.dataset.scrollY = String(y);
+          document.body.style.top = `-${y}px`;
+          document.body.classList.add('modal-locked');
+        } catch (_) {}
+      }
+    });
+  }
+
+  // Submit button in step 3 – for prototype, return user to Select counterparty
+  if (submitBtnStep3) {
+    submitBtnStep3.addEventListener('click', (e) => {
+      e.preventDefault();
+      window.location.href = 'select-counterparty.html';
     });
   }
   
