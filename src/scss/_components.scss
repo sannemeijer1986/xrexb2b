@@ -876,15 +876,71 @@ body.modal-locked {
 
 // Desktop and larger: modal body fills remaining space, footer stays at bottom
 @media (min-width: $bp-desktop) {
+  // Constrain modal wrapper to viewport height
+  // Note: Loading modal has specific fixed height rules that override these
+  .modal-wrapper {
+    max-height: calc(100vh - 40px); // Leave 20px margin top and bottom
+    overflow: hidden; // Prevent wrapper from scrolling
+    display: flex; // Make wrapper a flex container
+    flex-direction: column;
+  }
+  // Also handle modal__dialog structure
+  .modal__dialog {
+    max-height: calc(100vh - 40px);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  // modal__content inside modal__dialog
+  .modal__dialog .modal__content {
+    display: flex;
+    flex-direction: column;
+    max-height: 100%;
+    overflow: hidden;
+    flex: 1;
+    min-height: 0; // Critical: allows flex item to shrink below content size
+  }
   .modal-content {
     display: flex;
     flex-direction: column;
     min-height: 500px;
+    max-height: 100%; // Constrain to wrapper height
+    overflow: hidden; // Prevent content from scrolling, only body scrolls
+    flex: 1; // Take available space in wrapper
+    min-height: 0; // Critical: allows flex item to shrink below content size
+  }
+  .modal-header {
+    flex-shrink: 0; // Keep header fixed at top
   }
   .modal-body {
     flex: 1 1 auto;
-    overflow: auto;
+    min-height: 0; // Critical: allows flex item to shrink and enable scrolling
+    overflow-y: auto; // Make body scrollable when content exceeds
+    overflow-x: hidden;
     padding-top: 32px; // a bit more space on desktop and above
+    // Smooth scrolling
+    -webkit-overflow-scrolling: touch;
+  }
+  // Handle both modal-footer and modal-actions (some modals use modal-actions)
+  .modal-footer,
+  .modal-actions {
+    flex-shrink: 0; // Keep footer fixed at bottom
+    margin-top: auto; // Push footer to bottom
+  }
+  // Handle modal__body and modal__footer in dialog structure
+  .modal__dialog .modal__body {
+    flex: 1 1 auto;
+    min-height: 0; // Critical: allows flex item to shrink and enable scrolling
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+  }
+  .modal__header,
+  .modal__footer {
+    flex-shrink: 0;
+  }
+  .modal__footer {
+    margin-top: auto; // Push footer to bottom
   }
 }
 
