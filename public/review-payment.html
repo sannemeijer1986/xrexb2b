@@ -118,11 +118,11 @@
           <div class="receipt__row">
             <span class="muted">
               Service fee
-              <span class="service-fee__min-label" id="rvServiceMinLabel" style="display: none;">min. 60 USD</span>
+              <span class="service-fee__min-label" id="rvServiceMinLabel">min. 60 USD</span>
             </span>
             <strong>
               <span class="service-fee__percentage" id="feePct">1.00%</span>
-              <span class="service-fee__minimum" id="rvServiceMinValue" style="display: none;">60.00 USD</span>
+              <span class="service-fee__minimum" id="rvServiceMinValue">60.00 USD</span>
             </strong>
           </div>
           <div class="receipt__subrow">
@@ -306,49 +306,24 @@
           set('feePct', d.feePct || '1.00%');
           (function () {
             var pctEl = document.getElementById('feePct');
-            var minLabelEl = document.getElementById('rvServiceMinLabel');
             var minValEl = document.getElementById('rvServiceMinValue');
-            if (!pctEl || !minLabelEl || !minValEl) return;
+            if (!pctEl || !minValEl) return;
+
+            var row = pctEl.closest('.receipt__row');
+            if (!row) return;
 
             var minApplied = !!d.serviceMinApplied;
             var minAmount = Number(d.serviceMinAmount || 60);
 
             if (minApplied) {
-              // Strikethrough percentage
-              pctEl.style.display = 'inline';
-              pctEl.style.textDecoration = 'line-through';
-              pctEl.style.color = '#BCBDBD';
-              pctEl.style.fontSize = '12px';
-              pctEl.style.fontWeight = '400';
+              row.classList.add('service-fee--min');
               pctEl.textContent = d.feePct || '1.00%';
-
-              // Show minimum fee value
-              minValEl.style.display = 'inline';
-              minValEl.style.textDecoration = 'none';
-              minValEl.style.color = '';
-              minValEl.style.fontSize = '';
               minValEl.textContent = (minAmount || 60).toLocaleString('en-US', {
                 minimumFractionDigits: 2,
                 maximumFractionDigits: 2
               }) + ' USD';
-
-              // Show "min. 60 USD" label
-              minLabelEl.style.display = 'inline';
-              minLabelEl.style.fontSize = '12px';
-              minLabelEl.style.color = '#BCBDBD';
-              minLabelEl.style.fontWeight = '400';
-              minLabelEl.style.marginLeft = '4px';
             } else {
-              // Normal percentage display
-              pctEl.style.display = 'inline';
-              pctEl.style.textDecoration = 'none';
-              pctEl.style.color = '';
-              pctEl.style.fontSize = '';
-              pctEl.style.fontWeight = '';
-
-              // Hide minimum fee UI
-              minValEl.style.display = 'none';
-              minLabelEl.style.display = 'none';
+              row.classList.remove('service-fee--min');
             }
           })();
           set('payerShareLabel', d.payerShareLabel || '');

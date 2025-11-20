@@ -455,57 +455,21 @@ function initSendPayment() {
       if (v) v.textContent = formatAmount(subtotal, payerCurrency);
     }
     if (summaryRows.serviceTitle) {
-      // Only show the label; totals are displayed in the breakdown rows
-      const lbl = summaryRows.serviceTitle.querySelector('.muted');
-      const minLabelEl = summaryRows.serviceTitle.querySelector('.service-fee__min-label');
-      const pctEl = summaryRows.serviceTitle.querySelector('.service-fee__percentage');
-      const minEl = summaryRows.serviceTitle.querySelector('.service-fee__minimum');
-      const strongEl = summaryRows.serviceTitle.querySelector('strong');
-      
-      if (lbl && pctEl && minEl && strongEl) {
-        // isBelowMinimum is already calculated above
-        
+      // Only show the label; totals are displayed in the breakdown rows.
+      // Styling is handled via CSS using the `.service-fee--min` class.
+      const row = summaryRows.serviceTitle;
+      const pctEl = row.querySelector('.service-fee__percentage');
+      const minEl = row.querySelector('.service-fee__minimum');
+
+      if (pctEl && minEl) {
         if (isBelowMinimum) {
-          // Show strikethrough percentage + minimum fee
-          pctEl.style.display = 'inline';
-          pctEl.style.textDecoration = 'line-through';
-          pctEl.style.color = '#BCBDBD'; // placeholder color
-          pctEl.style.fontWeight = '400'; // font weight
-          pctEl.style.fontSize = '12px';
-          pctEl.style.marginRight = '4px';
+          row.classList.add('service-fee--min');
           pctEl.textContent = `${(feeRate * 100).toFixed(2)}%`;
-          
-          minEl.style.display = 'inline';
-          minEl.style.textDecoration = 'none';
-          minEl.style.color = '';
-          minEl.style.fontSize = '';
           // Use the fixed minimum service fee amount (60.00 USD) for display
           minEl.textContent = `${formatAmount(60, 'USD')}`;
-          
-          // Show min label next to "Service fee"
-          if (minLabelEl) {
-            minLabelEl.style.display = 'inline';
-            minLabelEl.style.fontSize = '12px';
-            minLabelEl.style.color = '#BCBDBD'; // placeholder color
-            minLabelEl.style.fontWeight = '400';
-            minLabelEl.style.marginLeft = '4px';
-          }
         } else {
-          // Show normal percentage
-          pctEl.style.display = 'inline';
-          pctEl.style.textDecoration = 'none';
-          pctEl.style.color = '';
-          pctEl.style.fontWeight = '';
-          pctEl.style.marginRight = '';
-          pctEl.style.fontSize = '';
+          row.classList.remove('service-fee--min');
           pctEl.textContent = `${(feeRate * 100).toFixed(2)}%`;
-          
-          minEl.style.display = 'none';
-          
-          // Hide min label
-          if (minLabelEl) {
-            minLabelEl.style.display = 'none';
-          }
         }
       }
     }
@@ -683,7 +647,20 @@ function initSendPayment() {
     if (docTypeSelect) {
       // set default to placeholder on show
       if (isPre && isNatureChanged) docTypeSelect.value = '';
-      docTypeSelect.addEventListener('change', () => { syncDocCard(); if (typeof validateSendForm === 'function') validateSendForm(); });
+      docTypeSelect.addEventListener('change', () => {
+        syncDocCard();
+
+        // Clear the document number whenever the document type changes
+        // (e.g. switching between PI and PO should reset `piNumber`).
+        if (typeof piNumber !== 'undefined' && piNumber) {
+          piNumber.value = '';
+        }
+        if (typeof updateDocNumberCounters === 'function') {
+          updateDocNumberCounters();
+        }
+
+        if (typeof validateSendForm === 'function') validateSendForm();
+      });
     }
     syncDocCard();
     if (typeof validateSendForm === 'function') validateSendForm();

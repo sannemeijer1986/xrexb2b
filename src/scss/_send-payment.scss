@@ -571,6 +571,34 @@
   }
 }
 
+// Service fee summary (min fee state)
+.service-fee__min-label,
+.service-fee__minimum {
+  display: none;
+}
+
+.service-fee--min {
+  .service-fee__percentage {
+    text-decoration: line-through;
+    color: #BCBDBD;
+    font-weight: 400;
+    font-size: 12px;
+    margin-right: 4px;
+  }
+
+  .service-fee__minimum {
+    display: inline;
+  }
+
+  .service-fee__min-label {
+    display: inline;
+    font-size: 12px;
+    font-weight: 400;
+    color: #BCBDBD;
+    margin-left: 4px;
+  }
+}
+
 // Remove default tap highlight on radios (mobile Safari/Chromium)
 .fee-option, .fee-option * {
   -webkit-tap-highlight-color: transparent;
