@@ -585,7 +585,7 @@
 .receipt__icon img { width: 104px; height: 104px; display: block; }
 .receipt__title { font-family: $font-family-sans; font-weight: 700; font-size: 20px; color: $text-primary; margin: 0; }
 .receipt__card { text-align: left; padding: 20px 24px; }
-.receipt__row, .receipt__subrow { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: none; }
+.receipt__row, .receipt__subrow { display: flex; align-items: flex-start; justify-content: space-between; padding: 10px 0; border-bottom: none; }
 .receipt__row strong { font-weight: 400; }
 .receipt__row--first strong { font-weight: 700; }
 .receipt__subrow { padding: 10px 0 10px 24px; font-size: 16px; }

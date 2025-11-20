@@ -1502,7 +1502,7 @@ textarea {
 
 .receipt__row, .receipt__subrow {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   padding: 10px 0;
   border-bottom: none;
@@ -4231,6 +4231,48 @@ body.modal-locked {
   font-weight: 700;
 }
 
+@media (max-width: 1279px) {
+  .page--review .receipt__row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+  .page--review .receipt__row strong {
+    margin-left: 0;
+    text-align: left;
+    width: 100%;
+    font-size: 16px;
+  }
+  .page--review .receipt__row .muted {
+    width: 100%;
+    font-size: 14px;
+    font-weight: 600;
+  }
+  .page--review .receipt__subrow {
+    padding: 4px 0px;
+    font-size: 14px;
+  }
+  .page--review .receipt__subrow .muted {
+    font-weight: 600;
+  }
+  .page--review .receipt_subrow:first-child {
+    margin-top: 8px;
+  }
+  .page--review .receipt__note {
+    text-align: left;
+  }
+  .page--review #receiverGets {
+    font-size: 18px;
+  }
+  .page--review .receipt__row .convertrate-wrapper {
+    align-items: flex-start;
+    width: 100%;
+  }
+  .page--review .receipt__row .convertrate-wrapper strong {
+    margin-left: 0;
+    text-align: left;
+  }
+}
 /* Auto-mirrored from src/css/overrides.css when running `npm run dev:with-css-edit` */
 
 /*# sourceMappingURL=main.css.map */

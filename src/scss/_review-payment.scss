@@ -72,4 +72,60 @@
   }
 }
 
+// Stack receipt rows vertically on mobile for space optimization
+@media (max-width: ($bp-desktop - 1px)) {
+  .page--review {
+    .receipt__row {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 4px;
+      
+      strong {
+        margin-left: 0;
+        text-align: left;
+        width: 100%;
+        font-size: 16px;
+      }
+      
+      .muted {
+        width: 100%;
+        font-size: 14px;
+        font-weight: 600;
+      }
+    }
+
+    .receipt__subrow {
+      padding: 4px 0px;
+      font-size: 14px;
+
+      .muted {
+        font-weight: 600;
+      }
+    }
+    
+    .receipt_subrow:first-child {
+      margin-top: 8px;
+    }
+
+    .receipt__note {
+      text-align: left;
+    }
+
+    #receiverGets {
+      font-size: 18px;
+    }
+    
+    // Special handling for convertrate-wrapper
+    .receipt__row .convertrate-wrapper {
+      align-items: flex-start;
+      width: 100%;
+      
+      strong {
+        margin-left: 0;
+        text-align: left;
+      }
+    }
+  }
+}
+
 
