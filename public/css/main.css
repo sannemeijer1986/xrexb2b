@@ -329,6 +329,14 @@ html {
   margin-top: 16px;
 }
 
+.page--addbank .input-group input {
+  border-radius: 8px !important;
+}
+
+.page--addbank .card + .card {
+  margin-top: 0px;
+}
+
 .card__title { /* when used outside a .card as a section label */
   font-size: 16px;
   font-weight: 600;
@@ -549,6 +557,7 @@ textarea {
   border-radius: 8px;
   background: #fff;
   padding: 0;
+  position: relative;
 }
 .input-group input {
   flex: 1;
@@ -587,6 +596,24 @@ textarea {
   width: 16px;
   height: 16px;
   flex-shrink: 0;
+}
+
+#avgVolume {
+  border-radius: 8px;
+}
+#avgVolume:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.input-group:has(#avgVolume:focus) {
+  outline: 1px solid #0184FF;
+  outline-offset: -1px;
+}
+
+.input-group:has(#avgVolume):focus-within {
+  outline: 1px solid #0184FF;
+  outline-offset: -1px;
 }
 
 .form__actions {
@@ -2921,6 +2948,10 @@ body.modal-locked {
 
 .page--send .form__row {
   grid-template-columns: 1fr;
+}
+
+.page--addbank .form__row {
+  gap: 32px;
 }
 
 .page--send .form__row--amount {

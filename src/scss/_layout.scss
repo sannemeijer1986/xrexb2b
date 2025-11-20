@@ -159,6 +159,15 @@ html { overflow-y: scroll; }
   & + .card { margin-top: 16px; }
 }
 
+.page--addbank .input-group input {
+  border-radius: 8px !important;
+}
+
+.page--addbank .card {
+  & + .card { margin-top: 0px; }
+}
+
+
 .card__title { /* when used outside a .card as a section label */
   font-size: 16px;
   font-weight: 600;

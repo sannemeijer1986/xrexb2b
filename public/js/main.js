@@ -2293,30 +2293,41 @@ if (document.readyState === 'loading') {
         const bankCity = bankDetailsModal.querySelector('#bankCity');
         const swiftCode = bankDetailsModal.querySelector('#swiftCode');
         const accountNumber = bankDetailsModal.querySelector('#accountNumber');
+        const accountNicknameSwift = bankDetailsModal.querySelector('#accountNicknameSwift');
+        const ibanNumber = bankDetailsModal.querySelector('#ibanNumber');
         const accountNickname = bankDetailsModal.querySelector('#accountNickname');
         
-        if (bankCountry) bankCountry.value = 'Singapore';
-        if (bankName) bankName.value = 'DBS Bank';
-        if (bankCity) bankCity.value = 'Singapore';
-        if (swiftCode) swiftCode.value = 'DBSSSGSG';
-        if (accountNumber) accountNumber.value = '012-345678-9';
-        if (accountNickname) accountNickname.value = 'Main Business Account';
+        // Fill with SWIFT/BIC example (Singapore)
+        if (bankCountry) {
+          bankCountry.value = 'Singapore';
+          // Trigger change first to update field visibility
+          bankCountry.dispatchEvent(new Event('change', { bubbles: true }));
+        }
         
-        // Trigger change events
-        [bankCountry, bankName, bankCity, swiftCode, accountNumber, accountNickname].forEach((el) => {
-          if (el) {
-            el.dispatchEvent(new Event('input', { bubbles: true }));
-            el.dispatchEvent(new Event('change', { bubbles: true }));
-          }
-        });
-        
-        // Trigger save to update filled state UI
+        // Wait a bit for field visibility to update, then fill other fields
         setTimeout(() => {
-          const saveBtn = document.getElementById('saveBankDetails');
-          if (saveBtn && !saveBtn.disabled) {
-            saveBtn.click();
-          }
-        }, 10);
+          if (bankName) bankName.value = 'DBS Bank';
+          if (bankCity) bankCity.value = 'Singapore';
+          if (swiftCode) swiftCode.value = 'DBSSSGSG';
+          if (accountNumber) accountNumber.value = '012-345678-9';
+          if (accountNicknameSwift) accountNicknameSwift.value = 'Main Business Account';
+          
+          // Trigger change events for all fields
+          [bankName, bankCity, swiftCode, accountNumber, accountNicknameSwift, ibanNumber, accountNickname].forEach((el) => {
+            if (el) {
+              el.dispatchEvent(new Event('input', { bubbles: true }));
+              el.dispatchEvent(new Event('change', { bubbles: true }));
+            }
+          });
+          
+          // Trigger save to update filled state UI
+          setTimeout(() => {
+            const saveBtn = document.getElementById('saveBankDetails');
+            if (saveBtn && !saveBtn.disabled) {
+              saveBtn.click();
+            }
+          }, 50);
+        }, 50);
       }
       
       // Fill account declaration modal fields and trigger save
@@ -2330,7 +2341,7 @@ if (document.readyState === 'loading') {
         if (accountUsedFor) accountUsedFor.value = 'both';
         if (declarationPurpose) declarationPurpose.value = 'remittance';
         if (avgTransactions) avgTransactions.value = '50';
-        if (avgVolume) avgVolume.value = '100000';
+        if (avgVolume) avgVolume.value = '100,000.00';
         
         // Trigger change events
         [accountUsedFor, declarationPurpose, avgTransactions, avgVolume].forEach((el) => {
@@ -2346,13 +2357,15 @@ if (document.readyState === 'loading') {
           if (saveBtn && !saveBtn.disabled) {
             saveBtn.click();
           }
-        }, 20);
+        }, 100);
       }
       
       // Fill upload
-      if (typeof window.setBankProofUploaded === 'function') {
-        window.setBankProofUploaded('Proof1.jpg');
-      }
+      setTimeout(() => {
+        if (typeof window.setBankProofUploaded === 'function') {
+          window.setBankProofUploaded('Proof1.jpg');
+        }
+      }, 150);
     }
   });
 
@@ -2427,17 +2440,27 @@ if (document.readyState === 'loading') {
         const bankCity = bankDetailsModal.querySelector('#bankCity');
         const swiftCode = bankDetailsModal.querySelector('#swiftCode');
         const accountNumber = bankDetailsModal.querySelector('#accountNumber');
+        const accountNicknameSwift = bankDetailsModal.querySelector('#accountNicknameSwift');
+        const ibanNumber = bankDetailsModal.querySelector('#ibanNumber');
         const accountNickname = bankDetailsModal.querySelector('#accountNickname');
         
-        if (bankCountry) bankCountry.value = '';
+        // Clear country first to trigger field visibility update
+        if (bankCountry) {
+          bankCountry.value = '';
+          bankCountry.dispatchEvent(new Event('change', { bubbles: true }));
+        }
+        
+        // Clear other fields
         if (bankName) bankName.value = '';
         if (bankCity) bankCity.value = '';
         if (swiftCode) swiftCode.value = '';
         if (accountNumber) accountNumber.value = '';
+        if (accountNicknameSwift) accountNicknameSwift.value = '';
+        if (ibanNumber) ibanNumber.value = '';
         if (accountNickname) accountNickname.value = '';
         
-        // Trigger change events
-        [bankCountry, bankName, bankCity, swiftCode, accountNumber, accountNickname].forEach((el) => {
+        // Trigger change events for all fields
+        [bankName, bankCity, swiftCode, accountNumber, accountNicknameSwift, ibanNumber, accountNickname].forEach((el) => {
           if (el) {
             el.dispatchEvent(new Event('input', { bubbles: true }));
             el.dispatchEvent(new Event('change', { bubbles: true }));
@@ -2495,13 +2518,64 @@ if (document.readyState === 'loading') {
   // Store bank details data
   let bankDetailsData = null;
   
+  // Countries that use IBAN (European countries and some others)
+  const IBAN_COUNTRIES = [
+    'Albania', 'Austria', 'Belgium', 'Bulgaria', 'Croatia', 'Czech Republic',
+    'Denmark', 'Estonia', 'Finland', 'France', 'Germany', 'Greece', 'Hungary',
+    'Iceland', 'Ireland', 'Italy', 'Latvia', 'Liechtenstein', 'Lithuania',
+    'Luxembourg', 'Malta', 'Netherlands', 'Norway', 'Poland', 'Portugal',
+    'Romania', 'Slovakia', 'Slovenia', 'Spain', 'Sweden', 'Switzerland',
+    'United Kingdom'
+  ];
+  
+  // Get country type (IBAN or SWIFT)
+  const getCountryType = (country) => {
+    if (!country) return null;
+    return IBAN_COUNTRIES.includes(country) ? 'IBAN' : 'SWIFT';
+  };
+  
+  // Show/hide fields based on country selection
+  const updateFieldsVisibility = () => {
+    const bankCountry = document.getElementById('bankCountry')?.value || '';
+    const countryType = getCountryType(bankCountry);
+    const swiftFields = document.getElementById('swiftFields');
+    const ibanFields = document.getElementById('ibanFields');
+    const swiftNicknameRow = document.getElementById('swiftNicknameRow');
+    
+    if (!swiftFields || !ibanFields || !swiftNicknameRow) return;
+    
+    if (!bankCountry || bankCountry === '') {
+      // Hide all fields if no country selected
+      swiftFields.style.display = 'none';
+      ibanFields.style.display = 'none';
+      swiftNicknameRow.style.display = 'none';
+    } else if (countryType === 'IBAN') {
+      // Show IBAN fields
+      swiftFields.style.display = 'none';
+      ibanFields.style.display = 'grid';
+      swiftNicknameRow.style.display = 'none';
+    } else {
+      // Show SWIFT/BIC fields
+      swiftFields.style.display = 'grid';
+      ibanFields.style.display = 'none';
+      swiftNicknameRow.style.display = 'grid';
+    }
+  };
+  
   // Format bank details from modal fields
   const formatBankDetails = (data) => {
     bankDetailsData = data;
     const parts = [];
     if (data.bankName) parts.push(data.bankName);
-    if (data.accountNumber) parts.push(`Account: ${data.accountNumber}`);
-    if (data.swiftCode) parts.push(`SWIFT: ${data.swiftCode}`);
+    
+    const countryType = getCountryType(data.bankCountry);
+    if (countryType === 'IBAN') {
+      if (data.ibanNumber) parts.push(`IBAN: ${data.ibanNumber}`);
+    } else {
+      if (data.accountNumber) parts.push(`Account: ${data.accountNumber}`);
+      if (data.swiftCode) parts.push(`SWIFT: ${data.swiftCode}`);
+    }
+    
     if (data.bankCity && data.bankCountry) {
       parts.push(`${data.bankCity}, ${data.bankCountry}`);
     }
@@ -2512,13 +2586,23 @@ if (document.readyState === 'loading') {
   const renderFilledState = () => {
     if (!bankDetailsData) return;
     
-    const title = bankDetailsData.accountNickname || bankDetailsData.bankName || 'Bank Account';
+    const countryType = getCountryType(bankDetailsData.bankCountry);
+    const nickname = countryType === 'IBAN' 
+      ? (bankDetailsData.accountNickname || bankDetailsData.bankName || 'Bank Account')
+      : (bankDetailsData.accountNicknameSwift || bankDetailsData.bankName || 'Bank Account');
+    
+    const title = nickname;
     const details = [];
     if (bankDetailsData.bankCountry) details.push(`Country : ${bankDetailsData.bankCountry}`);
     if (bankDetailsData.bankName) details.push(`Bank: ${bankDetailsData.bankName}`);
     if (bankDetailsData.bankCity) details.push(`Bank city: ${bankDetailsData.bankCity}`);
-    if (bankDetailsData.swiftCode) details.push(`SWIFT : ${bankDetailsData.swiftCode}`);
-    if (bankDetailsData.accountNumber) details.push(`Account number : ${bankDetailsData.accountNumber}`);
+    
+    if (countryType === 'IBAN') {
+      if (bankDetailsData.ibanNumber) details.push(`IBAN : ${bankDetailsData.ibanNumber}`);
+    } else {
+      if (bankDetailsData.swiftCode) details.push(`SWIFT : ${bankDetailsData.swiftCode}`);
+      if (bankDetailsData.accountNumber) details.push(`Account number : ${bankDetailsData.accountNumber}`);
+    }
     
     if (bankDetailsTitle) bankDetailsTitle.textContent = title;
     if (bankDetailsDetails) {
@@ -2570,18 +2654,38 @@ if (document.readyState === 'loading') {
     const bankCountry = document.getElementById('bankCountry')?.value || '';
     const bankName = document.getElementById('bankName')?.value || '';
     const bankCity = document.getElementById('bankCity')?.value || '';
-    const swiftCode = document.getElementById('swiftCode')?.value || '';
-    const accountNumber = document.getElementById('accountNumber')?.value || '';
-    const accountNickname = document.getElementById('accountNickname')?.value || '';
+    const countryType = getCountryType(bankCountry);
     
-    // Validate required fields
-    if (!bankCountry || !bankName || !accountNumber) {
-      // In a real app, show validation errors
-      return;
+    let data = { bankCountry, bankName, bankCity };
+    
+    if (countryType === 'IBAN') {
+      const ibanNumber = document.getElementById('ibanNumber')?.value || '';
+      const accountNickname = document.getElementById('accountNickname')?.value || '';
+      
+      // Validate required fields for IBAN
+      if (!bankCountry || !bankName || !ibanNumber) {
+        return;
+      }
+      
+      data.ibanNumber = ibanNumber;
+      data.accountNickname = accountNickname;
+    } else {
+      const swiftCode = document.getElementById('swiftCode')?.value || '';
+      const accountNumber = document.getElementById('accountNumber')?.value || '';
+      const accountNicknameSwift = document.getElementById('accountNicknameSwift')?.value || '';
+      
+      // Validate required fields for SWIFT/BIC
+      if (!bankCountry || !bankName || !accountNumber) {
+        return;
+      }
+      
+      data.swiftCode = swiftCode;
+      data.accountNumber = accountNumber;
+      data.accountNicknameSwift = accountNicknameSwift;
     }
     
     // Format and set bank details
-    formatBankDetails({ bankCountry, bankName, bankCity, swiftCode, accountNumber, accountNickname });
+    formatBankDetails(data);
     renderFilledState();
     
     // Trigger change event
@@ -2643,10 +2747,20 @@ if (document.readyState === 'loading') {
   const validateBankDetailsForm = () => {
     const bankCountry = document.getElementById('bankCountry')?.value || '';
     const bankName = document.getElementById('bankName')?.value || '';
-    const accountNumber = document.getElementById('accountNumber')?.value || '';
-    return bankCountry && bankCountry.trim() !== '' &&
-           bankName && bankName.trim() !== '' &&
-           accountNumber && accountNumber.trim() !== '';
+    
+    if (!bankCountry || bankCountry.trim() === '' || !bankName || bankName.trim() === '') {
+      return false;
+    }
+    
+    const countryType = getCountryType(bankCountry);
+    
+    if (countryType === 'IBAN') {
+      const ibanNumber = document.getElementById('ibanNumber')?.value || '';
+      return ibanNumber && ibanNumber.trim() !== '';
+    } else {
+      const accountNumber = document.getElementById('accountNumber')?.value || '';
+      return accountNumber && accountNumber.trim() !== '';
+    }
   };
   
   // Update save button state
@@ -2671,17 +2785,40 @@ if (document.readyState === 'loading') {
       saveBankDetails();
     });
     
-    // Add validation listeners to required fields
-    const requiredFields = ['bankCountry', 'bankName', 'accountNumber'];
-    requiredFields.forEach((fieldId) => {
+    // Add validation listeners to all relevant fields
+    const allFields = ['bankCountry', 'bankName', 'bankCity', 'swiftCode', 'accountNumber', 'ibanNumber', 'accountNickname', 'accountNicknameSwift'];
+    allFields.forEach((fieldId) => {
       const field = document.getElementById(fieldId);
       if (field) {
-        field.addEventListener('input', updateSaveButton);
-        field.addEventListener('change', updateSaveButton);
+        field.addEventListener('input', () => {
+          updateFieldsVisibility();
+          updateSaveButton();
+        });
+        field.addEventListener('change', () => {
+          updateFieldsVisibility();
+          updateSaveButton();
+        });
       }
     });
     
-    // Initial validation
+    // Watch for country changes specifically
+    const bankCountryField = document.getElementById('bankCountry');
+    if (bankCountryField) {
+      bankCountryField.addEventListener('change', () => {
+        updateFieldsVisibility();
+        updateSaveButton();
+        // Clear fields when country changes
+        const swiftCode = document.getElementById('swiftCode');
+        const accountNumber = document.getElementById('accountNumber');
+        const ibanNumber = document.getElementById('ibanNumber');
+        if (swiftCode) swiftCode.value = '';
+        if (accountNumber) accountNumber.value = '';
+        if (ibanNumber) ibanNumber.value = '';
+      });
+    }
+    
+    // Initial validation and field visibility
+    updateFieldsVisibility();
     updateSaveButton();
   }
   
@@ -2711,6 +2848,7 @@ if (document.readyState === 'loading') {
     toggleFilled(input);
     const updateField = () => {
       toggleFilled(input);
+      updateFieldsVisibility();
       updateSaveButton();
     };
     input.addEventListener('input', updateField);
@@ -2767,7 +2905,12 @@ if (document.readyState === 'loading') {
     const details = [];
     if (accountDeclarationData.purpose) details.push(accountDeclarationData.purpose);
     if (accountDeclarationData.avgTransactions) details.push(`${accountDeclarationData.avgTransactions} Transactions / month`);
-    if (accountDeclarationData.avgVolume) details.push(`${parseFloat(accountDeclarationData.avgVolume).toLocaleString('en-US')} USD / month`);
+    if (accountDeclarationData.avgVolume) {
+      const volumeNum = parseFloat(accountDeclarationData.avgVolume);
+      if (!isNaN(volumeNum)) {
+        details.push(`${volumeNum.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USD / month`);
+      }
+    }
     
     if (accountDeclarationTitle) accountDeclarationTitle.textContent = title;
     if (accountDeclarationDetails) {
@@ -2787,8 +2930,149 @@ if (document.readyState === 'loading') {
     if (accountDeclarationInput) accountDeclarationInput.value = '';
   };
   
+  // Format number with thousand separators and .00 decimals
+  const formatNumber = (value) => {
+    if (!value || value === '') return '';
+    const cleaned = value.toString().replace(/[^\d]/g, '');
+    if (!cleaned) return '';
+    const num = parseInt(cleaned, 10);
+    if (isNaN(num)) return '';
+    return num.toLocaleString('en-US', {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    });
+  };
+  
+  // Parse formatted number (remove commas and decimals) for storage/validation
+  const parseNumber = (value) => {
+    if (!value || value === '') return '';
+    // Keep only digits
+    return value.toString().replace(/[^\d]/g, '');
+  };
+  
+  // Live thousand-separator formatting directly in the avgVolume input
+  const setupAvgVolumeFormatting = () => {
+    const field = document.getElementById('avgVolume');
+    if (!field) return;
+    if (field.dataset.enhanced === 'true') return;
+    field.dataset.enhanced = 'true';
+  
+    let rawDigits = parseNumber(field.value); // underlying integer value as string
+  
+    const render = () => {
+      if (!rawDigits) {
+        field.value = '';
+        toggleFilled(field);
+        updateSaveButton();
+        return;
+      }
+      const formatted = formatNumber(rawDigits);
+      field.value = formatted;
+  
+      // Place caret just before the decimal point
+      const dotIndex = formatted.indexOf('.');
+      const caretPos = dotIndex >= 0 ? dotIndex : formatted.length;
+      requestAnimationFrame(() => {
+        field.setSelectionRange(caretPos, caretPos);
+      });
+  
+      toggleFilled(field);
+      updateSaveButton();
+    };
+  
+    const insertDigit = (digit) => {
+      rawDigits = (rawDigits || '') + digit;
+      render();
+    };
+  
+    const backspaceDigit = () => {
+      if (!rawDigits) return;
+      rawDigits = rawDigits.slice(0, -1);
+      render();
+    };
+  
+    // Handle keydown to fully control the value
+    field.addEventListener('keydown', (e) => {
+      const { key } = e;
+  
+      // Allow navigation keys / tab / escape
+      if (['Tab', 'Escape', 'ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(key)) {
+        return;
+      }
+  
+      // Digits
+      if (/^\d$/.test(key)) {
+        e.preventDefault();
+        insertDigit(key);
+        return;
+      }
+  
+      // Backspace
+      if (key === 'Backspace') {
+        e.preventDefault();
+        backspaceDigit();
+        return;
+      }
+  
+      // Delete clears everything for simplicity
+      if (key === 'Delete') {
+        e.preventDefault();
+        rawDigits = '';
+        render();
+        return;
+      }
+  
+      // Block any other character (no minus, no letters, etc.)
+      e.preventDefault();
+    });
+  
+    // Prevent default text changes from other input events; we control value
+    field.addEventListener('input', () => {
+      render();
+    });
+  
+    // Initial render if there is a pre-filled value (e.g. from Fill shortcut)
+    if (rawDigits) {
+      render();
+    }
+  };
+  
   // Open modal
   const openModal = () => {
+    // Setup formatting for avgVolume field
+    setupAvgVolumeFormatting();
+    
+    // Populate fields if there's existing data
+    if (accountDeclarationData) {
+      const accountUsedForField = document.getElementById('accountUsedFor');
+      const declarationPurposeField = document.getElementById('declarationPurpose');
+      const avgTransactionsField = document.getElementById('avgTransactions');
+      const avgVolumeField = document.getElementById('avgVolume');
+      
+      if (accountUsedForField) accountUsedForField.value = accountDeclarationData.accountUsedFor || '';
+      if (declarationPurposeField) declarationPurposeField.value = accountDeclarationData.purpose || '';
+      if (avgTransactionsField) avgTransactionsField.value = accountDeclarationData.avgTransactions || '';
+      if (avgVolumeField && accountDeclarationData.avgVolume) {
+        // Format the volume value when populating
+        const volumeNum = parseFloat(accountDeclarationData.avgVolume);
+        if (!isNaN(volumeNum)) {
+          avgVolumeField.value = volumeNum.toLocaleString('en-US', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+          });
+        } else {
+          avgVolumeField.value = '';
+        }
+      }
+      
+      // Trigger filled state updates
+      if (accountUsedForField) toggleFilled(accountUsedForField);
+      if (declarationPurposeField) toggleFilled(declarationPurposeField);
+      if (avgTransactionsField) toggleFilled(avgTransactionsField);
+      if (avgVolumeField) toggleFilled(avgVolumeField);
+      updateSaveButton();
+    }
+    
     modal.setAttribute('aria-hidden', 'false');
     document.documentElement.classList.add('modal-open');
     document.body.classList.add('modal-open');
@@ -2819,7 +3103,8 @@ if (document.readyState === 'loading') {
     const accountUsedFor = document.getElementById('accountUsedFor')?.value || '';
     const purpose = document.getElementById('declarationPurpose')?.value || '';
     const avgTransactions = document.getElementById('avgTransactions')?.value || '';
-    const avgVolume = document.getElementById('avgVolume')?.value || '';
+    const avgVolumeField = document.getElementById('avgVolume');
+    const avgVolumeRaw = avgVolumeField ? parseNumber(avgVolumeField.value) : '';
     
     // Validate required fields
     if (!accountUsedFor || !purpose) {
@@ -2827,8 +3112,8 @@ if (document.readyState === 'loading') {
       return;
     }
     
-    // Format and set account declaration
-    formatAccountDeclaration({ accountUsedFor, purpose, avgTransactions, avgVolume });
+    // Format and set account declaration (use parsed value for storage, formatted for display)
+    formatAccountDeclaration({ accountUsedFor, purpose, avgTransactions, avgVolume: avgVolumeRaw });
     renderFilledState();
     
     // Trigger change event
@@ -2950,8 +3235,8 @@ if (document.readyState === 'loading') {
     }
   };
   
-  // Get all inputs and selects in the modal
-  const modalInputs = modal.querySelectorAll('input[type="text"], input[type="number"], select');
+  // Get all inputs and selects in the modal (excluding avgVolume which has custom handler)
+  const modalInputs = modal.querySelectorAll('input[type="text"]:not(#avgVolume), input[type="number"], select');
   modalInputs.forEach((input) => {
     toggleFilled(input);
     const updateField = () => {

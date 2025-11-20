@@ -290,6 +290,10 @@
   grid-template-columns: 1fr; // default: full width fields
 }
 
+.page--addbank .form__row {
+  gap: 32px;
+}
+
 // Ensure Amount + Billed currency are on the same row
 .page--send .form__row--amount {
   grid-template-columns: 1fr auto;

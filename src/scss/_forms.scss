@@ -72,6 +72,7 @@ textarea { resize: vertical; }
   border-radius: $radius-md;
   background: #fff;
   padding: 0;
+  position: relative;
   input {
     flex: 1;
     border: none;
@@ -109,6 +110,31 @@ textarea { resize: vertical; }
     }
   }
 }
+
+// Border radius for avgVolume input
+#avgVolume {
+  border-radius: 8px;
+  
+  // Remove focus outline from the input itself
+  &:focus {
+    outline: none;
+    box-shadow: none;
+  }
+}
+
+// When avgVolume is focused, show outline on parent input-group instead
+.input-group:has(#avgVolume:focus) {
+  outline: 1px solid #0184FF;
+  outline-offset: -1px;
+}
+
+// Fallback for browsers that don't support :has() - only apply to input-groups containing avgVolume
+.input-group:has(#avgVolume):focus-within {
+  outline: 1px solid #0184FF;
+  outline-offset: -1px;
+}
+
+// (avgVolume special formatting is handled purely in JS on the real input)
 
 .form__actions {
   display: flex;
