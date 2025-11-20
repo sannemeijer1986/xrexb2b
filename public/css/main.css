@@ -468,6 +468,11 @@ html {
   }
 }
 
+@media (max-width: 1279px) {
+  .modal .form .form__row {
+    grid-template-columns: 1fr;
+  }
+}
 .form__field {
   display: grid;
   gap: 16px;
@@ -1254,6 +1259,16 @@ textarea {
   max-width: 720px;
 }
 
+.modal--large .modal-wrapper {
+  width: calc(100% - 32px);
+  max-width: 720px;
+}
+@media (min-width: 1280px) {
+  .modal--large .modal-wrapper {
+    max-width: 1200px;
+  }
+}
+
 .modal-wrapper {
   width: calc(100% - 32px);
   max-width: 720px;
@@ -1842,6 +1857,11 @@ body.modal-locked {
     justify-content: stretch;
   }
   .modal-wrapper {
+    width: 100%;
+    max-width: none;
+    height: 100%;
+  }
+  .modal--large .modal-wrapper {
     width: 100%;
     max-width: none;
     height: 100%;

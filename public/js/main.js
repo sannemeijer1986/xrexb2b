@@ -1989,7 +1989,12 @@ if (document.readyState === 'loading') {
 // Add Bank: Business address modal handler
 (function initBusinessAddressModal() {
   const root = document.querySelector('main.page--addbank');
-  if (!root) return;
+  if (!root) {
+    console.log('Business address modal: page--addbank not found');
+    return;
+  }
+  
+  console.log('Business address modal: Initializing...');
   
   const businessAddressInput = document.getElementById('businessAddress');
   const businessAddressBtn = document.getElementById('businessAddressBtn');
@@ -1997,7 +2002,18 @@ if (document.readyState === 'loading') {
   const businessAddressWrapper = document.getElementById('businessAddressWrapper');
   const modal = document.getElementById('businessAddressModal');
   
-  if (!businessAddressInput || !businessAddressBtn || !businessAddressIcon || !modal) return;
+  // Debug: log which elements are missing
+  if (!businessAddressInput) console.warn('businessAddressInput not found');
+  if (!businessAddressBtn) console.warn('businessAddressBtn not found');
+  if (!businessAddressIcon) console.warn('businessAddressIcon not found');
+  if (!modal) console.warn('businessAddressModal not found');
+  
+  if (!businessAddressInput || !businessAddressBtn || !businessAddressIcon || !modal) {
+    console.warn('Business address modal initialization failed - missing elements');
+    return;
+  }
+  
+  console.log('Business address modal: All elements found, setting up event listeners');
   
   // Format address from modal fields
   const formatAddress = (data) => {
@@ -2022,21 +2038,25 @@ if (document.readyState === 'loading') {
   
   // Open modal
   const openModal = () => {
+    console.log('openModal called, modal element:', modal);
     // Pre-fill modal if address exists
     const currentValue = businessAddressInput.value;
     if (currentValue) {
       // Try to parse existing address (simple approach - in real app would need better parsing)
       // For now, just clear and let user re-enter
     }
+    console.log('Setting modal aria-hidden to false');
     modal.setAttribute('aria-hidden', 'false');
     document.documentElement.classList.add('modal-open');
     document.body.classList.add('modal-open');
+    console.log('Modal classes added, checking if modal is visible');
     try {
       const y = window.scrollY || window.pageYOffset || 0;
       document.body.dataset.scrollY = String(y);
       document.body.style.top = `-${y}px`;
       document.body.classList.add('modal-locked');
     } catch (_) {}
+    console.log('Modal should now be visible. aria-hidden:', modal.getAttribute('aria-hidden'));
   };
   
   // Close modal
@@ -2080,24 +2100,32 @@ if (document.readyState === 'loading') {
     closeModal();
   };
   
-  // Event listeners
+  // Event listeners - make the entire field clickable
   businessAddressBtn.addEventListener('click', (e) => {
     e.preventDefault();
     e.stopPropagation();
+    console.log('Business address button clicked, opening modal');
     openModal();
   });
   
   businessAddressInput.addEventListener('click', (e) => {
     e.preventDefault();
+    e.stopPropagation();
+    console.log('Business address input clicked, opening modal');
     openModal();
   });
   
-  businessAddressWrapper.addEventListener('click', (e) => {
-    // Only handle clicks on the wrapper itself, not on children
-    if (e.target === businessAddressWrapper) {
-      openModal();
-    }
-  });
+  // Also handle pointer events on the wrapper
+  if (businessAddressWrapper) {
+    businessAddressWrapper.style.cursor = 'pointer';
+    businessAddressWrapper.addEventListener('click', (e) => {
+      // Only handle if click is directly on wrapper, not on children
+      if (e.target === businessAddressWrapper) {
+        console.log('Business address wrapper clicked, opening modal');
+        openModal();
+      }
+    });
+  }
   
   // Save button
   const saveBtn = document.getElementById('saveBusinessAddress');

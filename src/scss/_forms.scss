@@ -12,6 +12,13 @@
   }
 }
 
+// Modal forms: stack all rows on mobile
+@media (max-width: ($bp-desktop - 1px)) {
+  .modal .form .form__row {
+    grid-template-columns: 1fr;
+  }
+}
+
 .form__field {
   display: grid;
   gap: 16px;
