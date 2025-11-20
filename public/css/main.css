@@ -2194,6 +2194,10 @@ body.modal-locked {
   .modal__footer {
     margin-top: auto;
   }
+  .modal.modal--dialog .modal-close,
+  .modal.modal--dialog .modal__close {
+    display: none;
+  }
 }
 @media (max-width: 1279px) {
   .modal.modal--dialog {

@@ -962,6 +962,12 @@ body.modal-locked {
   .modal__footer {
     margin-top: auto; // Push footer to bottom
   }
+  
+  // Hide close button for dialog modals on desktop
+  .modal.modal--dialog .modal-close,
+  .modal.modal--dialog .modal__close {
+    display: none;
+  }
 }
 
 // Dialog-style modals using .modal__dialog on mobile/tablet
