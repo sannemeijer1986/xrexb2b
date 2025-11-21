@@ -262,7 +262,7 @@
     font-weight: 600;
     font-size: 22px;
     color: $text-primary;
-    text-align: center;
+    text-align: left;
 
     @media (min-width: $bp-desktop) {
       font-size: 32px;
@@ -282,8 +282,8 @@
 
   .cp-step {
     display: grid;
-    grid-template-columns: 46px 1fr;
-    column-gap: 12px;
+    grid-template-columns: 60px 1fr;
+    column-gap: 16px;
     align-items: center;
     position: relative;
     min-height: 72px;
@@ -293,16 +293,16 @@
     position: relative;
     display: flex;
     flex-direction: column;
-    width: 46px;
+    width: 60px;
     height: 100%;
     align-items: center;
     justify-content: center;
-    gap: 4px;
+    gap: 8px;
   }
 
   .cp-step__track {
-    width: 1.5px;
-    background: #bcbdbd;
+    width: 2px;
+    background: #DBDBDC;
     flex: 1 1 auto;
     display: block;
     min-height: 12px;
@@ -317,10 +317,10 @@
   }
 
   .cp-step__node-wrap {
-    width: 46px;
-    height: 46px;
+    width: 60px;
+    height: 60px;
     border-radius: 9999px;
-    border: 1.5px solid #bcbdbd;
+    border: 1px solid #EEEEEE;
     display: grid;
     place-items: center;
     margin: 2px 0;
@@ -328,24 +328,9 @@
     flex-shrink: 0;
   }
 
-  .cp-step--done .cp-step__node-wrap {
-    border-color: #22c55e;
-    background: #22c55e;
-  }
-
-  .cp-step--active .cp-step__node-wrap {
-    border-color: #3f78ff;
-    background: #ffffff;
-  }
-
-  .cp-step--future .cp-step__node-wrap {
-    border-color: #bcbdbd;
-    background: #ffffff;
-  }
-
   .cp-step__icon-img {
-    width: 26px;
-    height: 26px;
+    width: 36px;
+    height: 36px;
     display: block;
   }
 
@@ -361,8 +346,8 @@
 
   .cp-step__title {
     font-family: $font-family-sans;
-    font-weight: 800;
-    font-size: 16px;
+    font-weight: 700;
+    font-size: 18px;
     color: #3c4248;
     line-height: 1.5;
     text-align: left;
@@ -370,20 +355,20 @@
 
   .cp-step--active .cp-step__title {
     color: #3c4248;
-    font-weight: 800;
+    font-weight: 700;
   }
 
   .cp-step--future .cp-step__title {
     color: #9b9c9c;
-    font-weight: 600;
+    font-weight: 700;
   }
 
   .cp-step__text {
     margin: 2px 0 0 0;
     font-family: $font-family-sans;
     font-weight: 400;
-    font-size: 12px;
-    color: #000000;
+    font-size: 16px;
+    color: #73a2f5;
     line-height: 1.5;
   }
 
