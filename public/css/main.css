@@ -5138,9 +5138,9 @@ body.modal-locked {
 }
 @media (min-width: 1280px) {
   .page--cp-submitted .cp-submitted {
-    padding: 32px;
-    gap: 32px;
-    max-width: 480px;
+    padding: 48px;
+    gap: 24px;
+    max-width: 580px;
   }
 }
 .page--cp-submitted .cp-submitted__title {
@@ -5161,10 +5161,9 @@ body.modal-locked {
 .page--cp-submitted .cp-submitted__steps {
   list-style: none;
   margin: 0;
-  padding: 16px 20px;
   display: grid;
   gap: 0;
-  background: #f8f8f8;
+  padding: 0;
   border-radius: 12px;
 }
 .page--cp-submitted .cp-step {
@@ -5264,7 +5263,7 @@ body.modal-locked {
 }
 .page--cp-submitted .cp-submitted__actions {
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
   margin-top: 8px;
 }
 @media (max-width: 1279px) {
