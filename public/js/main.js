@@ -2551,8 +2551,23 @@ if (document.readyState === 'loading') {
           if (current < 2) window.setPrototypeState(2);
         }
       } catch (_) {}
-      // Navigate to the application submitted page (same prototype state 2)
-      window.location.href = 'add-bank-submitted.html';
+      
+      // Show loading modal for 1.5s then redirect
+      const loading = document.getElementById('loadingModal');
+      if (loading) {
+        loading.setAttribute('aria-hidden', 'false');
+        document.documentElement.classList.add('modal-open');
+        document.body.classList.add('modal-open');
+        try {
+          const y = window.scrollY || window.pageYOffset || 0;
+          document.body.dataset.scrollY = String(y);
+          document.body.style.top = `-${y}px`;
+          document.body.classList.add('modal-locked');
+        } catch (_) {}
+      }
+      setTimeout(() => {
+        window.location.href = 'add-bank-submitted.html';
+      }, 1500);
     });
   }
   
