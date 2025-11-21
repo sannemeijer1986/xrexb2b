@@ -3169,6 +3169,9 @@ if (document.readyState === 'loading') {
       document.body.style.top = `-${y}px`;
       document.body.classList.add('modal-locked');
     } catch (_) {}
+    // Ensure field visibility is updated when modal opens (e.g., if Singapore is default)
+    updateFieldsVisibility();
+    updateSaveButton();
   };
   
   // Close modal
