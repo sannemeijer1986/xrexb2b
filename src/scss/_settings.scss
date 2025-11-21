@@ -93,14 +93,14 @@ main.container {
 
     &.active {
       color: #194AF9;
-      .menu-item-icon { background: #EBF2FF; }
+      .menu-item-icon { background: #ebf2ff; }
     }
 
     .menu-item-icon {
       width: 40px;
       height: 40px;
       border-radius: 9999px;
-      background: #f3f4f6;
+      background: #EEEEEE;
       display: flex;
       align-items: center;
       justify-content: center;

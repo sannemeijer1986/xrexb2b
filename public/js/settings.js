@@ -2,6 +2,23 @@
 (function() {
   'use strict';
 
+  var updateMenuIcons = function () {
+    try {
+      var currentPage = getPage();
+      var isDesk = isDesktop();
+      var items = document.querySelectorAll('.menu-item[data-page]');
+      items.forEach(function (item) {
+        var page = item.getAttribute('data-page');
+        var img = item.querySelector('.menu-item-icon img');
+        if (!img) return;
+        var neutral = img.getAttribute('data-icon-neutral') || img.getAttribute('src');
+        var activeSrc = img.getAttribute('data-icon-active') || neutral;
+        var useActive = isDesk && page === currentPage && !!img.getAttribute('data-icon-active');
+        img.setAttribute('src', useActive ? activeSrc : neutral);
+      });
+    } catch (_) {}
+  };
+
   try {
     var mqDesktop = window.matchMedia('(min-width: 1280px)');
     var isDesktop = function(){ return mqDesktop.matches; };
@@ -26,7 +43,11 @@
 
     // Initial apply and on viewport changes
     applyMobileState();
-    mqDesktop.addEventListener('change', applyMobileState);
+    updateMenuIcons();
+    mqDesktop.addEventListener('change', function () {
+      applyMobileState();
+      updateMenuIcons();
+    });
 
     // Dynamic account chip link target based on viewport
     var chip = document.getElementById('accountChipLink');
@@ -222,5 +243,7 @@
         pageTitle.textContent = 'Account';
       }
     }
+
+    updateMenuIcons();
   } catch (_) {}
 })();
