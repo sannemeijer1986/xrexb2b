@@ -2210,6 +2210,7 @@ if (document.readyState === 'loading') {
       country: document.getElementById('country')?.value || '',
       regNum: document.getElementById('regNum')?.value || '',
       businessAddress: document.getElementById('businessAddress')?.value || '',
+      operationCountry: document.getElementById('operationCountry')?.value || '',
       email: document.getElementById('email')?.value || ''
     };
   };
@@ -2313,6 +2314,7 @@ if (document.readyState === 'loading') {
     setText('ab-summary-country', s1.country);
     setText('ab-summary-regNum', s1.regNum);
     setText('ab-summary-businessAddress', s1.businessAddress);
+    setText('ab-summary-operationCountry', s1.operationCountry);
     setText('ab-summary-email', s1.email);
 
     // Step 2 - bank details
@@ -2664,9 +2666,10 @@ if (document.readyState === 'loading') {
   const getFields = () => ([
     form.querySelector('#companyName'),
     form.querySelector('#regDate'),
-    form.querySelector('#country'),
     form.querySelector('#regNum'),
+    form.querySelector('#country'),
     form.querySelector('#businessAddress'),
+    form.querySelector('#operationCountry'),
     form.querySelector('#email'),
   ]);
 
@@ -2690,11 +2693,14 @@ if (document.readyState === 'loading') {
     const fields = getFields();
     const allOk = fields.every(isFilled);
     setDisabled(nextBtn, !allOk);
-    // toggle filled style for country select (placeholder vs selected)
-    const countrySel = fields[2];
-    if (countrySel) {
-      const filled = !!countrySel.value;
-      countrySel.classList.toggle('is-filled', filled);
+    // toggle filled style for registration and operation country selects
+    const regCountrySel = form.querySelector('#country');
+    if (regCountrySel) {
+      regCountrySel.classList.toggle('is-filled', !!regCountrySel.value);
+    }
+    const opCountrySel = form.querySelector('#operationCountry');
+    if (opCountrySel) {
+      opCountrySel.classList.toggle('is-filled', !!opCountrySel.value);
     }
   };
 
@@ -2736,6 +2742,7 @@ if (document.readyState === 'loading') {
     country: document.getElementById('country'),
     regNum: document.getElementById('regNum'),
     businessAddress: document.getElementById('businessAddress'),
+    operationCountry: document.getElementById('operationCountry'),
     email: document.getElementById('email'),
   });
 
@@ -2769,6 +2776,7 @@ if (document.readyState === 'loading') {
         const businessAddressIcon = document.getElementById('businessAddressIcon');
         if (businessAddressIcon) businessAddressIcon.src = 'assets/icon_edit.svg';
       }
+      if (f.operationCountry) f.operationCountry.value = 'Singapore';
       if (f.email) f.email.value = 'accounts@novaquill.com';
       Object.values(f).forEach(trigger);
       
