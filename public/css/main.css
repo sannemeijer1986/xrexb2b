@@ -5126,10 +5126,6 @@ body.modal-locked {
   }
 }
 .page--cp-submitted .cp-submitted {
-  background: #ffffff;
-  border-radius: 16px;
-  border: 1px solid #eeeeee;
-  padding: 24px 16px;
   max-width: 480px;
   width: 100%;
   display: flex;
@@ -5141,6 +5137,9 @@ body.modal-locked {
     padding: 48px;
     gap: 24px;
     max-width: 580px;
+    background: #ffffff;
+    border-radius: 16px;
+    border: 1px solid #eeeeee;
   }
 }
 .page--cp-submitted .cp-submitted__title {
@@ -5269,11 +5268,15 @@ body.modal-locked {
 @media (max-width: 1279px) {
   .page--cp-submitted .cp-submitted__actions .btn {
     width: 100%;
+    height: 52px;
+    font-size: 16px;
   }
 }
 @media (min-width: 1280px) {
   .page--cp-submitted .cp-submitted__actions .btn {
     min-width: 160px;
+    height: 40px;
+    font-size: 14px;
   }
 }
 
