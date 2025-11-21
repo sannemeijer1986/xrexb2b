@@ -100,6 +100,36 @@ try {
   window.getPrototypeStateLabel = getPrototypeStateLabel;
 } catch (_) {}
 
+// Global header account-chip behaviour (for all pages)
+(function initAccountChipLink() {
+  try {
+    var chip = document.getElementById('accountChipLink');
+    if (!chip) return;
+    var mqDesktop = window.matchMedia('(min-width: 1280px)');
+    var isDesktop = function () { return mqDesktop.matches; };
+    var RETURN_KEY = 'xrexb2b.settingsReturnUrl';
+    var setChipHref = function () {
+      if (!chip) return;
+      // Desktop: go directly to Account content, Mobile/Tablet: go to Settings menu
+      chip.setAttribute('href', isDesktop() ? 'settings.html?view=content&page=account' : 'settings.html?view=menu');
+    };
+    setChipHref();
+    mqDesktop.addEventListener('change', setChipHref);
+
+    // Remember the page we came from so Settings can return there on Close menu
+    chip.addEventListener('click', function () {
+      try {
+        var path = window.location.pathname || '/index.html';
+        var search = window.location.search || '';
+        var from = path + search;
+        if (window.sessionStorage) {
+          window.sessionStorage.setItem(RETURN_KEY, from);
+        }
+      } catch (_) {}
+    });
+  } catch (_) {}
+})();
+
 function initSendPayment() {
   // Mobile quick menu toggle
   const tabMenu = document.getElementById('tab-menu');

@@ -5288,6 +5288,650 @@ body.modal-locked {
   }
 }
 
+main.container {
+  max-width: 768px;
+  min-width: 320px;
+  margin: 0 auto;
+  padding: 96px 20px 40px;
+  display: flex;
+  width: 100%;
+  gap: 56px;
+  flex: 1 1 auto;
+}
+@media (min-width: 1280px) {
+  main.container {
+    max-width: 1280px;
+    padding: 120px 40px 40px;
+  }
+}
+
+@media (max-width: 1279px) {
+  body.state-menu .content {
+    display: none;
+  }
+  body.state-menu .mobile-back {
+    display: none;
+  }
+  body.state-menu .mobile-menu-header {
+    display: block;
+  }
+  body.state-menu .sidebar {
+    display: block;
+  }
+  body.state-menu .sidebar .menu-item.active {
+    color: #797A7B;
+  }
+  body.state-menu .sidebar .menu-item.active .menu-item-icon {
+    background: #f0f1f3;
+  }
+  body.state-menu main.container {
+    flex-direction: column;
+    gap: 12px;
+  }
+  body.state-menu .mobile-menu-header {
+    width: 100%;
+  }
+  body.state-menu .mobile-menu-header .link-close-menu {
+    width: 100%;
+    display: inline-flex;
+  }
+  body.state-menu .sidebar {
+    width: 100%;
+  }
+  body.state-menu .sidebar .menu {
+    background: #ffffff;
+    padding: 0px;
+    border-radius: 8px;
+    width: 100%;
+  }
+  body.state-menu .sidebar .menu-item {
+    position: relative;
+    border-radius: 0px;
+    padding: 20px 20px;
+  }
+  body.state-menu .sidebar .menu-item::after {
+    content: "";
+    position: absolute;
+    left: 20px;
+    right: 20px;
+    bottom: 0;
+    height: 1px;
+    background: #eeeeee;
+  }
+  body.state-menu .sidebar .menu-item:last-child::after {
+    display: none;
+  }
+  body.state-menu .sidebar .menu-item:last-child {
+    border-bottom: none;
+  }
+  body.state-menu .sidebar .menu-item-icon {
+    width: 32px;
+    height: 32px;
+  }
+  body.state-content .mobile-menu-header {
+    display: none;
+  }
+  body.state-content .sidebar {
+    display: none;
+  }
+}
+.mobile-menu-header {
+  display: none;
+  margin: 8px 0 12px 0;
+}
+@media (min-width: 1280px) {
+  .mobile-menu-header {
+    display: none;
+  }
+}
+.mobile-menu-header .link-close-menu {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: #2250F7;
+  text-decoration: none;
+  font-family: "Manrope", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+}
+.mobile-menu-header .link-close-menu .x {
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 1;
+}
+
+.sidebar {
+  display: none;
+}
+.sidebar .menu {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.sidebar .menu-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  border-radius: 10px;
+  color: #797A7B;
+  cursor: pointer;
+  border: 1px solid transparent;
+  font-family: "Manrope", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  background: transparent;
+  appearance: none;
+  width: 100%;
+  text-align: left;
+}
+.sidebar .menu-item:hover {
+  background: transparent;
+}
+.sidebar .menu-item.active {
+  color: #194AF9;
+}
+.sidebar .menu-item.active .menu-item-icon {
+  background: #EBF2FF;
+}
+.sidebar .menu-item .menu-item-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 9999px;
+  background: #f3f4f6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.sidebar .menu-item .menu-item-icon img {
+  width: 24px;
+  height: 24px;
+}
+.sidebar .menu-item .menu-item-icon svg {
+  width: 24px;
+  height: 24px;
+  display: block;
+}
+.sidebar .menu-item .menu-title {
+  flex: 1;
+}
+.sidebar .menu-item .menu-chevron {
+  background: transparent;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  display: grid;
+  place-items: center;
+  padding: 4px;
+  flex-shrink: 0;
+}
+.sidebar .menu-item.open .menu-chevron {
+  transform: rotate(180deg);
+}
+.sidebar .submenu {
+  display: flex;
+  flex-direction: column;
+  margin-left: 52px;
+  gap: 8px;
+  padding: 6px 0 12px;
+}
+.sidebar .submenu[hidden] {
+  display: none;
+}
+.sidebar .submenu .submenu-item {
+  color: #797A7B;
+  text-decoration: none;
+  font-family: "Manrope", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+  font-size: 16px;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  appearance: none;
+  text-align: left;
+  padding: 0;
+}
+@media (min-width: 1280px) {
+  .sidebar {
+    display: block;
+    width: 260px;
+    flex-shrink: 0;
+    position: sticky;
+    top: 96px;
+    align-self: flex-start;
+  }
+}
+
+.content {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin-top: 8px;
+}
+@media (min-width: 1280px) {
+  .content {
+    margin-top: 12px;
+  }
+}
+.content .content-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.content .content-header h1 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+  color: #2D2F2F;
+  font-family: "Sora", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+}
+@media (min-width: 1280px) {
+  .content .content-header h1 {
+    font-size: 32px;
+  }
+}
+.content .content-header .title-with-avatar {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+.content .content-header .title-with-avatar .title-texts {
+  display: flex;
+  flex-direction: column;
+}
+.content .content-header .title-with-avatar .title-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 9999px;
+  object-fit: cover;
+}
+@media (min-width: 1280px) {
+  .content .content-header .title-with-avatar .title-avatar {
+    width: 64px;
+    height: 64px;
+  }
+}
+.content .content-header .bot-handle {
+  color: #336AFF;
+  font-family: "Manrope", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 1.2;
+  margin-top: 2px;
+  text-decoration: none;
+  cursor: pointer;
+}
+@media (min-width: 1280px) {
+  .content .content-header .bot-handle {
+    font-size: 18px;
+  }
+}
+.content .mobile-back {
+  display: block;
+  margin: 0 0 0 -4px;
+}
+@media (min-width: 1280px) {
+  .content .mobile-back {
+    display: none;
+  }
+}
+.content .mobile-back .link-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: #2250F7;
+  text-decoration: none;
+  font-family: "Manrope", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+}
+.content .mobile-back .link-back .icon-back {
+  width: 20px;
+  height: 20px;
+  display: inline-block;
+}
+
+.account-panel {
+  background: transparent;
+  border: none;
+  padding: 0;
+}
+.account-panel .acct-status-line {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+.account-panel .acct-status-label {
+  font-family: "Manrope", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  color: #0f172a;
+}
+@media (min-width: 1280px) {
+  .account-panel .acct-status-label {
+    font-size: 22px;
+  }
+}
+.account-panel .acct-status-value {
+  font-family: "Manrope", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  color: #2F9752;
+}
+@media (min-width: 1280px) {
+  .account-panel .acct-status-value {
+    font-size: 22px;
+  }
+}
+.account-panel .section-heading {
+  margin: 40px 0 12px 0;
+  font-family: "Manrope", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  color: #797A7B;
+}
+@media (min-width: 1280px) {
+  .account-panel .section-heading {
+    font-size: 18px;
+  }
+}
+.account-panel .mb-32 {
+  margin-bottom: 32px;
+}
+.account-panel .card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border: 1px solid #eeeeee;
+  border-radius: 12px;
+  padding: 16px;
+  background: #fff;
+}
+.account-panel .editable .icon-btn {
+  margin-left: auto;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+.account-panel .avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 9999px;
+  background: #dbeafe;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+@media (min-width: 1280px) {
+  .account-panel .avatar {
+    width: 60px;
+    height: 60px;
+  }
+}
+.account-panel .avatar img {
+  width: 48px;
+  height: 48px;
+}
+@media (min-width: 1280px) {
+  .account-panel .avatar img {
+    width: 60px;
+    height: 60px;
+  }
+}
+.account-panel .name-block {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.account-panel .name {
+  font-family: "Manrope", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  color: #0f172a;
+}
+@media (min-width: 1280px) {
+  .account-panel .name {
+    font-size: 22px;
+  }
+}
+.account-panel .caption {
+  font-family: "Manrope", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  color: #797A7B;
+}
+@media (min-width: 1280px) {
+  .account-panel .caption {
+    font-size: 16px;
+  }
+}
+.account-panel .grid-2 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;
+  margin-bottom: 40px;
+}
+@media (min-width: 1280px) {
+  .account-panel .grid-2 {
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 48px;
+  }
+}
+.account-panel .field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.account-panel .field-disabled .input-card {
+  background-color: #F8F8F8;
+}
+.account-panel .field-disabled .value {
+  color: #797A7B;
+}
+.account-panel .field-label {
+  font-family: "Manrope", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+  font-weight: 500;
+  font-size: 13px;
+  color: #797A7B;
+}
+@media (min-width: 1280px) {
+  .account-panel .field-label {
+    font-size: 15px;
+  }
+}
+.account-panel .input-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border: 1px solid #eeeeee;
+  border-radius: 12px;
+  padding: 14px 16px;
+  background: #fff;
+  min-height: 60px;
+}
+.account-panel .input-card:focus-within {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+.account-panel .input-card-split {
+  justify-content: space-between;
+}
+.account-panel .value {
+  font-family: "Manrope", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  color: #0f172a;
+}
+.account-panel .name-card {
+  margin-bottom: 32px;
+}
+.account-panel .auth-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.account-panel .auth-state.enabled {
+  color: #2F9752;
+  font-family: "Manrope", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+}
+.account-panel .auth-state.disabled {
+  color: #dd483c;
+  font-family: "Manrope", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+}
+.account-panel .divider {
+  height: 1px;
+  background: #eeeeee;
+  margin: 24px 0;
+}
+.account-panel .logout-row {
+  margin: 56px 0 24px 0;
+}
+.account-panel .btn-block {
+  width: 100%;
+  justify-content: center;
+}
+.account-panel .btn-secondary.btn-lg {
+  max-width: 100%;
+  width: 100%;
+}
+@media (min-width: 1280px) {
+  .account-panel .btn-secondary.btn-lg {
+    max-width: 250px;
+  }
+}
+.account-panel .switch {
+  position: relative;
+  display: inline-block;
+  width: 44px;
+  height: 24px;
+}
+.account-panel .switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.account-panel .slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #e5e7eb;
+  transition: 0.2s;
+  border-radius: 9999px;
+}
+.account-panel .slider:before {
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 20px;
+  left: 2px;
+  bottom: 2px;
+  background-color: white;
+  transition: 0.2s;
+  border-radius: 50%;
+}
+.account-panel .switch input:checked + .slider {
+  background-color: #2563eb;
+}
+.account-panel .switch input:checked + .slider:before {
+  transform: translateX(20px);
+}
+.account-panel .market-currency {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: nowrap;
+  white-space: nowrap;
+}
+.account-panel .market-currency .currency-label {
+  display: inline-flex;
+  flex-direction: row;
+  gap: 4px;
+}
+.account-panel .market-currency .cl-primary {
+  color: #0f172a;
+}
+.account-panel .market-currency .cl-secondary {
+  color: #797A7B;
+}
+.account-panel .bank-card {
+  border: 1px solid #eeeeee;
+  border-radius: 12px;
+  padding: 18px;
+  background: #fff;
+  margin-bottom: 16px;
+}
+.account-panel .bank-card.is-empty {
+  border-style: dashed;
+  background: #f8fafc;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.account-panel .bank-card__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+.account-panel .bank-card__head h3 {
+  margin: 0;
+  font-family: "Manrope", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  color: #0f172a;
+}
+.account-panel .bank-card__head p {
+  margin: 4px 0 0 0;
+  font-family: "Manrope", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  color: #797A7B;
+}
+.account-panel .bank-card__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 12px;
+}
+.account-panel .bank-card__grid span {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #797A7B;
+  display: block;
+  margin-bottom: 4px;
+}
+.account-panel .bank-card__grid strong {
+  font-weight: 600;
+  color: #0f172a;
+  display: block;
+}
+.account-panel .bank-status {
+  border-radius: 20px;
+  padding: 4px 10px;
+  font-size: 13px;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+.account-panel .bank-status--warning {
+  background: rgba(245, 158, 11, 0.2);
+  color: #f59e0b;
+}
+
 /* Auto-mirrored from src/css/overrides.css when running `npm run dev:with-css-edit` */
 
 /*# sourceMappingURL=main.css.map */

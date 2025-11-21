@@ -1,0 +1,443 @@
+// Container styles for settings page
+main.container {
+  max-width: 768px;
+  min-width: 320px;
+  margin: 0 auto;
+  padding: 96px 20px 40px;
+  display: flex;
+  width: 100%;
+  gap: 56px;
+  flex: 1 1 auto;
+
+  @media (min-width: $bp-desktop) {
+    max-width: 1280px;
+    padding: 120px 40px 40px;
+  }
+}
+
+// Mobile state switching - toggle between menu and content views
+@media (max-width: ($bp-desktop - 1px)) {
+  body.state-menu .content { display: none; }
+  body.state-menu .mobile-back { display: none; }
+  body.state-menu .mobile-menu-header { display: block; }
+  body.state-menu .sidebar { display: block; }
+  // In State 1 (menu view) on mobile, suppress active styling
+  body.state-menu .sidebar .menu-item.active { color: #797A7B; }
+  body.state-menu .sidebar .menu-item.active .menu-item-icon { background: #f0f1f3; }
+  body.state-menu main.container { flex-direction: column; gap: 12px; }
+  body.state-menu .mobile-menu-header { width: 100%; }
+  body.state-menu .mobile-menu-header .link-close-menu { width: 100%; display: inline-flex; }
+  body.state-menu .sidebar { width: 100%; }
+  body.state-menu .sidebar .menu { background: #ffffff; padding: 0px; border-radius: 8px; width: 100%; }
+  // show a divider under each menu item on mobile without changing spacing (except last)
+  body.state-menu .sidebar .menu-item { position: relative; border-radius: 0px; padding: 20px 20px; }
+  body.state-menu .sidebar .menu-item::after { content: ""; position: absolute; left: 20px; right: 20px; bottom: 0; height: 1px; background: $border-color; }
+  body.state-menu .sidebar .menu-item:last-child::after { display: none; }
+  body.state-menu .sidebar .menu-item:last-child { border-bottom: none; }
+  body.state-menu .sidebar .menu-item-icon { width: 32px; height: 32px; }
+
+  body.state-content .mobile-menu-header { display: none; }
+  body.state-content .sidebar { display: none; }
+}
+
+.mobile-menu-header {
+  display: none;
+  margin: 8px 0 12px 0;
+  @media (min-width: $bp-desktop) { display: none; }
+  .link-close-menu {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    color: #2250F7;
+    text-decoration: none;
+    font-family: $font-family-sans;
+    font-weight: 700;
+    font-size: 16px;
+    .x { font-weight: 700; font-size: 18px; line-height: 1; }
+  }
+}
+
+.sidebar {
+  // hidden on mobile by default
+  display: none;
+
+  // shared sidebar styles (apply on all breakpoints)
+  .menu {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .menu-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    border-radius: 10px;
+    color: #797A7B;
+    cursor: pointer;
+    border: 1px solid transparent;
+    font-family: $font-family-sans;
+    font-weight: 500;
+    font-size: 16px;
+    background: transparent;
+    appearance: none;
+    width: 100%;
+    text-align: left;
+
+    &:hover { background: transparent; }
+
+    &.active {
+      color: #194AF9;
+      .menu-item-icon { background: #EBF2FF; }
+    }
+
+    .menu-item-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 9999px;
+      background: #f3f4f6;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      img { width: 24px; height: 24px; }
+      svg { width: 24px; height: 24px; display: block; }
+    }
+
+    .menu-title { flex: 1; }
+
+    .menu-chevron {
+      background: transparent;
+      border: none;
+      color: inherit;
+      cursor: pointer;
+      transition: transform .2s ease;
+      display: grid;
+      place-items: center;
+      padding: 4px;
+      flex-shrink: 0;
+    }
+    &.open .menu-chevron { transform: rotate(180deg); }
+  }
+
+  .submenu {
+    display: flex;
+    flex-direction: column;
+    margin-left: 52px;
+    gap: 8px;
+    padding: 6px 0 12px;
+
+    &[hidden] { display: none; }
+
+    .submenu-item {
+      color: #797A7B;
+      text-decoration: none;
+      font-family: $font-family-sans;
+      font-size: 16px;
+      cursor: pointer;
+      background: transparent;
+      border: none;
+      appearance: none;
+      text-align: left;
+      padding: 0;
+    }
+  }
+
+  @media (min-width: $bp-desktop) {
+    display: block;
+    width: 260px;
+    flex-shrink: 0;
+    position: sticky;
+    top: 96px;
+    align-self: flex-start;
+  }
+}
+
+.content {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin-top: 8px;
+
+  @media (min-width: $bp-desktop) {
+    margin-top: 12px;
+  }
+
+  .content-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+
+    h1 {
+      margin: 0;
+      font-size: 20px;
+      font-weight: 700;
+      color: #2D2F2F;
+      font-family: $font-sora;
+      @media (min-width: $bp-desktop) {
+        font-size: 32px;
+      }
+    }
+
+    // Title with avatar + handle
+    .title-with-avatar {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      .title-texts { display: flex; flex-direction: column; }
+      .title-avatar {
+        width: 40px; height: 40px; border-radius: 9999px; object-fit: cover;
+        @media (min-width: $bp-desktop) { width: 64px; height: 64px; }
+      }
+    }
+    .bot-handle {
+      color: #336AFF;
+      font-family: $font-family-sans;
+      font-weight: 600;
+      font-size: 14px;
+      line-height: 1.2;
+      margin-top: 2px;
+      text-decoration: none;
+      cursor: pointer;
+      @media (min-width: $bp-desktop) { font-size: 18px; }
+    }
+  }
+
+  // Back button visible only on mobile
+  .mobile-back {
+    display: block;
+    margin: 0 0 0 -4px;
+    @media (min-width: $bp-desktop) { display: none; }
+    .link-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      color: #2250F7;
+      text-decoration: none;
+      font-family: $font-family-sans;
+      font-weight: 700;
+      font-size: 16px;
+      .icon-back { width: 20px; height: 20px; display: inline-block; }
+    }
+  }
+}
+
+// Account panel (no white card wrapper)
+.account-panel {
+  background: transparent;
+  border: none;
+  padding: 0;
+
+  .acct-status-line { display: flex; gap: 6px; align-items: center; }
+  .acct-status-label {
+    font-family: $font-family-sans;
+    font-weight: 600;
+    font-size: 16px;
+    color: $text-primary;
+    @media (min-width: $bp-desktop) {
+      font-size: 22px;
+    }
+  }
+  .acct-status-value {
+    font-family: $font-family-sans;
+    font-weight: 600;
+    font-size: 16px;
+    color: #2F9752;
+    @media (min-width: $bp-desktop) {
+      font-size: 22px;
+    }
+  }
+
+  .section-heading {
+    margin: 40px 0 12px 0;
+    font-family: $font-family-sans;
+    font-weight: 600;
+    font-size: 16px;
+    color: $text-secondary;
+
+    @media (min-width: $bp-desktop) {
+      font-size: 18px;
+    }  
+  }
+
+  .mb-32 {
+    margin-bottom: 32px;
+  }
+
+  .card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border: 1px solid $border-color;
+    border-radius: 12px;
+    padding: 16px;
+    background: #fff;
+  }
+  .editable .icon-btn { margin-left: auto; background: transparent; border: none; cursor: pointer; padding: 0; }
+
+  .avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 9999px;
+    background: #dbeafe;
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+ 
+    @media (min-width: $bp-desktop) {
+      width: 60px;
+      height: 60px;
+    }
+  }
+
+  .avatar img {
+    width: 48px;
+    height: 48px;
+     
+    @media (min-width: $bp-desktop) {
+      width: 60px;
+      height: 60px;
+    }
+  }
+  .name-block { display: flex; flex-direction: column; gap: 2px; }
+  .name { 
+    font-family: $font-family-sans; font-weight: 700; font-size: 16px; color: $text-primary; 
+
+    @media (min-width: $bp-desktop) {
+      font-size: 22px;
+    }
+  }
+  .caption { 
+    font-family: $font-family-sans; font-weight: 400; font-size: 14px; color: $text-secondary; 
+
+    @media (min-width: $bp-desktop) {
+      font-size: 16px;
+    }
+  }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr; gap: 32px; margin-bottom: 40px;
+    @media (min-width: $bp-desktop) { 
+      grid-template-columns: 1fr 1fr; 
+      gap: 16px; 
+      margin-bottom: 48px;
+    } 
+  }
+  .field { display: flex; flex-direction: column; gap: 8px; }
+  .field-disabled .input-card { background-color: #F8F8F8; }
+  .field-disabled .value { color: $text-secondary }
+  .field-label { 
+    font-family: $font-family-sans; font-weight: 500; font-size: 13px; color: $text-secondary; 
+
+    @media (min-width: $bp-desktop) {
+      font-size: 15px;
+    }    
+  }
+  .input-card { display: flex; align-items: center; gap: 12px; border: 1px solid $border-color; border-radius: 12px; padding: 14px 16px; background: #fff; min-height: 60px; }
+  .input-card:focus-within { border-color: #2563eb; box-shadow: 0 0 0 3px rgba(37,99,235,.15); }
+  .input-card-split { justify-content: space-between; }
+  .value { font-family: $font-family-sans; font-weight: 500; font-size: 16px; color: $text-primary; }
+  .name-card { margin-bottom: 32px; }
+  .auth-row { display: flex; align-items: center; gap: 8px; }
+  .auth-state.enabled { color: #2F9752; font-family: $font-family-sans; font-weight: 600; font-size: 14px; }
+  .auth-state.disabled { color: #dd483c; font-family: $font-family-sans; font-weight: 600; font-size: 14px; }
+
+  .divider { height: 1px; background: $border-color; margin: 24px 0; }
+
+  .logout-row { margin: 56px 0 24px 0; }
+  .btn-block { width: 100%; justify-content: center; }
+  .btn-secondary.btn-lg { max-width: 100%; width: 100%; @media (min-width: $bp-desktop) { max-width: 250px; } }
+
+  // iOS-like switch
+  .switch { position: relative; display: inline-block; width: 44px; height: 24px; }
+  .switch input { opacity: 0; width: 0; height: 0; }
+  .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #e5e7eb; transition: .2s; border-radius: 9999px; }
+  .slider:before { position: absolute; content: ""; height: 20px; width: 20px; left: 2px; bottom: 2px; background-color: white; transition: .2s; border-radius: 50%; }
+  .switch input:checked + .slider { background-color: #2563eb; }
+  .switch input:checked + .slider:before { transform: translateX(20px); }
+
+  // Ensure currency row stays on one line inside account panel
+  .market-currency { display: flex; align-items: center; gap: 10px; flex-wrap: nowrap; white-space: nowrap; }
+  .market-currency .currency-label { display: inline-flex; flex-direction: row; gap: 4px; }
+  .market-currency .cl-primary { color: $text-primary; }
+  .market-currency .cl-secondary { color: $text-secondary; }
+
+  // Bank panel styles
+  .bank-card {
+    border: 1px solid $border-color;
+    border-radius: 12px;
+    padding: 18px;
+    background: #fff;
+    margin-bottom: 16px;
+
+    &.is-empty {
+      border-style: dashed;
+      background: $bg-subtle;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    &__head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 16px;
+
+      h3 {
+        margin: 0;
+        font-family: $font-family-sans;
+        font-weight: 700;
+        font-size: 18px;
+        color: $text-primary;
+      }
+
+      p {
+        margin: 4px 0 0 0;
+        font-family: $font-family-sans;
+        font-weight: 400;
+        font-size: 14px;
+        color: $text-secondary;
+      }
+    }
+
+    &__grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 12px;
+
+      span {
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: $text-secondary;
+        display: block;
+        margin-bottom: 4px;
+      }
+
+      strong {
+        font-weight: 600;
+        color: $text-primary;
+        display: block;
+      }
+    }
+  }
+
+  .bank-status {
+    border-radius: 20px;
+    padding: 4px 10px;
+    font-size: 13px;
+    font-weight: 600;
+    flex-shrink: 0;
+
+    &--warning {
+      background: rgba($warning-500, 0.2);
+      color: $warning-500;
+    }
+  }
+}

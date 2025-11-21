@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>XREX Pay - Settings</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Sora:wght@400;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="css/main.css?v=20251108" />
+    <link rel="icon" href="assets/favicons/xrex-favicon-16x16.png" sizes="16x16" type="image/png" />
+</head>
+<body>
+    <header class="site-header">
+      <div class="container header__content">
+        <a class="brand" href="index.html" aria-label="XREX Pay">
+          <img class="brand__img" src="assets/logo_xrexpay.svg" alt="XREX Pay" />
+        </a>
+        <div class="header__spacer"></div>
+        <div class="header__actions">
+          <a class="circle-icon" href="https://intercom.help/xrex-sg/en/" target="_blank" rel="noopener noreferrer" title="Support">
+            <img src="assets/icon_support.svg" alt="support" width="20" height="20" />
+          </a>
+          <a class="account-chip" id="accountChipLink" href="settings.html">
+            <span class="chip-avatar"><img src="assets/logo_agp.svg" alt="AGP" /></span>
+            <span class="chip-name">AGP Technology</span>
+            <img class="chevron" src="assets/icon_chevron_right.svg" alt="more" width="20" height="20" />
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <main class="container">
+        <div class="mobile-menu-header">
+            <a href="index.html" class="link-close-menu" id="closeMenuLink" aria-label="Close menu">
+                <img src="assets/icon_close.svg" alt="Close" width="20" height="20">
+                <span>Close menu</span>
+            </a>
+        </div>
+        <aside class="sidebar">
+            <nav class="menu">
+                <div class="menu-item active" data-link="settings.html?view=content&page=account" data-page="account" role="link" tabindex="0">
+                    <div class="menu-item-icon">
+                        <svg aria-hidden="true" width="24" height="24" viewBox="0 0 26 26" xmlns="http://www.w3.org/2000/svg" fill="none">
+                            <path d="M6.05137 21.4108C5.17279 21.4106 4.56902 20.8609 4.49692 20.0191L4.4895 19.8472V18.8045C4.4895 16.2042 8.55778 14.1118 12.8223 14.1117C17.0869 14.1117 21.1562 16.2041 21.1562 18.8045L21.1551 19.8472L21.1488 20.0191C21.0815 20.8051 20.5501 21.3361 19.7649 21.4034L19.5932 21.4108L6.05137 21.4108ZM15.1725 8.6541C15.1723 7.42204 14.1476 6.37347 12.8223 6.37347C11.4972 6.3736 10.4734 7.42212 10.4731 8.6541C10.4731 9.88627 11.497 10.9357 12.8223 10.9358C14.1477 10.9358 15.1725 9.88635 15.1725 8.6541ZM6.11707 19.7815H19.5275L19.5286 18.8045L19.5244 18.726C19.481 18.3146 19.0918 17.6146 17.8078 16.9121C16.5228 16.2092 14.7129 15.741 12.8223 15.741C10.9318 15.7411 9.12172 16.2092 7.83682 16.9121C6.46789 17.6611 6.11707 18.4079 6.11707 18.8045L6.11707 19.7815ZM16.7948 8.85565C16.6883 10.9218 14.9502 12.5651 12.8223 12.5651C10.6945 12.565 8.95734 10.9217 8.85087 8.85565L8.84558 8.6541C8.84581 6.49473 10.626 4.74428 12.8223 4.74414C15.0187 4.74414 16.7999 6.49465 16.8001 8.6541L16.7948 8.85565Z" fill="currentColor"/>
+                        </svg>
+                    </div>
+                    <div>Account</div>
+                </div>
+                <div class="menu-item">
+                    <div class="menu-item-icon">
+                        <img src="assets/icon_trade.svg" alt="Limits" width="20" height="20">
+                    </div>
+                    <div>Limits</div>
+                </div>
+                <div class="menu-item">
+                    <div class="menu-item-icon">
+                        <img src="assets/icon_bank.svg" alt="Bank" width="20" height="20">
+                    </div>
+                    <div class="menu-title">Custodian &amp; Bank</div>
+                    <button class="menu-chevron" aria-label="Toggle" aria-expanded="false" data-target="#submenu-bank">
+                        <img src="assets/icon_chevron_down.svg" alt="expand" width="20" height="20">
+                    </button>
+                </div>
+                <div class="submenu" id="submenu-bank" hidden>
+                    <a class="submenu-item" href="#" data-link="settings.html?view=content&page=banks" data-page="banks" role="link" tabindex="0">• USD bank accounts</a>
+                </div>
+                <div class="menu-item">
+                    <div class="menu-item-icon">
+                        <img src="assets/icon_blockchain.svg" alt="Address book" width="20" height="20">
+                    </div>
+                    <div class="menu-title">Address book</div>
+                    <button class="menu-chevron" aria-label="Toggle" aria-expanded="false" data-target="#submenu-address">
+                        <img src="assets/icon_chevron_down.svg" alt="expand" width="20" height="20">
+                    </button>
+                </div>
+                <div class="submenu" id="submenu-address" hidden>
+                    <a class="submenu-item" href="#">• USDT addresses</a>
+                </div>
+                <div class="menu-item">
+                    <div class="menu-item-icon">
+                        <img src="assets/icon_statements.svg" alt="Statements" width="20" height="20">
+                    </div>
+                    <div class="menu-title">Statements</div>
+                    <button class="menu-chevron" aria-label="Toggle" aria-expanded="false" data-target="#submenu-statements">
+                        <img src="assets/icon_chevron_down.svg" alt="expand" width="20" height="20">
+                    </button>
+                </div>
+                <div class="submenu" id="submenu-statements" hidden>
+                    <a class="submenu-item" href="#">• Monthly statement</a>
+                    <a class="submenu-item" href="#">• Customised statement</a>
+                </div>
+            </nav>
+        </aside>
+
+        <section class="content">
+            <div class="mobile-back">
+                <a href="#" class="link-back" id="backLink" aria-label="Back">
+                    <svg class="icon-back" width="16" height="16" viewBox="0 0 25 25" aria-hidden="true" focusable="false">
+                        <path d="M15.7,16.3l-4.2-4.2,4.2-4.2c.4-.4.4-1.1,0-1.5-.4-.4-1.1-.4-1.5,0l-5.1,5.1c-.3.3-.3.9,0,1.2l5.1,5.1c.4.4,1.1.4,1.5,0,.4-.4.4-1.1,0-1.5Z" fill="currentColor"/>
+                    </svg>
+                    <span>Menu</span>
+                </a>
+            </div>
+            <div class="content-header">
+                <div class="title-texts">
+                    <h1 id="pageTitle">Account</h1>
+                </div>
+            </div>
+
+            <div id="panel-account" class="account-panel" role="tabpanel" aria-label="Account">
+                <div class="acct-status-line">
+                    <span class="acct-status-label">Account status :</span>
+                    <span class="acct-status-value verified">Verified</span>
+                </div>
+
+                <h3 class="section-heading">Information</h3>
+                <div class="field-row card editable name-card">
+                    <div class="avatar">
+                        <img src="assets/logo_agp.svg" alt="AGP" width="60" height="60">
+                    </div>
+                    <div class="name-block">
+                        <div class="name">AGP Technology</div>
+                        <div class="caption">@AGPTECH</div>
+                    </div>
+                    <button class="icon-btn" aria-label="Edit profile"><img src="assets/icon_pencil.svg" width="20" height="20" alt="edit"></button>
+                </div>
+
+                <div class="grid-2">
+                    <div class="field field-disabled">
+                        <div class="field-label">Email</div>
+                        <div class="input-card editable">
+                            <div class="value">i***@agptechnology.com</div>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="field-label">Mobile number</div>
+                        <div class="input-card editable">
+                            <div class="value">******5678</div>
+                            <button class="icon-btn" aria-label="Edit mobile"><img src="assets/icon_pencil.svg" width="20" height="20" alt="edit"></button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="divider"></div>
+
+                <h3 class="section-heading mb-32">Security</h3>
+                <div class="grid-2">
+                    <div class="field">
+                        <div class="field-label">Password</div>
+                        <div class="input-card editable">
+                            <div class="value">************</div>
+                            <button class="icon-btn" aria-label="Edit password"><img src="assets/icon_pencil.svg" width="20" height="20" alt="edit"></button>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="field-label">Authenticator app</div>
+                        <div class="input-card input-card-split">
+                            <div class="auth-row">
+                                <span class="auth-state enabled">Enabled</span>
+                            </div>
+                            <label class="switch" aria-label="Toggle authenticator">
+                                <input type="checkbox" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="divider"></div>
+
+                <h3 class="section-heading mb-32">Preferred currency</h3>
+                <div class="field field-disabled">
+                    <div class="field-label">Currency</div>
+                    <div class="input-card">
+                        <div class="market-currency"><img src="assets/icon_USD.svg" width="20" height="20" alt="USD"> <div class="currency-label"><span class="cl-primary value">USD</span><span class="cl-secondary value">(US Dollar)</span></div></div>
+                    </div>
+                </div>
+
+                <div class="logout-row">
+                    <a href="index.html">
+                    <button class="btn btn-secondary btn-lg btn-block">Log out</button>
+                </a>
+                </div>
+            </div>
+
+            <div id="panel-banks" class="account-panel" role="tabpanel" aria-label="Banks" hidden>
+                <div class="content-header">
+                    <div>
+                        <h1>Custodian &amp; Bank</h1>
+                    </div>
+                    <a class="btn btn-primary btn-sm" href="add-bank.html">Add bank</a>
+                </div>
+
+                <article class="bank-card">
+                    <div class="bank-card__head">
+                        <div>
+                            <h3>DBS Bank</h3>
+                            <p>Singapore · Corporate</p>
+                        </div>
+                        <span class="bank-status bank-status--warning">Under review</span>
+                    </div>
+                    <div class="bank-card__grid">
+                        <div>
+                            <span>Submitted</span>
+                            <strong>21 Nov 2025</strong>
+                        </div>
+                        <div>
+                            <span>Proof of ownership</span>
+                            <strong>Uploaded</strong>
+                        </div>
+                        <div>
+                            <span>Expected decision</span>
+                            <strong>1–3 business days</strong>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="bank-card is-empty">
+                    <div class="bank-card__head">
+                        <div>
+                            <h3>Next application</h3>
+                            <p>Start a new counterparty request</p>
+                        </div>
+                    </div>
+                    <button class="btn btn-secondary btn-sm" type="button" onclick="window.location.href='add-bank.html'">Start application</button>
+                </article>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer__inner">
+            <div class="footer__copy">© XREX Pay Limited 2025</div>
+            <div class="footer__links">
+                <a href="https://intercom.help/xrex-sg/en/" target="_blank" rel="noopener noreferrer">Support</a>
+                <a href="https://info.xrex.sg/doc" target="_blank" rel="noopener noreferrer">Terms of Use</a>
+                <a href="https://info.xrex.sg/doc" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
+            </div>
+        </div>
+    </footer>
+
+    <script defer src="js/main.js?v=20251108"></script>
+    <script defer src="js/settings.js?v=20251108"></script>
+    <div class="build-badge" role="note"></div>
+</body>
+</html>
