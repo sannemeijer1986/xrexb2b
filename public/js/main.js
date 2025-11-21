@@ -3126,9 +3126,9 @@ if (document.readyState === 'loading') {
     
     const title = nickname;
     const details = [];
-    if (bankDetailsData.bankCountry) details.push(`Country : ${bankDetailsData.bankCountry}`);
     if (bankDetailsData.bankName) details.push(`Bank: ${bankDetailsData.bankName}`);
-    if (bankDetailsData.bankCity) details.push(`Bank city: ${bankDetailsData.bankCity}`);
+    if (bankDetailsData.bankCountry) details.push(`Country : ${bankDetailsData.bankCountry}`);
+    if (bankDetailsData.bankCity) details.push(`City: ${bankDetailsData.bankCity}`);
     
     if (countryType === 'IBAN') {
       if (bankDetailsData.ibanNumber) details.push(`IBAN : ${bankDetailsData.ibanNumber}`);
