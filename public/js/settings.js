@@ -122,25 +122,63 @@
   // Submenu toggle
   try {
     var chevrons = document.querySelectorAll('.menu-chevron');
+
+    var toggleSubmenuForItem = function (item) {
+      if (!item) return;
+      var chevron = item.querySelector('.menu-chevron');
+      var targetId = chevron ? chevron.getAttribute('data-target') : null;
+      if (!targetId) return;
+      var submenu = document.querySelector(targetId);
+      if (!submenu) return;
+
+      var isHidden = submenu.hasAttribute('hidden');
+      if (isHidden) {
+        submenu.removeAttribute('hidden');
+        if (chevron) chevron.setAttribute('aria-expanded', 'true');
+        item.classList.add('open');
+      } else {
+        submenu.setAttribute('hidden', '');
+        if (chevron) chevron.setAttribute('aria-expanded', 'false');
+        item.classList.remove('open');
+      }
+    };
+
+    // Chevron click (all breakpoints)
     chevrons.forEach(function(chevron) {
       chevron.addEventListener('click', function(e) {
         e.stopPropagation();
-        var targetId = chevron.getAttribute('data-target');
-        var submenu = document.querySelector(targetId);
-        if (submenu) {
-          var isHidden = submenu.hasAttribute('hidden');
-          if (isHidden) {
-            submenu.removeAttribute('hidden');
-            chevron.setAttribute('aria-expanded', 'true');
-            chevron.closest('.menu-item').classList.add('open');
-          } else {
-            submenu.setAttribute('hidden', '');
-            chevron.setAttribute('aria-expanded', 'false');
-            chevron.closest('.menu-item').classList.remove('open');
-          }
-        }
+        toggleSubmenuForItem(chevron.closest('.menu-item'));
       });
     });
+
+    // Row click to expand/collapse on all breakpoints
+    chevrons.forEach(function(chevron) {
+      var parentItem = chevron.closest('.menu-item');
+      if (!parentItem) return;
+      parentItem.addEventListener('click', function(e) {
+        // Ignore clicks coming from chevron button or inside submenu links
+        if (e.target.closest('.menu-chevron') || e.target.closest('.submenu')) return;
+        e.preventDefault();
+        toggleSubmenuForItem(parentItem);
+      });
+    });
+
+    // On mobile/tablet, keep submenus expanded by default (can be collapsed by user)
+    var expandAllSubmenusMobile = function () {
+      if (isDesktop()) return;
+      document.querySelectorAll('.submenu').forEach(function(submenu) {
+        var targetId = '#' + submenu.id;
+        var chevron = document.querySelector('.menu-chevron[data-target="' + targetId + '"]');
+        var item = chevron ? chevron.closest('.menu-item') : null;
+        if (!item) return;
+        submenu.removeAttribute('hidden');
+        chevron.setAttribute('aria-expanded', 'true');
+        item.classList.add('open');
+      });
+    };
+
+    expandAllSubmenusMobile();
+    mqDesktop.addEventListener('change', expandAllSubmenusMobile);
   } catch (_) {}
 
   // Show/hide panels based on page param
