@@ -2872,7 +2872,7 @@ if (document.readyState === 'loading') {
         const avgVolume = accountDeclarationModal.querySelector('#avgVolume');
         
         if (accountUsedFor) accountUsedFor.value = 'both';
-        if (declarationPurpose) declarationPurpose.value = 'remittance';
+        if (declarationPurpose) declarationPurpose.value = 'Remittance';
         if (avgTransactions) avgTransactions.value = '50';
         if (avgVolume) avgVolume.value = '100,000.00';
         
@@ -3010,7 +3010,7 @@ if (document.readyState === 'loading') {
         const avgVolume = accountDeclarationModal.querySelector('#avgVolume');
         
         if (accountUsedFor) accountUsedFor.value = '';
-        if (declarationPurpose) declarationPurpose.value = 'remittance';
+        if (declarationPurpose) declarationPurpose.value = 'Remittance';
         if (avgTransactions) avgTransactions.value = '';
         if (avgVolume) avgVolume.value = '';
         
