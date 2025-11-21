@@ -940,7 +940,7 @@ input[type=number] {
 /* Secondary (light blue) and medium size to mirror xrextgbot */
 .btn--secondary {
   background: #EBF2FF;
-  color: #2563eb;
+  color: #3F78FF;
 }
 
 /* Alert button (same as primary but with alert red background) */
@@ -1732,7 +1732,7 @@ input[type=number] {
   padding: 12px 14px;
   background: #E7F0FF;
   border-radius: 12px;
-  color: #2563EB;
+  color: #4D88FF;
   font: 700 14px "Manrope", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
   margin: 16px 0;
 }
@@ -1741,7 +1741,7 @@ input[type=number] {
   width: 16px;
   height: 16px;
   display: inline-block;
-  background: url("../assets/icon_info.svg") no-repeat center/16px 16px;
+  background: url("../assets/icon_info_blue.svg") no-repeat center/16px 16px;
   flex: 0 0 16px;
 }
 
