@@ -229,7 +229,8 @@ html {
   left: 16px;
   bottom: 48px;
   z-index: 1201;
-  height: 40px;
+  min-height: 40px;
+  height: auto;
   background: rgba(17, 24, 39, 0.5);
   color: #ffffff;
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
@@ -238,7 +239,60 @@ html {
   border-radius: 10px;
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 8px;
+  pointer-events: auto;
+}
+
+.build-badge__state {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 999px;
+  padding: 2px 8px;
+  line-height: 1.2;
+}
+
+.build-badge__state-label {
+  font-size: 11px;
+  font-weight: 600;
+  opacity: 0.75;
+  color: #ffffff;
+}
+
+.build-badge__state-btn {
+  background: #ffffff;
+  color: #111827;
+  border: 0;
+  border-radius: 6px;
+  width: 20px;
+  height: 20px;
+  font-weight: 700;
+  font-size: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  cursor: pointer;
+}
+
+.build-badge__state-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.build-badge__state-value {
+  font-weight: 700;
+  font-size: 13px;
+}
+
+.build-badge__state-name {
+  font-size: 11px;
+  font-weight: 600;
+  color: #ffffff;
+  opacity: 0.85;
+  white-space: nowrap;
 }
 
 .page {
@@ -1219,6 +1273,10 @@ input[type=number] {
   margin-bottom: 12px;
 }
 
+.cp-toolbar.is-hidden {
+  display: none;
+}
+
 .cp-actions {
   display: inline-flex;
   align-items: center;
@@ -1258,12 +1316,52 @@ input[type=number] {
   background-image: url("../assets/icon_checkbox_active.svg");
 }
 
+.cp-filter.is-disabled {
+  opacity: 0.4;
+  pointer-events: none;
+}
+.cp-filter.is-disabled input[type=checkbox] {
+  cursor: default;
+}
+
 .cp-list {
   list-style: none;
   padding: 0;
   margin: 0;
   display: grid;
   gap: 0;
+}
+
+.cp-empty {
+  border: 1px dashed #eeeeee;
+  border-radius: 16px;
+  padding: 32px;
+  text-align: center;
+  background: #fff;
+  display: grid;
+  gap: 12px;
+  align-items: center;
+  justify-items: center;
+}
+
+.cp-empty__title {
+  font-family: "Manrope", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  color: #0f172a;
+  margin: 0;
+}
+
+.cp-empty__text {
+  font-family: "Manrope", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  color: #797A7B;
+  margin: 0;
+}
+
+.cp-empty .btn {
+  min-width: 220px;
 }
 
 .cp-item {

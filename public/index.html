@@ -145,7 +145,7 @@
           </a>
         </li>
         <li>
-          <a href="select-counterparty.html" class="qa__item">
+          <a href="select-counterparty.html" class="qa__item" data-send-payment-entry>
             <div class="qa__icon"><img src="assets/icon_qm_sendpayment.svg" alt="" /></div>
             <span class="qa__content">Send payment<small class="muted">Make payments to counterparty bank accounts</small></span>
             <img class="qa__chev" src="assets/icon_chevron_right.svg" alt="" width="20" height="20" />
@@ -174,6 +174,26 @@
         </li>
       </ul>
     </template>
+
+    <div id="needCounterpartyModal" class="modal modal--dialog" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="needCounterpartyTitle">
+      <div class="modal__dialog">
+        <div class="modal__content">
+          <div class="modal__header">
+            <button class="modal__close" data-modal-close aria-label="Close modal">
+              <img src="assets/icon_close.svg" width="24" height="24" alt="close" />
+            </button>
+          </div>
+          <div class="modal__body">
+            <h2 id="needCounterpartyTitle" class="modal__title">Add a counterparty bank account first</h2>
+            <p class="modal__desc">You’ll need at least one verified counterparty bank account before you can send a payment. Please add a new account to continue.</p>
+          </div>
+          <div class="modal__footer">
+            <button type="button" class="btn btn--secondary btn--md" data-modal-close>Maybe later</button>
+            <a class="btn btn--primary btn--md" href="add-bank.html">Add counterparty account</a>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <footer class="site-footer">
       <div class="footer__inner">

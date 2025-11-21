@@ -224,6 +224,9 @@
   flex-wrap: wrap;
   margin-bottom: 12px;
 }
+.cp-toolbar.is-hidden {
+  display: none;
+}
 .cp-actions {
   display: inline-flex;
   align-items: center;
@@ -260,12 +263,47 @@
     background-image: url('../assets/icon_checkbox_active.svg');
   }
 }
+.cp-filter.is-disabled {
+  opacity: 0.4;
+  pointer-events: none;
+  input[type="checkbox"] {
+    cursor: default;
+  }
+}
 .cp-list {
   list-style: none;
   padding: 0;
   margin: 0;
   display: grid;
   gap: 0;
+}
+.cp-empty {
+  border: 1px dashed $border-color;
+  border-radius: $radius-lg;
+  padding: 32px;
+  text-align: center;
+  background: #fff;
+  display: grid;
+  gap: 12px;
+  align-items: center;
+  justify-items: center;
+}
+.cp-empty__title {
+  font-family: $font-family-sans;
+  font-weight: 700;
+  font-size: 18px;
+  color: $text-primary;
+  margin: 0;
+}
+.cp-empty__text {
+  font-family: $font-family-sans;
+  font-weight: 600;
+  font-size: 14px;
+  color: $text-secondary;
+  margin: 0;
+}
+.cp-empty .btn {
+  min-width: 220px;
 }
 .cp-item {
   display: grid;

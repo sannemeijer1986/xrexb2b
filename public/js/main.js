@@ -24,6 +24,82 @@ function calculateFees(amount, payerRate, receiverRate) {
   return { payerFee, receiverFee, isBelowMinimum, actualServiceFee };
 }
 
+const PROTOTYPE_STATE_KEY = 'xrexb2b.state.v1';
+const PROTOTYPE_STATE_MIN = 1;
+const PROTOTYPE_STATE_MAX = 4;
+const PROTOTYPE_STATE_LABELS = {
+  1: 'No counterparty',
+  2: 'Under review',
+  3: 'Approved',
+  4: 'Payment submitted',
+};
+
+const clampPrototypeState = (value) => {
+  const safe = parseInt(value, 10);
+  if (Number.isNaN(safe)) return PROTOTYPE_STATE_MIN;
+  return Math.min(PROTOTYPE_STATE_MAX, Math.max(PROTOTYPE_STATE_MIN, safe));
+};
+
+let prototypeState = (() => {
+  try {
+    const stored = window.localStorage ? window.localStorage.getItem(PROTOTYPE_STATE_KEY) : null;
+    if (stored !== null) return clampPrototypeState(stored);
+  } catch (_) {}
+  return PROTOTYPE_STATE_MIN;
+})();
+
+document.documentElement.dataset.prototypeState = `state-${prototypeState}`;
+
+const prototypeStateListeners = new Set();
+
+const notifyPrototypeStateChange = () => {
+  prototypeStateListeners.forEach((listener) => {
+    try { listener(prototypeState); } catch (err) { console.error(err); }
+  });
+  try {
+    document.dispatchEvent(new CustomEvent('prototypeStateChange', { detail: { state: prototypeState } }));
+  } catch (_) {}
+};
+
+function getPrototypeState() {
+  return prototypeState;
+}
+
+function setPrototypeState(next, opts = {}) {
+  const clamped = clampPrototypeState(next);
+  if (!opts.force && clamped === prototypeState) return clamped;
+  prototypeState = clamped;
+  try {
+    if (window.localStorage) window.localStorage.setItem(PROTOTYPE_STATE_KEY, String(clamped));
+  } catch (_) {}
+  document.documentElement.dataset.prototypeState = `state-${clamped}`;
+  notifyPrototypeStateChange();
+  return clamped;
+}
+
+function changePrototypeState(delta) {
+  return setPrototypeState(getPrototypeState() + (delta || 0));
+}
+
+function onPrototypeStateChange(listener) {
+  if (typeof listener !== 'function') return () => {};
+  prototypeStateListeners.add(listener);
+  try { listener(prototypeState); } catch (err) { console.error(err); }
+  return () => prototypeStateListeners.delete(listener);
+}
+
+function getPrototypeStateLabel(value) {
+  return PROTOTYPE_STATE_LABELS[value] || '';
+}
+
+try {
+  window.getPrototypeState = getPrototypeState;
+  window.setPrototypeState = setPrototypeState;
+  window.changePrototypeState = changePrototypeState;
+  window.onPrototypeStateChange = onPrototypeStateChange;
+  window.getPrototypeStateLabel = getPrototypeStateLabel;
+} catch (_) {}
+
 function initSendPayment() {
   // Mobile quick menu toggle
   const tabMenu = document.getElementById('tab-menu');
@@ -1752,6 +1828,11 @@ if (document.readyState === 'loading') {
           sessionStorage.setItem('receiptData', JSON.stringify(d));
         }
       } catch (_) {}
+    try {
+      if (typeof window.getPrototypeState === 'function' && typeof window.setPrototypeState === 'function') {
+        if (window.getPrototypeState() < 4) window.setPrototypeState(4);
+      }
+    } catch (_) {}
       // Close confirm modal
       modal.setAttribute('aria-hidden', 'true');
       document.documentElement.classList.remove('modal-open');
@@ -1778,33 +1859,126 @@ if (document.readyState === 'loading') {
   syncAuthState();
 })();
 
-// Select Counterparty page behavior
+// Select Counterparty page behavior (state-aware)
 (function initSelectCounterparty() {
+  const page = document.querySelector('main.page--cp');
+  if (!page) return;
+  const list = page.querySelector('.cp-list');
   const filter = document.getElementById('filter-verified');
-  const list = document.querySelector('.cp-list');
-  if (!filter || !list) return;
-  const applyFilter = () => {
-    const onlyFirst = filter.checked;
-    const items = Array.from(list.querySelectorAll('li'));
-    items.forEach((li, idx) => {
-      const cpItem = li.querySelector('.cp-item');
-      if (!onlyFirst) {
-        li.style.display = '';
-        // Remove filtered class when filter is off
-        if (cpItem) cpItem.classList.remove('is-filtered');
-      } else {
-        li.style.display = idx === 0 ? '' : 'none';
-        // Add filtered class to visible verified item when filter is on
-        if (idx === 0 && cpItem && cpItem.classList.contains('is-verified')) {
-          cpItem.classList.add('is-filtered');
-        } else if (cpItem) {
-          cpItem.classList.remove('is-filtered');
-        }
-      }
-    });
+  const toolbar = page.querySelector('.cp-toolbar');
+  if (!list) return;
+
+  const STATUS_META = {
+    verified: { className: 'cp-status--ok', label: 'Verified' },
+    review: { className: 'cp-status--review', label: 'Under review' },
+    danger: { className: 'cp-status--danger', label: 'Rejected' },
   };
-  filter.addEventListener('change', applyFilter);
-  applyFilter();
+
+  const STATE_ITEMS = {
+    2: [
+      { title: 'Aurora account 1', bank: 'CMB', account: '012-345678-9', status: 'review', href: '#' },
+    ],
+    3: [
+      { title: 'NovaQuill', bank: 'CIMB', account: '012-345678-9', status: 'verified', href: 'send-payment.html' },
+      { title: 'Counterparty X', bank: 'CIMB', account: '012-345678-9', status: 'review', href: '#' },
+      { title: 'Counterparty Y', bank: 'CIMB', account: '012-345678-9', status: 'review', href: '#' },
+      { title: 'Counterparty Z', bank: 'CIMB', account: '012-345678-9', status: 'danger', href: '#' },
+    ],
+  };
+
+  const getItemsForState = (state) => {
+    if (state <= 1) return [];
+    if (state === 2) return STATE_ITEMS[2];
+    if (state >= 3) return STATE_ITEMS[3];
+    return [];
+  };
+
+  const renderEmpty = () => {
+    if (toolbar) toolbar.classList.add('is-hidden');
+    list.innerHTML = `
+      <li class="cp-empty">
+        <img src="assets/icon_bankaccount_blue.svg" alt="" width="48" height="48" />
+        <p class="cp-empty__title">No counterparty accounts yet</p>
+        <p class="cp-empty__text">Add a counterparty bank account before sending a payment.</p>
+        <a class="btn btn--primary btn--md" href="add-bank.html">
+          <img class="btn-icon" src="assets/icon_plus.svg" alt="" width="16" height="16" />
+          Add counterparty account
+        </a>
+      </li>`;
+  };
+
+  const renderNoVerified = () => {
+    list.innerHTML = `
+      <li class="cp-empty">
+        <p class="cp-empty__title">No verified accounts</p>
+        <p class="cp-empty__text">Remove the filter or wait for the review to complete.</p>
+      </li>`;
+  };
+
+  const renderList = () => {
+    const state = typeof getPrototypeState === 'function' ? getPrototypeState() : PROTOTYPE_STATE_MIN;
+    const baseItems = getItemsForState(state);
+    if (!baseItems.length) {
+      if (filter) {
+        filter.checked = false;
+        filter.disabled = true;
+        filter.closest('.cp-filter')?.classList.add('is-disabled');
+      }
+      renderEmpty();
+      return;
+    }
+
+    const hasVerified = baseItems.some((item) => item.status === 'verified');
+    if (filter) {
+      filter.disabled = !hasVerified;
+      const label = filter.closest('.cp-filter');
+      if (filter.disabled) {
+        filter.checked = false;
+        if (label) label.classList.add('is-disabled');
+      } else if (label) {
+        label.classList.remove('is-disabled');
+      }
+    }
+
+    if (toolbar) toolbar.classList.remove('is-hidden');
+
+    const onlyVerified = !!(filter && filter.checked);
+    const items = onlyVerified ? baseItems.filter((item) => item.status === 'verified') : baseItems.slice();
+
+    if (!items.length) {
+      renderNoVerified();
+      return;
+    }
+
+    const html = items.map((item) => {
+      const meta = STATUS_META[item.status] || STATUS_META.review;
+      const isVerified = item.status === 'verified';
+      const classes = ['cp-item', isVerified ? 'is-verified' : 'is-unverified'];
+      const href = isVerified ? (item.href || 'send-payment.html') : '#';
+      const mobileLabel = [`(${item.bank})`, item.account].filter(Boolean).join(' ');
+      return `
+        <li>
+          <a class="${classes.join(' ')}" href="${href}" data-status="${item.status}" ${isVerified ? '' : 'aria-disabled="true"'}>
+            <span class="cp-item__icon"><img src="assets/icon_bank_cp.svg" alt="" /></span>
+            <span class="cp-item__content">
+              <strong class="cp-item__title">${item.title}</strong>
+              <small class="cp-status ${meta.className}" ${mobileLabel ? `data-mobile-label="${mobileLabel}"` : ''}>${meta.label}</small>
+            </span>
+            <span class="cp-item__metablack">(${item.bank})</span>
+            <span class="cp-item__meta">${item.account}</span>
+            <img class="cp-item__chev" src="assets/icon_chevron_right.svg" width="20" height="20" alt="" />
+          </a>
+        </li>`;
+    }).join('');
+    list.innerHTML = html;
+  };
+
+  if (filter) {
+    filter.addEventListener('change', () => renderList());
+  }
+
+  document.addEventListener('prototypeStateChange', renderList);
+  renderList();
 })();
 
 // Modal helpers (reused lightweight pattern)
@@ -1847,6 +2021,9 @@ if (document.readyState === 'loading') {
     });
   });
 
+  window.__openModal = open;
+  window.__closeModal = close;
+
   // Global snackbar helper (idempotent)
   window.showSnackbar = function(message, durationMs = 2000) {
     try {
@@ -1870,37 +2047,20 @@ if (document.readyState === 'loading') {
     } catch (_) { /* noop */ }
   };
 
-  // Select-counterparty: block unverified items
-  const list = document.querySelector('.cp-list');
-  const modal = document.getElementById('accountNotVerifiedModal');
-  if (list && modal) {
-    list.addEventListener('click', (e) => {
-      const link = e.target.closest('.cp-item');
-      if (!link) return;
-      const status = link.querySelector('.cp-status');
-      const isOk = status && status.classList.contains('cp-status--ok');
-      if (!isOk) {
-        e.preventDefault();
-        open(modal);
-      }
-    });
-
-    // Mark unverified items for responsive styling (mobile shows only status)
-    list.querySelectorAll('.cp-item').forEach((item) => {
-      const st = item.querySelector('.cp-status');
-      const metaA = item.querySelector('.cp-item__metablack');
-      const metaB = item.querySelector('.cp-item__meta');
-      const isOk = st && st.classList.contains('cp-status--ok');
-      if (!isOk) item.classList.add('is-unverified');
-      else {
-        item.classList.add('is-verified');
-        item.classList.remove('is-unverified');
-        // Compose mobile label "(CIMB) 1234..." into status for consistent layout on small screens
-        const label = [metaA?.textContent?.trim(), metaB?.textContent?.trim()].filter(Boolean).join(' ');
-        if (label) st.setAttribute('data-mobile-label', label);
-      }
-    });
-  }
+  // Select-counterparty: block unverified items via delegation
+  document.addEventListener('click', (e) => {
+    const link = e.target.closest('.cp-item');
+    if (!link || !link.closest('.cp-list')) return;
+    if (!document.querySelector('main.page--cp')) return;
+    const modal = document.getElementById('accountNotVerifiedModal');
+    if (!modal) return;
+    const statusAttr = link.getAttribute('data-status') || '';
+    const isVerified = statusAttr === 'verified' || link.classList.contains('is-verified');
+    if (!isVerified) {
+      e.preventDefault();
+      open(modal);
+    }
+  });
 })();
 
 // Select Counterparty: back crumb routes to quick menu on tablet and below
@@ -2368,6 +2528,12 @@ if (document.readyState === 'loading') {
   if (submitBtnStep3) {
     submitBtnStep3.addEventListener('click', (e) => {
       e.preventDefault();
+      try {
+        if (typeof window.getPrototypeState === 'function' && typeof window.setPrototypeState === 'function') {
+          const current = window.getPrototypeState();
+          if (current < 2) window.setPrototypeState(2);
+        }
+      } catch (_) {}
       if (typeof window.showSnackbar === 'function') {
         window.showSnackbar('Under construction');
       } else {
@@ -3912,6 +4078,71 @@ if (document.readyState === 'loading') {
   
   // Initial validation when modal opens
   updateSaveButton();
+})();
+
+(function initPrototypeStateBadge() {
+  const badge = document.querySelector('.build-badge');
+  if (!badge || badge.querySelector('.build-badge__state')) return;
+  const tool = document.createElement('div');
+  tool.className = 'build-badge__state';
+  tool.innerHTML = `
+    <span class="build-badge__state-label">State</span>
+    <button type="button" class="build-badge__state-btn" data-state-action="down" aria-label="Previous state">−</button>
+    <span class="build-badge__state-value" data-state-value></span>
+    <button type="button" class="build-badge__state-btn" data-state-action="up" aria-label="Next state">+</button>
+    <span class="build-badge__state-name" data-state-name></span>
+  `;
+  badge.prepend(tool);
+
+  const valueEl = tool.querySelector('[data-state-value]');
+  const nameEl = tool.querySelector('[data-state-name]');
+  const downBtn = tool.querySelector('[data-state-action="down"]');
+  const upBtn = tool.querySelector('[data-state-action="up"]');
+
+  const update = (state) => {
+    if (valueEl) valueEl.textContent = state;
+    if (nameEl) nameEl.textContent = typeof getPrototypeStateLabel === 'function' ? getPrototypeStateLabel(state) : '';
+    if (downBtn) downBtn.disabled = state <= PROTOTYPE_STATE_MIN;
+    if (upBtn) upBtn.disabled = state >= PROTOTYPE_STATE_MAX;
+  };
+
+  if (downBtn) {
+    downBtn.addEventListener('click', () => {
+      try { changePrototypeState(-1); } catch (_) {}
+    });
+  }
+  if (upBtn) {
+    upBtn.addEventListener('click', () => {
+      try { changePrototypeState(1); } catch (_) {}
+    });
+  }
+
+  update(typeof getPrototypeState === 'function' ? getPrototypeState() : PROTOTYPE_STATE_MIN);
+  if (typeof onPrototypeStateChange === 'function') onPrototypeStateChange(update);
+})();
+
+(function initSendPaymentEntryGate() {
+  const modal = document.getElementById('needCounterpartyModal');
+  const openModal = () => {
+    if (!modal) return;
+    if (typeof window.__openModal === 'function') {
+      window.__openModal(modal);
+    } else {
+      modal.setAttribute('aria-hidden', 'false');
+      document.documentElement.classList.add('modal-open');
+      document.body.classList.add('modal-open');
+    }
+  };
+
+  document.addEventListener('click', (e) => {
+    const trigger = e.target.closest('[data-send-payment-entry]');
+    if (!trigger) return;
+    const state = typeof getPrototypeState === 'function' ? getPrototypeState() : PROTOTYPE_STATE_MIN;
+    if (state <= 1) {
+      e.preventDefault();
+      openModal();
+    }
+  });
 })();
 
 
