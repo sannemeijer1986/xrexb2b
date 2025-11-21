@@ -5321,8 +5321,12 @@ main.container {
   body.state-menu .sidebar .menu {
     border: 1px solid #EEEEEE;
   }
+  body.state-menu .sidebar .menu-item {
+    color: #0f172a;
+    font-weight: 600;
+  }
   body.state-menu .sidebar .menu-item.active {
-    color: #797A7B;
+    color: #0f172a;
   }
   body.state-menu .sidebar .menu-item.active .menu-item-icon {
     background: #f0f1f3;
@@ -5348,24 +5352,14 @@ main.container {
     width: 100%;
   }
   body.state-menu .sidebar .menu-item {
-    position: relative;
     border-radius: 0px;
     padding: 20px 20px;
   }
-  body.state-menu .sidebar .menu-item::after {
-    content: "";
-    position: absolute;
-    left: 20px;
-    right: 20px;
-    bottom: 0;
+  body.state-menu .sidebar .menu-divider {
     height: 1px;
     background: #eeeeee;
-  }
-  body.state-menu .sidebar .menu-item:last-child::after {
-    display: none;
-  }
-  body.state-menu .sidebar .menu-item:last-child {
-    border-bottom: none;
+    margin: 0;
+    width: 100%;
   }
   body.state-menu .sidebar .menu-item-icon {
     width: 32px;
@@ -5421,7 +5415,7 @@ main.container {
   cursor: pointer;
   border: 1px solid transparent;
   font-family: "Manrope", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
-  font-weight: 500;
+  font-weight: 600;
   font-size: 16px;
   background: transparent;
   appearance: none;
