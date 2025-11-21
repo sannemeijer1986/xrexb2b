@@ -2201,6 +2201,20 @@ if (document.readyState === 'loading') {
   const editStep2Btn = document.getElementById('ab-edit-step2');
   
   if (!step1Form || !step2Form || !step3Summary) return;
+
+  // Scroll to top instantly when changing steps (no smooth animation)
+  const scrollToTopInstant = () => {
+    const html = document.documentElement;
+    const body = document.body;
+    const prevHtml = html.style.scrollBehavior;
+    const prevBody = body.style.scrollBehavior;
+    html.style.scrollBehavior = 'auto';
+    body.style.scrollBehavior = 'auto';
+    window.scrollTo(0, 0);
+    // Restore any previous inline scroll-behavior
+    html.style.scrollBehavior = prevHtml;
+    body.style.scrollBehavior = prevBody;
+  };
   
   // Store step 1 data
   const storeStep1Data = () => {
@@ -2431,6 +2445,7 @@ if (document.readyState === 'loading') {
     }
     currentStep = step;
     updateStepIndicator(step);
+    scrollToTopInstant();
   };
   
   // Navigate to step 2
