@@ -533,3 +533,214 @@ main.container {
     }
   }
 }
+
+// Banks panel (USD bank accounts)
+.banks-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+
+  @media (min-width: $bp-desktop) {
+    gap: 48px;
+  }
+
+  .banks-header {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    align-items: flex-start;
+
+    @media (min-width: $bp-desktop) {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .banks-subtitle {
+      margin: 0;
+      font-family: $font-family-sans;
+      font-weight: 700;
+      font-size: 18px;
+      color: $text-primary;
+      line-height: 1.2;
+
+      @media (min-width: $bp-desktop) {
+        font-size: 22px;
+      }
+    }
+
+    .btn {
+      width: 100%;
+
+      @media (min-width: $bp-desktop) {
+        width: 240px;
+        height: 40px;
+        font-size: 14px;
+        font-weight: 700;
+      }
+    }
+  }
+
+  .banks-section {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    .banks-section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+
+      .banks-section-title {
+        margin: 0;
+        font-family: $font-family-sans;
+        font-weight: 600;
+        font-size: 16px;
+        color: $text-primary;
+        white-space: nowrap;
+      }
+
+      .banks-filter {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        cursor: pointer;
+        user-select: none;
+
+        .banks-filter-checkbox {
+          width: 24px;
+          height: 24px;
+          cursor: pointer;
+          accent-color: #0184FF;
+        }
+
+        .banks-filter-label {
+          font-family: $font-family-sans;
+          font-weight: 600;
+          font-size: 14px;
+          color: $text-primary;
+          white-space: nowrap;
+        }
+      }
+    }
+
+    .banks-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      border: 1px solid $border-color;
+      border-radius: 8px;
+      overflow: hidden;
+
+      .bank-card {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding: 24px;
+        margin: 0;
+        border: none;
+        border-bottom: 1px solid $border-color;
+        border-radius: 0;
+        background: #fff;
+
+        &:last-child {
+          border-bottom: none;
+        }
+
+        &:first-child {
+          border-top-left-radius: 8px;
+          border-top-right-radius: 8px;
+        }
+
+        &:last-child {
+          border-bottom-left-radius: 8px;
+          border-bottom-right-radius: 8px;
+        }
+
+        .bank-card-icon {
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          background: #EEEEEE;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-shrink: 0;
+
+          img {
+            width: 24px;
+            height: 24px;
+          }
+        }
+
+        .bank-card-content {
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          gap: 4px;
+          min-width: 0;
+
+          .bank-card-name {
+            font-family: $font-family-sans;
+            font-weight: 700;
+            font-size: 18px;
+            color: $text-primary;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+
+          .bank-card-status {
+            font-family: $font-family-sans;
+            font-weight: 600;
+            font-size: 14px;
+
+            &.status-verified {
+              color: #3fae64;
+            }
+
+            &.status-under-review {
+              color: #73a2f5;
+            }
+
+            &.status-rejected {
+              color: #dd483c;
+            }
+
+            &.status-resubmission {
+              color: #ff926e;
+            }
+          }
+        }
+
+        .bank-card-details {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          font-size: 16px;
+          white-space: nowrap;
+
+          .bank-card-code {
+            font-family: $font-family-sans;
+            font-weight: 600;
+            color: $text-primary;
+          }
+
+          .bank-card-number {
+            font-family: $font-family-sans;
+            font-weight: 400;
+            color: $text-secondary;
+            line-height: 23px;
+          }
+        }
+
+        .bank-card-chevron {
+          flex-shrink: 0;
+          opacity: 0.5;
+        }
+      }
+    }
+  }
+}

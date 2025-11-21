@@ -259,7 +259,7 @@
     var pageTitle = document.getElementById('pageTitle');
     if (pageTitle) {
       if (currentPage === 'banks') {
-        pageTitle.textContent = 'Custodian & Bank';
+        pageTitle.textContent = 'USD bank accounts';
       } else {
         pageTitle.textContent = 'Account';
       }

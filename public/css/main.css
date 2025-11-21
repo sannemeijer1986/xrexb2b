@@ -5965,6 +5965,193 @@ main.container {
   color: #f59e0b;
 }
 
+.banks-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+@media (min-width: 1280px) {
+  .banks-panel {
+    gap: 48px;
+  }
+}
+.banks-panel .banks-header {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: flex-start;
+}
+@media (min-width: 1280px) {
+  .banks-panel .banks-header {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+}
+.banks-panel .banks-header .banks-subtitle {
+  margin: 0;
+  font-family: "Manrope", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  color: #0f172a;
+  line-height: 1.2;
+}
+@media (min-width: 1280px) {
+  .banks-panel .banks-header .banks-subtitle {
+    font-size: 22px;
+  }
+}
+.banks-panel .banks-header .btn {
+  width: 100%;
+}
+@media (min-width: 1280px) {
+  .banks-panel .banks-header .btn {
+    width: 240px;
+    height: 40px;
+    font-size: 14px;
+    font-weight: 700;
+  }
+}
+.banks-panel .banks-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.banks-panel .banks-section .banks-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.banks-panel .banks-section .banks-section-header .banks-section-title {
+  margin: 0;
+  font-family: "Manrope", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  color: #0f172a;
+  white-space: nowrap;
+}
+.banks-panel .banks-section .banks-section-header .banks-filter {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  user-select: none;
+}
+.banks-panel .banks-section .banks-section-header .banks-filter .banks-filter-checkbox {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  accent-color: #0184FF;
+}
+.banks-panel .banks-section .banks-section-header .banks-filter .banks-filter-label {
+  font-family: "Manrope", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  color: #0f172a;
+  white-space: nowrap;
+}
+.banks-panel .banks-section .banks-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border: 1px solid #eeeeee;
+  border-radius: 8px;
+  overflow: hidden;
+}
+.banks-panel .banks-section .banks-list .bank-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 24px;
+  margin: 0;
+  border: none;
+  border-bottom: 1px solid #eeeeee;
+  border-radius: 0;
+  background: #fff;
+}
+.banks-panel .banks-section .banks-list .bank-card:last-child {
+  border-bottom: none;
+}
+.banks-panel .banks-section .banks-list .bank-card:first-child {
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+.banks-panel .banks-section .banks-list .bank-card:last-child {
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+.banks-panel .banks-section .banks-list .bank-card .bank-card-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #EEEEEE;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.banks-panel .banks-section .banks-list .bank-card .bank-card-icon img {
+  width: 24px;
+  height: 24px;
+}
+.banks-panel .banks-section .banks-list .bank-card .bank-card-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+.banks-panel .banks-section .banks-list .bank-card .bank-card-content .bank-card-name {
+  font-family: "Manrope", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  color: #0f172a;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.banks-panel .banks-section .banks-list .bank-card .bank-card-content .bank-card-status {
+  font-family: "Manrope", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+}
+.banks-panel .banks-section .banks-list .bank-card .bank-card-content .bank-card-status.status-verified {
+  color: #3fae64;
+}
+.banks-panel .banks-section .banks-list .bank-card .bank-card-content .bank-card-status.status-under-review {
+  color: #73a2f5;
+}
+.banks-panel .banks-section .banks-list .bank-card .bank-card-content .bank-card-status.status-rejected {
+  color: #dd483c;
+}
+.banks-panel .banks-section .banks-list .bank-card .bank-card-content .bank-card-status.status-resubmission {
+  color: #ff926e;
+}
+.banks-panel .banks-section .banks-list .bank-card .bank-card-details {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  white-space: nowrap;
+}
+.banks-panel .banks-section .banks-list .bank-card .bank-card-details .bank-card-code {
+  font-family: "Manrope", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+  font-weight: 600;
+  color: #0f172a;
+}
+.banks-panel .banks-section .banks-list .bank-card .bank-card-details .bank-card-number {
+  font-family: "Manrope", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+  font-weight: 400;
+  color: #797A7B;
+  line-height: 23px;
+}
+.banks-panel .banks-section .banks-list .bank-card .bank-card-chevron {
+  flex-shrink: 0;
+  opacity: 0.5;
+}
+
 /* Auto-mirrored from src/css/overrides.css when running `npm run dev:with-css-edit` */
 
 /*# sourceMappingURL=main.css.map */
