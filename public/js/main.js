@@ -2541,7 +2541,7 @@ if (document.readyState === 'loading') {
     });
   }
 
-  // Submit button in step 3 – show snackbar
+  // Submit button in step 3 – go to application submitted page
   if (submitBtnStep3) {
     submitBtnStep3.addEventListener('click', (e) => {
       e.preventDefault();
@@ -2551,20 +2551,8 @@ if (document.readyState === 'loading') {
           if (current < 2) window.setPrototypeState(2);
         }
       } catch (_) {}
-      if (typeof window.showSnackbar === 'function') {
-        window.showSnackbar('Under construction');
-      } else {
-        // Fallback snackbar
-        const el = document.createElement('div');
-        el.className = 'snackbar snackbar--success';
-        el.innerHTML = '<img class="snackbar__icon" src="assets/icon_snackbar_success.svg" alt=""/><span>Under construction</span>';
-        document.body.appendChild(el);
-        requestAnimationFrame(() => el.classList.add('is-visible'));
-        setTimeout(() => {
-          el.classList.remove('is-visible');
-          setTimeout(() => el.remove(), 250);
-        }, 2000);
-      }
+      // Navigate to the application submitted page (same prototype state 2)
+      window.location.href = 'add-bank-submitted.html';
     });
   }
   

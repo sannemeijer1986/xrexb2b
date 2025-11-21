@@ -242,7 +242,10 @@ html { overflow-y: scroll; }
   margin-bottom: 24px;
 }
 
-.modal--addbusiness .form__row {  
+// Wider column gap for address/bank/account declaration forms
+.modal--addbusiness .form__row--selects,
+.modal--addbankdetails .form__row--selects,
+.modal--accountdeclaration .form__row--selects {
   gap: 32px;
 }
 
