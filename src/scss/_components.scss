@@ -1006,6 +1006,67 @@ body.modal-locked {
   .modal.modal--dialog .modal__close {
     display: none;
   }
+  
+  // Desktop dialog modal styling to match Figma
+  .modal.modal--dialog {
+    .modal__dialog {
+      width: 480px;
+      max-width: 480px;
+
+      .modal__header {
+        display: none;
+      }
+    }
+    
+    .modal__content {
+      padding: 32px;
+      border-radius: 16px;
+      gap: 24px; // Gap between title/text section and buttons
+    }
+    
+    .modal__header {
+      padding: 0;
+      border-bottom: none;
+    }
+    
+    .modal__body {
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 8px; // Gap between title and description
+      flex: 0 0 auto; // Don't grow, just fit content
+    }
+    
+    .modal__title {
+      margin: 0;
+      text-align: left;
+    }
+    
+    .modal__desc {
+      margin: 0;
+      text-align: left;
+    }
+    
+    .modal__footer {
+      padding: 0;
+      border-top: none;
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-end;
+      gap: 8px; // Gap between buttons
+      flex: 0 0 auto; // Don't grow, just fit content
+      
+      .btn {
+        // Apply btn--sm styling to all buttons in dialog footer on desktop
+        padding: 0px 16px;
+        height: 32px;
+        min-width: 100px;
+        border-radius: 16px;
+        font-size: 12px;
+        font-weight: 700;
+      }
+    }
+  }
 }
 
 // Dialog-style modals using .modal__dialog on mobile/tablet
@@ -1038,6 +1099,7 @@ body.modal-locked {
     min-height: 100%;
     box-shadow: none;
     background: #F8F8F8;
+    padding: 0; // Remove base padding so header/body/footer control spacing
   }
   .modal.modal--dialog .modal__header,
   .modal.modal--dialog .modal__body,
@@ -1072,9 +1134,18 @@ body.modal-locked {
     padding: 16px 24px 32px;
     border-top: none;
     justify-content: center;
+    flex-direction: column; // Stack CTA buttons vertically
+    align-items: stretch;
+    gap: 16px;
     background: #F8F8F8;
   }
   .modal.modal--dialog .modal__footer .btn {
     width: 100%;
+    // Match btn--md metrics for mobile/tablet dialogs
+    height: 40px;
+    min-width: 0;
+    font-size: 14px;
+    border-radius: 8px;
+    padding: 0 16px;
   }
 }
