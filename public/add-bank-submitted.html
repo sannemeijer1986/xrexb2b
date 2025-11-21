@@ -37,8 +37,12 @@
 
           <ol class="cp-submitted__steps" aria-label="Counterparty bank application status">
             <li class="cp-step cp-step--done">
-              <div class="cp-step__icon">
-                <img src="assets/icon_snackbar_success.svg" alt="" width="24" height="24" class="cp-step__icon-img cp-step__icon-img--done" />
+              <div class="cp-step__rail">
+                <span class="cp-step__track"></span>
+                <div class="cp-step__node-wrap">
+                  <img src="assets/icon_snackbar_success.svg" alt="" width="26" height="26" class="cp-step__icon-img" />
+                </div>
+                <span class="cp-step__track"></span>
               </div>
               <div class="cp-step__content">
                 <div class="cp-step__title">Counterparty bank account submitted</div>
@@ -46,8 +50,12 @@
             </li>
 
             <li class="cp-step cp-step--active">
-              <div class="cp-step__icon">
-                <img src="assets/icon_document.svg" alt="" width="24" height="24" class="cp-step__icon-img cp-step__icon-img--active" />
+              <div class="cp-step__rail">
+                <span class="cp-step__track"></span>
+                <div class="cp-step__node-wrap">
+                  <img src="assets/icon_document.svg" alt="" width="26" height="26" class="cp-step__icon-img" />
+                </div>
+                <span class="cp-step__track"></span>
               </div>
               <div class="cp-step__content">
                 <div class="cp-step__title">Under review</div>
@@ -56,10 +64,14 @@
             </li>
 
             <li class="cp-step cp-step--future">
-              <div class="cp-step__icon">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="cp-step__icon-img cp-step__icon-img--future">
-                  <path d="M2 21L23 12L2 3V10L17 12L2 14V21Z" fill="#BCBDBD"/>
-                </svg>
+              <div class="cp-step__rail">
+                <span class="cp-step__track"></span>
+                <div class="cp-step__node-wrap">
+                  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="cp-step__icon-img">
+                    <path d="M2 21L23 12L2 3V10L17 12L2 14V21Z" fill="#BCBDBD"/>
+                  </svg>
+                </div>
+                <span class="cp-step__track"></span>
               </div>
               <div class="cp-step__content">
                 <div class="cp-step__title">Ready for transaction</div>
