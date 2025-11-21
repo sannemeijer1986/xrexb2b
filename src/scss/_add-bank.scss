@@ -282,11 +282,15 @@
 
   .cp-step {
     display: grid;
-    grid-template-columns: 60px 1fr;
+    grid-template-columns: 48px 1fr;
     column-gap: 16px;
     align-items: center;
     position: relative;
     min-height: 72px;
+
+    @media (min-width: $bp-desktop) {
+        grid-template-columns: 60px 1fr;
+    }
   }
 
   .cp-step__rail {
@@ -317,8 +321,8 @@
   }
 
   .cp-step__node-wrap {
-    width: 60px;
-    height: 60px;
+    width: 48px;
+    height: 48px;
     border-radius: 9999px;
     border: 1px solid #EEEEEE;
     display: grid;
@@ -326,16 +330,21 @@
     margin: 2px 0;
     background: #ffffff;
     flex-shrink: 0;
-  }
 
-  .cp-step__icon-img {
-    width: 36px;
-    height: 36px;
-    display: block;
-  }
+    img {
+        width: 28px;
+        height: 28px;
+    }
 
-  .cp-step--future .cp-step__icon-img {
-    opacity: 0.5;
+    @media (min-width: $bp-desktop) {
+        width: 60px;
+        height: 60px;
+
+        img {
+            width: 36px;
+            height: 36px;
+        }
+    }
   }
 
   .cp-step__content {
@@ -346,30 +355,37 @@
 
   .cp-step__title {
     font-family: $font-family-sans;
-    font-weight: 700;
-    font-size: 18px;
+    font-weight: 600;
+    font-size: 16px;
     color: #3c4248;
     line-height: 1.5;
     text-align: left;
+
+    @media (min-width: $bp-desktop) {
+        font-size: 18px;
+        font-weight: 700;
+    }
   }
 
   .cp-step--active .cp-step__title {
     color: #3c4248;
-    font-weight: 700;
   }
 
   .cp-step--future .cp-step__title {
     color: #9b9c9c;
-    font-weight: 700;
   }
 
   .cp-step__text {
     margin: 2px 0 0 0;
     font-family: $font-family-sans;
     font-weight: 400;
-    font-size: 16px;
+    font-size: 14px;
     color: #73a2f5;
     line-height: 1.5;
+
+    @media (min-width: $bp-desktop) {
+        font-size: 16px;
+    }
   }
 
   .cp-step--future .cp-step__text {

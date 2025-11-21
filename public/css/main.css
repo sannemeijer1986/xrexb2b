@@ -5167,11 +5167,16 @@ body.modal-locked {
 }
 .page--cp-submitted .cp-step {
   display: grid;
-  grid-template-columns: 60px 1fr;
+  grid-template-columns: 48px 1fr;
   column-gap: 16px;
   align-items: center;
   position: relative;
   min-height: 72px;
+}
+@media (min-width: 1280px) {
+  .page--cp-submitted .cp-step {
+    grid-template-columns: 60px 1fr;
+  }
 }
 .page--cp-submitted .cp-step__rail {
   position: relative;
@@ -5197,8 +5202,8 @@ body.modal-locked {
   opacity: 0;
 }
 .page--cp-submitted .cp-step__node-wrap {
-  width: 60px;
-  height: 60px;
+  width: 48px;
+  height: 48px;
   border-radius: 9999px;
   border: 1px solid #EEEEEE;
   display: grid;
@@ -5207,13 +5212,19 @@ body.modal-locked {
   background: #ffffff;
   flex-shrink: 0;
 }
-.page--cp-submitted .cp-step__icon-img {
-  width: 36px;
-  height: 36px;
-  display: block;
+.page--cp-submitted .cp-step__node-wrap img {
+  width: 28px;
+  height: 28px;
 }
-.page--cp-submitted .cp-step--future .cp-step__icon-img {
-  opacity: 0.5;
+@media (min-width: 1280px) {
+  .page--cp-submitted .cp-step__node-wrap {
+    width: 60px;
+    height: 60px;
+  }
+  .page--cp-submitted .cp-step__node-wrap img {
+    width: 36px;
+    height: 36px;
+  }
 }
 .page--cp-submitted .cp-step__content {
   display: flex;
@@ -5222,27 +5233,36 @@ body.modal-locked {
 }
 .page--cp-submitted .cp-step__title {
   font-family: "Manrope", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
-  font-weight: 700;
-  font-size: 18px;
+  font-weight: 600;
+  font-size: 16px;
   color: #3c4248;
   line-height: 1.5;
   text-align: left;
 }
+@media (min-width: 1280px) {
+  .page--cp-submitted .cp-step__title {
+    font-size: 18px;
+    font-weight: 700;
+  }
+}
 .page--cp-submitted .cp-step--active .cp-step__title {
   color: #3c4248;
-  font-weight: 700;
 }
 .page--cp-submitted .cp-step--future .cp-step__title {
   color: #9b9c9c;
-  font-weight: 700;
 }
 .page--cp-submitted .cp-step__text {
   margin: 2px 0 0 0;
   font-family: "Manrope", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
   font-weight: 400;
-  font-size: 16px;
+  font-size: 14px;
   color: #73a2f5;
   line-height: 1.5;
+}
+@media (min-width: 1280px) {
+  .page--cp-submitted .cp-step__text {
+    font-size: 16px;
+  }
 }
 .page--cp-submitted .cp-step--future .cp-step__text {
   color: #9b9c9c;
