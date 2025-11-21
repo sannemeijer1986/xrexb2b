@@ -142,9 +142,14 @@ main.container {
       cursor: pointer;
       background: transparent;
       border: none;
+      font-weight: 600;
       appearance: none;
       text-align: left;
       padding: 0;
+    }
+
+    .submenu-item.is-active {
+      color: $primary-600;
     }
   }
 
@@ -352,7 +357,7 @@ main.container {
 
   .divider { height: 1px; background: $border-color; margin: 24px 0; }
 
-  .logout-row { margin: 56px 0 24px 0; }
+  .logout-row { margin: 56px 0 24px 0; max-width: 250px; }
   .btn-block { width: 100%; justify-content: center; }
   .btn-secondary.btn-lg { max-width: 100%; width: 100%; @media (min-width: $bp-desktop) { max-width: 250px; } }
 

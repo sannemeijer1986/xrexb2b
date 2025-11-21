@@ -210,14 +210,35 @@
       'banks': document.getElementById('panel-banks')
     };
 
-    // Update active menu item
+    // Update active menu + submenu items
     var allMenuItems = document.querySelectorAll('.menu-item[data-page]');
     allMenuItems.forEach(function(item) {
       var page = item.getAttribute('data-page');
-      if (page === currentPage) {
-        item.classList.add('active');
-      } else {
-        item.classList.remove('active');
+      var isActiveItem = page === currentPage;
+      item.classList.toggle('active', isActiveItem);
+
+      // On desktop, also mark the first submenu child as active when its parent page is active
+      var submenuId = null;
+      var chevron = item.querySelector('.menu-chevron');
+      if (chevron) {
+        submenuId = chevron.getAttribute('data-target');
+      }
+      if (submenuId) {
+        var submenuEl = document.querySelector(submenuId);
+        if (submenuEl) {
+          var children = submenuEl.querySelectorAll('.submenu-item');
+          children.forEach(function (child, idx) {
+            var shouldBeActive = isDesktop() && isActiveItem && idx === 0;
+            child.classList.toggle('is-active', shouldBeActive);
+          });
+
+          // On desktop, keep the collapsible group open for the active page
+          if (isDesktop() && isActiveItem) {
+            submenuEl.removeAttribute('hidden');
+            if (chevron) chevron.setAttribute('aria-expanded', 'true');
+            item.classList.add('open');
+          }
+        }
       }
     });
 
