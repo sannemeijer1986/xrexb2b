@@ -26,6 +26,7 @@ function calculateFees(amount, payerRate, receiverRate) {
 
 const PROTOTYPE_STATE_KEY = 'xrexb2b.state.v1';
 const ADD_BANK_RETURN_KEY = 'xrexb2b.addBankReturnUrl';
+const SEND_PAYMENT_RETURN_KEY = 'xrexb2b.sendPaymentReturnUrl';
 const PROTOTYPE_STATE_MIN = 1;
 const PROTOTYPE_STATE_MAX = 4;
 const PROTOTYPE_STATE_LABELS = {
@@ -2114,6 +2115,17 @@ if (document.readyState === 'loading') {
     if (!isVerified) {
       e.preventDefault();
       open(modal);
+      return;
+    }
+
+    // For verified items that navigate to send-payment, remember entrypoint
+    try {
+      const href = link.getAttribute('href') || '';
+      if (href.indexOf('send-payment.html') !== -1 && window.sessionStorage && typeof SEND_PAYMENT_RETURN_KEY !== 'undefined') {
+        window.sessionStorage.setItem(SEND_PAYMENT_RETURN_KEY, 'select-counterparty');
+      }
+    } catch (_) {
+      // ignore
     }
   });
 })();
@@ -2143,18 +2155,33 @@ if (document.readyState === 'loading') {
   }
 })();
 
-// Send Payment: back crumb and title go to Select counterparty on tablet and below
+// Send Payment: back crumb/link target based on entrypoint + mobile behavior
 (function initSendBackNavigation() {
   const isSendPage = document.querySelector('main.page--send');
   if (!isSendPage) return;
   const crumb = document.querySelector('.page__header--crumb .crumb');
   const title = document.getElementById('sp-back-title');
   if (!crumb) return;
+
+  // Determine back target from stored entrypoint (default: select-counterparty)
+  (function initSendBackLink() {
+    try {
+      var href = 'select-counterparty.html';
+      if (window.sessionStorage && typeof SEND_PAYMENT_RETURN_KEY !== 'undefined') {
+        var from = window.sessionStorage.getItem(SEND_PAYMENT_RETURN_KEY);
+        if (from === 'cp-detail') href = 'counterparty-bank-details.html';
+        else if (from === 'select-counterparty') href = 'select-counterparty.html';
+      }
+      crumb.setAttribute('href', href);
+    } catch (_) {}
+  })();
+
   const handleBack = (e) => {
     const DESKTOP_BP = 1280;
     if (window.innerWidth < DESKTOP_BP) {
       e.preventDefault();
-      window.location.href = 'select-counterparty.html';
+      const target = crumb.getAttribute('href') || 'select-counterparty.html';
+      window.location.href = target;
     }
   };
   crumb.addEventListener('click', handleBack);

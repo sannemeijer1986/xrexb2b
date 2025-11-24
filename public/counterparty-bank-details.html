@@ -224,6 +224,22 @@
           // Wire up CTAs
           var handleCtaClick = function (e) {
             e.preventDefault();
+            try {
+              var state = typeof getPrototypeState === 'function' ? getPrototypeState() : 2;
+              var isUnderReview = state === 2;
+              if (!isUnderReview) {
+                // Verified (state 3+): go to Send payment and remember entrypoint
+                try {
+                  if (window.sessionStorage && typeof SEND_PAYMENT_RETURN_KEY !== 'undefined') {
+                    window.sessionStorage.setItem(SEND_PAYMENT_RETURN_KEY, 'cp-detail');
+                  }
+                } catch (_) {}
+                window.location.href = 'send-payment.html';
+                return;
+              }
+            } catch (_) {
+              // fall back to snackbar below
+            }
             if (typeof window.showSnackbar === 'function') {
               window.showSnackbar('Not supported in prototype', 2000, 'error');
             }
