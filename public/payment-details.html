@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>XREX Pay - Payment details</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Sora:wght@400;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="css/main.css?v=20251108" />
+    <link rel="icon" href="assets/favicons/xrex-favicon-16x16.png" sizes="16x16" type="image/png" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container header__content">
+        <a class="brand" href="index.html">
+          <img class="brand__img" src="assets/logo_xrexpay.svg" alt="XREX Pay" />
+        </a>
+        <div class="header__spacer"></div>
+        <div class="header__actions">
+          <a class="circle-icon" href="https://intercom.help/xrex-sg/en/" target="_blank" rel="noopener noreferrer" title="Support">
+            <img src="assets/icon_support.svg" alt="support" width="20" height="20" />
+          </a>
+          <a class="account-chip" id="accountChipLink" href="settings.html">
+            <span class="chip-avatar"><img src="assets/logo_agp.svg" alt="AGP" /></span>
+            <span class="chip-name">AGP Technology</span>
+            <img class="chevron" src="assets/icon_chevron_right.svg" alt="more" width="20" height="20" />
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <main class="page page--payment-detail">
+      <div class="container">
+        <section class="page__header page__header--crumb">
+          <a class="crumb" href="payment-submitted.html" aria-label="Back">
+            <picture>
+              <source media="(min-width: 1280px)" srcset="assets/icon_header_back.svg" />
+              <img src="assets/icon_header_back_mobile.svg" width="32" height="32" alt="" />
+            </picture>
+          </a>
+          <h1 class="page__title">Payment details</h1>
+        </section>
+
+        <section class="pd-detail">
+          <div class="pd-detail__layout">
+            <div class="pd-detail__main">
+              <div class="pd-detail__card pd-detail__card--summary">
+                <div class="pd-detail__summary-head">
+                  <div class="pd-detail__summary-main">
+                    <div class="pd-detail__label">Amount payable</div>
+                    <div class="pd-detail__amount-row">
+                      <div id="pdAmount" class="pd-detail__amount">--</div>
+                      <span id="pdStatusBadge" class="pd-status pd-status--processing">Processing</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div id="pdInfoBanner" class="pd-detail__info-banner">
+                  <span class="pd-detail__info-icon"></span>
+                  <span class="pd-detail__info-text">Sending the payment will require 1–5 business days.</span>
+                </div>
+
+                <div class="pd-detail__rows">
+                  <div class="pd-detail__row">
+                    <span class="pd-detail__row-label">Service fee (Sender / Receiver)</span>
+                    <span id="pdServiceFee" class="pd-detail__row-value">-- / --</span>
+                  </div>
+                  <div class="pd-detail__row">
+                    <span class="pd-detail__row-label">Total amount paid</span>
+                    <span id="pdTotalPaid" class="pd-detail__row-value">--</span>
+                  </div>
+                  <div class="pd-detail__row">
+                    <span class="pd-detail__row-label">Total amount sent</span>
+                    <span id="pdTotalSent" class="pd-detail__row-value">--</span>
+                  </div>
+                </div>
+
+                <div class="pd-detail__receiver">
+                  <div class="pd-detail__receiver-label">Receiver</div>
+                  <div class="pd-detail__receiver-main">
+                    <span class="pd-detail__receiver-avatar">
+                      <img src="assets/icon_bank_cp.svg" alt="" width="24" height="24" />
+                    </span>
+                    <div class="pd-detail__receiver-text">
+                      <div id="pdReceiverName" class="pd-detail__receiver-name">- -</div>
+                      <div id="pdReceiverBank" class="pd-detail__receiver-bank">- -</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="pd-detail__rows pd-detail__rows--meta">
+                  <div class="pd-detail__row">
+                    <span class="pd-detail__row-label">Payment note</span>
+                    <span id="pdPaymentNote" class="pd-detail__row-value">- -</span>
+                  </div>
+                  <div class="pd-detail__row pd-detail__row--id">
+                    <span class="pd-detail__row-label">Payment ID</span>
+                    <span class="pd-detail__row-value pd-detail__row-value--id">
+                      <span id="pdPaymentId">- -</span>
+                      <button type="button" class="pd-detail__copy-btn" aria-label="Copy payment ID">
+                        <img src="assets/icon_copy.svg" alt="" width="16" height="16" />
+                      </button>
+                    </span>
+                  </div>
+                  <div class="pd-detail__row">
+                    <span class="pd-detail__row-label">Requested date</span>
+                    <span id="pdRequestedDate" class="pd-detail__row-value">- -</span>
+                  </div>
+                  <div class="pd-detail__row">
+                    <span class="pd-detail__row-label">Sent date</span>
+                    <span id="pdSentDate" class="pd-detail__row-value">- -</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <aside class="pd-detail__aside">
+              <div class="pd-detail__card">
+                <h2 class="pd-detail__section-title">Nature of payment</h2>
+                <dl class="pd-detail__grid">
+                  <div class="pd-detail__item">
+                    <dt>Nature of payment</dt>
+                    <dd id="pdNature">- -</dd>
+                  </div>
+                  <div class="pd-detail__item">
+                    <dt>Purpose of payment</dt>
+                    <dd id="pdPurpose">- -</dd>
+                  </div>
+                  <div class="pd-detail__item">
+                    <dt id="pdDocLabel">Proforma Invoice (PI)</dt>
+                    <dd>
+                      <a id="pdDocLink" href="#" class="pd-detail__link">- -</a>
+                    </dd>
+                  </div>
+                  <div class="pd-detail__item">
+                    <dt id="pdDocNumberLabel">Proforma Invoice (PI) number</dt>
+                    <dd id="pdDocNumber">- -</dd>
+                  </div>
+                </dl>
+              </div>
+
+              <div id="pdReceiptCard" class="pd-detail__card pd-detail__card--receipt" style="display: none;">
+                <h2 class="pd-detail__section-title">Payment receipt</h2>
+                <a href="#" class="pd-detail__link">Download receipt</a>
+              </div>
+            </aside>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer__inner">
+        <div class="footer__copy">© XREX Pay Limited 2025</div>
+        <div class="footer__links">
+          <a href="https://intercom.help/xrex-sg/en/" target="_blank" rel="noopener noreferrer">Support</a>
+          <a href="https://info.xrex.sg/doc" target="_blank" rel="noopener noreferrer">Terms of Use</a>
+          <a href="https://info.xrex.sg/doc" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
+        </div>
+      </div>
+    </footer>
+
+    <script defer src="js/main.js?v=20251108"></script>
+    <script>
+      window.addEventListener('DOMContentLoaded', function () {
+        try {
+          var STATUS_SENT_STATE = 5;
+          var SENT_DATE_KEY = 'xrexb2b.paymentSentAt';
+          var BACK_KEY = 'xrexb2b.paymentDetailsReturnUrl';
+
+          var setText = function (id, value, fallback) {
+            var el = document.getElementById(id);
+            if (!el) return;
+            el.textContent = (value !== undefined && value !== null && value !== '') ? value : (fallback !== undefined ? fallback : '- -');
+          };
+
+          // Populate from receiptData
+          var data = null;
+          try {
+            var raw = window.sessionStorage ? window.sessionStorage.getItem('receiptData') : null;
+            data = raw ? JSON.parse(raw) : null;
+          } catch (_) {}
+
+          if (data) {
+            setText('pdAmount', data.amountPayableFmt || '');
+            setText('pdServiceFee', ((data.payerShareAmt || '--') + ' / ' + (data.receiverShareAmt || '--')).trim());
+            setText('pdTotalPaid', data.toBeDeducted || '');
+            setText('pdTotalSent', data.receiverGets || '');
+            setText('pdReceiverName', data.receiverName || '');
+            setText('pdReceiverBank', data.receiverBank || '');
+            setText('pdPaymentNote', data.docNotes || '- -');
+            setText('pdRequestedDate', data.dateTime || '');
+            setText('pdPaymentId', data.paymentId || '- -');
+            setText('pdNature', data.nature || '- -');
+            setText('pdPurpose', data.purpose || '- -');
+
+            var docLabel = data.attachedDocs || '';
+            var docLink = document.getElementById('pdDocLink');
+            if (docLink) {
+              if (docLabel) {
+                var text = data.docNumber ? (data.docNumber + '.pdf') : docLabel;
+                docLink.textContent = text;
+                docLink.href = '#';
+              } else {
+                docLink.textContent = '- -';
+                docLink.removeAttribute('href');
+              }
+            }
+            setText('pdDocLabel', docLabel || 'Proforma Invoice (PI)');
+            setText('pdDocNumberLabel', data.docNumLabel || 'Proforma Invoice (PI) number');
+            setText('pdDocNumber', data.docNumber || '- -');
+          }
+
+          var statusBadge = document.getElementById('pdStatusBadge');
+          var infoBanner = document.getElementById('pdInfoBanner');
+          var receiptCard = document.getElementById('pdReceiptCard');
+          var sentDateEl = document.getElementById('pdSentDate');
+
+          var applyState = function (state) {
+            var isSent = state >= STATUS_SENT_STATE;
+
+            if (statusBadge) {
+              statusBadge.classList.remove('pd-status--processing', 'pd-status--sent');
+              if (isSent) {
+                statusBadge.textContent = 'Sent';
+                statusBadge.classList.add('pd-status--sent');
+              } else {
+                statusBadge.textContent = 'Processing';
+                statusBadge.classList.add('pd-status--processing');
+              }
+            }
+
+            if (infoBanner) {
+              infoBanner.style.display = isSent ? 'none' : 'flex';
+            }
+
+            if (receiptCard) {
+              receiptCard.style.display = isSent ? '' : 'none';
+            }
+
+            if (sentDateEl) {
+              if (isSent) {
+                var ts = null;
+                try {
+                  if (window.sessionStorage) {
+                    ts = window.sessionStorage.getItem(SENT_DATE_KEY);
+                  }
+                } catch (_) {}
+                if (!ts) {
+                  ts = new Date().toLocaleString('en-GB', { hour12: false });
+                  try {
+                    if (window.sessionStorage) {
+                      window.sessionStorage.setItem(SENT_DATE_KEY, ts);
+                    }
+                  } catch (_) {}
+                }
+                sentDateEl.textContent = ts;
+              } else {
+                sentDateEl.textContent = '- -';
+              }
+            }
+          };
+
+          var initialState = typeof getPrototypeState === 'function' ? getPrototypeState() : 4;
+          applyState(initialState);
+
+          document.addEventListener('prototypeStateChange', function (e) {
+            try {
+              var next = e && e.detail && typeof e.detail.state === 'number'
+                ? e.detail.state
+                : (typeof getPrototypeState === 'function' ? getPrototypeState() : 4);
+              applyState(next);
+            } catch (_) {}
+          });
+
+          // Back crumb: return to stored entrypoint (default: index)
+          try {
+            var backLink = document.querySelector('.page__header--crumb .crumb');
+            if (backLink) {
+              var href = 'index.html';
+              if (window.sessionStorage) {
+                var from = window.sessionStorage.getItem(BACK_KEY);
+                if (from) href = from;
+              }
+              backLink.setAttribute('href', href);
+            }
+          } catch (_) {}
+
+          // Copy payment ID to clipboard (best-effort)
+          try {
+            var copyBtn = document.querySelector('.pd-detail__copy-btn');
+            if (copyBtn) {
+              copyBtn.addEventListener('click', function () {
+                var idEl = document.getElementById('pdPaymentId');
+                if (!idEl) return;
+                var text = (idEl.textContent || '').trim();
+                if (!text) return;
+                try {
+                  navigator.clipboard && navigator.clipboard.writeText(text);
+                } catch (_) {}
+              });
+            }
+          } catch (_) {}
+        } catch (e) {}
+      });
+    </script>
+    <div class="build-badge" role="note"></div>
+  </body>
+</html>
+
+

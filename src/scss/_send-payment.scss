@@ -1548,6 +1548,308 @@ bottom: 96px !important;
   .page--send ~ .site-footer { padding-bottom: 100px;}
 }
 
+// Payment details page
+.page--payment-detail {
+  padding-top: 32px;
+  padding-bottom: 40px;
+
+  @media (min-width: $bp-desktop) {
+    padding-top: 48px;
+  }
+
+  .page__header--crumb {
+    margin-bottom: 24px;
+
+    @media (min-width: $bp-desktop) {
+      margin-bottom: 32px;
+    }
+  }
+}
+
+.pd-detail {
+  &__layout {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    @media (min-width: $bp-desktop) {
+      flex-direction: row;
+      align-items: flex-start;
+      gap: 24px;
+    }
+  }
+
+  &__main {
+    flex: 2 1 0%;
+  }
+
+  &__aside {
+    flex: 1 1 0%;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  &__card {
+    background: #ffffff;
+    border-radius: 16px;
+    border: 1px solid #eeeeee;
+    padding: 20px;
+
+    @media (min-width: $bp-desktop) {
+      padding: 32px;
+    }
+  }
+
+  &__summary-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+
+  &__summary-main {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1;
+  }
+
+  &__label {
+    font-family: $font-family-sans;
+    font-size: 14px;
+    font-weight: 600;
+    color: $text-secondary;
+    line-height: 1.4;
+  }
+
+  &__amount-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  &__amount {
+    font-family: $font-family-sans;
+    font-size: 24px;
+    font-weight: 700;
+    color: $text-primary;
+
+    @media (min-width: $bp-desktop) {
+      font-size: 28px;
+    }
+  }
+
+  &__info-banner {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 12px 16px;
+    border-radius: 8px;
+    background: #EBF2FF;
+    margin-bottom: 24px;
+    font-family: $font-family-sans;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.4;
+    color: #336AFF;
+  }
+
+  &__info-icon {
+    flex-shrink: 0;
+    width: 16px;
+    height: 16px;
+    background-image: url('../assets/icon_info_blue.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    margin-top: 2px;
+  }
+
+  &__info-text {
+    flex: 1;
+  }
+
+  &__rows {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 24px;
+
+    &--meta {
+      margin-top: 8px;
+    }
+  }
+
+  &__row {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    font-family: $font-family-sans;
+    font-size: 14px;
+  }
+
+  &__row-label {
+    color: $text-secondary;
+    font-weight: 600;
+  }
+
+  &__row-value {
+    color: $text-primary;
+    font-weight: 500;
+    text-align: left;
+    font-size: 16px;
+  }
+
+  &__row--id {
+    .pd-detail__row-value--id {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+  }
+
+  &__copy-btn {
+    border: none;
+    padding: 0;
+    background: transparent;
+    cursor: pointer;
+  }
+
+  &__receiver {
+    margin-top: 16px;
+    margin-bottom: 16px;
+  }
+
+  &__receiver-label {
+    font-family: $font-family-sans;
+    font-size: 14px;
+    font-weight: 600;
+    color: $text-secondary;
+    margin-bottom: 8px;
+  }
+
+  &__receiver-main {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  &__receiver-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 999px;
+    background: #EEEEEE;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  &__receiver-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  &__receiver-name {
+    font-family: $font-family-sans;
+    font-size: 16px;
+    font-weight: 700;
+    color: $text-primary;
+  }
+
+  &__receiver-bank {
+    font-family: $font-family-sans;
+    font-size: 14px;
+    font-weight: 600;
+    color: $text-secondary;
+  }
+
+  &__section-title {
+    margin: 0 0 16px;
+    font-family: $font-family-sans;
+    font-size: 16px;
+    font-weight: 700;
+    color: $text-primary;
+
+    @media (min-width: $bp-desktop) {
+      font-size: 18px;
+      margin-bottom: 24px;
+    }
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+
+    @media (min-width: $bp-desktop) {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+
+  &__item {
+    dt {
+      margin: 0 0 4px;
+      font-family: $font-family-sans;
+      font-size: 14px;
+      font-weight: 600;
+      color: $text-secondary;
+    }
+
+    dd {
+      margin: 0;
+      font-family: $font-family-sans;
+      font-size: 16px;
+      font-weight: 500;
+      color: $text-primary;
+    }
+  }
+
+  &__card--receipt {
+    .pd-detail__section-title {
+      margin-bottom: 8px;
+    }
+  }
+
+  &__link {
+    font-family: $font-family-sans;
+    font-size: 16px;
+    font-weight: 600;
+    color: #336AFF;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.pd-status {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-family: $font-family-sans;
+  font-size: 12px;
+  font-weight: 600;
+
+  &--processing {
+    background: #C2DAFF;
+    color: #3362C2;
+  }
+
+  &--sent {
+    background: #A8E8BD;
+    color: #2F9752;
+  }
+}
+
 
 // Mobile summary modal tweaks - ensure all content is visible
 #mobileSummaryModal {

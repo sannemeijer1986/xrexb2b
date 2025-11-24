@@ -28,12 +28,13 @@ const PROTOTYPE_STATE_KEY = 'xrexb2b.state.v1';
 const ADD_BANK_RETURN_KEY = 'xrexb2b.addBankReturnUrl';
 const SEND_PAYMENT_RETURN_KEY = 'xrexb2b.sendPaymentReturnUrl';
 const PROTOTYPE_STATE_MIN = 1;
-const PROTOTYPE_STATE_MAX = 4;
+const PROTOTYPE_STATE_MAX = 5;
 const PROTOTYPE_STATE_LABELS = {
   1: 'No counterparty',
   2: 'Under review',
   3: 'Approved',
   4: 'Payment submitted',
+  5: 'Payment sent',
 };
 
 const clampPrototypeState = (value) => {
@@ -1506,6 +1507,7 @@ function initSendPayment() {
           docNumLabel = 'Commercial invoice number';
           docNumber = ciNumber || '';
         }
+        const paymentId = 'PYT-' + Date.now().toString(36);
         const data = {
           receiverName: (getText('.summary-recipient .recipient-select__title') || '').replace(/^To\s+/i,''),
           receiverBank: getText('.summary-recipient .recipient-select__subtitle'),
@@ -1527,6 +1529,7 @@ function initSendPayment() {
           docNumber,
           docNotes,
           attachedDocs: attached.join(', '),
+          paymentId,
           dateTime: new Date().toLocaleString('en-GB', { hour12: false }),
           status: 'Processing',
         };
