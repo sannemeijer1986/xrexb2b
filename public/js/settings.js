@@ -407,8 +407,9 @@
 
           companyItems.forEach(function (item) {
             var meta = mapStatus(item.status || 'verified');
+            var isProtoError = item.title === 'AGP account SG';
             html += ''
-              + '<div class=\"bank-card\">'
+              + '<div class=\"bank-card\"' + (isProtoError ? ' data-prototype-error=\"1\"' : '') + '>'
               + '  <div class=\"bank-card-icon\">'
               + '    <img src=\"assets/icon_bankaccount_grey.svg\" alt=\"\" width=\"24\" height=\"24\">'
               + '  </div>'
@@ -450,8 +451,9 @@
 
           cpItems.forEach(function (item) {
             var meta = mapStatus(item.status || 'review');
+            var isProtoError = item.title !== 'NovaQuill Ltd';
             html += ''
-              + '<div class=\"bank-card\">'
+              + '<div class=\"bank-card\"' + (isProtoError ? ' data-prototype-error=\"1\"' : '') + '>'
               + '  <div class=\"bank-card-icon\">'
               + '    <img src=\"assets/icon_bank_cp.svg\" alt=\"\" width=\"24\" height=\"24\">'
               + '  </div>'
@@ -486,6 +488,21 @@
         if (typeof bindUsdModalOpeners === 'function') {
           bindUsdModalOpeners();
         }
+
+        // Bind prototype-only cards to show error snackbar when clicked
+        try {
+          var protoCards = banksPanel.querySelectorAll('.bank-card[data-prototype-error=\"1\"]');
+          protoCards.forEach(function (card) {
+            if (card.dataset.protoBound === '1') return;
+            card.dataset.protoBound = '1';
+            card.addEventListener('click', function (e) {
+              e.preventDefault();
+              if (typeof window.showSnackbar === 'function') {
+                window.showSnackbar('Not supported in prototype', 2000, 'error');
+              }
+            });
+          });
+        } catch (_) {}
       };
 
       document.addEventListener('prototypeStateChange', function () {
@@ -550,6 +567,16 @@
           document.body.classList.remove('modal-open');
           if (typeof updateBanksSticky === 'function') {
             updateBanksSticky();
+          }
+        });
+      }
+      // Disabled company account CTA -> show prototype snackbar
+      var companyBtn = addUsdModal.querySelector('#addUsdCompanyBtn');
+      if (companyBtn) {
+        companyBtn.addEventListener('click', function (e) {
+          e.preventDefault();
+          if (typeof window.showSnackbar === 'function') {
+            window.showSnackbar('Not supported in prototype', 2000, 'error');
           }
         });
       }

@@ -1259,7 +1259,8 @@ input[type=number] {
   display: block;
 }
 
-.snackbar--success {
+.snackbar--success,
+.snackbar--error {
   background: #111827;
   color: #fff;
 }
@@ -6319,6 +6320,10 @@ main.container {
     width: auto;
     min-width: 220px;
   }
+}
+.add-usdbank-modal-content .add-usdbank-card__btn[aria-disabled=true] {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
 @media (max-width: 1279px) {

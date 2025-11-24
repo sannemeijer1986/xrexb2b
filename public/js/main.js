@@ -2073,15 +2073,22 @@ if (document.readyState === 'loading') {
   window.__closeModal = close;
 
   // Global snackbar helper (idempotent)
-  window.showSnackbar = function(message, durationMs = 2000) {
+  // type: 'success' | 'error' (default: 'success')
+  window.showSnackbar = function(message, durationMs = 2000, type) {
     try {
       let el = document.getElementById('app-snackbar');
       if (!el) {
         el = document.createElement('div');
         el.id = 'app-snackbar';
-        el.className = 'snackbar snackbar--success';
-        el.innerHTML = '<img class="snackbar__icon" src="assets/icon_snackbar_success.svg" alt=""/><span class="snackbar__text"></span>';
+        el.className = 'snackbar';
+        el.innerHTML = '<img class="snackbar__icon" alt=""/><span class="snackbar__text"></span>';
         document.body.appendChild(el);
+      }
+      var variant = type === 'error' ? 'error' : 'success';
+      el.className = 'snackbar snackbar--' + variant;
+      var iconEl = el.querySelector('.snackbar__icon');
+      if (iconEl) {
+        iconEl.setAttribute('src', variant === 'error' ? 'assets/icon_snackbar_error.svg' : 'assets/icon_snackbar_success.svg');
       }
       const text = el.querySelector('.snackbar__text');
       if (text) text.textContent = message || '';
