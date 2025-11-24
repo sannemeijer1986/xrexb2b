@@ -1153,4 +1153,10 @@ body.modal-locked {
     border-radius: 8px;
     padding: 0 16px;
   }
+
+  // For the home-page "Add counterparty bank account" dialog, invert CTA order on mobile/tablet
+  // so that "Add counterparty account" appears first and "Not now" second.
+  #needCounterpartyModal.modal.modal--dialog .modal__footer {
+    flex-direction: column-reverse;
+  }
 }

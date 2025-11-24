@@ -775,20 +775,72 @@ main.container {
   }
 }
 
-.add-usdbank-modal {
-  .modal-wrapper {
-    max-width: 1000px;
+@media (min-width: $bp-desktop) {
+  .add-usdbank-modal {
+    .modal-wrapper {
+      max-width: 1000px;
+    }
   }
 }
 
+
 // Add USD bank account modal (settings)
 .add-usdbank-modal-content {
+
+
+  .add-usdbank-card__title {
+    font-size: 18px;
+    margin: 0;
+    font-family: $font-family-sans;
+    font-size: 22px;
+    font-weight: 700;
+    color: $text-primary;
+
+    @media (min-width: $bp-desktop) {
+      font-size: 24px;
+    }
+  }
+
+
+  .add-usdbank-card__icon {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: #FFFFFF;
+    display: flex;
+    border: 1px solid $border-color;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 8px;
+
+    img {
+      width: 46px;
+      height: 46px;
+    }
+
+    @media (min-width: $bp-desktop) {
+      width: 100px;
+      height: 100px;
+
+      img {
+        width: 80px;
+        height: 80px;
+      }
+    }
+  }
+  
   .modal-body {
     padding: 24px;
     position: relative;
+    align-items: center;
+    justify-content: flex-start;
+    display: flex;
+    flex-direction: column;
 
     @media (min-width: $bp-desktop) {
       padding: 32px;
+      align-items: flex-start;
+      justify-content: flex-start;
     }
   }
 
@@ -825,10 +877,13 @@ main.container {
     display: grid;
     grid-template-columns: 1fr;
     gap: 16px;
+    width: 100%;
+    max-width: 500px;
 
     @media (min-width: $bp-desktop) {
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 24px;
+      max-width: 100%;
     }
   }
 
@@ -845,30 +900,6 @@ main.container {
 
     @media (min-width: $bp-desktop) {
       padding: 32px 24px 24px;
-    }
-
-    &__icon {
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      background: #EEEEEE;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 8px;
-
-      img {
-        width: 32px;
-        height: 32px;
-      }
-    }
-
-    &__title {
-      margin: 0;
-      font-family: $font-family-sans;
-      font-size: 18px;
-      font-weight: 700;
-      color: $text-primary;
     }
 
     &__desc {

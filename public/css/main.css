@@ -2423,6 +2423,9 @@ body.modal-locked {
     border-radius: 8px;
     padding: 0 16px;
   }
+  #needCounterpartyModal.modal.modal--dialog .modal__footer {
+    flex-direction: column-reverse;
+  }
 }
 .page--home .assets {
   display: grid;
@@ -6181,17 +6184,62 @@ main.container {
   opacity: 0.5;
 }
 
-.add-usdbank-modal .modal-wrapper {
-  max-width: 1000px;
+@media (min-width: 1280px) {
+  .add-usdbank-modal .modal-wrapper {
+    max-width: 1000px;
+  }
 }
-
+.add-usdbank-modal-content .add-usdbank-card__title {
+  font-size: 18px;
+  margin: 0;
+  font-family: "Manrope", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: #0f172a;
+}
+@media (min-width: 1280px) {
+  .add-usdbank-modal-content .add-usdbank-card__title {
+    font-size: 24px;
+  }
+}
+.add-usdbank-modal-content .add-usdbank-card__icon {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  display: flex;
+  border: 1px solid #eeeeee;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 8px;
+}
+.add-usdbank-modal-content .add-usdbank-card__icon img {
+  width: 46px;
+  height: 46px;
+}
+@media (min-width: 1280px) {
+  .add-usdbank-modal-content .add-usdbank-card__icon {
+    width: 100px;
+    height: 100px;
+  }
+  .add-usdbank-modal-content .add-usdbank-card__icon img {
+    width: 80px;
+    height: 80px;
+  }
+}
 .add-usdbank-modal-content .modal-body {
   padding: 24px;
   position: relative;
+  align-items: center;
+  justify-content: flex-start;
+  display: flex;
+  flex-direction: column;
 }
 @media (min-width: 1280px) {
   .add-usdbank-modal-content .modal-body {
     padding: 32px;
+    align-items: flex-start;
+    justify-content: flex-start;
   }
 }
 .add-usdbank-modal-content .m-alert {
@@ -6224,11 +6272,14 @@ main.container {
   display: grid;
   grid-template-columns: 1fr;
   gap: 16px;
+  width: 100%;
+  max-width: 500px;
 }
 @media (min-width: 1280px) {
   .add-usdbank-modal-content .add-usdbank-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 24px;
+    max-width: 100%;
   }
 }
 .add-usdbank-modal-content .add-usdbank-card {
@@ -6246,27 +6297,6 @@ main.container {
   .add-usdbank-modal-content .add-usdbank-card {
     padding: 32px 24px 24px;
   }
-}
-.add-usdbank-modal-content .add-usdbank-card__icon {
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  background: #EEEEEE;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 8px;
-}
-.add-usdbank-modal-content .add-usdbank-card__icon img {
-  width: 32px;
-  height: 32px;
-}
-.add-usdbank-modal-content .add-usdbank-card__title {
-  margin: 0;
-  font-family: "Manrope", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
-  font-size: 18px;
-  font-weight: 700;
-  color: #0f172a;
 }
 .add-usdbank-modal-content .add-usdbank-card__desc {
   margin: 0 0 16px 0;
