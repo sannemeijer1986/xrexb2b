@@ -6157,6 +6157,37 @@ main.container {
   opacity: 0.5;
 }
 
+.banks-empty {
+  padding: 80px 16px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 16px;
+}
+.banks-empty img {
+  width: 80px;
+  height: 80px;
+}
+.banks-empty__title {
+  margin: 8px 0 0 0;
+  font-family: "Manrope", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  color: #0f172a;
+}
+.banks-empty__text {
+  margin: 0;
+  max-width: 480px;
+  font-family: "Manrope", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  color: #797A7B;
+}
+.banks-empty__btn {
+  margin-top: 8px;
+}
+
 /* Auto-mirrored from src/css/overrides.css when running `npm run dev:with-css-edit` */
 
 /*# sourceMappingURL=main.css.map */

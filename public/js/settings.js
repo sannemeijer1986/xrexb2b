@@ -267,4 +267,142 @@
 
     updateMenuIcons();
   } catch (_) {}
+
+  // Banks panel content driven by prototype state (mirror select-counterparty)
+  try {
+    var banksPanel = document.getElementById('panel-banks');
+    if (banksPanel && typeof getPrototypeState === 'function') {
+      var BANK_STATE_ITEMS = {
+        2: {
+          company: [],
+          counterparties: [
+            { title: 'Aurora account 1', bank: 'CMB', account: '012-345678-9', status: 'review' }
+          ]
+        },
+        3: {
+          company: [
+            { title: 'Company CIMB', bank: 'CIMB', account: '012-345678-9', status: 'verified' }
+          ],
+          counterparties: [
+            { title: 'NovaQuill', bank: 'CIMB', account: '012-345678-9', status: 'verified' },
+            { title: 'Counterparty X', bank: 'CIMB', account: '012-345678-9', status: 'review' },
+            { title: 'Counterparty Y', bank: 'CIMB', account: '012-345678-9', status: 'review' },
+            { title: 'Counterparty Z', bank: 'CIMB', account: '012-345678-9', status: 'danger' }
+          ]
+        }
+      };
+
+      var mapStatus = function (code) {
+        if (code === 'verified') return { label: 'Verified', className: 'status-verified' };
+        if (code === 'review') return { label: 'Under review', className: 'status-under-review' };
+        if (code === 'danger') return { label: 'Rejected', className: 'status-rejected' };
+        return { label: 'Under review', className: 'status-under-review' };
+      };
+
+      var getBanksStateData = function (state) {
+        if (state <= 1) return { company: [], counterparties: [] };
+        if (state === 2) return BANK_STATE_ITEMS[2];
+        return BANK_STATE_ITEMS[3];
+      };
+
+      var renderBanksEmpty = function () {
+        banksPanel.innerHTML = ''
+          + '<div class=\"banks-empty\">'
+          + '  <img src=\"assets/icon_bankaccount_blue.svg\" alt=\"\" width=\"80\" height=\"80\">'
+          + '  <p class=\"banks-empty__title\">No bank accounts found</p>'
+          + '  <p class=\"banks-empty__text\">Add a USD bank account and complete verification to start using USD services.</p>'
+          + '  <a href=\"add-bank.html\" class=\"btn btn--primary btn--lg banks-empty__btn\">Add bank account</a>'
+          + '</div>';
+      };
+
+      var renderBanksPanel = function () {
+        var state = getPrototypeState();
+        var data = getBanksStateData(state);
+        if ((!data.company || !data.company.length) && (!data.counterparties || !data.counterparties.length)) {
+          renderBanksEmpty();
+          return;
+        }
+
+        var html = '';
+        html += ''
+          + '<div class=\"banks-header\">'
+          + '  <h2 class=\"banks-subtitle\">Manage and view company and counterparty accounts</h2>'
+          + '  <a href=\"add-bank.html\" class=\"btn btn--secondary btn--sm\">Add new bank account</a>'
+          + '</div>';
+
+        if (data.company && data.company.length) {
+          html += ''
+            + '<div class=\"banks-section\">'
+            + '  <div class=\"banks-section-header\">'
+            + '    <h3 class=\"banks-section-title\">Your company accounts</h3>'
+            + '    <label class=\"banks-filter\">'
+            + '      <input type=\"checkbox\" class=\"banks-filter-checkbox\" disabled>'
+            + '      <span class=\"banks-filter-label\">Verified accounts</span>'
+            + '    </label>'
+            + '  </div>'
+            + '  <div class=\"banks-list\">';
+
+          data.company.forEach(function (item) {
+            var meta = mapStatus(item.status || 'verified');
+            html += ''
+              + '<div class=\"bank-card\">'
+              + '  <div class=\"bank-card-icon\">'
+              + '    <img src=\"assets/icon_bankaccount_grey.svg\" alt=\"\" width=\"24\" height=\"24\">'
+              + '  </div>'
+              + '  <div class=\"bank-card-content\">'
+              + '    <div class=\"bank-card-name\">' + item.title + '</div>'
+              + '    <div class=\"bank-card-status ' + meta.className + '\">' + meta.label + '</div>'
+              + '  </div>'
+              + '  <div class=\"bank-card-details\">'
+              + '    <span class=\"bank-card-code\">(' + item.bank + ')</span>'
+              + '    <span class=\"bank-card-number\">' + item.account + '</span>'
+              + '  </div>'
+              + '  <img src=\"assets/icon_chevron_right.svg\" alt=\"\" class=\"bank-card-chevron\" width=\"24\" height=\"24\">'
+              + '</div>';
+          });
+
+          html += '  </div></div>';
+        }
+
+        if (data.counterparties && data.counterparties.length) {
+          html += ''
+            + '<div class=\"banks-section\">'
+            + '  <div class=\"banks-section-header\">'
+            + '    <h3 class=\"banks-section-title\">Counterparty accounts</h3>'
+            + '    <label class=\"banks-filter\">'
+            + '      <input type=\"checkbox\" class=\"banks-filter-checkbox\" disabled>'
+            + '      <span class=\"banks-filter-label\">Verified accounts</span>'
+            + '    </label>'
+            + '  </div>'
+            + '  <div class=\"banks-list\">';
+
+          data.counterparties.forEach(function (item) {
+            var meta = mapStatus(item.status || 'review');
+            html += ''
+              + '<div class=\"bank-card\">'
+              + '  <div class=\"bank-card-icon\">'
+              + '    <img src=\"assets/icon_bank_cp.svg\" alt=\"\" width=\"24\" height=\"24\">'
+              + '  </div>'
+              + '  <div class=\"bank-card-content\">'
+              + '    <div class=\"bank-card-name\">' + item.title + '</div>'
+              + '    <div class=\"bank-card-status ' + meta.className + '\">' + meta.label + '</div>'
+              + '  </div>'
+              + '  <div class=\"bank-card-details\">'
+              + '    <span class=\"bank-card-code\">(' + item.bank + ')</span>'
+              + '    <span class=\"bank-card-number\">' + item.account + '</span>'
+              + '  </div>'
+              + '  <img src=\"assets/icon_chevron_right.svg\" alt=\"\" class=\"bank-card-chevron\" width=\"24\" height=\"24\">'
+              + '</div>';
+          });
+
+          html += '  </div></div>';
+        }
+
+        banksPanel.innerHTML = html;
+      };
+
+      document.addEventListener('prototypeStateChange', renderBanksPanel);
+      renderBanksPanel();
+    }
+  } catch (_) {}
 })();
