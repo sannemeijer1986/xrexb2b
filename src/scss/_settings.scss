@@ -801,6 +801,18 @@ main.container {
     }
   }
 
+  .add-usdbank-card__desc  {
+    margin: 0 0 16px 0;
+    font-family: $font-family-sans;
+    font-size: 16px;
+    font-weight: 500;
+    color: $text-primary;
+
+    @media (min-width: $bp-desktop) {
+      font-size: 18px;
+    }
+  }
+
 
   .add-usdbank-card__icon {
     width: 80px;
@@ -823,8 +835,8 @@ main.container {
       height: 100px;
 
       img {
-        width: 80px;
-        height: 80px;
+        width: 60px;
+        height: 60px;
       }
     }
   }
@@ -899,16 +911,9 @@ main.container {
     gap: 8px;
 
     @media (min-width: $bp-desktop) {
-      padding: 32px 24px 24px;
+      padding: 48px;
     }
 
-    &__desc {
-      margin: 0 0 16px 0;
-      font-family: $font-family-sans;
-      font-size: 14px;
-      font-weight: 400;
-      color: $text-secondary;
-    }
 
     &__btn {
       margin-top: auto;

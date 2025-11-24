@@ -6202,6 +6202,18 @@ main.container {
     font-size: 24px;
   }
 }
+.add-usdbank-modal-content .add-usdbank-card__desc {
+  margin: 0 0 16px 0;
+  font-family: "Manrope", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  color: #0f172a;
+}
+@media (min-width: 1280px) {
+  .add-usdbank-modal-content .add-usdbank-card__desc {
+    font-size: 18px;
+  }
+}
 .add-usdbank-modal-content .add-usdbank-card__icon {
   width: 80px;
   height: 80px;
@@ -6223,8 +6235,8 @@ main.container {
     height: 100px;
   }
   .add-usdbank-modal-content .add-usdbank-card__icon img {
-    width: 80px;
-    height: 80px;
+    width: 60px;
+    height: 60px;
   }
 }
 .add-usdbank-modal-content .modal-body {
@@ -6295,15 +6307,8 @@ main.container {
 }
 @media (min-width: 1280px) {
   .add-usdbank-modal-content .add-usdbank-card {
-    padding: 32px 24px 24px;
+    padding: 48px;
   }
-}
-.add-usdbank-modal-content .add-usdbank-card__desc {
-  margin: 0 0 16px 0;
-  font-family: "Manrope", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
-  font-size: 14px;
-  font-weight: 400;
-  color: #797A7B;
 }
 .add-usdbank-modal-content .add-usdbank-card__btn {
   margin-top: auto;
