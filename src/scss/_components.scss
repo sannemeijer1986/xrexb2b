@@ -854,8 +854,13 @@ body.modal-locked {
   .cp-sticky__btn {
     width: 100%;
   }
-  // Lift build badge above sticky CTA for this page
-  .page--cp ~ .build-badge {
+  // Allow pages to hide cp-sticky via [hidden] (used on settings USD bank accounts)
+  .cp-sticky[hidden] {
+    display: none !important;
+  }
+  // Lift build badge above sticky CTA for pages using cp-sticky
+  .page--cp ~ .build-badge,
+  .page--settings ~ .build-badge {
     bottom: 96px;
   }
 }

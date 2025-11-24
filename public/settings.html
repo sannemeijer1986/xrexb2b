@@ -30,7 +30,7 @@
       </div>
     </header>
 
-    <main class="container">
+    <main class="container page--settings">
         <div class="mobile-menu-header">
             <a href="index.html" class="link-close-menu" id="closeMenuLink" aria-label="Close menu">
                 <img src="assets/icon_close_blue.svg" alt="Close" width="20" height="20">
@@ -222,7 +222,7 @@
             <div id="panel-banks" class="banks-panel" role="tabpanel" aria-label="Banks" hidden>
                 <div class="banks-header">
                     <h2 class="banks-subtitle">Manage and view company and counterparty accounts</h2>
-                    <a href="add-bank.html" class="btn btn--secondary btn--sm">Add new bank account</a>
+                    <a href="add-bank.html" class="btn btn--primary btn--md">Add new bank account</a>
                 </div>
 
                 <div class="banks-section">
@@ -320,6 +320,14 @@
                 </div>
             </div>
         </section>
+        <!-- Mobile sticky CTA for USD bank accounts -->
+        <div id="banksSticky" class="cp-sticky" hidden>
+            <div class="cp-sticky__inner">
+                <a class="btn btn--primary btn--lg cp-sticky__btn" href="add-bank.html">
+                    Add new bank account
+                </a>
+            </div>
+        </div>
     </main>
 
     <footer class="site-footer">

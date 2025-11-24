@@ -202,6 +202,26 @@
     mqDesktop.addEventListener('change', expandAllSubmenusMobile);
   } catch (_) {}
 
+  // Helper: toggle mobile sticky CTA for banks page (state >= 2)
+  var updateBanksSticky = function () {
+    try {
+      var banksStickyEl = document.getElementById('banksSticky');
+      if (!banksStickyEl) return;
+      var current = getPage();
+      var canShow = current === 'banks';
+      try {
+        if (typeof getPrototypeState === 'function') {
+          canShow = canShow && getPrototypeState() >= 2;
+        }
+      } catch (_) {}
+      if (canShow) {
+        banksStickyEl.removeAttribute('hidden');
+      } else {
+        banksStickyEl.setAttribute('hidden', '');
+      }
+    } catch (_) {}
+  };
+
   // Show/hide panels based on page param
   try {
     var currentPage = getPage();
@@ -265,6 +285,9 @@
       }
     }
 
+    // Initial sticky state
+    updateBanksSticky();
+
     updateMenuIcons();
   } catch (_) {}
 
@@ -308,41 +331,72 @@
       var renderBanksEmpty = function () {
         banksPanel.innerHTML = ''
           + '<div class=\"banks-empty\">'
-          + '  <img src=\"assets/icon_bankaccount_blue.svg\" alt=\"\" width=\"80\" height=\"80\">'
+          + '  <img src=\"assets/illu_nobank.svg\" alt=\"\" width=\"124\" height=\"100\">'
           + '  <p class=\"banks-empty__title\">No bank accounts found</p>'
           + '  <p class=\"banks-empty__text\">Add a USD bank account and complete verification to start using USD services.</p>'
           + '  <a href=\"add-bank.html\" class=\"btn btn--primary btn--lg banks-empty__btn\">Add bank account</a>'
           + '</div>';
+        // In empty state (state 1), always hide sticky CTA
+        try {
+          var sticky = document.getElementById('banksSticky');
+          if (sticky) sticky.setAttribute('hidden', '');
+        } catch (_) {}
       };
 
       var renderBanksPanel = function () {
         var state = getPrototypeState();
         var data = getBanksStateData(state);
+
+        // If there are no accounts at all, show the empty state
         if ((!data.company || !data.company.length) && (!data.counterparties || !data.counterparties.length)) {
           renderBanksEmpty();
           return;
         }
 
+        // Preserve previous filter states (per section)
+        var prevCompanyFilter = banksPanel.querySelector('[data-filter=\"company-verified\"]');
+        var prevCpFilter = banksPanel.querySelector('[data-filter=\"cp-verified\"]');
+        var prevCompanyChecked = prevCompanyFilter ? !!prevCompanyFilter.checked : false;
+        var prevCpChecked = prevCpFilter ? !!prevCpFilter.checked : false;
+
+        var hasVerifiedCompany = data.company && data.company.some(function (item) { return item.status === 'verified'; });
+        var hasVerifiedCp = data.counterparties && data.counterparties.some(function (item) { return item.status === 'verified'; });
+
+        var companyFilterChecked = hasVerifiedCompany && prevCompanyChecked;
+        var cpFilterChecked = hasVerifiedCp && prevCpChecked;
+
+        var companyItems = data.company ? (companyFilterChecked ? data.company.filter(function (item) { return item.status === 'verified'; }) : data.company.slice()) : [];
+        var cpItems = data.counterparties ? (cpFilterChecked ? data.counterparties.filter(function (item) { return item.status === 'verified'; }) : data.counterparties.slice()) : [];
+
         var html = '';
         html += ''
           + '<div class=\"banks-header\">'
           + '  <h2 class=\"banks-subtitle\">Manage and view company and counterparty accounts</h2>'
-          + '  <a href=\"add-bank.html\" class=\"btn btn--secondary btn--sm\">Add new bank account</a>'
+          + '  <a href=\"add-bank.html\" class=\"btn btn--primary btn--md\">Add new bank account</a>'
           + '</div>';
 
-        if (data.company && data.company.length) {
+        if (companyItems && companyItems.length) {
+          var companyFilterClass = 'banks-filter' + (hasVerifiedCompany ? '' : ' is-disabled');
+          var companyFilterAttrs = 'class=\"banks-filter-checkbox\" data-filter=\"company-verified\"';
+          if (hasVerifiedCompany && companyFilterChecked) {
+            companyFilterAttrs += ' checked';
+          }
+          if (!hasVerifiedCompany) {
+            companyFilterAttrs += ' disabled';
+          }
+
           html += ''
-            + '<div class=\"banks-section\">'
+            + '<div class=\"banks-section banks-section--company\">'
             + '  <div class=\"banks-section-header\">'
             + '    <h3 class=\"banks-section-title\">Your company accounts</h3>'
-            + '    <label class=\"banks-filter\">'
-            + '      <input type=\"checkbox\" class=\"banks-filter-checkbox\" disabled>'
+            + '    <label class=\"' + companyFilterClass + '\">'
+            + '      <input type=\"checkbox\" ' + companyFilterAttrs + '>'
             + '      <span class=\"banks-filter-label\">Verified accounts</span>'
             + '    </label>'
             + '  </div>'
             + '  <div class=\"banks-list\">';
 
-          data.company.forEach(function (item) {
+          companyItems.forEach(function (item) {
             var meta = mapStatus(item.status || 'verified');
             html += ''
               + '<div class=\"bank-card\">'
@@ -364,19 +418,28 @@
           html += '  </div></div>';
         }
 
-        if (data.counterparties && data.counterparties.length) {
+        if (cpItems && cpItems.length) {
+          var cpFilterClass = 'banks-filter' + (hasVerifiedCp ? '' : ' is-disabled');
+          var cpFilterAttrs = 'class=\"banks-filter-checkbox\" data-filter=\"cp-verified\"';
+          if (hasVerifiedCp && cpFilterChecked) {
+            cpFilterAttrs += ' checked';
+          }
+          if (!hasVerifiedCp) {
+            cpFilterAttrs += ' disabled';
+          }
+
           html += ''
-            + '<div class=\"banks-section\">'
+            + '<div class=\"banks-section banks-section--counterparty\">'
             + '  <div class=\"banks-section-header\">'
             + '    <h3 class=\"banks-section-title\">Counterparty accounts</h3>'
-            + '    <label class=\"banks-filter\">'
-            + '      <input type=\"checkbox\" class=\"banks-filter-checkbox\" disabled>'
+            + '    <label class=\"' + cpFilterClass + '\">'
+            + '      <input type=\"checkbox\" ' + cpFilterAttrs + '>'
             + '      <span class=\"banks-filter-label\">Verified accounts</span>'
             + '    </label>'
             + '  </div>'
             + '  <div class=\"banks-list\">';
 
-          data.counterparties.forEach(function (item) {
+          cpItems.forEach(function (item) {
             var meta = mapStatus(item.status || 'review');
             html += ''
               + '<div class=\"bank-card\">'
@@ -399,9 +462,22 @@
         }
 
         banksPanel.innerHTML = html;
+
+        // Wire up filters to re-render on change (like select-counterparty)
+        var companyFilterInput = banksPanel.querySelector('[data-filter=\"company-verified\"]');
+        if (companyFilterInput && !companyFilterInput.disabled) {
+          companyFilterInput.addEventListener('change', function () { renderBanksPanel(); });
+        }
+        var cpFilterInput = banksPanel.querySelector('[data-filter=\"cp-verified\"]');
+        if (cpFilterInput && !cpFilterInput.disabled) {
+          cpFilterInput.addEventListener('change', function () { renderBanksPanel(); });
+        }
       };
 
-      document.addEventListener('prototypeStateChange', renderBanksPanel);
+      document.addEventListener('prototypeStateChange', function () {
+        renderBanksPanel();
+        updateBanksSticky();
+      });
       renderBanksPanel();
     }
   } catch (_) {}

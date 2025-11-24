@@ -2150,7 +2150,11 @@ body.modal-locked {
   .cp-sticky__btn {
     width: 100%;
   }
-  .page--cp ~ .build-badge {
+  .cp-sticky[hidden] {
+    display: none !important;
+  }
+  .page--cp ~ .build-badge,
+  .page--settings ~ .build-badge {
     bottom: 96px;
   }
 }
@@ -6038,24 +6042,44 @@ main.container {
   white-space: nowrap;
 }
 .banks-panel .banks-section .banks-section-header .banks-filter {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 4px;
+  font-size: 14px;
+  color: #797A7B;
+  font-weight: 700;
   cursor: pointer;
   user-select: none;
 }
 .banks-panel .banks-section .banks-section-header .banks-filter .banks-filter-checkbox {
+  appearance: none;
   width: 24px;
   height: 24px;
+  background-image: url("../assets/icon_checkbox_inactive.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 24px 24px;
+  border: none;
+  outline: none;
+  border-radius: 4px;
   cursor: pointer;
-  accent-color: #0184FF;
+}
+.banks-panel .banks-section .banks-section-header .banks-filter .banks-filter-checkbox:checked {
+  background-image: url("../assets/icon_checkbox_active.svg");
 }
 .banks-panel .banks-section .banks-section-header .banks-filter .banks-filter-label {
   font-family: "Manrope", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
-  font-weight: 600;
+  font-weight: 700;
   font-size: 14px;
-  color: #0f172a;
+  color: #797A7B;
   white-space: nowrap;
+}
+.banks-panel .banks-section .banks-section-header .banks-filter.is-disabled {
+  opacity: 0.4;
+  pointer-events: none;
+}
+.banks-panel .banks-section .banks-section-header .banks-filter.is-disabled .banks-filter-checkbox {
+  cursor: default;
 }
 .banks-panel .banks-section .banks-list {
   display: flex;
@@ -6157,6 +6181,11 @@ main.container {
   opacity: 0.5;
 }
 
+@media (max-width: 1279px) {
+  .banks-panel .banks-header .btn {
+    display: none;
+  }
+}
 .banks-empty {
   padding: 80px 16px 40px;
   display: flex;
@@ -6166,8 +6195,8 @@ main.container {
   gap: 16px;
 }
 .banks-empty img {
-  width: 80px;
-  height: 80px;
+  width: 124px;
+  height: 100px;
 }
 .banks-empty__title {
   margin: 8px 0 0 0;
