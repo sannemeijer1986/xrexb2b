@@ -1076,6 +1076,7 @@ main.container {
   &__cta {
     flex-shrink: 0;
 
+    // Desktop CTA; visibility is further controlled by page state helpers below
     &--desktop {
       @media (max-width: ($bp-desktop - 1px)) {
         display: none;
@@ -1230,11 +1231,6 @@ main.container {
     padding: 16px 20px;
     z-index: 3000;
     box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.08);
-
-    @media (max-width: ($bp-desktop - 1px)) {
-      display: flex;
-      align-items: center;
-    }
   }
 
   &__footer-actions {
@@ -1276,5 +1272,24 @@ main.container {
   &--verified {
     background: #ECFDF3;
     color: #166534;
+  }
+}
+
+// State-based CTA visibility for counterparty details
+@media (min-width: $bp-desktop) {
+  .page--cp-detail.is-verified {
+    .cp-detail__cta--desktop { display: inline-flex; }
+  }
+  .page--cp-detail.is-under-review {
+    .cp-detail__cta--desktop { display: none !important; }
+  }
+}
+
+@media (max-width: ($bp-desktop - 1px)) {
+  .page--cp-detail.is-verified {
+    .cp-detail__footer-single { display: flex; align-items: center; }
+  }
+  .page--cp-detail.is-under-review {
+    .cp-detail__footer-single { display: none; }
   }
 }

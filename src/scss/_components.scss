@@ -843,18 +843,19 @@ body.modal-locked {
     left: 0;
     right: 0;
     bottom: 0;
-    width: 100vw;
+    width: 100%;
     background: #ffffff;
     border-top: 1px solid #eeeeee;
     box-shadow: 0 -12px 28px rgba(0, 0, 0, 0.08);
-    padding: 12px 16px;
+    padding: 16px 20px;
     display: flex;
     justify-content: center;
     z-index: 3000;
   }
   .cp-sticky__inner {
     width: 100%;
-    max-width: 768px;
+    // max-width: 768px;
+    margin: 0 auto;
   }
   .cp-sticky__btn {
     width: 100%;
@@ -867,6 +868,10 @@ body.modal-locked {
   .page--cp ~ .build-badge,
   .page--settings ~ .build-badge {
     bottom: 96px;
+  }
+  // For counterparty details, only lift when sticky footer is present (verified state)
+  .page--cp-detail.is-verified ~ .build-badge {
+    bottom: 120px;
   }
 }
 @media (min-width: $bp-desktop) {
