@@ -775,8 +775,14 @@ main.container {
   }
 }
 
-// Add USD bank account modal (settings)
 .add-usdbank-modal {
+  .modal-wrapper {
+    max-width: 1000px;
+  }
+}
+
+// Add USD bank account modal (settings)
+.add-usdbank-modal-content {
   .modal-body {
     padding: 24px;
     position: relative;
