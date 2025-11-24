@@ -297,17 +297,19 @@
     if (banksPanel && typeof getPrototypeState === 'function') {
       var BANK_STATE_ITEMS = {
         2: {
-          company: [],
+          company: [
+            { title: 'AGP account SG', bank: 'DBS Bank', account: '012-345678-9', status: 'verified' }
+          ],
           counterparties: [
-            { title: 'Aurora account 1', bank: 'CMB', account: '012-345678-9', status: 'review' }
+            { title: 'NovaQuill Ltd', bank: 'DBS Bank', account: '012-345678-9', status: 'review' }
           ]
         },
         3: {
           company: [
-            { title: 'Company CIMB', bank: 'CIMB', account: '012-345678-9', status: 'verified' }
+            { title: 'AGP account SG', bank: 'DBS Bank', account: '012-345678-9', status: 'verified' }
           ],
           counterparties: [
-            { title: 'NovaQuill', bank: 'CIMB', account: '012-345678-9', status: 'verified' },
+            { title: 'NovaQuill Ltd', bank: 'DBS Bank', account: '012-345678-9', status: 'verified' },
             { title: 'Counterparty X', bank: 'CIMB', account: '012-345678-9', status: 'review' },
             { title: 'Counterparty Y', bank: 'CIMB', account: '012-345678-9', status: 'review' },
             { title: 'Counterparty Z', bank: 'CIMB', account: '012-345678-9', status: 'danger' }

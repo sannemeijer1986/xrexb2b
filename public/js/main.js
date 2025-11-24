@@ -1906,10 +1906,10 @@ if (document.readyState === 'loading') {
 
   const STATE_ITEMS = {
     2: [
-      { title: 'Aurora account 1', bank: 'CMB', account: '012-345678-9', status: 'review', href: '#' },
+      { title: 'NovaQuill Ltd', bank: 'DBS Bank', account: '012-345678-9', status: 'review', href: '#' },
     ],
     3: [
-      { title: 'NovaQuill', bank: 'CIMB', account: '012-345678-9', status: 'verified', href: 'send-payment.html' },
+      { title: 'NovaQuill Ltd', bank: 'DBS Bank', account: '012-345678-9', status: 'verified', href: 'send-payment.html' },
       { title: 'Counterparty X', bank: 'CIMB', account: '012-345678-9', status: 'review', href: '#' },
       { title: 'Counterparty Y', bank: 'CIMB', account: '012-345678-9', status: 'review', href: '#' },
       { title: 'Counterparty Z', bank: 'CIMB', account: '012-345678-9', status: 'danger', href: '#' },
