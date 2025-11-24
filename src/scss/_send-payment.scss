@@ -1708,7 +1708,7 @@ bottom: 96px !important;
     .pd-detail__row-value--id {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
+      gap: 4px;
     }
   }
 
@@ -1717,6 +1717,11 @@ bottom: 96px !important;
     padding: 0;
     background: transparent;
     cursor: pointer;
+
+    img {
+    width: 20px;
+      height: 20px;
+    }
   }
 
   &__receiver {
@@ -1824,9 +1829,22 @@ bottom: 96px !important;
     text-decoration: none;
 
     &:hover {
-      text-decoration: underline;
+      text-decoration: none;
     }
   }
+}
+
+.pd-detail__declared {
+  font-family: $font-family-sans;
+  font-size: 16px;
+  font-weight: 500;
+  color: $text-placeholder; // placeholder color
+}
+.pd-detail__link.pd-detail__declared {
+  color: $text-secondary;
+  font-weight: 500;
+  pointer-events: none;
+  text-decoration: none;
 }
 
 .pd-status {

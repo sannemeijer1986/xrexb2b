@@ -117,7 +117,6 @@
 
             <aside class="pd-detail__aside">
               <div class="pd-detail__card">
-                <h2 class="pd-detail__section-title">Nature of payment</h2>
                 <dl class="pd-detail__grid">
                   <div class="pd-detail__item">
                     <dt>Nature of payment</dt>
@@ -195,21 +194,130 @@
             setText('pdNature', data.nature || '- -');
             setText('pdPurpose', data.purpose || '- -');
 
-            var docLabel = data.attachedDocs || '';
+            // Documents (pre-shipment vs post-shipment)
+            var docsDetail = Array.isArray(data.docsDetail) ? data.docsDetail : null;
+            var natureLabel = (data.nature || '').toLowerCase();
+            var isPostShipment = natureLabel.indexOf('post') === 0;
+
+            var docs = [];
+            if (docsDetail && docsDetail.length) {
+              docs = docsDetail.slice();
+            } else if (data.attachedDocs) {
+              docs = [{ title: data.attachedDocs, declared: false }];
+            }
+
+            // For post-shipment, ensure "Commercial invoice" appears last in the list
+            if (isPostShipment && docs.length > 1) {
+              var ciDocs = [];
+              var otherDocs = [];
+              docs.forEach(function (d) {
+                var t = (d && d.title ? String(d.title) : '').toLowerCase();
+                if (t.indexOf('commercial invoice') === 0) {
+                  ciDocs.push(d);
+                } else {
+                  otherDocs.push(d);
+                }
+              });
+              docs = otherDocs.concat(ciDocs);
+            }
+
+            var docLabelEl = document.getElementById('pdDocLabel');
             var docLink = document.getElementById('pdDocLink');
-            if (docLink) {
-              if (docLabel) {
-                var text = data.docNumber ? (data.docNumber + '.pdf') : docLabel;
-                docLink.textContent = text;
-                docLink.href = '#';
+            var docNumberLabelEl = document.getElementById('pdDocNumberLabel');
+            var docNumberEl = document.getElementById('pdDocNumber');
+            var docsGrid = document.querySelector('.pd-detail__grid');
+            var ciItem = docLabelEl ? docLabelEl.closest('.pd-detail__item') : null;
+
+            // Remove any previously injected extra doc rows
+            if (docsGrid) {
+              Array.prototype.slice.call(docsGrid.querySelectorAll('.pd-detail__item[data-doc-extra="1"]'))
+                .forEach(function (node) { node.parentNode.removeChild(node); });
+            }
+
+            // Determine primary doc (shown in pdDocLabel/pdDocLink) and extra docs
+            var primaryDoc = null;
+            var extraDocs = [];
+            if (docs.length) {
+              if (isPostShipment) {
+                var ciIndex = -1;
+                for (var di = 0; di < docs.length; di++) {
+                  var t2 = (docs[di] && docs[di].title ? String(docs[di].title) : '').toLowerCase();
+                  if (t2.indexOf('commercial invoice') === 0) {
+                    ciIndex = di;
+                    break;
+                  }
+                }
+                if (ciIndex >= 0) {
+                  primaryDoc = docs[ciIndex];
+                  extraDocs = docs.slice(0, ciIndex).concat(docs.slice(ciIndex + 1));
+                } else {
+                  primaryDoc = docs[0];
+                  extraDocs = docs.slice(1);
+                }
               } else {
-                docLink.textContent = '- -';
-                docLink.removeAttribute('href');
+                primaryDoc = docs[0];
+                extraDocs = docs.slice(1);
               }
             }
-            setText('pdDocLabel', docLabel || 'Proforma Invoice (PI)');
-            setText('pdDocNumberLabel', data.docNumLabel || 'Proforma Invoice (PI) number');
-            setText('pdDocNumber', data.docNumber || '- -');
+
+            if (primaryDoc && docLabelEl && docLink) {
+              var firstTitle = primaryDoc.title || (data.attachedDocs || 'Proforma Invoice (PI)');
+              docLabelEl.textContent = firstTitle;
+
+              if (primaryDoc.declared) {
+                docLink.textContent = 'Declared no document required';
+                docLink.classList.add('pd-detail__declared');
+                docLink.removeAttribute('href');
+              } else {
+                docLink.classList.remove('pd-detail__declared');
+                var linkText;
+                if (!isPostShipment && data.docNumber) {
+                  linkText = data.docNumber + '.pdf';
+                } else {
+                  linkText = firstTitle || 'Document';
+                }
+                docLink.textContent = linkText;
+                docLink.href = '#';
+              }
+            } else if (docLink) {
+              docLink.textContent = '- -';
+              docLink.removeAttribute('href');
+            }
+
+            if (docNumberLabelEl) {
+              docNumberLabelEl.textContent = data.docNumLabel || 'Proforma Invoice (PI) number';
+            }
+            if (docNumberEl) {
+              docNumberEl.textContent = data.docNumber || '- -';
+            }
+
+            // Extra docs (post-shipment multiple documents)
+            if (extraDocs.length && docsGrid && ciItem) {
+              for (var i = 0; i < extraDocs.length; i++) {
+                var doc = extraDocs[i];
+                var item = document.createElement('div');
+                item.className = 'pd-detail__item';
+                item.setAttribute('data-doc-extra', '1');
+                var dt = document.createElement('dt');
+                dt.textContent = doc.title || 'Document';
+                var dd = document.createElement('dd');
+                if (doc.declared) {
+                  var span = document.createElement('span');
+                  span.className = 'pd-detail__declared';
+                  span.textContent = 'Declared no document required';
+                  dd.appendChild(span);
+                } else {
+                  var a = document.createElement('a');
+                  a.href = '#';
+                  a.className = 'pd-detail__link';
+                  a.textContent = doc.title || 'Document';
+                  dd.appendChild(a);
+                }
+                item.appendChild(dt);
+                item.appendChild(dd);
+                docsGrid.insertBefore(item, ciItem);
+              }
+            }
           }
 
           var statusBadge = document.getElementById('pdStatusBadge');
@@ -287,18 +395,38 @@
             }
           } catch (_) {}
 
-          // Copy payment ID to clipboard (best-effort)
+          // Copy payment ID to clipboard (best-effort) + snackbar
           try {
+            var copyPaymentId = function () {
+              var idEl = document.getElementById('pdPaymentId');
+              if (!idEl) return;
+              var text = (idEl.textContent || '').trim();
+              if (!text) return;
+              try {
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                  navigator.clipboard.writeText(text);
+                }
+              } catch (_) {}
+              try {
+                if (typeof window.showSnackbar === 'function') {
+                  window.showSnackbar('Payment ID copied to clipboard', 2000);
+                }
+              } catch (_) {}
+            };
+
             var copyBtn = document.querySelector('.pd-detail__copy-btn');
             if (copyBtn) {
-              copyBtn.addEventListener('click', function () {
-                var idEl = document.getElementById('pdPaymentId');
-                if (!idEl) return;
-                var text = (idEl.textContent || '').trim();
-                if (!text) return;
-                try {
-                  navigator.clipboard && navigator.clipboard.writeText(text);
-                } catch (_) {}
+              copyBtn.addEventListener('click', function (e) {
+                e.preventDefault();
+                copyPaymentId();
+              });
+            }
+
+            var idWrapper = document.querySelector('.pd-detail__row-value--id');
+            if (idWrapper) {
+              idWrapper.style.cursor = 'pointer';
+              idWrapper.addEventListener('click', function () {
+                copyPaymentId();
               });
             }
           } catch (_) {}

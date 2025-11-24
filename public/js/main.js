@@ -1473,20 +1473,24 @@ function initSendPayment() {
         let docNumber = '';
         let docNumLabel = '';
         let attached = [];
+        let docsDetail = [];
         const natureVal = natureSel?.value || '';
         if (natureVal === 'pre_shipment') {
           const docTypeSel = document.getElementById('docType');
           const docTypeVal = docTypeSel ? docTypeSel.value : '';
           if (docTypeVal === 'PI') {
             attached = ['Proforma invoice (PI)'];
+            docsDetail = [{ title: 'Proforma invoice (PI)', declared: false }];
             docNumLabel = 'Proforma invoice number';
             docNumber = piNumber || '';
           } else if (docTypeVal === 'PO') {
             attached = ['Purchase order (PO)'];
+            docsDetail = [{ title: 'Purchase order (PO)', declared: false }];
             docNumLabel = 'Purchase order number';
             docNumber = piNumber || '';
           } else {
             attached = [];
+            docsDetail = [];
             docNumLabel = '';
             docNumber = '';
           }
@@ -1502,7 +1506,10 @@ function initSendPayment() {
               const missChk = maybeMissRow.querySelector('input[type=\"checkbox\"]');
               if (missChk) missedOk = !!missChk.checked;
             }
-            if (uploaded || missedOk) attached.push(title);
+            if (uploaded || missedOk) {
+              attached.push(title);
+              docsDetail.push({ title, declared: !uploaded && !!missedOk });
+            }
           });
           docNumLabel = 'Commercial invoice number';
           docNumber = ciNumber || '';
@@ -1529,6 +1536,7 @@ function initSendPayment() {
           docNumber,
           docNotes,
           attachedDocs: attached.join(', '),
+          docsDetail,
           paymentId,
           dateTime: new Date().toLocaleString('en-GB', { hour12: false }),
           status: 'Processing',
