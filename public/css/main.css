@@ -5989,11 +5989,11 @@ main.container {
 .banks-panel {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 40px;
 }
 @media (min-width: 1280px) {
   .banks-panel {
-    gap: 48px;
+    gap: 56px;
   }
 }
 .banks-panel .banks-header {
@@ -6370,6 +6370,41 @@ main.container {
   margin-top: 8px;
 }
 
+@media (max-width: 1279px) {
+  .banks-panel {
+    gap: 40px;
+  }
+  .banks-panel .banks-section .banks-list {
+    border-radius: 8px;
+  }
+  .banks-panel .banks-section .banks-list .bank-card {
+    padding: 16px;
+    gap: 12px;
+  }
+  .banks-panel .banks-section .banks-list .bank-card .bank-card-icon {
+    width: 32px;
+    height: 32px;
+  }
+  .banks-panel .banks-section .banks-list .bank-card .bank-card-icon img {
+    width: 22px;
+    height: 22px;
+  }
+  .banks-panel .banks-section .banks-list .bank-card .bank-card-content {
+    gap: 2px;
+  }
+  .banks-panel .banks-section .banks-list .bank-card .bank-card-content .bank-card-name {
+    font-size: 16px;
+    font-weight: 700;
+  }
+  .banks-panel .banks-section .banks-list .bank-card .bank-card-content .bank-card-status {
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .banks-panel .banks-section .banks-list .bank-card .bank-card-details {
+    font-size: 14px;
+    gap: 6px;
+  }
+}
 .page--cp-detail {
   padding-top: 32px;
   padding-bottom: 120px;

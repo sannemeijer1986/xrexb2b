@@ -547,10 +547,10 @@ main.container {
 .banks-panel {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 40px;
 
   @media (min-width: $bp-desktop) {
-    gap: 48px;
+    gap: 56px;
   }
 
   .banks-header {
@@ -976,6 +976,51 @@ main.container {
 
   &__btn {
     margin-top: 8px;
+  }
+}
+
+// Banks list – align mobile RWD with cp-list items on Select counterparty
+@media (max-width: ($bp-desktop - 1px)) {
+  .banks-panel {
+    gap: 40px;
+
+    .banks-section .banks-list {
+      border-radius: 8px;
+
+      .bank-card {
+        padding: 16px;
+        gap: 12px;
+
+        .bank-card-icon {
+          width: 32px;
+          height: 32px;
+
+          img {
+            width: 22px;
+            height: 22px;
+          }
+        }
+
+        .bank-card-content {
+          gap: 2px;
+
+          .bank-card-name {
+            font-size: 16px;
+            font-weight: 700;
+          }
+
+          .bank-card-status {
+            font-size: 12px;
+            font-weight: 600;
+          }
+        }
+
+        .bank-card-details {
+          font-size: 14px;
+          gap: 6px;
+        }
+      }
+    }
   }
 }
 
