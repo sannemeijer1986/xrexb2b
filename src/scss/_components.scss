@@ -870,6 +870,12 @@ body.modal-locked {
   .cp-sticky[hidden] {
     display: none !important;
   }
+  // Ensure site footer content isn't hidden behind sticky CTA on pages that use it
+  .page--cp ~ .site-footer,
+  .page--settings ~ .site-footer,
+  .page--cp-detail ~ .site-footer {
+    padding-bottom: 96px;
+  }
   // Lift build badge above sticky CTA for pages using cp-sticky
   .page--cp ~ .build-badge,
   .page--settings ~ .build-badge {

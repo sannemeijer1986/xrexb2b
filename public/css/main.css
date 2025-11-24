@@ -2160,6 +2160,11 @@ body.modal-locked {
   .cp-sticky[hidden] {
     display: none !important;
   }
+  .page--cp ~ .site-footer,
+  .page--settings ~ .site-footer,
+  .page--cp-detail ~ .site-footer {
+    padding-bottom: 96px;
+  }
   .page--cp ~ .build-badge,
   .page--settings ~ .build-badge {
     bottom: 96px;
@@ -6498,8 +6503,13 @@ main.container {
     font-size: 24px;
   }
 }
+.cp-detail .cp-detail__name-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
 .cp-detail .cp-detail__status-wrap {
-  margin-top: 4px;
+  display: inline-flex;
 }
 .cp-detail .cp-detail__cta {
   flex-shrink: 0;
@@ -6672,12 +6682,12 @@ main.container {
   line-height: 1.2;
 }
 .cp-tag--under-review {
-  background: #EFF6FF;
-  color: #1E40AF;
+  background: #C2DAFF;
+  color: #3362C2;
 }
 .cp-tag--verified {
-  background: #ECFDF3;
-  color: #166534;
+  background: #A8E8BD;
+  color: #2F9752;
 }
 
 @media (min-width: 1280px) {
