@@ -649,6 +649,12 @@
   to { transform: rotate(360deg); }
 }
 
+.page--settings.container {
+  @media (max-width: ($bp-desktop - 1px)) {
+    padding-top: 80px;
+  }
+}
+
 // Receipt page quick styles
 .page--receipt .container { display: grid; place-items: center; padding: 40px 24px; }
 .page--receipt .muted {

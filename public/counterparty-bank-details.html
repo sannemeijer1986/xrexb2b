@@ -167,6 +167,8 @@
           var footerSingle = document.getElementById('cpDetailFooterSingle');
           var ctaMobileSingle = document.getElementById('cpDetailPrimaryCtaMobileSingle');
           var pageRoot = document.querySelector('.page--cp-detail');
+          var headerCrumb = document.querySelector('.page__header--crumb');
+          var headerCrumbLink = headerCrumb && headerCrumb.querySelector('.crumb');
 
           var applyState = function (state) {
             var isUnderReview = state === 2;
@@ -242,6 +244,19 @@
 
           if (delDesktop) {
             delDesktop.addEventListener('click', handleDeleteClick);
+          }
+
+          // Make entire page header clickable on mobile (use same target as crumb link)
+          if (headerCrumb && headerCrumbLink) {
+            headerCrumb.addEventListener('click', function (e) {
+              // If user already clicked the crumb link, let default behavior run
+              if (e.target.closest('.crumb')) return;
+              // Only treat as a header tap on breakpoints below desktop
+              if (window.innerWidth >= 1280) return;
+              e.preventDefault();
+              var href = headerCrumbLink.getAttribute('href') || 'settings.html?view=content&page=banks';
+              window.location.href = href;
+            });
           }
         } catch (e) {}
       });
