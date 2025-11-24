@@ -209,6 +209,13 @@
       if (!banksStickyEl) return;
       var current = getPage();
       var canShow = current === 'banks';
+      // Hide sticky when the Add USD bank modal is open
+      try {
+        var addUsdModalEl = document.getElementById('addUsdBankModal');
+        if (addUsdModalEl && addUsdModalEl.getAttribute('aria-hidden') === 'false') {
+          canShow = false;
+        }
+      } catch (_) {}
       try {
         if (typeof getPrototypeState === 'function') {
           canShow = canShow && getPrototypeState() >= 2;
@@ -336,7 +343,7 @@
           + '  <img src=\"assets/illu_nobank.svg\" alt=\"\" width=\"124\" height=\"100\">'
           + '  <p class=\"banks-empty__title\">No bank accounts found</p>'
           + '  <p class=\"banks-empty__text\">Add a USD bank account and complete verification to start using USD services.</p>'
-          + '  <a href=\"add-bank.html\" class=\"btn btn--primary btn--lg banks-empty__btn\">Add bank account</a>'
+          + '  <button type=\"button\" class=\"btn btn--primary btn--lg banks-empty__btn js-open-usd-modal\">Add bank account</button>'
           + '</div>';
         // In empty state (state 1), always hide sticky CTA
         try {
@@ -499,6 +506,10 @@
       addUsdModal.setAttribute('aria-hidden', 'false');
       document.documentElement.classList.add('modal-open');
       document.body.classList.add('modal-open');
+      // Re-evaluate sticky visibility (hide while modal is open)
+      if (typeof updateBanksSticky === 'function') {
+        updateBanksSticky();
+      }
     };
 
     bindUsdModalOpeners = function () {
@@ -526,6 +537,9 @@
           addUsdModal.setAttribute('aria-hidden', 'true');
           document.documentElement.classList.remove('modal-open');
           document.body.classList.remove('modal-open');
+          if (typeof updateBanksSticky === 'function') {
+            updateBanksSticky();
+          }
         }
       });
       var closeBtn = addUsdModal.querySelector('[data-modal-close]');
@@ -534,6 +548,9 @@
           addUsdModal.setAttribute('aria-hidden', 'true');
           document.documentElement.classList.remove('modal-open');
           document.body.classList.remove('modal-open');
+          if (typeof updateBanksSticky === 'function') {
+            updateBanksSticky();
+          }
         });
       }
     }
