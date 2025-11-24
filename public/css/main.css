@@ -5401,7 +5401,7 @@ main.container {
 .mobile-menu-header .link-close-menu {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   box-sizing: border-box;
   color: #336AFF;
   text-decoration: none;
@@ -5599,7 +5599,7 @@ main.container {
 .content .mobile-back .link-back {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 4px;
   box-sizing: border-box;
   color: #336AFF;
   text-decoration: none;
