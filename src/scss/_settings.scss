@@ -534,6 +534,12 @@ main.container {
   }
 }
 
+// Ensure inactive panels are fully hidden
+.account-panel[hidden],
+.banks-panel[hidden] {
+  display: none !important;
+}
+
 // Banks panel (USD bank accounts)
 .banks-panel {
   display: flex;

@@ -5965,6 +5965,11 @@ main.container {
   color: #f59e0b;
 }
 
+.account-panel[hidden],
+.banks-panel[hidden] {
+  display: none !important;
+}
+
 .banks-panel {
   display: flex;
   flex-direction: column;
