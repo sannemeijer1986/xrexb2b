@@ -451,9 +451,13 @@
 
           cpItems.forEach(function (item) {
             var meta = mapStatus(item.status || 'review');
-            var isProtoError = item.title !== 'NovaQuill Ltd';
+            var isNova = item.title === 'NovaQuill Ltd';
+            var isProtoError = !isNova;
             html += ''
-              + '<div class=\"bank-card\"' + (isProtoError ? ' data-prototype-error=\"1\"' : '') + '>'
+              + '<div class=\"bank-card\"'
+              + (isProtoError ? ' data-prototype-error=\"1\"' : '')
+              + (isNova ? ' data-novaquill=\"1\"' : '')
+              + '>'
               + '  <div class=\"bank-card-icon\">'
               + '    <img src=\"assets/icon_bank_cp.svg\" alt=\"\" width=\"24\" height=\"24\">'
               + '  </div>'
@@ -502,6 +506,18 @@
               }
             });
           });
+        } catch (_) {}
+
+        // Bind NovaQuill card to navigate to details page
+        try {
+          var novaCard = banksPanel.querySelector('.bank-card[data-novaquill=\"1\"]');
+          if (novaCard && !novaCard.dataset.novaBound) {
+            novaCard.dataset.novaBound = '1';
+            novaCard.addEventListener('click', function (e) {
+              e.preventDefault();
+              window.location.href = 'counterparty-bank-details.html';
+            });
+          }
         } catch (_) {}
       };
 

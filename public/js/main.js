@@ -2916,7 +2916,7 @@ if (document.readyState === 'loading') {
           if (bankCity) bankCity.value = 'Singapore';
           if (swiftCode) swiftCode.value = 'DBSSSGSG';
           if (accountNumber) accountNumber.value = '012-345678-9';
-          if (accountNicknameSwift) accountNicknameSwift.value = 'Main Business Account';
+          if (accountNicknameSwift) accountNicknameSwift.value = 'NovaQuill Ltd';
           
           // Trigger change events for all fields
           [bankName, bankCity, swiftCode, accountNumber, accountNicknameSwift, ibanNumber, accountNickname].forEach((el) => {
