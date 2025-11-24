@@ -25,6 +25,7 @@ function calculateFees(amount, payerRate, receiverRate) {
 }
 
 const PROTOTYPE_STATE_KEY = 'xrexb2b.state.v1';
+const ADD_BANK_RETURN_KEY = 'xrexb2b.addBankReturnUrl';
 const PROTOTYPE_STATE_MIN = 1;
 const PROTOTYPE_STATE_MAX = 4;
 const PROTOTYPE_STATE_LABELS = {
@@ -331,6 +332,23 @@ function initSendPayment() {
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', onScroll);
     onScroll();
+  })();
+
+  // Add-bank back link: return to captured entrypoint (index, select-counterparty, settings)
+  (function initAddBankBackLink() {
+    try {
+      var backLink = document.getElementById('abBackLink');
+      if (!backLink) return;
+      var key = ADD_BANK_RETURN_KEY;
+      var target = null;
+      if (window.sessionStorage) {
+        target = window.sessionStorage.getItem(key);
+      }
+      var href = 'select-counterparty.html';
+      if (target === 'index') href = 'index.html';
+      if (target === 'settings') href = 'settings.html?view=content&page=banks';
+      backLink.setAttribute('href', href);
+    } catch (_) {}
   })();
 
   // ---- Enable/disable Confirm send based on filled inputs/selects ----
@@ -3077,6 +3095,27 @@ if (document.readyState === 'loading') {
       }
     }
   });
+})();
+
+// Track entrypoint for add-bank page (index, select-counterparty, settings)
+(function initAddBankEntrypointTracking() {
+  try {
+    var links = document.querySelectorAll('a[href="add-bank.html"], a[href="add-bank.html"]');
+    if (!links.length) return;
+    links.forEach(function (link) {
+      link.addEventListener('click', function () {
+        try {
+          if (!window.sessionStorage) return;
+          var from = (window.location.pathname || '').toLowerCase();
+          var name = 'index';
+          if (from.indexOf('settings.html') !== -1) name = 'settings';
+          else if (from.indexOf('select-counterparty.html') !== -1) name = 'select-counterparty';
+          else if (from.indexOf('index.html') !== -1) name = 'index';
+          window.sessionStorage.setItem(ADD_BANK_RETURN_KEY, name);
+        } catch (_) {}
+      }, { capture: true });
+    });
+  } catch (_) {}
 })();
 
 // Add Bank: Bank details modal handler

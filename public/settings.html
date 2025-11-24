@@ -222,7 +222,7 @@
             <div id="panel-banks" class="banks-panel" role="tabpanel" aria-label="Banks" hidden>
                 <div class="banks-header">
                     <h2 class="banks-subtitle">Manage and view company and counterparty accounts</h2>
-                    <a href="add-bank.html" class="btn btn--primary btn--md">Add new bank account</a>
+                    <button type="button" id="openAddUsdBankModal" class="btn btn--primary btn--md">Add new bank account</button>
                 </div>
 
                 <div class="banks-section">
@@ -323,9 +323,51 @@
         <!-- Mobile sticky CTA for USD bank accounts -->
         <div id="banksSticky" class="cp-sticky" hidden>
             <div class="cp-sticky__inner">
-                <a class="btn btn--primary btn--lg cp-sticky__btn" href="add-bank.html">
+                <button type="button" id="openAddUsdBankModalSticky" class="btn btn--primary btn--lg cp-sticky__btn">
                     Add new bank account
-                </a>
+                </button>
+            </div>
+        </div>
+
+        <!-- Modal: Add USD bank account (settings) -->
+        <div id="addUsdBankModal" class="modal modal--large" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="addUsdBankTitle">
+            <div class="modal-wrapper">
+                <div class="modal-content add-usdbank-modal">
+                    <div class="modal__header">
+                        <button class="modal__close" data-modal-close aria-label="Close modal">
+                            <img src="assets/icon_close.svg" width="24" height="24" alt="close" />
+                        </button>
+                    </div>
+                    <div class="modal__body">
+                        <h2 id="addUsdBankTitle" class="modal__title">Add USD bank account</h2>
+                        <div class="m-alert m-alert--info">
+                            <span class="m-alert__icon" aria-hidden="true"></span>
+                            <span class="m-alert__text">Bank account verification requires 1–3 business days.</span>
+                        </div>
+                        <div class="add-usdbank-grid">
+                            <article class="add-usdbank-card">
+                                <div class="add-usdbank-card__icon">
+                                    <img src="assets/icon_bank_new.svg" alt="" width="32" height="32" />
+                                </div>
+                                <h3 class="add-usdbank-card__title">Your company account</h3>
+                                <p class="add-usdbank-card__desc">For deposit and withdraw</p>
+                                <button type="button" class="btn btn--primary btn--md add-usdbank-card__btn" disabled aria-disabled="true">
+                                    Add company account
+                                </button>
+                            </article>
+                            <article class="add-usdbank-card">
+                                <div class="add-usdbank-card__icon">
+                                    <img src="assets/icon_bank_cp.svg" alt="" width="32" height="32" />
+                                </div>
+                                <h3 class="add-usdbank-card__title">Counterparty account</h3>
+                                <p class="add-usdbank-card__desc">For payment purposes</p>
+                                <a href="add-bank.html" class="btn btn--primary btn--md add-usdbank-card__btn">
+                                    Add counterparty account
+                                </a>
+                            </article>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </main>

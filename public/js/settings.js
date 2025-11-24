@@ -374,7 +374,7 @@
         html += ''
           + '<div class=\"banks-header\">'
           + '  <h2 class=\"banks-subtitle\">Manage and view company and counterparty accounts</h2>'
-          + '  <a href=\"add-bank.html\" class=\"btn btn--primary btn--md\">Add new bank account</a>'
+          + '  <button type=\"button\" class=\"btn btn--primary btn--md js-open-usd-modal\">Add new bank account</button>'
           + '</div>';
 
         if (companyItems && companyItems.length) {
@@ -474,6 +474,11 @@
         if (cpFilterInput && !cpFilterInput.disabled) {
           cpFilterInput.addEventListener('change', function () { renderBanksPanel(); });
         }
+
+        // After (re)rendering, bind modal openers inside the panel
+        if (typeof bindUsdModalOpeners === 'function') {
+          bindUsdModalOpeners();
+        }
       };
 
       document.addEventListener('prototypeStateChange', function () {
@@ -481,6 +486,56 @@
         updateBanksSticky();
       });
       renderBanksPanel();
+    }
+  } catch (_) {}
+
+  // Add USD bank account modal wiring
+  var bindUsdModalOpeners;
+  try {
+    var addUsdModal = document.getElementById('addUsdBankModal');
+
+    var openUsdModal = function () {
+      if (!addUsdModal) return;
+      addUsdModal.setAttribute('aria-hidden', 'false');
+      document.documentElement.classList.add('modal-open');
+      document.body.classList.add('modal-open');
+    };
+
+    bindUsdModalOpeners = function () {
+      try {
+        var triggers = Array.prototype.slice.call(
+          document.querySelectorAll('.js-open-usd-modal, #openAddUsdBankModalSticky')
+        );
+        triggers.forEach(function (btn) {
+          if (btn.dataset.usdModalBound === '1') return;
+          btn.dataset.usdModalBound = '1';
+          btn.addEventListener('click', function (e) {
+            e.preventDefault();
+            openUsdModal();
+          });
+        });
+      } catch (_) {}
+    };
+
+    // Initial bind (for sticky + any static triggers)
+    bindUsdModalOpeners();
+
+    if (addUsdModal) {
+      addUsdModal.addEventListener('click', function (e) {
+        if (e.target === addUsdModal) {
+          addUsdModal.setAttribute('aria-hidden', 'true');
+          document.documentElement.classList.remove('modal-open');
+          document.body.classList.remove('modal-open');
+        }
+      });
+      var closeBtn = addUsdModal.querySelector('[data-modal-close]');
+      if (closeBtn) {
+        closeBtn.addEventListener('click', function () {
+          addUsdModal.setAttribute('aria-hidden', 'true');
+          document.documentElement.classList.remove('modal-open');
+          document.body.classList.remove('modal-open');
+        });
+      }
     }
   } catch (_) {}
 })();

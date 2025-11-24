@@ -6181,6 +6181,106 @@ main.container {
   opacity: 0.5;
 }
 
+.add-usdbank-modal .modal__header {
+  justify-content: flex-end;
+}
+.add-usdbank-modal .modal__body {
+  padding-top: 0;
+}
+.add-usdbank-modal .m-alert {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: #ebf2ff;
+  margin: 0 0 24px 0;
+}
+.add-usdbank-modal .m-alert__icon {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #3f78ff;
+  position: relative;
+}
+.add-usdbank-modal .m-alert__icon::before {
+  content: "i";
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 700;
+  color: #fff;
+}
+.add-usdbank-modal .m-alert__text {
+  font-family: "Manrope", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: #797A7B;
+}
+.add-usdbank-modal .add-usdbank-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+@media (min-width: 1280px) {
+  .add-usdbank-modal .add-usdbank-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+.add-usdbank-modal .add-usdbank-card {
+  border-radius: 12px;
+  border: 1px solid #eeeeee;
+  background: #fff;
+  padding: 24px 16px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 12px;
+}
+@media (min-width: 1280px) {
+  .add-usdbank-modal .add-usdbank-card {
+    padding: 32px 24px 24px;
+  }
+}
+.add-usdbank-modal .add-usdbank-card__icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 999px;
+  background: #f0f4ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 4px;
+}
+.add-usdbank-modal .add-usdbank-card__title {
+  margin: 0;
+  font-family: "Manrope", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: #0f172a;
+}
+.add-usdbank-modal .add-usdbank-card__desc {
+  margin: 0;
+  font-family: "Manrope", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: #797A7B;
+}
+.add-usdbank-modal .add-usdbank-card__btn {
+  margin-top: 8px;
+  width: 100%;
+}
+@media (min-width: 1280px) {
+  .add-usdbank-modal .add-usdbank-card__btn {
+    width: auto;
+    min-width: 220px;
+  }
+}
+
 @media (max-width: 1279px) {
   .banks-panel .banks-header .btn {
     display: none;
