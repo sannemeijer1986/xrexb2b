@@ -438,7 +438,6 @@
             var dl = document.getElementById('pdDownloadReceipt');
             if (dl) {
               dl.addEventListener('click', function (e) {
-                if (e && typeof e.preventDefault === 'function') e.preventDefault();
                 try {
                   var data = {};
                   if (window.sessionStorage) {
@@ -475,8 +474,23 @@
                     window.sessionStorage.setItem('receiptData', JSON.stringify(data));
                   }
 
-                  // Always open the HTML receipt page; user can use browser print to save as PDF
-                  window.location.href = 'payment-receipt.html';
+                  // Also encode key fields into the href as query params so a new tab can read them
+                  try {
+                    var qp = [];
+                    if (data.receiverName)     qp.push('receiverName=' + encodeURIComponent(data.receiverName));
+                    if (data.amountPayableFmt) qp.push('amount=' + encodeURIComponent(data.amountPayableFmt));
+                    if (data.payerShareAmt)    qp.push('payerShare=' + encodeURIComponent(data.payerShareAmt));
+                    if (data.receiverShareAmt) qp.push('receiverShare=' + encodeURIComponent(data.receiverShareAmt));
+                    if (data.toBeDeducted)     qp.push('totalPaid=' + encodeURIComponent(data.toBeDeducted));
+                    if (data.nature)           qp.push('nature=' + encodeURIComponent(data.nature));
+                    if (data.purpose)          qp.push('purpose=' + encodeURIComponent(data.purpose));
+                    if (data.docNumLabel)      qp.push('docNumLabel=' + encodeURIComponent(data.docNumLabel));
+                    if (data.docNumber)        qp.push('docNumber=' + encodeURIComponent(data.docNumber));
+
+                    var baseHref = 'payment-receipt.html';
+                    var query = qp.length ? ('?' + qp.join('&')) : '';
+                    dl.setAttribute('href', baseHref + query);
+                  } catch (_) {}
                 } catch (e) {}
               });
             }

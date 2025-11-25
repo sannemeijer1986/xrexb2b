@@ -204,6 +204,37 @@
         function populate() {
           var d = getData() || {};
 
+          // Also support data passed via query string (for new tabs where sessionStorage is empty)
+          try {
+            var search = window.location.search || '';
+            if (search && search.indexOf('?') !== -1) {
+              var params = new URLSearchParams(search);
+              var pick = function (key) {
+                var v = params.get(key);
+                return v && String(v).trim() ? v : null;
+              };
+              var qReceiverName  = pick('receiverName');
+              var qAmount        = pick('amount');
+              var qPayerShare    = pick('payerShare');
+              var qReceiverShare = pick('receiverShare');
+              var qTotalPaid     = pick('totalPaid');
+              var qNature        = pick('nature');
+              var qPurpose       = pick('purpose');
+              var qDocNumLabel   = pick('docNumLabel');
+              var qDocNumber     = pick('docNumber');
+
+              if (qReceiverName)  d.receiverName     = d.receiverName     || qReceiverName;
+              if (qAmount)        d.amountPayableFmt = d.amountPayableFmt || qAmount;
+              if (qPayerShare)    d.payerShareAmt    = d.payerShareAmt    || qPayerShare;
+              if (qReceiverShare) d.receiverShareAmt = d.receiverShareAmt || qReceiverShare;
+              if (qTotalPaid)     d.toBeDeducted     = d.toBeDeducted     || qTotalPaid;
+              if (qNature)        d.nature           = d.nature           || qNature;
+              if (qPurpose)       d.purpose          = d.purpose          || qPurpose;
+              if (qDocNumLabel)   d.docNumLabel      = d.docNumLabel      || qDocNumLabel;
+              if (qDocNumber)     d.docNumber        = d.docNumber        || qDocNumber;
+            }
+          } catch (_) {}
+
           // For this prototype, always show a static Payment ID from the design
           setText('rpPaymentId', 'PYT-20251118-f2d3fa4e');
           setText('rpReceiverName', d.receiverName || 'NovaQuill Ltd');
