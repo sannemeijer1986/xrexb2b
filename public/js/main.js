@@ -202,8 +202,12 @@ function initSendPayment() {
 
   if (tabHome) tabHome.addEventListener('click', () => { showHome(); setActiveTab(tabHome); });
   if (tabMenu) tabMenu.addEventListener('click', () => { showQuick(); setActiveTab(tabMenu); });
-  if (tabConvert) tabConvert.addEventListener('click', () => { showHome(); setActiveTab(tabConvert); });
-  if (tabOTC) tabOTC.addEventListener('click', () => { showHome(); setActiveTab(tabOTC); });
+
+  // Prototype only supports Assets, Transactions, and Quick menu tabs.
+  // Keep Convert / OTC clickable but do not change active state or icons.
+  if (tabConvert) tabConvert.addEventListener('click', () => { showHome(); });
+  if (tabOTC) tabOTC.addEventListener('click', () => { showHome(); });
+
   if (tabTrans) tabTrans.addEventListener('click', () => { showHome(); setActiveTab(tabTrans); });
 
   // Initialize icons based on default active tab
