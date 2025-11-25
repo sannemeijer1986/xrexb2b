@@ -141,7 +141,7 @@
 
               <div id="pdReceiptCard" class="pd-detail__card pd-detail__card--receipt" style="display: none;">
                 <h2 class="pd-detail__section-title">Payment receipt</h2>
-                <a id="pdDownloadReceipt" href="payment-receipt.html" target="_blank" class="pd-detail__link">
+                <a id="pdDownloadReceipt" href="#" class="pd-detail__link">
                   Download receipt
                 </a>
               </div>
@@ -433,11 +433,12 @@
             }
           } catch (_) {}
 
-          // Ensure receiptData is populated before opening the receipt PDF
+          // Ensure receiptData is populated before opening the receipt PDF / calling serverless endpoint
           try {
             var dl = document.getElementById('pdDownloadReceipt');
             if (dl) {
-              dl.addEventListener('click', function () {
+              dl.addEventListener('click', function (e) {
+                if (e && typeof e.preventDefault === 'function') e.preventDefault();
                 try {
                   var data = {};
                   if (window.sessionStorage) {
@@ -472,6 +473,31 @@
 
                   if (window.sessionStorage) {
                     window.sessionStorage.setItem('receiptData', JSON.stringify(data));
+                  }
+
+                  // On Vercel, call the serverless PDF endpoint; locally fall back to HTML receipt page
+                  var host = (window.location && window.location.hostname) || '';
+                  var isVercel = host.indexOf('vercel.app') !== -1;
+
+                  var paymentId = data.paymentId || 'PYT-demo';
+                  var qp = [];
+                  qp.push('paymentId=' + encodeURIComponent(paymentId));
+                  if (data.amountPayableFmt) {
+                    qp.push('amount=' + encodeURIComponent(data.amountPayableFmt));
+                  }
+                  if (data.receiverName) {
+                    qp.push('receiverName=' + encodeURIComponent(data.receiverName));
+                  }
+                  if (data.dateTime) {
+                    qp.push('dateTime=' + encodeURIComponent(data.dateTime));
+                  }
+                  var query = qp.length ? ('?' + qp.join('&')) : '';
+
+                  if (isVercel) {
+                    window.location.href = '/api/payment-receipt' + query;
+                  } else {
+                    // Fallback: open the HTML receipt page for local prototype use
+                    window.location.href = 'payment-receipt.html';
                   }
                 } catch (e) {}
               });

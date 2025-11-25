@@ -24,6 +24,8 @@
         }
       }
     </style>
+    <!-- Client-side PDF generator (html2pdf.js) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   </head>
   <body class="page--receipt-pdf">
     <div class="receipt-pdf">
@@ -147,7 +149,7 @@
 
           <!-- Group 3: total amount paid -->
           <dl class="receipt-pdf__table receipt-pdf__table-total">
-            <div class="receipt-pdf__row receipt-pdf__row--total">
+            <div class="receipt-pdf__row">
               <dt>Total amount paid</dt>
               <dd id="rpTotalPaid">-</dd>
             </div>
@@ -236,8 +238,51 @@
           setText('rpSentDate', sent);
         }
 
+        function generatePdfIfRequested() {
+          try {
+            var search = window.location.search || '';
+            var params = new URLSearchParams(search);
+            var shouldPdf = params.get('pdf') === '1';
+            if (!shouldPdf) return;
+
+            var target = document.querySelector('.receipt-pdf');
+            if (!target) return;
+
+            var opt = {
+              margin:       0,
+              filename:     'payment-receipt.pdf',
+              image:        { type: 'jpeg', quality: 0.98 },
+              html2canvas:  { scale: 2, useCORS: true },
+              jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
+
+            var attempts = 0;
+            var maxAttempts = 20;
+
+            function tryGenerate() {
+              attempts += 1;
+              if (typeof window.html2pdf === 'undefined') {
+                if (attempts < maxAttempts) {
+                  window.setTimeout(tryGenerate, 150);
+                }
+                return;
+              }
+              try {
+                window.setTimeout(function () {
+                  try {
+                    window.html2pdf().from(target).set(opt).save();
+                  } catch (_) {}
+                }, 150);
+              } catch (_) {}
+            }
+
+            tryGenerate();
+          } catch (e) {}
+        }
+
         window.addEventListener('load', function () {
           populate();
+          generatePdfIfRequested();
         });
       })();
     </script>
