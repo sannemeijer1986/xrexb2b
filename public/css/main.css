@@ -3275,6 +3275,24 @@ body.modal-locked {
     display: none;
   }
 }
+.transactions__filter--currency {
+  background-color: #EEEEEE;
+  border: 0px;
+  height: 24px;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 0 8px;
+}
+
+.transactions__filter--range {
+  background-color: transparent;
+  border: 0px;
+  height: 24px;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 0;
+}
+
 .transactions__filter-icon {
   width: 24px;
   height: 24px;
