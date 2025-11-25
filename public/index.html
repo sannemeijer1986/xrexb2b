@@ -186,6 +186,7 @@
             </div>
           </section>
           <section class="home-transactions">
+            <div class="card__title card__title--transactions">Transactions</div>
             <div data-transactions-target></div>
           </section>
         </div>
@@ -316,29 +317,42 @@
     <template id="transactionsTemplate">
       <section class="transactions">
         <div class="transactions__head">
-          <h2 class="transactions__title">Transactions</h2>
-          <button type="button" class="transactions__filter">
+        </div>
+
+        <div class="transactions__tabs" role="tablist">
+          <button type="button" class="transactions__tab is-active" data-tab="deposit">Deposit</button>
+          <button type="button" class="transactions__tab" >Withdrawal</button>
+          <button type="button" class="transactions__tab" data-tab="payment">Payment</button>
+          <button type="button" class="transactions__tab" >BitCheck</button>
+          <button type="button" class="transactions__tab" >Convert</button>
+        </div>
+
+        <div class="transactions__filters">
+          <button type="button" class="transactions__filter transactions__filter--currency">
             <span class="transactions__filter-icon">
               <img src="assets/icon_qm_convert.svg" alt="" width="16" height="16" />
             </span>
             <span>All currencies</span>
             <img src="assets/icon_chevron_down.svg" alt="" width="16" height="16" />
           </button>
-        </div>
-
-        <div class="transactions__tabs" role="tablist">
-          <button type="button" class="transactions__tab is-active" data-tab="deposit">Deposit</button>
-          <button type="button" class="transactions__tab" data-disabled="true">Withdrawal</button>
-          <button type="button" class="transactions__tab" data-tab="payment">Payment</button>
-          <button type="button" class="transactions__tab" data-disabled="true">BitCheck</button>
-          <button type="button" class="transactions__tab" data-disabled="true">Convert</button>
+          <button type="button" class="transactions__filter transactions__filter--range">
+            <span>Past 30 days</span>
+            <img src="assets/icon_chevron_down.svg" alt="" width="16" height="16" />
+          </button>
         </div>
 
         <div class="transactions__panels">
           <div class="transactions__panel is-active" data-panel="deposit">
+            <div class="transactions__head-row">
+              <span class="transactions__head-cell transactions__head-cell--activity"></span>
+              <span class="transactions__head-cell">Amount</span>
+              <span class="transactions__head-cell">Type</span>
+              <span class="transactions__head-cell">Status</span>
+              <span class="transactions__head-cell">Date</span>
+            </div>
             <ul class="transactions__list">
               <li class="transactions__item" data-action="deposit">
-                <div class="transactions__item-left">
+                <div class="transactions__cell transactions__cell--activity">
                   <span class="transactions__item-icon">
                     <img src="assets/icon_qm_deposit.svg" alt="" width="20" height="20" />
                   </span>
@@ -347,13 +361,17 @@
                     <div class="transactions__item-status transactions__item-status--completed">Completed</div>
                   </div>
                 </div>
-                <div class="transactions__item-right">
-                  <div class="transactions__item-amount">+ 200,000.00 USDT</div>
-                  <div class="transactions__item-date">24/06/2025, 18:11:45</div>
+                <div class="transactions__cell transactions__cell--amount">
+                  + 200,000.00 USDT
                 </div>
+                <div class="transactions__cell transactions__cell--type">Crypto</div>
+                <div class="transactions__cell transactions__cell--status">
+                  <span class="transactions__item-status transactions__item-status--completed">Completed</span>
+                </div>
+                <div class="transactions__cell transactions__cell--date">24/06/2025, 18:11:45</div>
               </li>
               <li class="transactions__item" data-action="deposit">
-                <div class="transactions__item-left">
+                <div class="transactions__cell transactions__cell--activity">
                   <span class="transactions__item-icon">
                     <img src="assets/icon_qm_deposit.svg" alt="" width="20" height="20" />
                   </span>
@@ -362,18 +380,29 @@
                     <div class="transactions__item-status transactions__item-status--completed">Completed</div>
                   </div>
                 </div>
-                <div class="transactions__item-right">
-                  <div class="transactions__item-amount">+ 200,000.00 USD</div>
-                  <div class="transactions__item-date">22/06/2025, 17:21:12</div>
+                <div class="transactions__cell transactions__cell--amount">
+                  + 200,000.00 USD
                 </div>
+                <div class="transactions__cell transactions__cell--type">Fiat</div>
+                <div class="transactions__cell transactions__cell--status">
+                  <span class="transactions__item-status transactions__item-status--completed">Completed</span>
+                </div>
+                <div class="transactions__cell transactions__cell--date">22/06/2025, 17:21:12</div>
               </li>
             </ul>
           </div>
 
           <div class="transactions__panel" data-panel="payment">
+            <div class="transactions__head-row">
+              <span class="transactions__head-cell transactions__head-cell--activity"></span>
+              <span class="transactions__head-cell">Amount payable</span>
+              <span class="transactions__head-cell">Purpose</span>
+              <span class="transactions__head-cell">Status</span>
+              <span class="transactions__head-cell">Requested date</span>
+            </div>
             <ul class="transactions__list">
               <li class="transactions__item transactions__item--link" data-action="payment" data-href="payment-details.html">
-                <div class="transactions__item-left">
+                <div class="transactions__cell transactions__cell--activity">
                   <span class="transactions__item-icon transactions__item-icon--payment">
                     <img src="assets/icon_qm_sendpayment.svg" alt="" width="20" height="20" />
                   </span>
@@ -382,10 +411,15 @@
                     <div class="transactions__item-status transactions__item-status--processing">Processing</div>
                   </div>
                 </div>
-                <div class="transactions__item-right">
-                  <div class="transactions__item-amount">50,000.00 USD</div>
-                  <div class="transactions__item-date">25/11/2025, 15:19:09</div>
+                <div class="transactions__cell transactions__cell--amount">50,000.00 USD</div>
+                <div class="transactions__cell transactions__cell--type">
+                  <div class="transactions__item-purpose">Goods purchase</div>
+                  <div class="transactions__item-purpose-sub">PI-001234</div>
                 </div>
+                <div class="transactions__cell transactions__cell--status">
+                  <span class="transactions__item-status transactions__item-status--processing">Processing</span>
+                </div>
+                <div class="transactions__cell transactions__cell--date">25/11/2025, 15:19:09</div>
               </li>
             </ul>
           </div>

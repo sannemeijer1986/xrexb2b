@@ -215,10 +215,7 @@ function initSendPayment() {
       const tabName = btn.getAttribute('data-tab');
       const isDisabled = btn.hasAttribute('data-disabled');
       btn.addEventListener('click', () => {
-        if (isDisabled) {
-          if (window.showSnackbar) window.showSnackbar('Not in prototype', 2000);
-          return;
-        }
+        if (isDisabled) return;
         if (tabName) activateTab(tabName);
       });
     });
@@ -245,6 +242,7 @@ function initSendPayment() {
       target.innerHTML = '';
       target.appendChild(frag);
       const section = target.querySelector('.transactions');
+      hydrateTransactionsFromState(section);
       initTransactionsSection(section);
     });
     if (transactionsView) {
@@ -253,8 +251,79 @@ function initSendPayment() {
       transactionsView.appendChild(frag);
       const section = transactionsView.querySelector('.transactions');
       if (section) section.classList.add('transactions--full');
+      hydrateTransactionsFromState(section);
       initTransactionsSection(section);
     }
+  };
+
+  const hydrateTransactionsFromState = (section) => {
+    if (!section) return;
+    let state = 1;
+    try {
+      if (typeof getPrototypeState === 'function') {
+        state = getPrototypeState();
+      }
+    } catch (_) {}
+
+    const paymentPanel = section.querySelector('[data-panel="payment"]');
+    const paymentList = paymentPanel && paymentPanel.querySelector('.transactions__list');
+    const emptyState = section.querySelector('[data-transactions-empty="payment"]');
+
+    // Build or show empty state for states 1-3
+    if (state <= 3) {
+      if (paymentList) paymentList.style.display = 'none';
+      if (!emptyState && paymentPanel) {
+        const ul = document.createElement('ul');
+        ul.className = 'transactions__list';
+        const li = document.createElement('li');
+        li.className = 'transactions__item';
+        li.setAttribute('data-transactions-empty', 'payment');
+        const activity = document.createElement('div');
+        activity.className = 'transactions__cell transactions__cell--activity';
+        activity.textContent = 'No data';
+        activity.style.color = getComputedStyle(document.documentElement).getPropertyValue('--text-secondary') || '#797A7B';
+        li.appendChild(activity);
+        ul.appendChild(li);
+        paymentPanel.appendChild(ul);
+      } else if (emptyState && emptyState.closest('.transactions__list')) {
+        emptyState.closest('.transactions__list').style.display = '';
+      }
+      return;
+    }
+
+    // States 4-5: show payment row with data from receiptData
+    let data = null;
+    try {
+      const raw = window.sessionStorage && window.sessionStorage.getItem('receiptData');
+      if (raw) data = JSON.parse(raw);
+    } catch (_) {}
+
+    if (!paymentList) return;
+    paymentList.style.display = '';
+    const li = paymentList.querySelector('.transactions__item');
+    if (!li) return;
+
+    const titleEl = li.querySelector('.transactions__item-title');
+    const amountEl = li.querySelector('.transactions__cell--amount');
+    const purposeEl = li.querySelector('.transactions__item-purpose');
+    const purposeSubEl = li.querySelector('.transactions__item-purpose-sub');
+    const statusEls = li.querySelectorAll('.transactions__item-status');
+    const dateEl = li.querySelector('.transactions__cell--date');
+
+    if (data) {
+      if (titleEl) titleEl.textContent = data.receiverName || 'NovaQuill Ltd';
+      if (amountEl) amountEl.textContent = data.amountPayableFmt || '50,000.00 USD';
+      if (purposeEl) purposeEl.textContent = data.nature || 'Goods purchase';
+      if (purposeSubEl) purposeSubEl.textContent = data.docNumber || 'PI-001234';
+      if (dateEl) dateEl.textContent = data.dateTime || '25/11/2025, 15:19:09';
+    }
+
+    statusEls.forEach((el) => {
+      if (!el) return;
+      el.textContent = state >= 5 ? 'Sent' : 'Processing';
+      el.classList.remove('transactions__item-status--processing', 'transactions__item-status--completed');
+      el.classList.add(state >= 5 ? 'transactions__item-status--completed' : 'transactions__item-status--processing');
+    });
   };
 
   renderTransactions();
@@ -287,6 +356,9 @@ function initSendPayment() {
 
   // Initialize icons based on default active tab
   setActiveTab(document.querySelector('.tabbar__btn.is-active') || tabHome);
+  document.addEventListener('prototypeStateChange', () => {
+    renderTransactions();
+  });
   // If coming back with request to open quick menu on mobile/tablet, honor it
   const shouldOpenQuick =
     window.innerWidth < DESKTOP_BP &&
