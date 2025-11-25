@@ -372,6 +372,12 @@ html {
   top: 124px;
 }
 
+@media (min-width: 1280px) {
+  .grid--home {
+    align-items: stretch;
+  }
+}
+
 .card {
   background: #fff;
   border: 1px solid #eeeeee;
@@ -2828,7 +2834,7 @@ body.modal-locked {
 }
 @media (min-width: 1280px) {
   .home-convert {
-    margin-top: 32px;
+    margin-top: 56px;
   }
 }
 .home-convert .convert-card {
@@ -2920,7 +2926,7 @@ body.modal-locked {
   text-align: left;
 }
 .home-convert .convert-card__head-cell--usd, .home-convert .convert-card__head-cell--usdt {
-  text-align: right;
+  text-align: left;
 }
 .home-convert .convert-card__head-cell--actions {
   text-align: right;
@@ -2967,7 +2973,7 @@ body.modal-locked {
 }
 .home-convert .convert-card__cell--usd, .home-convert .convert-card__cell--usdt {
   display: flex;
-  justify-content: flex-end;
+  justify-content: flex-start;
   align-items: center;
   gap: 4px;
   font-size: 14px;
@@ -2977,7 +2983,7 @@ body.modal-locked {
 .home-convert .convert-card__cell--actions {
   display: flex;
   justify-content: flex-end;
-  gap: 16px;
+  gap: 32px;
 }
 .home-convert .convert-card__cell--chevron {
   display: none;

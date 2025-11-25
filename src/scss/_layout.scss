@@ -203,6 +203,13 @@ html { overflow-y: scroll; }
 .grid__col--primary { min-width: 0; }
 .grid__col--sidebar { position: sticky; top: 124px; }
 
+// Home dashboard layout: make columns in first row share the same height on desktop
+.grid--home {
+  @media (min-width: $bp-desktop) {
+    align-items: stretch;
+  }
+}
+
 .card {
   @include card;
   padding: 18px;
