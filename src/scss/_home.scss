@@ -49,6 +49,11 @@
   }
 }
 
+.card__title--convert {
+  font-size: 16px;
+  font-weight: 600;
+}
+
 .qa__item.mobile_only {
   display: none;
   @media (max-width: ($bp-desktop - 1)) { display: grid; }
@@ -212,6 +217,316 @@
   display: flex;
   gap: 12px;
   @media (min-width: $bp-desktop) { display: none; }
+}
+
+/* Convert & OTC Service section */
+.home-convert {
+  margin-top: 24px;
+
+  @media (min-width: $bp-desktop) {
+    margin-top: 32px;
+  }
+
+  .convert-card {
+    padding: 20px;
+    border-radius: 16px;
+
+    @media (min-width: $bp-desktop) {
+      padding: 32px;
+    }
+  }
+
+  .convert-card__header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 20px;
+
+    @media (min-width: $bp-desktop) {
+      align-items: center;
+      margin-bottom: 24px;
+    }
+  }
+
+  .convert-card__text {
+    flex: 1;
+  }
+
+  .convert-card__title {
+    margin: 0 0 8px;
+    font-family: $font-family-sans;
+    font-size: 16px;
+    font-weight: 700;
+    color: $text-primary;
+    line-height: 1.3;
+
+    @media (min-width: $bp-desktop) {
+      font-size: 20px;
+      margin-bottom: 4px;
+    }
+  }
+
+  .convert-card__desc {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 500;
+    color: $text-secondary;
+    line-height: 1.4;
+  }
+
+  .convert-card__illustration {
+    flex-shrink: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+
+    @media (min-width: $bp-desktop) {
+      display: flex;
+    }
+
+    img {
+      width: 409px;
+      height: auto;
+    }
+  }
+
+  .convert-card__table {
+    margin-top: 16px;
+    border-radius: 0;
+    background: transparent;
+    padding: 0; /* mobile: rows sit directly inside card */
+
+
+  }
+
+  .convert-card__head-row {
+    background-color: #F8F8F8;
+    height: 32px;
+    justify-content: center;
+    align-items: center;
+    vertical-align: middle;
+    display: none;
+    padding: 0 12px;
+
+    @media (min-width: $bp-desktop) {
+      display: grid;
+      grid-template-columns: minmax(0, 2.5fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 2fr);
+      font-size: 12px;
+      font-weight: 600;
+      color: $text-secondary;
+    }
+  }
+
+  .convert-card__head-cell {
+    &--currency { text-align: left; }
+    &--usd,
+    &--usdt { text-align: right; }
+    &--actions { text-align: right; }
+  }
+
+  .convert-card__row {
+    border-radius: 12px;
+    height: 72px;
+    background: #ffffff;
+    margin-bottom: 0;
+    padding: 12px; /* desktop default – mobile overrides below */
+    min-height: 56px;
+    display: grid;
+    grid-template-columns: minmax(0, 2.5fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 2fr);
+    gap: 12px;
+    align-items: center;
+    transition: background-color 0.2s;
+    position: relative;
+
+    @media (max-width: ($bp-desktop - 1px)) {
+      padding: 16px 20px;
+      min-height: 64px;
+      grid-template-columns: auto 1fr auto;
+      gap: 16px;
+    }
+  }
+
+  .convert-card__divider {
+    height: 1px;
+    background: #eeeeee;
+    margin: 0;
+    flex-shrink: 0;
+  }
+
+  .convert-card__cell {
+    /* Desktop defaults (simple 4-column grid matching header) */
+    &--currency,
+    &--usd,
+    &--usdt,
+    &--actions {
+      grid-column: auto;
+      grid-row: auto;
+    }
+
+    &--currency {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    &--usd,
+    &--usdt {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 4px;
+      font-size: 14px;
+      font-weight: 600;
+      color: $text-primary;
+    }
+
+    &--actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 16px;
+    }
+
+    &--chevron {
+      display: none;
+    }
+
+    /* Mobile overrides – stacked middle column with chevron */
+    @media (max-width: ($bp-desktop - 1px)) {
+      &--currency {
+        gap: 4px;
+        grid-column: 1;
+        grid-row: 1 / 3;
+      }
+
+      &--usd,
+      &--usdt {
+        justify-content: space-between;
+        grid-column: 2;
+      }
+
+      &--usd {
+        grid-row: 1;
+      }
+
+      &--usdt {
+        grid-row: 2;
+      }
+
+      &--actions {
+        display: none;
+      }
+
+      &--chevron {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        grid-column: 3;
+        grid-row: 1 / 3;
+
+        img {
+          width: 24px;
+          height: 24px;
+          opacity: 0.6;
+        }
+      }
+    }
+  }
+
+  .convert-card__cell-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: $text-secondary;
+
+    @media (min-width: $bp-desktop) {
+      display: none;
+    }
+  }
+
+  .convert-card__cell-value {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 14px;
+    font-weight: 600;
+    color: $text-primary;
+
+    &--muted {
+      color: $text-secondary;
+    }
+
+    @media (min-width: $bp-desktop) {
+      font-size: 14px;
+    }
+  }
+
+  .convert-card__asset-icon {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    img {
+      width: 24px;
+      height: 24px;
+    }
+  }
+
+  .convert-card__asset-text {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .convert-card__asset-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: $text-primary;
+    line-height: 1.3;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .convert-card__asset-name-sub {
+    font-size: 14px;
+    font-weight: 400;
+    color: $text-secondary; /* Changed to secondary color */
+  }
+
+  .convert-card__asset-sub {
+    display: none;
+  }
+
+  .convert-card__rate {
+    font-weight: 600;
+    font-size: 14px;
+    color: $text-primary;
+  }
+
+  .convert-card__rate-unit {
+    font-size: 14px;
+    font-weight: 600;
+    color: $text-primary;
+  }
+
+  .convert-card__link {
+    padding: 0;
+    border: none;
+    background: none;
+    font-size: 14px;
+    font-weight: 600;
+    color: #336AFF;
+    cursor: pointer;
+    text-decoration: none;
+    white-space: nowrap;
+
+
+    /* Both links should be blue primary color as per design */
+    &--secondary {
+      color: #336AFF;
+    }
+  }
 }
 
 /* Home page greeting styling (Sora, 20 -> 32 on desktop) */

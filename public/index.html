@@ -42,7 +42,10 @@
               <div class="card assets">
                 <div class="assets__header">
                   <div class="assets__total">
-                    <div class="assets__total-label">Total assets ≈ <img class="metric-eye" src="assets/icon_eye.svg" alt="visibility" width="20" height="20" /></div>
+                    <div class="assets__total-label">
+                      Total assets ≈
+                      <img class="metric-eye" src="assets/icon_eye.svg" alt="visibility" width="20" height="20" />
+                    </div>
                     <div class="assets__total-value">400,000.00 USD</div>
                     <div class="assets__locked muted">Locked: ≈0.00 USD</div>
                   </div>
@@ -89,6 +92,98 @@
               <div data-qa-header-target></div>
               <div class="card quick-actions" data-qa-target></div>
             </aside>
+          </section>
+
+          <section class="home-convert">
+            <div class="card__title card__title--convert">Convert</div>
+            <div class="card convert-card">
+              <div class="convert-card__header">
+                <div class="convert-card__text">
+                  <h2 class="convert-card__title">Convert &amp; OTC Service</h2>
+                  <p class="convert-card__desc">
+                    Experience a simple and secure process tailored to your unique transaction sizes.
+                  </p>
+                </div>
+                <div class="convert-card__illustration" aria-hidden="true">
+                  <img src="assets/illu_convert.png" alt="" width="192" height="110" />
+                </div>
+              </div>
+
+              <div class="convert-card__table">
+                <div class="convert-card__head-row">
+                  <div class="convert-card__head-cell convert-card__head-cell--currency">Currency</div>
+                  <div class="convert-card__head-cell convert-card__head-cell--usd">≈USD</div>
+                  <div class="convert-card__head-cell convert-card__head-cell--usdt">≈USDT</div>
+                  <div class="convert-card__head-cell convert-card__head-cell--actions"></div>
+                </div>
+
+                <div class="convert-card__row">
+                  <div class="convert-card__cell convert-card__cell--currency">
+                    <span class="convert-card__asset-icon">
+                      <img src="assets/icon_USD.svg" alt="" width="24" height="24" />
+                    </span>
+                    <div class="convert-card__asset-text">
+                      <div class="convert-card__asset-name">
+                        <span>USD</span>
+                        <span class="convert-card__asset-name-sub">(US dollar)</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="convert-card__cell convert-card__cell--usd">
+                    <span class="convert-card__cell-label">≈USD</span>
+                    <span class="convert-card__cell-value convert-card__cell-value--muted">- -</span>
+                  </div>
+                  <div class="convert-card__cell convert-card__cell--usdt">
+                    <span class="convert-card__cell-label">≈USDT</span>
+                    <span class="convert-card__cell-value">
+                      <span class="convert-card__rate">0.9995</span>
+                      <span class="convert-card__rate-unit">USDT</span>
+                    </span>
+                  </div>
+                  <div class="convert-card__cell convert-card__cell--actions">
+                    <button type="button" class="convert-card__link">Convert</button>
+                    <button type="button" class="convert-card__link convert-card__link--secondary">Request OTC quote</button>
+                  </div>
+                  <div class="convert-card__cell convert-card__cell--chevron">
+                    <img src="assets/icon_chevron_right.svg" alt="" width="24" height="24" />
+                  </div>
+                </div>
+
+                <div class="convert-card__divider"></div>
+
+                <div class="convert-card__row">
+                  <div class="convert-card__cell convert-card__cell--currency">
+                    <span class="convert-card__asset-icon">
+                      <img src="assets/icon_USDT.svg" alt="" width="24" height="24" />
+                    </span>
+                    <div class="convert-card__asset-text">
+                      <div class="convert-card__asset-name">
+                        <span>USDT</span>
+                        <span class="convert-card__asset-name-sub">(USD Tether)</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="convert-card__cell convert-card__cell--usd">
+                    <span class="convert-card__cell-label">≈USD</span>
+                    <span class="convert-card__cell-value">
+                      <span class="convert-card__rate">1.0005</span>
+                      <span class="convert-card__rate-unit">USD</span>
+                    </span>
+                  </div>
+                  <div class="convert-card__cell convert-card__cell--usdt">
+                    <span class="convert-card__cell-label">≈USDT</span>
+                    <span class="convert-card__cell-value convert-card__cell-value--muted">- -</span>
+                  </div>
+                  <div class="convert-card__cell convert-card__cell--actions">
+                    <button type="button" class="convert-card__link">Convert</button>
+                    <button type="button" class="convert-card__link convert-card__link--secondary">Request OTC quote</button>
+                  </div>
+                  <div class="convert-card__cell convert-card__cell--chevron">
+                    <img src="assets/icon_chevron_right.svg" alt="" width="24" height="24" />
+                  </div>
+                </div>
+              </div>
+            </div>
           </section>
         </div>
         <section id="quickView" class="quick-view" hidden>
