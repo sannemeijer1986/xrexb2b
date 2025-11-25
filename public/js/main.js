@@ -251,6 +251,12 @@ function initSendPayment() {
         });
       } else if (action === 'payment') {
         item.addEventListener('click', () => {
+          try {
+            if (window.sessionStorage) {
+              window.sessionStorage.setItem('transactionsActiveTab', 'payment');
+              window.sessionStorage.setItem('openTransactions', '1');
+            }
+          } catch (_) {}
           const href = item.getAttribute('data-href') || 'payment-details.html';
           window.location.href = href;
         });
@@ -378,6 +384,16 @@ function initSendPayment() {
     showQuick();
     setActiveTab(tabMenu);
     sessionStorage.removeItem('openQuick');
+  }
+
+  // If coming back from payment details via transactions entrypoint on mobile/tablet
+  const shouldOpenTransactions =
+    window.innerWidth < DESKTOP_BP &&
+    sessionStorage.getItem('openTransactions') === '1';
+  if (shouldOpenTransactions && tabTrans) {
+    showTransactions();
+    setActiveTab(tabTrans);
+    sessionStorage.removeItem('openTransactions');
   }
 
   const form = document.querySelector('.form');

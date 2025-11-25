@@ -3151,7 +3151,6 @@ body.modal-locked {
 .transactions-view {
   padding: 0;
   background: #F8F8F8;
-  min-height: calc(100vh - 56px);
 }
 @media (min-width: 1280px) {
   .transactions-view {
@@ -3170,7 +3169,6 @@ body.modal-locked {
   gap: 20px;
 }
 .transactions--full {
-  min-height: calc(100vh - 160px);
   padding-top: 16px;
   padding-bottom: 32px;
 }
@@ -3273,8 +3271,7 @@ body.modal-locked {
   .transactions__filter--currency {
     padding-inline: 8px;
   }
-  .transactions__filter--currency > span:not(.transactions__filter-icon),
-  .transactions__filter--currency > img {
+  .transactions__filter--currency > span:not(.transactions__filter-icon) {
     display: none;
   }
 }

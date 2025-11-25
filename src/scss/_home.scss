@@ -592,7 +592,6 @@
 .transactions-view {
   padding: 0;
   background: $bg-page;
-  min-height: calc(100vh - 56px);
 
   @media (min-width: $bp-desktop) {
     padding: 24px 0 96px;
@@ -610,7 +609,6 @@
   gap: 20px;
 
   &--full {
-    min-height: calc(100vh - 160px);
     padding-top: 16px;
     padding-bottom: 32px;
   }
@@ -716,8 +714,7 @@
     padding-inline: 8px;
   }
 
-  .transactions__filter--currency > span:not(.transactions__filter-icon),
-  .transactions__filter--currency > img {
+  .transactions__filter--currency > span:not(.transactions__filter-icon) {
     display: none;
   }
 }
