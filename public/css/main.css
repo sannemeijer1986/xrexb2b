@@ -3311,6 +3311,7 @@ body.modal-locked {
   font-weight: 600;
   color: #797A7B;
   background-color: #EEEEEE;
+  padding: 0 16px;
 }
 @media (max-width: 1279px) {
   .transactions__head-row {
@@ -3342,12 +3343,17 @@ body.modal-locked {
   grid-template-columns: minmax(0, 2.4fr) minmax(0, 1.4fr) minmax(0, 2fr) minmax(0, 1.4fr) minmax(0, 1.6fr);
   align-items: center;
   gap: 16px;
-  padding: 16px 0;
+  padding: 16px 16px;
   border-bottom: 1px solid #f2f2f2;
   cursor: pointer;
 }
 .transactions__item:last-child {
   border-bottom: none;
+}
+@media (max-width: 1279px) {
+  .transactions__item {
+    padding: 16px 0;
+  }
 }
 
 .transactions__cell {
