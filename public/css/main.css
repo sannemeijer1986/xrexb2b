@@ -3444,7 +3444,7 @@ body.modal-locked {
   font-weight: 600;
 }
 .transactions__item-status--completed {
-  color: #2F9752;
+  color: #3FAE64;
 }
 .transactions__item-status--processing {
   color: #73A2F5;
