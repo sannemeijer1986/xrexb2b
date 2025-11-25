@@ -201,7 +201,11 @@ function initSendPayment() {
     const tabs = Array.from(section.querySelectorAll('.transactions__tab'));
     const panels = Array.from(section.querySelectorAll('.transactions__panel'));
 
+    let activeTabName = 'deposit';
+
     const activateTab = (name) => {
+      if (!name) return;
+      activeTabName = name;
       tabs.forEach((btn) => {
         const tabName = btn.getAttribute('data-tab');
         btn.classList.toggle('is-active', tabName === name);
@@ -216,9 +220,28 @@ function initSendPayment() {
       const isDisabled = btn.hasAttribute('data-disabled');
       btn.addEventListener('click', () => {
         if (isDisabled) return;
-        if (tabName) activateTab(tabName);
+        if (tabName) {
+          activateTab(tabName);
+          try {
+            if (window.sessionStorage) {
+              window.sessionStorage.setItem('transactionsActiveTab', tabName);
+            }
+          } catch (_) {}
+        }
       });
     });
+
+    // Restore last selected tab, defaulting to deposit
+    let initialTab = 'deposit';
+    try {
+      if (window.sessionStorage) {
+        const saved = window.sessionStorage.getItem('transactionsActiveTab');
+        if (saved === 'payment' || saved === 'deposit') {
+          initialTab = saved;
+        }
+      }
+    } catch (_) {}
+    activateTab(initialTab);
 
     section.querySelectorAll('.transactions__item').forEach((item) => {
       const action = item.getAttribute('data-action');
@@ -267,39 +290,8 @@ function initSendPayment() {
 
     const paymentPanel = section.querySelector('[data-panel="payment"]');
     const paymentList = paymentPanel && paymentPanel.querySelector('.transactions__list');
-    const emptyState = section.querySelector('[data-transactions-empty="payment"]');
-
-    // Build or show empty state for states 1-3
-    if (state <= 3) {
-      if (paymentList) paymentList.style.display = 'none';
-      if (!emptyState && paymentPanel) {
-        const ul = document.createElement('ul');
-        ul.className = 'transactions__list';
-        const li = document.createElement('li');
-        li.className = 'transactions__item';
-        li.setAttribute('data-transactions-empty', 'payment');
-        const activity = document.createElement('div');
-        activity.className = 'transactions__cell transactions__cell--activity';
-        activity.textContent = 'No data';
-        activity.style.color = getComputedStyle(document.documentElement).getPropertyValue('--text-secondary') || '#797A7B';
-        li.appendChild(activity);
-        ul.appendChild(li);
-        paymentPanel.appendChild(ul);
-      } else if (emptyState && emptyState.closest('.transactions__list')) {
-        emptyState.closest('.transactions__list').style.display = '';
-      }
-      return;
-    }
-
-    // States 4-5: show payment row with data from receiptData
-    let data = null;
-    try {
-      const raw = window.sessionStorage && window.sessionStorage.getItem('receiptData');
-      if (raw) data = JSON.parse(raw);
-    } catch (_) {}
 
     if (!paymentList) return;
-    paymentList.style.display = '';
     const li = paymentList.querySelector('.transactions__item');
     if (!li) return;
 
@@ -309,6 +301,27 @@ function initSendPayment() {
     const purposeSubEl = li.querySelector('.transactions__item-purpose-sub');
     const statusEls = li.querySelectorAll('.transactions__item-status');
     const dateEl = li.querySelector('.transactions__cell--date');
+
+    // States 1-3: single row showing "No data"
+    if (state <= 3) {
+      if (titleEl) {
+        titleEl.textContent = 'No data';
+        titleEl.style.color = '#797A7B';
+      }
+      if (amountEl) amountEl.textContent = '';
+      if (purposeEl) purposeEl.textContent = '';
+      if (purposeSubEl) purposeSubEl.textContent = '';
+      if (dateEl) dateEl.textContent = '';
+      statusEls.forEach((el) => { if (el) el.textContent = ''; el && el.classList.remove('transactions__item-status--processing', 'transactions__item-status--completed'); });
+      return;
+    }
+
+    // States 4-5: show payment row with data from receiptData
+    let data = null;
+    try {
+      const raw = window.sessionStorage && window.sessionStorage.getItem('receiptData');
+      if (raw) data = JSON.parse(raw);
+    } catch (_) {}
 
     if (data) {
       if (titleEl) titleEl.textContent = data.receiverName || 'NovaQuill Ltd';

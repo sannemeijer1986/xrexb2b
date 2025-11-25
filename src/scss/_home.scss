@@ -745,6 +745,13 @@
   &--activity {
     display: block;
   }
+
+  @media (min-width: $bp-desktop) {
+    &:last-child {
+      text-align: right;
+      justify-self: end;
+    }
+  }
 }
 
 .transactions__list {
@@ -798,6 +805,9 @@
     text-align: right;
     color: $text-secondary;
     font-weight: 600;
+    @media (min-width: $bp-desktop) {
+      justify-self: end;
+    }
   }
 }
 

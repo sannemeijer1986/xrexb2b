@@ -3301,6 +3301,12 @@ body.modal-locked {
 .transactions__head-cell--activity {
   display: block;
 }
+@media (min-width: 1280px) {
+  .transactions__head-cell:last-child {
+    text-align: right;
+    justify-self: end;
+  }
+}
 
 .transactions__list {
   list-style: none;
@@ -3348,6 +3354,11 @@ body.modal-locked {
   text-align: right;
   color: #797A7B;
   font-weight: 600;
+}
+@media (min-width: 1280px) {
+  .transactions__cell--date {
+    justify-self: end;
+  }
 }
 
 .transactions__item-icon {
