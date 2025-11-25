@@ -255,6 +255,8 @@ function initSendPayment() {
             if (window.sessionStorage) {
               window.sessionStorage.setItem('transactionsActiveTab', 'payment');
               window.sessionStorage.setItem('openTransactions', '1');
+              // Ensure the Payment details page "Back" crumb returns to Home
+              window.sessionStorage.setItem('xrexb2b.paymentDetailsReturnUrl', 'index.html');
             }
           } catch (_) {}
           const href = item.getAttribute('data-href') || 'payment-details.html';
@@ -386,13 +388,25 @@ function initSendPayment() {
     sessionStorage.removeItem('openQuick');
   }
 
-  // If coming back from payment details via transactions entrypoint on mobile/tablet
-  const shouldOpenTransactions =
-    window.innerWidth < DESKTOP_BP &&
-    sessionStorage.getItem('openTransactions') === '1';
-  if (shouldOpenTransactions && tabTrans) {
-    showTransactions();
-    setActiveTab(tabTrans);
+  // If coming back from payment details via Transactions entrypoint,
+  // only handle this on the home page (where the Transactions UI exists).
+  const hasOpenTransactionsFlag = sessionStorage.getItem('openTransactions') === '1';
+  if (hasOpenTransactionsFlag && homeView) {
+    if (window.innerWidth < DESKTOP_BP && tabTrans) {
+      // Mobile/tablet: reopen the Transactions view
+      showTransactions();
+      setActiveTab(tabTrans);
+    } else if (window.innerWidth >= DESKTOP_BP) {
+      // Desktop: scroll back to the Transactions section on the home layout (no animation)
+      try {
+        const homeTransactionsSection = document.querySelector('.home-transactions');
+        if (homeTransactionsSection && typeof homeTransactionsSection.scrollIntoView === 'function') {
+          homeTransactionsSection.scrollIntoView({ behavior: 'auto', block: 'start' });
+        } else if (homeTransactionsSection) {
+          window.scrollTo(0, homeTransactionsSection.offsetTop || 0);
+        }
+      } catch (_) {}
+    }
     sessionStorage.removeItem('openTransactions');
   }
 

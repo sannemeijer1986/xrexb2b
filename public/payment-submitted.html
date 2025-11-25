@@ -214,6 +214,9 @@
             if (window.sessionStorage) {
               // For now, always return user to Home after viewing payment details
               window.sessionStorage.setItem(KEY, 'index.html');
+              // Also request that Home re-open / scroll to the Transactions section
+              window.sessionStorage.setItem('transactionsActiveTab', 'payment');
+              window.sessionStorage.setItem('openTransactions', '1');
             }
           } catch (_) {}
         });

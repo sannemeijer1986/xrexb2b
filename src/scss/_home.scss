@@ -850,7 +850,7 @@
 
   &--amount {
     color: $text-primary;
-    font-size: 16px;
+    font-size: 14px;
   }
 
   &--type {
@@ -864,7 +864,7 @@
   &--date {
     text-align: right;
     color: $text-secondary;
-    font-weight: 600;
+    font-weight: 500;
     @media (min-width: $bp-desktop) {
       justify-self: end;
     }
@@ -888,8 +888,8 @@
 
 .transactions__item-title {
   font-family: $font-family-sans;
-  font-size: 16px;
-  font-weight: 700;
+  font-size: 14px;
+  font-weight: 600;
   color: $text-primary;
 }
 
@@ -909,7 +909,7 @@
   }
 
   &--processing {
-    color: #336AFF;
+    color: #73A2F5;
   }
 }
 
@@ -935,7 +935,7 @@
     grid-template-columns: minmax(0, 1fr) auto;
     grid-template-rows: auto auto;
     align-items: flex-start;
-    gap: 4px 12px;
+    gap: 0px 12px;
   }
 
   .transactions__cell {

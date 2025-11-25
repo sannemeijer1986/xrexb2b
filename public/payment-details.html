@@ -386,7 +386,8 @@
 
           // Back crumb: return to stored entrypoint (default: index)
           try {
-            var backLink = document.querySelector('.page__header--crumb .crumb');
+            var backHeader = document.querySelector('.page__header--crumb');
+            var backLink = backHeader && backHeader.querySelector('.crumb');
             if (backLink) {
               var href = 'index.html';
               if (window.sessionStorage) {
@@ -394,6 +395,21 @@
                 if (from) href = from;
               }
               backLink.setAttribute('href', href);
+
+              // Below desktop, make the entire header (chevron + title) behave as a back button.
+              var mqDesktop = window.matchMedia('(min-width: 1280px)');
+              var headerClickHandler = function (ev) {
+                // Ignore clicks that originate from the actual link (it will navigate anyway)
+                if (ev.target.closest && ev.target.closest('.crumb')) return;
+                // Only treat as back when below desktop
+                if (!mqDesktop.matches) {
+                  ev.preventDefault();
+                  backLink.click();
+                }
+              };
+              if (backHeader && backHeader.addEventListener) {
+                backHeader.addEventListener('click', headerClickHandler);
+              }
             }
           } catch (_) {}
 
