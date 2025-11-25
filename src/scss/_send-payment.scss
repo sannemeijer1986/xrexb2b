@@ -1883,10 +1883,10 @@ bottom: 96px !important;
     display: flex;
     flex-direction: column;
     gap: 12px;
-    margin-bottom: 24px;
+    margin-bottom: 8px;
 
     &--meta {
-      margin-top: 8px;
+      margin-top: 16px;
     }
   }
 
@@ -1929,6 +1929,14 @@ bottom: 96px !important;
     width: 20px;
       height: 20px;
     }
+  }
+
+  &__receiver-label {
+    font-family: $font-family-sans;
+    font-size: 14px;
+    font-weight: 600;
+    color: $text-secondary;
+    margin-bottom: 4px;
   }
 
   &__receiver-name {
@@ -2010,6 +2018,51 @@ bottom: 96px !important;
     &:hover {
       text-decoration: none;
     }
+  }
+}
+
+.pd-detail__receiver {
+  margin-top: 16px;
+}
+
+.pd-detail__receiver-main {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.pd-detail__receiver-left {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pd-detail__receiver-avatar {
+  width: 24px;
+  height: 24px;
+  border-radius: 999px;
+  background: #EBF2FF;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  img {
+    width: 16px;
+    height: 16px;
+    display: block;
+  }
+}
+
+@media (max-width: ($bp-desktop - 1px)) {
+  .pd-detail__receiver-main {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  .pd-detail__receiver-avatar {
+    display: none;
   }
 }
 

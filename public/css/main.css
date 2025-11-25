@@ -5271,10 +5271,10 @@ body.modal-locked {
   display: flex;
   flex-direction: column;
   gap: 12px;
-  margin-bottom: 24px;
+  margin-bottom: 8px;
 }
 .pd-detail__rows--meta {
-  margin-top: 8px;
+  margin-top: 16px;
 }
 .pd-detail__row {
   display: flex;
@@ -5308,6 +5308,13 @@ body.modal-locked {
 .pd-detail__copy-btn img {
   width: 20px;
   height: 20px;
+}
+.pd-detail__receiver-label {
+  font-family: "Manrope", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: #797A7B;
+  margin-bottom: 4px;
 }
 .pd-detail__receiver-name {
   font-family: "Manrope", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
@@ -5382,6 +5389,48 @@ body.modal-locked {
   text-decoration: none;
 }
 
+.pd-detail__receiver {
+  margin-top: 16px;
+}
+
+.pd-detail__receiver-main {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.pd-detail__receiver-left {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pd-detail__receiver-avatar {
+  width: 24px;
+  height: 24px;
+  border-radius: 999px;
+  background: #EBF2FF;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.pd-detail__receiver-avatar img {
+  width: 16px;
+  height: 16px;
+  display: block;
+}
+
+@media (max-width: 1279px) {
+  .pd-detail__receiver-main {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+  .pd-detail__receiver-avatar {
+    display: none;
+  }
+}
 .pd-detail__declared {
   font-family: "Manrope", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
   font-size: 16px;
