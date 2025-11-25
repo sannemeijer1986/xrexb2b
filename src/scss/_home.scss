@@ -50,8 +50,12 @@
 }
 
 .card__title--convert {
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 600;
+
+  @media (min-width: $bp-desktop) {
+    font-size: 16px;
+  }
 }
 
 .qa__item.mobile_only {
@@ -99,10 +103,31 @@
   cursor: pointer;
   &.is-active { color: #2F5BFF; }
 }
+
+.grid__col--primary {
+  height: auto;
+  box-sizing: border-box;
+}
+
+.grid--home {
+  @media (min-width: $bp-desktop) {
+    .grid__col--primary {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .grid__col--primary .assets.card {
+      flex: 1 1 auto;
+    }
+  }
+}
+
 .assets {
   &.card {
     padding: 24px;
     @media (min-width: $bp-desktop) { padding: 32px; }
+    height: auto;
+    box-sizing: border-box;
   }
   .assets__header {
     display: flex;
@@ -221,7 +246,7 @@
 
 /* Convert & OTC Service section */
 .home-convert {
-  margin-top: 24px;
+  margin-top: 48px;
 
   @media (min-width: $bp-desktop) {
     margin-top: 32px;
