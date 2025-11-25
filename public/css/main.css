@@ -3196,21 +3196,21 @@ body.modal-locked {
 
 .transactions__tabs {
   display: flex;
-  gap: 32px;
+  gap: 8px;
   border-bottom: 1px solid #eeeeee;
 }
 @media (max-width: 1279px) {
   .transactions__tabs {
     flex-wrap: nowrap;
     row-gap: 0;
-    column-gap: 24px;
+    column-gap: 4px;
     overflow: hidden;
   }
 }
 
 .transactions__tab {
   position: relative;
-  padding: 8px 0;
+  padding: 8px 16px;
   background: none;
   border: none;
   font-family: "Manrope", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
@@ -3225,9 +3225,9 @@ body.modal-locked {
 .transactions__tab.is-active::after {
   content: "";
   position: absolute;
-  left: 10px;
-  right: 10px;
-  bottom: -1px;
+  left: 24px;
+  right: 24px;
+  bottom: 0px;
   height: 2px;
   background: #336AFF;
 }
@@ -3302,7 +3302,8 @@ body.modal-locked {
   vertical-align: middle;
   align-items: center;
   display: grid;
-  grid-template-columns: minmax(0, 240px) minmax(0, 200px) minmax(0, 160px) minmax(0, 160px) minmax(0, 200px);
+  /* Use fractional columns so the table uses full available width on desktop */
+  grid-template-columns: minmax(0, 2.4fr) minmax(0, 1.4fr) minmax(0, 2fr) minmax(0, 1.4fr) minmax(0, 1.6fr); /* date */
   gap: 16px;
   border-bottom: 1px solid #f2f2f2;
   font-family: "Manrope", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
@@ -3338,7 +3339,7 @@ body.modal-locked {
 
 .transactions__item {
   display: grid;
-  grid-template-columns: minmax(0, 240px) minmax(0, 200px) minmax(0, 160px) minmax(0, 160px) minmax(0, 200px);
+  grid-template-columns: minmax(0, 2.4fr) minmax(0, 1.4fr) minmax(0, 2fr) minmax(0, 1.4fr) minmax(0, 1.6fr);
   align-items: center;
   gap: 16px;
   padding: 16px 0;
