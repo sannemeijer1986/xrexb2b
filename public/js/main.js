@@ -142,6 +142,7 @@ function initSendPayment() {
   const tabTrans = document.getElementById('tab-transactions');
   const homeView = document.getElementById('homeView');
   const quickView = document.getElementById('quickView');
+  const transactionsView = document.getElementById('transactionsView');
 
   const setActiveTab = (btn) => {
     document.querySelectorAll('.tabbar__btn').forEach(b => {
@@ -161,10 +162,17 @@ function initSendPayment() {
   const showHome = () => {
     if (homeView) homeView.hidden = false;
     if (quickView) quickView.hidden = true;
+    if (transactionsView) transactionsView.hidden = true;
   };
   const showQuick = () => {
     if (homeView) homeView.hidden = true;
+    if (transactionsView) transactionsView.hidden = true;
     if (quickView) quickView.hidden = false;
+  };
+  const showTransactions = () => {
+    if (homeView) homeView.hidden = true;
+    if (quickView) quickView.hidden = true;
+    if (transactionsView) transactionsView.hidden = false;
   };
 
   // Render shared quick actions from template into all targets
@@ -186,6 +194,71 @@ function initSendPayment() {
   }
 
   // Ensure correct view when crossing responsive breakpoints
+  const transactionsTemplate = document.getElementById('transactionsTemplate');
+
+  const initTransactionsSection = (section) => {
+    if (!section) return;
+    const tabs = Array.from(section.querySelectorAll('.transactions__tab'));
+    const panels = Array.from(section.querySelectorAll('.transactions__panel'));
+
+    const activateTab = (name) => {
+      tabs.forEach((btn) => {
+        const tabName = btn.getAttribute('data-tab');
+        btn.classList.toggle('is-active', tabName === name);
+      });
+      panels.forEach((panel) => {
+        panel.classList.toggle('is-active', panel.getAttribute('data-panel') === name);
+      });
+    };
+
+    tabs.forEach((btn) => {
+      const tabName = btn.getAttribute('data-tab');
+      const isDisabled = btn.hasAttribute('data-disabled');
+      btn.addEventListener('click', () => {
+        if (isDisabled) {
+          if (window.showSnackbar) window.showSnackbar('Not in prototype', 2000);
+          return;
+        }
+        if (tabName) activateTab(tabName);
+      });
+    });
+
+    section.querySelectorAll('.transactions__item').forEach((item) => {
+      const action = item.getAttribute('data-action');
+      if (action === 'deposit') {
+        item.addEventListener('click', () => {
+          if (window.showSnackbar) window.showSnackbar('Not in prototype', 2000);
+        });
+      } else if (action === 'payment') {
+        item.addEventListener('click', () => {
+          const href = item.getAttribute('data-href') || 'payment-details.html';
+          window.location.href = href;
+        });
+      }
+    });
+  };
+
+  const renderTransactions = () => {
+    if (!transactionsTemplate) return;
+    document.querySelectorAll('[data-transactions-target]').forEach((target) => {
+      const frag = transactionsTemplate.content.cloneNode(true);
+      target.innerHTML = '';
+      target.appendChild(frag);
+      const section = target.querySelector('.transactions');
+      initTransactionsSection(section);
+    });
+    if (transactionsView) {
+      const frag = transactionsTemplate.content.cloneNode(true);
+      transactionsView.innerHTML = '';
+      transactionsView.appendChild(frag);
+      const section = transactionsView.querySelector('.transactions');
+      if (section) section.classList.add('transactions--full');
+      initTransactionsSection(section);
+    }
+  };
+
+  renderTransactions();
+
   const DESKTOP_BP = 1280;
   const syncResponsiveState = () => {
     if (!homeView || !quickView) return;
@@ -193,6 +266,8 @@ function initSendPayment() {
       // On desktop, always show the home layout (with sidebar) and mark Assets active
       showHome();
       if (tabHome) setActiveTab(tabHome);
+    } else if (transactionsView) {
+      transactionsView.hidden = true;
     }
     // Below desktop we keep current view; user can toggle via tabs
   };
@@ -208,7 +283,7 @@ function initSendPayment() {
   if (tabConvert) tabConvert.addEventListener('click', () => { showHome(); });
   if (tabOTC) tabOTC.addEventListener('click', () => { showHome(); });
 
-  if (tabTrans) tabTrans.addEventListener('click', () => { showHome(); setActiveTab(tabTrans); });
+  if (tabTrans) tabTrans.addEventListener('click', () => { showTransactions(); setActiveTab(tabTrans); });
 
   // Initialize icons based on default active tab
   setActiveTab(document.querySelector('.tabbar__btn.is-active') || tabHome);

@@ -185,11 +185,15 @@
               </div>
             </div>
           </section>
+          <section class="home-transactions">
+            <div data-transactions-target></div>
+          </section>
         </div>
         <section id="quickView" class="quick-view" hidden>
           <div data-qa-header-target></div>
           <div class="card quick-actions" data-qa-target></div>
         </section>
+        <section id="transactionsView" class="transactions-view" hidden></section>
       </div>
     </main>
 
@@ -308,6 +312,86 @@
         </div>
       </div>
     </footer>
+
+    <template id="transactionsTemplate">
+      <section class="transactions">
+        <div class="transactions__head">
+          <h2 class="transactions__title">Transactions</h2>
+          <button type="button" class="transactions__filter">
+            <span class="transactions__filter-icon">
+              <img src="assets/icon_qm_convert.svg" alt="" width="16" height="16" />
+            </span>
+            <span>All currencies</span>
+            <img src="assets/icon_chevron_down.svg" alt="" width="16" height="16" />
+          </button>
+        </div>
+
+        <div class="transactions__tabs" role="tablist">
+          <button type="button" class="transactions__tab is-active" data-tab="deposit">Deposit</button>
+          <button type="button" class="transactions__tab" data-disabled="true">Withdrawal</button>
+          <button type="button" class="transactions__tab" data-tab="payment">Payment</button>
+          <button type="button" class="transactions__tab" data-disabled="true">BitCheck</button>
+          <button type="button" class="transactions__tab" data-disabled="true">Convert</button>
+        </div>
+
+        <div class="transactions__panels">
+          <div class="transactions__panel is-active" data-panel="deposit">
+            <ul class="transactions__list">
+              <li class="transactions__item" data-action="deposit">
+                <div class="transactions__item-left">
+                  <span class="transactions__item-icon">
+                    <img src="assets/icon_qm_deposit.svg" alt="" width="20" height="20" />
+                  </span>
+                  <div class="transactions__item-meta">
+                    <div class="transactions__item-title">Deposit</div>
+                    <div class="transactions__item-status transactions__item-status--completed">Completed</div>
+                  </div>
+                </div>
+                <div class="transactions__item-right">
+                  <div class="transactions__item-amount">+ 200,000.00 USDT</div>
+                  <div class="transactions__item-date">24/06/2025, 18:11:45</div>
+                </div>
+              </li>
+              <li class="transactions__item" data-action="deposit">
+                <div class="transactions__item-left">
+                  <span class="transactions__item-icon">
+                    <img src="assets/icon_qm_deposit.svg" alt="" width="20" height="20" />
+                  </span>
+                  <div class="transactions__item-meta">
+                    <div class="transactions__item-title">Deposit</div>
+                    <div class="transactions__item-status transactions__item-status--completed">Completed</div>
+                  </div>
+                </div>
+                <div class="transactions__item-right">
+                  <div class="transactions__item-amount">+ 200,000.00 USD</div>
+                  <div class="transactions__item-date">22/06/2025, 17:21:12</div>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          <div class="transactions__panel" data-panel="payment">
+            <ul class="transactions__list">
+              <li class="transactions__item transactions__item--link" data-action="payment" data-href="payment-details.html">
+                <div class="transactions__item-left">
+                  <span class="transactions__item-icon transactions__item-icon--payment">
+                    <img src="assets/icon_qm_sendpayment.svg" alt="" width="20" height="20" />
+                  </span>
+                  <div class="transactions__item-meta">
+                    <div class="transactions__item-title">NovaQuill Ltd</div>
+                    <div class="transactions__item-status transactions__item-status--processing">Processing</div>
+                  </div>
+                </div>
+                <div class="transactions__item-right">
+                  <div class="transactions__item-amount">50,000.00 USD</div>
+                  <div class="transactions__item-date">25/11/2025, 15:19:09</div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+    </template>
 
     <script defer src="js/main.js?v=20251108"></script>
     <div class="build-badge" role="note"></div>
