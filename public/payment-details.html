@@ -141,7 +141,9 @@
 
               <div id="pdReceiptCard" class="pd-detail__card pd-detail__card--receipt" style="display: none;">
                 <h2 class="pd-detail__section-title">Payment receipt</h2>
-                <a href="#" class="pd-detail__link">Download receipt</a>
+                <a id="pdDownloadReceipt" href="payment-receipt.html" class="pd-detail__link">
+                  Download receipt
+                </a>
               </div>
             </aside>
           </div>
@@ -427,6 +429,51 @@
               idWrapper.style.cursor = 'pointer';
               idWrapper.addEventListener('click', function () {
                 copyPaymentId();
+              });
+            }
+          } catch (_) {}
+
+          // Ensure receiptData is populated before opening the receipt PDF
+          try {
+            var dl = document.getElementById('pdDownloadReceipt');
+            if (dl) {
+              dl.addEventListener('click', function () {
+                try {
+                  var data = {};
+                  if (window.sessionStorage) {
+                    var raw = window.sessionStorage.getItem('receiptData');
+                    if (raw) {
+                      try { data = JSON.parse(raw) || {}; } catch (e) {}
+                    }
+                  }
+
+                  var textOf = function (sel) {
+                    var el = document.querySelector(sel);
+                    return el && el.textContent ? el.textContent.trim() : '';
+                  };
+
+                  data.receiverName = textOf('#pdReceiverName') || data.receiverName;
+                  data.receiverBank = textOf('#pdReceiverBank') || data.receiverBank;
+                  data.amountPayableFmt = textOf('#pdAmount') || data.amountPayableFmt;
+                  data.toBeDeducted = textOf('#pdTotalPaid') || data.toBeDeducted;
+                  data.receiverGets = textOf('#pdTotalSent') || data.receiverGets;
+                  data.nature = textOf('#pdNature') || data.nature;
+                  data.purpose = textOf('#pdPurpose') || data.purpose;
+                  data.docNumLabel = textOf('#pdDocNumberLabel') || data.docNumLabel;
+                  data.docNumber = textOf('#pdDocNumber') || data.docNumber;
+                  data.dateTime = textOf('#pdRequestedDate') || data.dateTime;
+
+                  var feeTxt = textOf('#pdServiceFee');
+                  if (feeTxt) {
+                    var parts = feeTxt.split('/');
+                    if (!data.payerShareAmt && parts[0]) data.payerShareAmt = parts[0].trim();
+                    if (!data.receiverShareAmt && parts[1]) data.receiverShareAmt = parts[1].trim();
+                  }
+
+                  if (window.sessionStorage) {
+                    window.sessionStorage.setItem('receiptData', JSON.stringify(data));
+                  }
+                } catch (e) {}
               });
             }
           } catch (_) {}

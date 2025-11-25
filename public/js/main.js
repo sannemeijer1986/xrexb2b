@@ -1514,7 +1514,7 @@ function initSendPayment() {
           docNumLabel = 'Commercial invoice number';
           docNumber = ciNumber || '';
         }
-        const paymentId = 'PYT-' + Date.now().toString(36);
+        const paymentId = "PYT-20251118-f2d3fa4e";
         const data = {
           receiverName: (getText('.summary-recipient .recipient-select__title') || '').replace(/^To\s+/i,''),
           receiverBank: getText('.summary-recipient .recipient-select__subtitle'),

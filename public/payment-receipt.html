@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>XREX Pay - Payment receipt</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Sora:wght@400;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="css/main.css?v=20251108" />
+    <link rel="icon" href="assets/favicons/xrex-favicon-16x16.png" sizes="16x16" type="image/png" />
+    <style>
+      @page {
+        size: A4;
+        margin: 24mm 20mm 24mm 20mm;
+      }
+      @media print {
+        body {
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
+        }
+        .no-print {
+          display: none !important;
+        }
+      }
+    </style>
+  </head>
+  <body class="page--receipt-pdf">
+    <div class="receipt-pdf">
+      <header class="receipt-pdf__header">
+        <div class="receipt-pdf__brand">
+          <img src="assets/logo_xrexpay.svg" alt="XREX Pay" class="receipt-pdf__logo" />
+        </div>
+        <div class="receipt-pdf__company">
+          <div>XREX PTE. LTD.</div>
+          <div>12 Marina View, #10-23, Asia Square Tower 2, Singapore 018961</div>
+          <div>+65 6918 9851</div>
+          <div>https://xrex.io/sg/</div>
+        </div>
+      </header>
+
+      <main class="receipt-pdf__main">
+        <section class="receipt-pdf__title-row">
+          <div class="receipt-pdf__title-block">
+            <h1 class="receipt-pdf__title">Payment receipt</h1>
+          </div>
+          <div class="receipt-pdf__meta-row">
+            <div class="receipt-pdf__meta-group">
+              <div class="receipt-pdf__meta-label">Status</div>
+              <div id="rpStatus" class="receipt-pdf__meta-value">Payment sent</div>
+            </div>
+            <div class="receipt-pdf__meta-group">
+              <div class="receipt-pdf__meta-label">Payment ID</div>
+              <div id="rpPaymentId" class="receipt-pdf__meta-value">-</div>
+            </div>
+            <div class="receipt-pdf__meta-group">
+              <div class="receipt-pdf__meta-label">Sent date</div>
+              <div id="rpSentDate" class="receipt-pdf__meta-value">-</div>
+            </div>
+          </div>
+        </section>
+
+        <section class="receipt-pdf__section receipt-pdf__section--parties">
+          <div class="receipt-pdf__columns">
+            <div class="receipt-pdf__col">
+              <h2 class="receipt-pdf__section-title">Sender</h2>
+              <dl class="receipt-pdf__table">
+                <div class="receipt-pdf__row">
+                  <dt>Company legal name</dt>
+                  <dd>AGP Technology</dd>
+                </div>
+                <div class="receipt-pdf__row">
+                  <dt>Registration number</dt>
+                  <dd>20202643Z1F</dd>
+                </div>
+                <div class="receipt-pdf__row">
+                  <dt>Country of registration</dt>
+                  <dd>Singapore</dd>
+                </div>
+                <div class="receipt-pdf__row">
+                  <dt>Registered address</dt>
+                  <dd>9 Temasek Boulevard, Singapore 038989</dd>
+                </div>
+                <div class="receipt-pdf__row">
+                  <dt>Email address</dt>
+                  <dd>info@agptechnology.com</dd>
+                </div>
+              </dl>
+            </div>
+            <div class="receipt-pdf__col">
+              <h2 class="receipt-pdf__section-title">Receiver</h2>
+              <dl class="receipt-pdf__table">
+                <div class="receipt-pdf__row">
+                  <dt>Company legal name</dt>
+                  <dd id="rpReceiverName">-</dd>
+                </div>
+                <div class="receipt-pdf__row">
+                  <dt>Registration number</dt>
+                  <dd>20240123N</dd>
+                </div>
+                <div class="receipt-pdf__row">
+                  <dt>Country of registration</dt>
+                  <dd>Singapore</dd>
+                </div>
+                <div class="receipt-pdf__row">
+                  <dt>Registered address</dt>
+                  <dd>5 Battery Road, Singapore 049901</dd>
+                </div>
+                <div class="receipt-pdf__row">
+                  <dt>Email address</dt>
+                  <dd>accounts@novaquill.com</dd>
+                </div>
+              </dl>
+            </div>
+          </div>
+        </section>
+
+        <section class="receipt-pdf__section receipt-pdf__section--settlement">
+          <h2 class="receipt-pdf__section-title">Settlement</h2>
+          <dl class="receipt-pdf__table">
+            <div class="receipt-pdf__row">
+              <dt>Nature of payment</dt>
+              <dd id="rpNature">-</dd>
+            </div>
+            <div class="receipt-pdf__row">
+              <dt>Payment purpose</dt>
+              <dd id="rpPurpose">-</dd>
+            </div>
+            <div class="receipt-pdf__row">
+              <dt id="rpDocNumLabel">Proforma Invoice (PI) number</dt>
+              <dd id="rpDocNumber">-</dd>
+            </div>
+          </dl>
+          <table class="receipt-pdf__amount-table">
+            <tr>
+              <td class="receipt-pdf__amount-label">Amount payable</td>
+              <td id="rpAmountPayable" class="receipt-pdf__amount-value">-</td>
+            </tr>
+            <tr>
+              <td class="receipt-pdf__amount-label">Service fee</td>
+              <td id="rpServiceFee" class="receipt-pdf__amount-value">-</td>
+            </tr>
+            <tr class="receipt-pdf__amount-total">
+              <td class="receipt-pdf__amount-total-label">Total amount paid</td>
+              <td id="rpTotalPaid" class="receipt-pdf__amount-total-value">-</td>
+            </tr>
+          </table>
+          <p class="receipt-pdf__note">
+            Note: According to the agreement between both parties, the platform service fee for this transaction is borne by the
+            sending party (AGP Technology), and has been added to the total amount payable.
+          </p>
+        </section>
+
+        <section class="receipt-pdf__section receipt-pdf__section--declaration">
+          <h2 class="receipt-pdf__section-title">Official Declaration</h2>
+          <p class="receipt-pdf__paragraph">
+            XREX Pte. Ltd. (“XREX SG”) is licensed by the Monetary Authority of Singapore (“MAS”) as a Payment Service Provider
+            in Singapore. We are currently licensed to provide merchant acquisition, account issuance, e-money issuance and
+            cross border money transfer services for customers. Evidence of our license status may be found in the MAS Financial
+            Institution Directory: https://eservices.mas.gov.sg/fid/institution/detail/420528-XREX-PTE-LTD.
+          </p>
+          <p class="receipt-pdf__paragraph">
+            Our platform, XREX Pay, hereby certifies that all information stated above is true and correct according to our
+            system records. This transaction has been completed as per the terms described.
+          </p>
+          <p class="receipt-pdf__paragraph">Hereby Certified</p>
+        </section>
+
+        <div class="receipt-pdf__bottom">
+          <div class="receipt-pdf__footer">
+            <span>Page 1 of 1</span>
+          </div>
+          <div class="receipt-pdf__stamp">
+            <img src="assets/illu_company_stamp.svg" alt="Company stamp" />
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <script>
+      (function () {
+        function getData() {
+          try {
+            var raw = window.sessionStorage ? window.sessionStorage.getItem('receiptData') : null;
+            return raw ? JSON.parse(raw) : null;
+          } catch (e) {
+            return null;
+          }
+        }
+
+        function setText(id, value) {
+          var el = document.getElementById(id);
+          if (!el) return;
+          el.textContent = value && String(value).trim() ? value : '-';
+        }
+
+        function populate() {
+          var d = getData() || {};
+
+          // For this prototype, always show a static Payment ID from the design
+          setText('rpPaymentId', 'PYT-20251118-f2d3fa4e');
+          setText('rpReceiverName', d.receiverName || 'NovaQuill Ltd');
+          setText('rpNature', d.nature || '-');
+          setText('rpPurpose', d.purpose || '-');
+          setText('rpDocNumLabel', d.docNumLabel || 'Proforma Invoice (PI) number');
+          setText('rpDocNumber', d.docNumber || '-');
+          setText('rpAmountPayable', d.amountPayableFmt || '-');
+
+          // Service fee: show payer + receiver parts if available
+          var serviceText = '';
+          if (d.payerShareAmt || d.receiverShareAmt) {
+            var payer = d.payerShareAmt || '0.00 USD';
+            var recv = d.receiverShareAmt || '0.00 USD';
+            serviceText = payer + ' / ' + recv;
+          }
+          setText('rpServiceFee', serviceText || '-');
+          setText('rpTotalPaid', d.toBeDeducted || '-');
+
+          // Sent date: reuse the same SENT_DATE_KEY as payment-details
+          var sent = null;
+          try {
+            if (window.sessionStorage) {
+              sent = window.sessionStorage.getItem('xrexb2b.paymentSentAt');
+            }
+          } catch (e) {}
+          if (!sent) {
+            sent = new Date().toLocaleString('en-GB', { hour12: false }) + ' (UTC+8)';
+          }
+          setText('rpSentDate', sent);
+        }
+
+        window.addEventListener('load', function () {
+          populate();
+        });
+      })();
+    </script>
+  </body>
+</html>
+
+

@@ -3738,6 +3738,160 @@ body.modal-locked {
   }
 }
 
+.page--receipt-pdf {
+  font-family: "Manrope", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+  background: #ffffff;
+  color: #0f172a;
+}
+.page--receipt-pdf .receipt-pdf {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 24px 0 32px;
+}
+.page--receipt-pdf .receipt-pdf__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 40px;
+  font-size: 13px;
+  color: #797A7B;
+}
+.page--receipt-pdf .receipt-pdf__logo {
+  height: 24px;
+}
+.page--receipt-pdf .receipt-pdf__company {
+  text-align: right;
+  max-width: 260px;
+  line-height: 1.4;
+}
+.page--receipt-pdf .receipt-pdf__title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 32px;
+}
+.page--receipt-pdf .receipt-pdf__title {
+  margin: 0 0 8px;
+  font-family: "Sora", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+  font-size: 26px;
+  font-weight: 700;
+}
+.page--receipt-pdf .receipt-pdf__meta-row {
+  display: flex;
+  gap: 24px;
+  font-size: 14px;
+}
+.page--receipt-pdf .receipt-pdf__meta-group {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.page--receipt-pdf .receipt-pdf__meta-label {
+  font-weight: 600;
+  color: #797A7B;
+}
+.page--receipt-pdf .receipt-pdf__meta-value {
+  font-weight: 600;
+  color: #0f172a;
+}
+.page--receipt-pdf .receipt-pdf__section {
+  margin-bottom: 40px;
+}
+.page--receipt-pdf .receipt-pdf__section-title {
+  margin: 0 0 8px;
+  font-size: 16px;
+  font-weight: 700;
+  color: #0f172a;
+}
+.page--receipt-pdf .receipt-pdf__columns {
+  display: flex;
+  gap: 48px;
+}
+.page--receipt-pdf .receipt-pdf__col {
+  flex: 1 1 0%;
+}
+.page--receipt-pdf .receipt-pdf__table {
+  margin: 0;
+}
+.page--receipt-pdf .receipt-pdf__row {
+  display: flex;
+  justify-content: space-between;
+  gap: 28px;
+  font-size: 13px;
+  margin-bottom: 8px;
+}
+.page--receipt-pdf .receipt-pdf__row dt {
+  min-width: 120px;
+  font-weight: 600;
+  color: #797A7B;
+}
+.page--receipt-pdf .receipt-pdf__row dd {
+  margin: 0;
+  flex: 1;
+  font-weight: 500;
+  color: #0f172a;
+  text-align: right;
+}
+.page--receipt-pdf .receipt-pdf__amount-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 16px;
+  font-size: 14px;
+}
+.page--receipt-pdf .receipt-pdf__amount-label {
+  padding: 8px 0;
+  color: #797A7B;
+}
+.page--receipt-pdf .receipt-pdf__amount-value {
+  padding: 8px 0;
+  text-align: right;
+  color: #0f172a;
+  font-weight: 600;
+}
+.page--receipt-pdf .receipt-pdf__amount-total {
+  border-top: 2px solid #0f172a;
+  border-bottom: 2px solid #0f172a;
+}
+.page--receipt-pdf .receipt-pdf__amount-total-label {
+  padding: 8px 0;
+  font-weight: 700;
+}
+.page--receipt-pdf .receipt-pdf__amount-total-value {
+  padding: 8px 0;
+  text-align: right;
+  font-weight: 700;
+}
+.page--receipt-pdf .receipt-pdf__note {
+  margin-top: 12px;
+  font-size: 12px;
+  color: #797A7B;
+}
+.page--receipt-pdf .receipt-pdf__paragraph {
+  margin: 0 0 12px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #797A7B;
+}
+.page--receipt-pdf .receipt-pdf__bottom {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-top: 40px;
+}
+.page--receipt-pdf .receipt-pdf__footer {
+  font-size: 12px;
+  color: #797A7B;
+}
+.page--receipt-pdf .receipt-pdf__stamp {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+.page--receipt-pdf .receipt-pdf__stamp img {
+  width: 120px;
+  height: auto;
+}
+
 .summary-box .summary-pair--sub {
   padding-left: 24px;
 }
@@ -4805,55 +4959,6 @@ body.modal-locked {
 .pd-detail__copy-btn img {
   width: 20px;
   height: 20px;
-}
-.pd-detail__receiver {
-  margin-top: 16px;
-  margin-bottom: 16px;
-}
-.pd-detail__receiver-label {
-  font-family: "Manrope", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
-  font-size: 14px;
-  font-weight: 600;
-  color: #797A7B;
-  margin-bottom: 8px;
-}
-.pd-detail__receiver-main {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-}
-@media (max-width: 1279px) {
-  .pd-detail__receiver-main {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 4px;
-  }
-}
-.pd-detail__receiver-left {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-}
-.pd-detail__receiver-avatar {
-  width: 24px;
-  height: 24px;
-  border-radius: 999px;
-  background: #EEEEEE;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-@media (max-width: 1279px) {
-  .pd-detail__receiver-avatar {
-    display: none;
-  }
-}
-.pd-detail__receiver-text {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
 }
 .pd-detail__receiver-name {
   font-family: "Manrope", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
