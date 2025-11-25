@@ -590,11 +590,12 @@
 }
 
 .transactions-view {
-  padding: 24px 20px 96px;
+  padding: 0;
   background: $bg-page;
   min-height: calc(100vh - 56px);
 
   @media (min-width: $bp-desktop) {
+    padding: 24px 0 96px;
     display: none !important;
   }
 }
@@ -621,6 +622,10 @@
   justify-content: space-between;
   gap: 12px;
   flex-wrap: wrap;
+
+  @media (max-width: ($bp-desktop - 1px)) {
+    display: none;
+  }
 }
 
 .transactions__title {
@@ -635,6 +640,13 @@
   display: flex;
   gap: 32px;
   border-bottom: 1px solid #eeeeee;
+
+  @media (max-width: ($bp-desktop - 1px)) {
+    flex-wrap: nowrap;
+    row-gap: 0;
+    column-gap: 24px;
+    overflow: hidden;
+  }
 }
 
 .transactions__tab {
@@ -670,13 +682,13 @@
 
 .transactions__filters {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   gap: 12px;
   flex-wrap: wrap;
+  width: 100%;
 
   @media (max-width: ($bp-desktop - 1px)) {
-    justify-content: flex-start;
-    width: 100%;
+    justify-content: space-between;
   }
 }
 
@@ -696,6 +708,17 @@
 
   &--range {
     font-weight: 600;
+  }
+}
+
+@media (max-width: ($bp-mobile-lg - 1px)) {
+  .transactions__filter--currency {
+    padding-inline: 8px;
+  }
+
+  .transactions__filter--currency > span:not(.transactions__filter-icon),
+  .transactions__filter--currency > img {
+    display: none;
   }
 }
 
@@ -864,36 +887,47 @@
 }
 
 .transactions__item--link:hover .transactions__item-title {
-  text-decoration: underline;
+  // text-decoration: underline;
 }
 
 @media (max-width: ($bp-desktop - 1px)) {
   .transactions {
-    border-radius: 16px;
-    padding: 20px;
-    background: #ffffff;
+    border-radius: 0;
+    padding: 0;
+    background: transparent;
   }
 
   .transactions__item {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-rows: auto auto;
     align-items: flex-start;
-    gap: 8px;
+    gap: 4px 12px;
   }
 
   .transactions__cell {
-    width: 100%;
+    width: auto;
 
-    &--type {
-      display: none;
+    &--activity {
+      grid-column: 1;
+      grid-row: 1 / 3;
     }
 
+    &--amount {
+      grid-column: 2;
+      grid-row: 1;
+      text-align: right;
+    }
+
+    &--type,
     &--status {
       display: none;
     }
 
     &--date {
-      text-align: left;
+      grid-column: 2;
+      grid-row: 2;
+      text-align: right;
     }
   }
 

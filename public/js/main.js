@@ -348,10 +348,8 @@ function initSendPayment() {
       // On desktop, always show the home layout (with sidebar) and mark Assets active
       showHome();
       if (tabHome) setActiveTab(tabHome);
-    } else if (transactionsView) {
-      transactionsView.hidden = true;
     }
-    // Below desktop we keep current view; user can toggle via tabs
+    // Below desktop we keep the current view (assets / quick / transactions)
   };
   window.addEventListener('resize', syncResponsiveState);
   // Run once on load to guarantee a consistent state
@@ -361,9 +359,9 @@ function initSendPayment() {
   if (tabMenu) tabMenu.addEventListener('click', () => { showQuick(); setActiveTab(tabMenu); });
 
   // Prototype only supports Assets, Transactions, and Quick menu tabs.
-  // Keep Convert / OTC clickable but do not change active state or icons.
-  if (tabConvert) tabConvert.addEventListener('click', () => { showHome(); });
-  if (tabOTC) tabOTC.addEventListener('click', () => { showHome(); });
+  // Keep Convert / OTC clickable but do not change active state or content.
+  if (tabConvert) tabConvert.addEventListener('click', (e) => { e.preventDefault(); });
+  if (tabOTC) tabOTC.addEventListener('click', (e) => { e.preventDefault(); });
 
   if (tabTrans) tabTrans.addEventListener('click', () => { showTransactions(); setActiveTab(tabTrans); });
 
