@@ -1740,18 +1740,35 @@ bottom: 96px !important;
   &__receiver-main {
     display: flex;
     align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+
+    @media (max-width: ($bp-desktop - 1px)) {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 4px;
+    }
+  }
+
+  &__receiver-left {
+    display: inline-flex;
+    align-items: center;
     gap: 8px;
   }
 
   &__receiver-avatar {
-    width: 32px;
-    height: 32px;
+    width: 24px;
+    height: 24px;
     border-radius: 999px;
     background: #EEEEEE;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
+
+    @media (max-width: ($bp-desktop - 1px)) {
+      display: none;
+    }
   }
 
   &__receiver-text {
@@ -1772,6 +1789,14 @@ bottom: 96px !important;
     font-size: 14px;
     font-weight: 600;
     color: $text-secondary;
+
+    @media (min-width: $bp-desktop) {
+      text-align: right;
+    }
+
+    @media (max-width: ($bp-desktop - 1px)) {
+      text-align: left;
+    }
   }
 
   &__section-title {
