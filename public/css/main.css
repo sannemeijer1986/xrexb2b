@@ -2838,7 +2838,7 @@ body.modal-locked {
   }
 }
 .home-convert .convert-card {
-  padding: 20px;
+  padding: 32px 20px;
   border-radius: 16px;
 }
 @media (min-width: 1280px) {
@@ -3043,7 +3043,6 @@ body.modal-locked {
   .home-convert .convert-card__cell--chevron img {
     width: 20px;
     height: 20px;
-    opacity: 0.6;
   }
 }
 .home-convert .convert-card__cell-label {
