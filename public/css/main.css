@@ -3130,7 +3130,7 @@ body.modal-locked {
 
 .home-transactions {
   margin-top: 48px;
-  margin-bottom: 48px;
+  margin-bottom: 80px;
 }
 @media (max-width: 1279px) {
   .home-transactions {
@@ -3358,6 +3358,7 @@ body.modal-locked {
 
 .transactions__item {
   display: grid;
+  height: 72px;
   grid-template-columns: minmax(0, 2.4fr) minmax(0, 1.4fr) minmax(0, 2fr) minmax(0, 1.4fr) minmax(0, 1.6fr);
   align-items: center;
   gap: 16px;
@@ -3371,6 +3372,7 @@ body.modal-locked {
 @media (max-width: 1279px) {
   .transactions__item {
     padding: 16px 0;
+    height: auto;
   }
 }
 
