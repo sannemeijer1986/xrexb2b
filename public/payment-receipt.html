@@ -64,7 +64,7 @@
           <div class="receipt-pdf__columns">
             <div class="receipt-pdf__col">
               <h2 class="receipt-pdf__section-title">Sender</h2>
-              <dl class="receipt-pdf__table">
+              <dl class="receipt-pdf__table receipt-pdf__table-sender">
                 <div class="receipt-pdf__row">
                   <dt>Company legal name</dt>
                   <dd>AGP Technology</dd>
@@ -89,7 +89,7 @@
             </div>
             <div class="receipt-pdf__col">
               <h2 class="receipt-pdf__section-title">Receiver</h2>
-              <dl class="receipt-pdf__table">
+              <dl class="receipt-pdf__table receipt-pdf__table-receiver">
                 <div class="receipt-pdf__row">
                   <dt>Company legal name</dt>
                   <dd id="rpReceiverName">-</dd>
@@ -117,7 +117,8 @@
 
         <section class="receipt-pdf__section receipt-pdf__section--settlement">
           <h2 class="receipt-pdf__section-title">Settlement</h2>
-          <dl class="receipt-pdf__table">
+          <!-- Group 1: nature / purpose / doc number -->
+          <dl class="receipt-pdf__table receipt-pdf__table-settlementintro">
             <div class="receipt-pdf__row">
               <dt>Nature of payment</dt>
               <dd id="rpNature">-</dd>
@@ -131,20 +132,26 @@
               <dd id="rpDocNumber">-</dd>
             </div>
           </dl>
-          <table class="receipt-pdf__amount-table">
-            <tr>
-              <td class="receipt-pdf__amount-label">Amount payable</td>
-              <td id="rpAmountPayable" class="receipt-pdf__amount-value">-</td>
-            </tr>
-            <tr>
-              <td class="receipt-pdf__amount-label">Service fee</td>
-              <td id="rpServiceFee" class="receipt-pdf__amount-value">-</td>
-            </tr>
-            <tr class="receipt-pdf__amount-total">
-              <td class="receipt-pdf__amount-total-label">Total amount paid</td>
-              <td id="rpTotalPaid" class="receipt-pdf__amount-total-value">-</td>
-            </tr>
-          </table>
+
+          <!-- Group 2: amount payable / service fee -->
+          <dl class="receipt-pdf__table receipt-pdf__table-subtotal">
+            <div class="receipt-pdf__row">
+              <dt>Amount payable</dt>
+              <dd id="rpAmountPayable">-</dd>
+            </div>
+            <div class="receipt-pdf__row">
+              <dt>Service fee</dt>
+              <dd id="rpServiceFee">-</dd>
+            </div>
+          </dl>
+
+          <!-- Group 3: total amount paid -->
+          <dl class="receipt-pdf__table receipt-pdf__table-total">
+            <div class="receipt-pdf__row receipt-pdf__row--total">
+              <dt>Total amount paid</dt>
+              <dd id="rpTotalPaid">-</dd>
+            </div>
+          </dl>
           <p class="receipt-pdf__note">
             Note: According to the agreement between both parties, the platform service fee for this transaction is borne by the
             sending party (AGP Technology), and has been added to the total amount payable.

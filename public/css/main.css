@@ -3752,7 +3752,7 @@ body.modal-locked {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  margin-bottom: 40px;
+  margin-bottom: 24px;
   font-size: 13px;
   color: #797A7B;
 }
@@ -3763,12 +3763,14 @@ body.modal-locked {
   text-align: right;
   max-width: 260px;
   line-height: 1.4;
+  font-size: 12px;
 }
 .page--receipt-pdf .receipt-pdf__title-row {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   align-items: flex-start;
-  margin-bottom: 32px;
+  gap: 16px;
+  margin-bottom: 48px;
 }
 .page--receipt-pdf .receipt-pdf__title {
   margin: 0 0 8px;
@@ -3778,7 +3780,10 @@ body.modal-locked {
 }
 .page--receipt-pdf .receipt-pdf__meta-row {
   display: flex;
-  gap: 24px;
+  align-items: flex-start;
+  justify-content: space-between;
+  width: 100%;
+  gap: 0;
   font-size: 14px;
 }
 .page--receipt-pdf .receipt-pdf__meta-group {
@@ -3787,15 +3792,16 @@ body.modal-locked {
   gap: 2px;
 }
 .page--receipt-pdf .receipt-pdf__meta-label {
-  font-weight: 600;
-  color: #797A7B;
+  font-weight: 700;
+  color: #0f172a;
+  font-size: 15px;
 }
 .page--receipt-pdf .receipt-pdf__meta-value {
   font-weight: 600;
-  color: #0f172a;
+  color: #797A7B;
 }
 .page--receipt-pdf .receipt-pdf__section {
-  margin-bottom: 40px;
+  margin-bottom: 48px;
 }
 .page--receipt-pdf .receipt-pdf__section-title {
   margin: 0 0 8px;
@@ -3805,25 +3811,47 @@ body.modal-locked {
 }
 .page--receipt-pdf .receipt-pdf__columns {
   display: flex;
-  gap: 48px;
+  gap: 60px;
 }
 .page--receipt-pdf .receipt-pdf__col {
   flex: 1 1 0%;
 }
 .page--receipt-pdf .receipt-pdf__table {
+  padding: 4px 0;
+  align-items: center;
+  vertical-align: middle;
+}
+.page--receipt-pdf .receipt-pdf__table .receipt-pdf__row {
+  align-items: center;
+  vertical-align: middle;
+}
+.page--receipt-pdf .receipt-pdf__table-sender .receipt-pdf__row, .page--receipt-pdf .receipt-pdf__table-receiver .receipt-pdf__row {
+  align-items: flex-start;
+  vertical-align: top;
+}
+.page--receipt-pdf .receipt-pdf__table dd, .page--receipt-pdf .receipt-pdf__table dt {
+  align-items: center;
+}
+.page--receipt-pdf .receipt-pdf__table-settlementintro {
   margin: 0;
+}
+.page--receipt-pdf .receipt-pdf__table-settlementintro .receipt-pdf__row dd {
+  color: #797A7B;
+}
+.page--receipt-pdf .receipt-pdf__table-settlementintro {
+  border-bottom: 2px solid #0f172a;
 }
 .page--receipt-pdf .receipt-pdf__row {
   display: flex;
   justify-content: space-between;
   gap: 28px;
   font-size: 13px;
-  margin-bottom: 8px;
+  padding: 4px 0;
 }
 .page--receipt-pdf .receipt-pdf__row dt {
   min-width: 120px;
-  font-weight: 600;
-  color: #797A7B;
+  font-weight: 500;
+  color: #0f172a;
 }
 .page--receipt-pdf .receipt-pdf__row dd {
   margin: 0;
@@ -3832,45 +3860,30 @@ body.modal-locked {
   color: #0f172a;
   text-align: right;
 }
-.page--receipt-pdf .receipt-pdf__amount-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 16px;
-  font-size: 14px;
-}
-.page--receipt-pdf .receipt-pdf__amount-label {
-  padding: 8px 0;
-  color: #797A7B;
-}
-.page--receipt-pdf .receipt-pdf__amount-value {
-  padding: 8px 0;
-  text-align: right;
-  color: #0f172a;
-  font-weight: 600;
-}
-.page--receipt-pdf .receipt-pdf__amount-total {
-  border-top: 2px solid #0f172a;
+.page--receipt-pdf .receipt-pdf__table-subtotal {
   border-bottom: 2px solid #0f172a;
 }
-.page--receipt-pdf .receipt-pdf__amount-total-label {
-  padding: 8px 0;
+.page--receipt-pdf .receipt-pdf__table-total {
+  border-bottom: 2px solid #0f172a;
+}
+.page--receipt-pdf .receipt-pdf__table-total dt {
+  font-size: 16px;
   font-weight: 700;
 }
-.page--receipt-pdf .receipt-pdf__amount-total-value {
-  padding: 8px 0;
-  text-align: right;
+.page--receipt-pdf .receipt-pdf__table-total dd {
+  font-size: 20px;
   font-weight: 700;
 }
 .page--receipt-pdf .receipt-pdf__note {
-  margin-top: 12px;
+  margin-top: 32px;
   font-size: 12px;
-  color: #797A7B;
+  color: #0f172a;
 }
 .page--receipt-pdf .receipt-pdf__paragraph {
   margin: 0 0 12px;
-  font-size: 13px;
+  font-size: 12px;
   line-height: 1.5;
-  color: #797A7B;
+  color: #0f172a;
 }
 .page--receipt-pdf .receipt-pdf__bottom {
   display: flex;
@@ -3888,7 +3901,7 @@ body.modal-locked {
   justify-content: flex-end;
 }
 .page--receipt-pdf .receipt-pdf__stamp img {
-  width: 120px;
+  width: 140px;
   height: auto;
 }
 

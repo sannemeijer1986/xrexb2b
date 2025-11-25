@@ -843,7 +843,7 @@
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    margin-bottom: 40px;
+    margin-bottom: 24px;
     font-size: 13px;
     color: $text-secondary;
   }
@@ -856,13 +856,15 @@
     text-align: right;
     max-width: 260px;
     line-height: 1.4;
+    font-size: 12px;
   }
 
   .receipt-pdf__title-row {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
     align-items: flex-start;
-    margin-bottom: 32px;
+    gap: 16px;
+    margin-bottom: 48px;
   }
 
   .receipt-pdf__title {
@@ -874,7 +876,10 @@
 
   .receipt-pdf__meta-row {
     display: flex;
-    gap: 24px;
+    align-items: flex-start;
+    justify-content: space-between; // spread sections across available width
+    width: 100%;
+    gap: 0;
     font-size: 14px;
   }
 
@@ -885,17 +890,18 @@
   }
 
   .receipt-pdf__meta-label {
-    font-weight: 600;
-    color: $text-secondary;
+    font-weight: 700;
+    color: $text-primary; // labels as primary
+    font-size: 15px;
   }
 
   .receipt-pdf__meta-value {
     font-weight: 600;
-    color: $text-primary;
+    color: $text-secondary;
   }
 
   .receipt-pdf__section {
-    margin-bottom: 40px;
+    margin-bottom: 48px;
   }
 
   .receipt-pdf__section-title {
@@ -907,7 +913,7 @@
 
   .receipt-pdf__columns {
     display: flex;
-    gap: 48px;
+    gap: 60px;
   }
 
   .receipt-pdf__col {
@@ -915,7 +921,40 @@
   }
 
   .receipt-pdf__table {
+    padding: 4px 0;
+    align-items: center;
+    vertical-align: middle;
+  }
+
+  .receipt-pdf__table .receipt-pdf__row {
+    align-items: center;
+    vertical-align: middle;
+  }
+
+  .receipt-pdf__table-sender .receipt-pdf__row, .receipt-pdf__table-receiver .receipt-pdf__row {
+    align-items: flex-start;
+    vertical-align: top;
+  }
+
+  .receipt-pdf__table dd, .receipt-pdf__table dt {
+    align-items: center;
+  }
+
+
+
+  .receipt-pdf__table-settlementintro {
     margin: 0;
+
+    .receipt-pdf__row dd {
+
+      color: $text-secondary;
+
+    }
+
+    .receipt-pdf__row:last-child {
+    
+    }
+    border-bottom: 2px solid $text-primary;
   }
 
   .receipt-pdf__row {
@@ -923,12 +962,12 @@
     justify-content: space-between;
     gap: 28px;
     font-size: 13px;
-    margin-bottom: 8px;
+    padding: 4px 0;
 
     dt {
       min-width: 120px;
-      font-weight: 600;
-      color: $text-secondary;
+      font-weight: 500;
+      color: $text-primary; // all labels primary
     }
 
     dd {
@@ -940,52 +979,35 @@
     }
   }
 
-  .receipt-pdf__amount-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 16px;
-    font-size: 14px;
-  }
-
-  .receipt-pdf__amount-label {
-    padding: 8px 0;
-    color: $text-secondary;
-  }
-
-  .receipt-pdf__amount-value {
-    padding: 8px 0;
-    text-align: right;
-    color: $text-primary;
-    font-weight: 600;
-  }
-
-  .receipt-pdf__amount-total {
-    border-top: 2px solid $text-primary;
+  .receipt-pdf__table-subtotal {
     border-bottom: 2px solid $text-primary;
   }
 
-  .receipt-pdf__amount-total-label {
-    padding: 8px 0;
+  .receipt-pdf__table-total {
+    border-bottom: 2px solid $text-primary;
+  }
+
+  .receipt-pdf__table-total dt {
+    font-size: 16px;
     font-weight: 700;
   }
 
-  .receipt-pdf__amount-total-value {
-    padding: 8px 0;
-    text-align: right;
+  .receipt-pdf__table-total dd {
+    font-size: 20px;
     font-weight: 700;
   }
 
   .receipt-pdf__note {
-    margin-top: 12px;
+    margin-top: 32px;
     font-size: 12px;
-    color: $text-secondary;
+    color: $text-primary;
   }
 
   .receipt-pdf__paragraph {
     margin: 0 0 12px;
-    font-size: 13px;
+    font-size: 12px;
     line-height: 1.5;
-    color: $text-secondary;
+    color: $text-primary;
   }
 
   .receipt-pdf__bottom {
@@ -1006,7 +1028,7 @@
     justify-content: flex-end;
 
     img {
-      width: 120px;
+      width: 140px;
       height: auto;
     }
   }
