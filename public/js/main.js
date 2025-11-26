@@ -2506,7 +2506,6 @@ if (document.readyState === 'loading') {
     stepData.step1 = {
       companyName: document.getElementById('companyName')?.value || '',
       regDate: document.getElementById('regDate')?.value || '',
-      country: document.getElementById('country')?.value || '',
       regNum: document.getElementById('regNum')?.value || '',
       businessAddress: document.getElementById('businessAddress')?.value || '',
       operationCountry: document.getElementById('operationCountry')?.value || '',
@@ -2610,7 +2609,6 @@ if (document.readyState === 'loading') {
     // Step 1 fields
     setText('ab-summary-companyName', s1.companyName);
     setText('ab-summary-regDate', formatDate(s1.regDate));
-    setText('ab-summary-country', s1.country);
     setText('ab-summary-regNum', s1.regNum);
     setText('ab-summary-businessAddress', s1.businessAddress);
     setText('ab-summary-operationCountry', s1.operationCountry);
@@ -2970,7 +2968,6 @@ if (document.readyState === 'loading') {
     form.querySelector('#companyName'),
     form.querySelector('#regDate'),
     form.querySelector('#regNum'),
-    form.querySelector('#country'),
     form.querySelector('#businessAddress'),
     form.querySelector('#operationCountry'),
     form.querySelector('#email'),
@@ -2996,11 +2993,7 @@ if (document.readyState === 'loading') {
     const fields = getFields();
     const allOk = fields.every(isFilled);
     setDisabled(nextBtn, !allOk);
-    // toggle filled style for registration and operation country selects
-    const regCountrySel = form.querySelector('#country');
-    if (regCountrySel) {
-      regCountrySel.classList.toggle('is-filled', !!regCountrySel.value);
-    }
+    // toggle filled style for operation country select
     const opCountrySel = form.querySelector('#operationCountry');
     if (opCountrySel) {
       opCountrySel.classList.toggle('is-filled', !!opCountrySel.value);
@@ -3042,7 +3035,6 @@ if (document.readyState === 'loading') {
   const getStep1Fields = () => ({
     companyName: document.getElementById('companyName'),
     regDate: document.getElementById('regDate'),
-    country: document.getElementById('country'),
     regNum: document.getElementById('regNum'),
     businessAddress: document.getElementById('businessAddress'),
     operationCountry: document.getElementById('operationCountry'),
@@ -3071,7 +3063,6 @@ if (document.readyState === 'loading') {
       const f = getStep1Fields();
       if (f.companyName) f.companyName.value = 'NovaQuill Ltd';
       if (f.regDate) f.regDate.value = '2024-01-15';
-      if (f.country) f.country.value = 'Singapore';
       if (f.regNum) f.regNum.value = '202401234N';
       if (f.businessAddress) {
         f.businessAddress.value = '5 Battery Road, Singapore 049901';
