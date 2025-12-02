@@ -2506,6 +2506,7 @@ if (document.readyState === 'loading') {
     stepData.step1 = {
       companyName: document.getElementById('companyName')?.value || '',
       regDate: document.getElementById('regDate')?.value || '',
+      country: document.getElementById('country')?.value || '',
       regNum: document.getElementById('regNum')?.value || '',
       businessAddress: document.getElementById('businessAddress')?.value || '',
       operationCountry: document.getElementById('operationCountry')?.value || '',
@@ -2595,20 +2596,22 @@ if (document.readyState === 'loading') {
       return dateStr;
     };
 
-    // Format number with thousand separators
+    // Format number with thousand separators for summary display
     const formatVolume = (value) => {
       if (!value) return '';
-      const num = parseFloat(value);
+      const normalized = value.toString().replace(/,/g, '');
+      const num = parseFloat(normalized);
       if (isNaN(num)) return value;
       return num.toLocaleString('en-US', {
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 0
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
       });
     };
 
     // Step 1 fields
     setText('ab-summary-companyName', s1.companyName);
     setText('ab-summary-regDate', formatDate(s1.regDate));
+    setText('ab-summary-country', s1.country);
     setText('ab-summary-regNum', s1.regNum);
     setText('ab-summary-businessAddress', s1.businessAddress);
     setText('ab-summary-operationCountry', s1.operationCountry);
@@ -2968,6 +2971,7 @@ if (document.readyState === 'loading') {
     form.querySelector('#companyName'),
     form.querySelector('#regDate'),
     form.querySelector('#regNum'),
+    form.querySelector('#country'),
     form.querySelector('#businessAddress'),
     form.querySelector('#operationCountry'),
     form.querySelector('#email'),
@@ -2993,7 +2997,11 @@ if (document.readyState === 'loading') {
     const fields = getFields();
     const allOk = fields.every(isFilled);
     setDisabled(nextBtn, !allOk);
-    // toggle filled style for operation country select
+    // toggle filled style for registration and operation country selects
+    const regCountrySel = form.querySelector('#country');
+    if (regCountrySel) {
+      regCountrySel.classList.toggle('is-filled', !!regCountrySel.value);
+    }
     const opCountrySel = form.querySelector('#operationCountry');
     if (opCountrySel) {
       opCountrySel.classList.toggle('is-filled', !!opCountrySel.value);
@@ -3035,6 +3043,7 @@ if (document.readyState === 'loading') {
   const getStep1Fields = () => ({
     companyName: document.getElementById('companyName'),
     regDate: document.getElementById('regDate'),
+    country: document.getElementById('country'),
     regNum: document.getElementById('regNum'),
     businessAddress: document.getElementById('businessAddress'),
     operationCountry: document.getElementById('operationCountry'),
@@ -3063,6 +3072,7 @@ if (document.readyState === 'loading') {
       const f = getStep1Fields();
       if (f.companyName) f.companyName.value = 'NovaQuill Ltd';
       if (f.regDate) f.regDate.value = '2024-01-15';
+      if (f.country) f.country.value = 'Singapore';
       if (f.regNum) f.regNum.value = '202401234N';
       if (f.businessAddress) {
         f.businessAddress.value = '5 Battery Road, Singapore 049901';
@@ -3794,11 +3804,15 @@ if (document.readyState === 'loading') {
     });
   };
   
-  // Parse formatted number (remove commas and decimals) for storage/validation
+  // Parse formatted number for storage/validation:
+  // - remove thousands separators
+  // - ignore any decimal part and keep only the integer portion
   const parseNumber = (value) => {
     if (!value || value === '') return '';
-    // Keep only digits
-    return value.toString().replace(/[^\d]/g, '');
+    const normalized = value.toString().replace(/,/g, '');
+    const dotIndex = normalized.indexOf('.');
+    const integerPart = dotIndex >= 0 ? normalized.slice(0, dotIndex) : normalized;
+    return integerPart.replace(/[^\d]/g, '');
   };
   
   // Live thousand-separator formatting directly in the avgVolume input
@@ -3887,11 +3901,99 @@ if (document.readyState === 'loading') {
       render();
     }
   };
+
+  // Live thousand-separator formatting for avgTransactions (integer only)
+  const setupAvgTransactionsFormatting = () => {
+    const field = document.getElementById('avgTransactions');
+    if (!field) return;
+    if (field.dataset.enhanced === 'true') return;
+    field.dataset.enhanced = 'true';
+
+    let rawDigits = parseNumber(field.value);
+
+    const render = () => {
+      if (!rawDigits) {
+        field.value = '';
+        toggleFilled(field);
+        updateSaveButton();
+        return;
+      }
+      const cleaned = rawDigits.replace(/[^\d]/g, '');
+      const num = cleaned ? parseInt(cleaned, 10) : NaN;
+      if (isNaN(num)) {
+        field.value = '';
+      } else {
+        field.value = num.toLocaleString('en-US', {
+          minimumFractionDigits: 0,
+          maximumFractionDigits: 0
+        });
+      }
+      toggleFilled(field);
+      updateSaveButton();
+    };
+
+    const insertDigit = (digit) => {
+      rawDigits = (rawDigits || '') + digit;
+      render();
+    };
+
+    const backspaceDigit = () => {
+      if (!rawDigits) return;
+      rawDigits = rawDigits.slice(0, -1);
+      render();
+    };
+
+    field.addEventListener('keydown', (e) => {
+      const { key } = e;
+
+      // Allow navigation keys / tab / escape
+      if (['Tab', 'Escape', 'ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(key)) {
+        return;
+      }
+
+      // Digits
+      if (/^\d$/.test(key)) {
+        e.preventDefault();
+        insertDigit(key);
+        return;
+      }
+
+      // Backspace
+      if (key === 'Backspace') {
+        e.preventDefault();
+        backspaceDigit();
+        return;
+      }
+
+      // Delete clears everything for simplicity
+      if (key === 'Delete') {
+        e.preventDefault();
+        rawDigits = '';
+        render();
+        return;
+      }
+
+      // Block any other character
+      e.preventDefault();
+    });
+
+    // Keep formatting stable if any non-keyboard change happens
+    field.addEventListener('input', () => {
+      // Re-derive digits from current value for safety
+      rawDigits = parseNumber(field.value);
+      render();
+    });
+
+    if (rawDigits) {
+      render();
+    }
+  };
   
   // Open modal
   const openModal = () => {
-    // Setup formatting for avgVolume field
+    // Setup formatting for avgVolume and avgTransactions fields
     setupAvgVolumeFormatting();
+    setupAvgTransactionsFormatting();
     
     // Populate fields if there's existing data
     if (accountDeclarationData) {
@@ -3955,7 +4057,15 @@ if (document.readyState === 'loading') {
     const purpose = document.getElementById('declarationPurpose')?.value || '';
     const avgTransactions = document.getElementById('avgTransactions')?.value || '';
     const avgVolumeField = document.getElementById('avgVolume');
-    const avgVolumeRaw = avgVolumeField ? parseNumber(avgVolumeField.value) : '';
+    let avgVolume = '';
+    if (avgVolumeField) {
+      const raw = avgVolumeField.value || '';
+      const normalized = raw.toString().replace(/,/g, '');
+      const num = parseFloat(normalized);
+      if (!isNaN(num)) {
+        avgVolume = String(num);
+      }
+    }
     
     // Validate required fields
     if (!accountUsedFor || !purpose) {
@@ -3963,8 +4073,8 @@ if (document.readyState === 'loading') {
       return;
     }
     
-    // Format and set account declaration (use parsed value for storage, formatted for display)
-    formatAccountDeclaration({ accountUsedFor, purpose, avgTransactions, avgVolume: avgVolumeRaw });
+    // Format and set account declaration (use numeric value for storage, formatted for display)
+    formatAccountDeclaration({ accountUsedFor, purpose, avgTransactions, avgVolume });
     renderFilledState();
     
     // Trigger change event
