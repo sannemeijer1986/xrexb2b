@@ -282,24 +282,40 @@
             var el = document.getElementById('attachedDocs');
             if (el) el.textContent = val || '';
           })();
-          // Doc number label/value (optional)
+          // Doc number label/value (optional, always visible for relevant nature)
           (function () {
             var row = document.getElementById('docNumRow');
             var label = (d.docNumLabel || '').trim();
             var val = (d.docNumber || '').trim();
-            if (row) row.style.display = (label && val) ? '' : 'none';
+            if (row) row.style.display = label ? '' : 'none';
             var lblEl = document.getElementById('docNumLabelTxt');
             if (lblEl) lblEl.textContent = label || '';
             var valEl = document.getElementById('docNumVal');
-            if (valEl) valEl.textContent = val || '';
+            if (valEl) {
+              var displayVal = val || '- -';
+              valEl.textContent = displayVal;
+              if (!val) {
+                valEl.classList.add('is-placeholder');
+              } else {
+                valEl.classList.remove('is-placeholder');
+              }
+            }
           })();
-          // Notes (optional)
+          // Notes (optional, always visible with placeholder when empty)
           (function () {
             var row = document.getElementById('docNotesRow');
             var val = (d.docNotes || '').trim();
-            if (row) row.style.display = val ? '' : 'none';
+            if (row) row.style.display = '';
             var el = document.getElementById('docNotesVal');
-            if (el) el.textContent = val || '';
+            if (el) {
+              var displayVal = val || '- -';
+              el.textContent = displayVal;
+              if (!val) {
+                el.classList.add('is-placeholder');
+              } else {
+                el.classList.remove('is-placeholder');
+              }
+            }
           })();
           set('amtPayable', d.amountPayableFmt || '');
           set('deductedFrom', d.deductedFrom || '');

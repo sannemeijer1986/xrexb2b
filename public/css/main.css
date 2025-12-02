@@ -1953,6 +1953,10 @@ input[type=number] {
   font-weight: 400;
 }
 
+.receipt__row strong.is-placeholder {
+  color: #BCBDBD;
+}
+
 .receipt__row--first strong {
   font-weight: 700;
 }
