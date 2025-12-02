@@ -113,7 +113,7 @@
 
               <div class="form__row form__row--amount">
                 <div class="form__field">
-                  <label for="amount">Amount payable<span class="label__meta" style="display:none;">Billed in USD</span></label>
+                  <label for="amount">Payment amount<span class="label__meta" style="display:none;">Billed in USD</span></label>
                   <div class="amount-input">
                     <span class="amount-input__prefix"><img src="assets/icon_USD.svg" alt="" /></span>
                     <input id="amount" name="amount" type="text" inputmode="decimal" placeholder="0" autocomplete="off" />
@@ -166,7 +166,7 @@
                     </label>
                   </div>
                   <div class="deduct-footer">
-                    <div id="amount-error" class="form-error" hidden>Amount payable exceeds available balance</div>
+                    <div id="amount-error" class="form-error" hidden>Payment amount exceeds available balance</div>
                     <div id="deduct-rate" class="deduct-rate" hidden>
                       <span class="deduct-rate__sub">USDT will be converted to USD</span>
                       <span class="deduct-rate__main">Conversion rate: 1 USDT = 1 USD</span>
@@ -197,7 +197,7 @@
                       </span>
                       <span class="fee-option__content">
                         <span class="fee-option__title">Paid by you</span>
-                        <small class="muted">Added to amount payable</small>
+                        <small class="muted">Added to payment amount</small>
                       </span>
                       <input type="radio" name="fee" value="you" checked />
                       <span class="fee-option__check" aria-hidden="true"></span>
@@ -208,7 +208,7 @@
                       </span>
                       <span class="fee-option__content">      
                         <span class="fee-option__title">Share 50/50</span>
-                        <small class="muted">Partially added to amount payable and deducted from amount to send</small>
+                        <small class="muted">Partially added to payment amount and deducted from total to send</small>
                       </span>
                       <input type="radio" name="fee" value="split" />
                       <span class="fee-option__check" aria-hidden="true"></span>
@@ -219,7 +219,7 @@
                       </span>
                       <span class="fee-option__content">
                         <span class="fee-option__title">Paid by receiver</span>
-                        <small class="muted">Deducted from amount to send</small>
+                        <small class="muted">Deducted from total to send</small>
                       </span>
                       <input type="radio" name="fee" value="receiver" />
                       <span class="fee-option__check" aria-hidden="true"></span>
@@ -439,7 +439,7 @@
               </div>
               <div class="summary-box" id="summaryBoxAmount">
                 <div class="summary-pair">
-                  <span class="muted">Amount payable</span>
+                  <span class="muted">Payment amount</span>
                   <strong>0.00 USD</strong>
                 </div>
                 <div class="summary-pair">
@@ -483,7 +483,7 @@
               </div>
               <button id="confirm-send" class="btn btn--primary btn--block" aria-disabled="true" disabled>Review and Pay</button>
               <div id="confirm-tip" class="btn-tip" role="tooltip" hidden>Please fill in all fields</div>
-              <div class="summary-note">Received amount may vary due to bank or exchange fees. <br />Processing typically takes 1–5 business days.<br />
+              <div class="summary-note">Received amount may vary due to bank fees. <br />Processing typically takes 1–5 business days.<br />
                 Receiver will be billed in USD.</div>
             </div>
           </aside>
@@ -515,7 +515,7 @@
           <div class="modal-body">
             <div class="summary-box">
               <div class="summary-pair">
-                <span class="muted">Amount payable</span>
+                <span class="muted">Payment amount</span>
                 <strong id="fd-subtotal">-</strong>
               </div>
               <div class="summary-pair">

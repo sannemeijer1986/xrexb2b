@@ -93,7 +93,7 @@
         <h3 class="card__title">Amount and fees</h3>
         <div class="card card--section receipt__card">
                     <div class="receipt__row">
-                      <span class="muted">Amount payable</span>
+                      <span class="muted">Payment amount</span>
             <strong id="amtPayable">-</strong>
           </div>
           <div class="receipt__row">
@@ -142,7 +142,7 @@
             <span class="muted">Send to receiver</span>
             <strong id="receiverGets">-</strong>
           </div>
-          <div class="receipt__note">>Received amount may vary due to bank or exchange fees. <br />Processing typically takes 1–5 business days.<br />
+          <div class="receipt__note">Received amount may vary due to bank fees. <br />Processing typically takes 1–5 business days.<br />
             Receiver will be billed in USD.</div>
           <div class="review-declare">
             <div class="review-declare__box">
@@ -346,7 +346,7 @@
               if (toRowHide) toRowHide.style.display = 'none';
               return;
             }
-            // Extract numeric from Amount payable and render as USDT
+            // Extract numeric from Payment amount and render as USDT
             var num = (d.amountPayableFmt || '0').replace(/[^\d.]/g, '');
             var n = Number(num || 0);
             var txt = n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' USDT';

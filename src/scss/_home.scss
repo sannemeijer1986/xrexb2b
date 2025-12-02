@@ -5,7 +5,11 @@
 /* Mobile layout tweaks */
 .page--home {
   /* Hide page title below desktop */
-  .page__header { @media (max-width: ($bp-desktop - 1)) { display: none; } }
+  .page__header {
+    @media (max-width: ($bp-desktop - 1)) {
+      display: none;
+    }
+  }
   /* Remove card chrome on mobile so asset cards look standalone */
   @media (max-width: ($bp-desktop - 1)) {
     .assets.card {
@@ -15,7 +19,9 @@
       padding: 0;
     }
     /* Hide desktop sidebar quick actions; use tabbar panel instead */
-    .grid__col--sidebar { display: none; }
+    .grid__col--sidebar {
+      display: none;
+    }
   }
 }
 
@@ -23,14 +29,18 @@
 .mobile-qa {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.35);
+  background: rgba(0, 0, 0, 0.35);
   display: none;
   z-index: 120; /* above tabbar */
 }
-.mobile-qa[aria-hidden="false"] { display: block; }
+.mobile-qa[aria-hidden="false"] {
+  display: block;
+}
 .mobile-qa__sheet {
   position: absolute;
-  left: 0; right: 0; bottom: 56px; /* keep tabbar visible */
+  left: 0;
+  right: 0;
+  bottom: 56px; /* keep tabbar visible */
   background: #fff;
   border-radius: 16px 16px 0 0;
   padding: 16px;
@@ -38,7 +48,9 @@
   overflow: auto;
 }
 @media (min-width: $bp-desktop) {
-  .mobile-qa { display: none !important; }
+  .mobile-qa {
+    display: none !important;
+  }
 }
 
 .card__title--assets {
@@ -60,14 +72,17 @@
 
 .qa__item.mobile_only {
   display: none;
-  @media (max-width: ($bp-desktop - 1)) { display: grid; }
+  @media (max-width: ($bp-desktop - 1)) {
+    display: grid;
+  }
 }
-
 
 /* Mobile tab bar */
 .tabbar {
   position: fixed;
-  left: 0; right: 0; bottom: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   width: 100vw;
   height: 56px;
   background: #ffffff;
@@ -76,9 +91,11 @@
   justify-content: center;
   align-items: center;
   z-index: 90;
-  @media (min-width: $bp-desktop) { display: none; }
+  @media (min-width: $bp-desktop) {
+    display: none;
+  }
   @media (max-width: ($bp-desktop - 1px)) {
-    background: #F8F8F8;
+    background: #f8f8f8;
   }
 }
 .tabbar__inner {
@@ -98,10 +115,13 @@
   align-items: center;
   justify-content: center;
   gap: 2px;
-  font: 600 12px "Manrope", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  color: #BCBDBD;
+  font: 600 12px "Manrope", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, sans-serif;
+  color: #bcbdbd;
   cursor: pointer;
-  &.is-active { color: #2F5BFF; }
+  &.is-active {
+    color: #2f5bff;
+  }
 }
 
 .grid__col--primary {
@@ -125,7 +145,9 @@
 .assets {
   &.card {
     padding: 24px;
-    @media (min-width: $bp-desktop) { padding: 32px; }
+    @media (min-width: $bp-desktop) {
+      padding: 32px;
+    }
     height: auto;
     box-sizing: border-box;
   }
@@ -142,21 +164,33 @@
     display: inline-flex;
     align-items: center;
     gap: 4px;
-    .metric-eye { width: 20px; height: 20px; display: inline-block; }
+    .metric-eye {
+      width: 20px;
+      height: 20px;
+      display: inline-block;
+    }
   }
   .assets__total-value {
     color: $text-primary;
     font-size: 26px;
     font-weight: 700;
     letter-spacing: -0.01em;
-    @media (min-width: $bp-desktop) { font-size: 32px; }
+    @media (min-width: $bp-desktop) {
+      font-size: 32px;
+    }
   }
-  .assets__locked { color: $text-secondary; font-size: 14px; font-weight: 600; }
+  .assets__locked {
+    color: $text-secondary;
+    font-size: 14px;
+    font-weight: 600;
+  }
   .assets__ctas-top {
     display: none;
     margin-top: 8px;
     gap: 16px;
-    @media (min-width: $bp-desktop) { display: flex; }
+    @media (min-width: $bp-desktop) {
+      display: flex;
+    }
   }
 }
 .assets__header {
@@ -182,19 +216,57 @@
   align-items: flex-start;
   gap: 2px;
   width: 160px;
-  @media (min-width: $bp-desktop) { width: 216px; }
+  @media (min-width: $bp-desktop) {
+    width: 216px;
+  }
 }
-.asset__icon { margin-bottom: 12px; }
-.asset__icon img { width: 32px; height: 32px; }
+.asset__icon {
+  margin-bottom: 12px;
+}
+.asset__icon img {
+  width: 32px;
+  height: 32px;
+}
 /* Make content area and wrappers fill available space */
-.asset__content { display: flex; flex-direction: column; flex: 1 1 auto; min-height: 0; }
-.asset__wrapper { display: flex; flex-direction: column; flex: 1 1 auto; min-height: 0; align-items: flex-start; }
-.asset__wrapper--first { justify-content: flex-start; }
-.asset__wrapper--second { justify-content: flex-end; }
-.asset__amount { font-weight: 700; font-size: 20px; color: $text-primary; }
-.asset__currency {color: $text-primary; font-weight: 600; font-size: 14px;}
-.asset__amount__sub, .asset__currency__sub { color: $text-secondary; font-weight: 600; font-size: 12px; }
-.asset__meta { font-size: 12px; color: #797a7b; }
+.asset__content {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+.asset__wrapper {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+  align-items: flex-start;
+}
+.asset__wrapper--first {
+  justify-content: flex-start;
+}
+.asset__wrapper--second {
+  justify-content: flex-end;
+}
+.asset__amount {
+  font-weight: 700;
+  font-size: 20px;
+  color: $text-primary;
+}
+.asset__currency {
+  color: $text-primary;
+  font-weight: 600;
+  font-size: 14px;
+}
+.asset__amount__sub,
+.asset__currency__sub {
+  color: $text-secondary;
+  font-weight: 600;
+  font-size: 12px;
+}
+.asset__meta {
+  font-size: 12px;
+  color: #797a7b;
+}
 
 .card.quick-actions {
   @media (max-width: ($bp-desktop - 1)) {
@@ -223,7 +295,10 @@
   color: inherit;
   text-decoration: none;
 }
-.qa__item:hover { cursor: pointer; text-decoration: none; }
+.qa__item:hover {
+  cursor: pointer;
+  text-decoration: none;
+}
 .qa__icon {
   width: 40px;
   height: 40px;
@@ -232,16 +307,32 @@
   display: grid;
   place-items: center;
 }
-.qa__icon img { width: 25px; height: 25px; }
-.qa__content { font-weight: 600; }
-.qa__content strong { display: block; font-weight: 600; }
-.qa__content small { display: block; font-size: 12px; color: $text-placeholder; }
-.qa__chev { opacity: .6; }
+.qa__icon img {
+  width: 25px;
+  height: 25px;
+}
+.qa__content {
+  font-weight: 600;
+}
+.qa__content strong {
+  display: block;
+  font-weight: 600;
+}
+.qa__content small {
+  display: block;
+  font-size: 12px;
+  color: $text-placeholder;
+}
+.qa__chev {
+  opacity: 0.6;
+}
 
 .assets__ctas {
   display: flex;
   gap: 12px;
-  @media (min-width: $bp-desktop) { display: none; }
+  @media (min-width: $bp-desktop) {
+    display: none;
+  }
 }
 
 /* Convert & OTC Service section */
@@ -327,12 +418,12 @@
     }
 
     @media (min-width: $bp-desktop) {
-     order: 2;
+      order: 2;
 
-     img {
-      width: 410px;
-      height: auto;
-    }
+      img {
+        width: 410px;
+        height: auto;
+      }
     }
   }
 
@@ -346,7 +437,7 @@
   .convert-card__head-row {
     display: grid;
     grid-template-columns: auto 1fr 1fr;
-    background-color: #F8F8F8;
+    background-color: #f8f8f8;
     height: 32px;
     align-items: center;
     padding: 0 20px;
@@ -355,15 +446,22 @@
     color: $text-secondary;
 
     @media (min-width: $bp-desktop) {
-      grid-template-columns: minmax(0, 2.5fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 2fr);
+      grid-template-columns: minmax(0, 2.5fr) minmax(0, 1fr) minmax(0, 1fr) minmax(
+          0,
+          2fr
+        );
       padding: 0 12px;
     }
   }
 
   .convert-card__head-cell {
-    &--currency { text-align: left; }
+    &--currency {
+      text-align: left;
+    }
     &--usd,
-    &--usdt { text-align: right; }
+    &--usdt {
+      text-align: right;
+    }
 
     &--actions {
       text-align: right;
@@ -383,7 +481,10 @@
     padding: 12px; /* desktop default – mobile overrides below */
     min-height: 56px;
     display: grid;
-    grid-template-columns: minmax(0, 2.5fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 2fr);
+    grid-template-columns: minmax(0, 2.5fr) minmax(0, 1fr) minmax(0, 1fr) minmax(
+        0,
+        2fr
+      );
     gap: 12px;
     align-items: center;
     transition: background-color 0.2s;
@@ -558,20 +659,19 @@
     background: none;
     font-size: 14px;
     font-weight: 600;
-    color: #336AFF;
+    color: #336aff;
     cursor: pointer;
     text-decoration: none;
     white-space: nowrap;
 
-
     /* Both links should be blue primary color as per design */
     &--secondary {
-      color: #336AFF;
+      color: #336aff;
     }
   }
 }
 
- .home-transactions {
+.home-transactions {
   margin-top: 48px;
   margin-bottom: 80px;
 
@@ -662,13 +762,13 @@
     color: $text-primary;
 
     &::after {
-      content: '';
+      content: "";
       position: absolute;
       left: 24px;
       right: 24px;
       bottom: 0px;
       height: 2px;
-      background: #336AFF;
+      background: #336aff;
     }
   }
 
@@ -719,8 +819,8 @@
   }
 }
 
-.transactions__filter--currency { 
-  background-color: #EEEEEE;
+.transactions__filter--currency {
+  background-color: #eeeeee;
   border: 0px;
   height: 24px;
   font-size: 12px;
@@ -728,7 +828,7 @@
   padding: 0 8px;
 }
 
-.transactions__filter--range { 
+.transactions__filter--range {
   background-color: transparent;
   border: 0px;
   height: 24px;
@@ -765,22 +865,21 @@
   vertical-align: middle;
   align-items: center;
 
-
   display: grid;
   /* Use fractional columns so the table uses full available width on desktop */
   grid-template-columns:
-    minmax(0, 2.4fr)   /* activity / counterparty */
-    minmax(0, 1.4fr)   /* amount or amount payable */
-    minmax(0, 2fr)     /* type or purpose */
-    minmax(0, 1.4fr)   /* status */
-    minmax(0, 1.6fr);  /* date */
+    minmax(0, 2.4fr) /* activity / counterparty */
+    minmax(0, 1.4fr) /* amount or Payment amount */
+    minmax(0, 2fr) /* type or purpose */
+    minmax(0, 1.4fr) /* status */
+    minmax(0, 1.6fr); /* date */
   gap: 16px;
   border-bottom: 1px solid #f2f2f2;
   font-family: $font-family-sans;
   font-size: 12px;
   font-weight: 600;
   color: $text-secondary;
-  background-color: #EEEEEE;
+  background-color: #eeeeee;
   padding: 0 16px;
 
   @media (max-width: ($bp-desktop - 1px)) {
@@ -875,7 +974,7 @@
   width: 36px;
   height: 36px;
   border-radius: 999px;
-  background: #EEEEEE;
+  background: #eeeeee;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -905,11 +1004,11 @@
   font-weight: 600;
 
   &--completed {
-    color: #3FAE64;
+    color: #3fae64;
   }
 
   &--processing {
-    color: #73A2F5;
+    color: #73a2f5;
   }
 }
 
@@ -979,8 +1078,5 @@
 /* Home page greeting styling (Sora, 20 -> 32 on desktop) */
 .page--home {
   .page__title {
-
   }
 }
-
-

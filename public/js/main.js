@@ -464,7 +464,7 @@ function initSendPayment() {
     serviceTitle: (summaryContainer || document).querySelector('.summary-pair[data-summary="service-title"]'),
     servicePayer: (summaryContainer || document).querySelector('[data-summary="service-payer"]'),
     servicePayee: (summaryContainer || document).querySelector('[data-summary="service-payee"]'),
-    amountPayable: findSummaryRow('Amount payable'),
+    amountPayable: findSummaryRow('Payment amount'),
     deductFrom: findSummaryRow('Deduct from'),
     nature: findSummaryRow('Nature'),
     purpose: findSummaryRow('Purpose'),

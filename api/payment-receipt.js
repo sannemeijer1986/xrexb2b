@@ -54,7 +54,7 @@ module.exports = async (req, res) => {
     // Settlement
     doc.fontSize(14).text('Settlement', { underline: true });
     doc.fontSize(12);
-    doc.text(`Amount payable: ${amount}`);
+    doc.text(`Payment amount: ${amount}`);
     doc.moveDown();
 
     // Footer note (shortened version of on-page declaration)
