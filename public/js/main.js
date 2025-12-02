@@ -2594,9 +2594,9 @@ if (document.readyState === 'loading') {
 
   const getAccountUsedForLabel = (value) => {
     const map = {
-      incoming: 'Incoming only: transferring funds from this account',
-      outgoing: 'Outgoing only: receiving funds to this account',
-      both: 'Both Incoming & Outgoing',
+      incoming: 'Send payment to this account',
+      outgoing: 'Receive payment from this account',
+      both: 'Both send and receive',
     };
     return map[value] || '';
   };
@@ -3777,9 +3777,9 @@ if (document.readyState === 'loading') {
   // Map account used for values to display text
   const getAccountUsedForText = (value) => {
     const map = {
-      'incoming': 'Incoming only: transferring funds from this account',
-      'outgoing': 'Outgoing only: receiving funds to this account',
-      'both': 'Both Incoming & Outgoing'
+      'incoming': 'Send payment to this account',
+      'outgoing': 'Receive payment from this account',
+      'both': 'Both send and receive'
     };
     return map[value] || value;
   };

@@ -383,7 +383,7 @@
               </div>
               <div class="form__row">
                 <div class="form__field form__field--clickable">
-                  <label for="accountDeclaration">Counterparty bank account declaration</label>
+                  <label for="accountDeclaration">Counterparty account declaration</label>
                   <div class="clickable-input" id="accountDeclarationWrapper">
                     <input id="accountDeclaration" name="accountDeclaration" type="text" placeholder="Add declaration" readonly style="display: none;" />
                     <div id="accountDeclarationDisplay" class="clickable-input__display" style="display: none;">
@@ -542,7 +542,7 @@
                       </div>
                     </div>
                     <div class="step3-divider"></div>
-                    <h4 class="step3-declaration-title">Declaration</h4>
+                    <h4 class="step3-declaration-title">Counterparty account declaration</h4>
                     <div class="step3-kv">
                       <div class="step3-kv__row">
                         <span class="step3-kv__label">Average monthly transaction count with this account</span>
@@ -553,7 +553,7 @@
                         <span class="step3-kv__value" id="ab-summary-avgVolume">-</span>
                       </div>
                       <div class="step3-kv__row">
-                        <span class="step3-kv__label">Account usage</span>
+                        <span class="step3-kv__label">Counterparty account usage</span>
                         <span class="step3-kv__value" id="ab-summary-accountUsedFor">-</span>
                       </div>
                     </div>
@@ -830,7 +830,7 @@
       <div class="modal-wrapper">
         <div class="modal-content">
           <div class="modal-header">
-            <h2 id="accountDeclarationModalTitle">Account declaration</h2>
+            <h2 id="accountDeclarationModalTitle">Counterparty account declaration</h2>
             <button class="modal-close" data-modal-close aria-label="Close modal">
               <img src="assets/icon_close.svg" width="24" height="24" alt="close" />
             </button>
@@ -839,12 +839,12 @@
             <div class="form">
               <div class="form__row form__row--selects">
                 <div class="form__field form__field--select">
-                  <label for="accountUsedFor">Account usage</label>
+                  <label for="accountUsedFor">Counterparty account usage</label>
                   <select id="accountUsedFor" name="accountUsedFor">
                     <option value="" selected disabled>Select</option>
-                    <option value="incoming">Receive payments</option>
-                    <option value="outgoing">Send payments</option>
-                    <option value="both">Receive & send payments</option>
+                    <option value="incoming">Send payment to this account</option>
+                    <option value="outgoing">Receive payment from this account</option>
+                    <option value="both">Both send and receive</option>
                   </select>
                 </div>
                 <div class="form__field form__field--select">

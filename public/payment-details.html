@@ -74,6 +74,18 @@
                     <span class="pd-detail__row-label">Total amount sent</span>
                     <span id="pdTotalSent" class="pd-detail__row-value">--</span>
                   </div>
+                  <div class="pd-detail__row" id="pdConvertedFromRow">
+                    <span class="pd-detail__row-label">Converted from</span>
+                    <span id="pdConvertedFrom" class="pd-detail__row-value">--</span>
+                  </div>
+                  <div class="pd-detail__row" id="pdConvertedToRow">
+                    <span class="pd-detail__row-label">Converted to</span>
+                    <span id="pdConvertedTo" class="pd-detail__row-value">--</span>
+                  </div>
+                  <div class="pd-detail__row" id="pdConversionRateRow">
+                    <span class="pd-detail__row-label">Conversion rate</span>
+                    <span id="pdConversionRate" class="pd-detail__row-value">--</span>
+                  </div>
                 </div>
 
                 <div class="pd-detail__receiver">
@@ -195,6 +207,34 @@
             setText('pdPaymentId', data.paymentId || '- -');
             setText('pdNature', data.nature || '- -');
             setText('pdPurpose', data.purpose || '- -');
+
+            // Converted values (only when payer currency is USDT and conversion exists)
+            (function () {
+              var payerCur = (data.deductedFrom || '').split(' ')[0] || '';
+              var amountStr = data.amountPayableFmt || '';
+              var num = (amountStr || '').replace(/[^\d.]/g, '');
+              var n = Number(num || 0);
+              var hasConversion = data.conversion && payerCur && payerCur.toUpperCase() === 'USDT';
+
+              var fromRow = document.getElementById('pdConvertedFromRow');
+              var toRow = document.getElementById('pdConvertedToRow');
+              var rateRow = document.getElementById('pdConversionRateRow');
+
+              if (hasConversion && n > 0) {
+                var fromTxt = n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' ' + payerCur;
+                var toTxt = n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' USD';
+                setText('pdConvertedFrom', fromTxt);
+                setText('pdConvertedTo', toTxt);
+                setText('pdConversionRate', data.conversion || '1 USDT = 1 USD');
+                if (fromRow) fromRow.style.display = '';
+                if (toRow) toRow.style.display = '';
+                if (rateRow) rateRow.style.display = '';
+              } else {
+                if (fromRow) fromRow.style.display = 'none';
+                if (toRow) toRow.style.display = 'none';
+                if (rateRow) rateRow.style.display = 'none';
+              }
+            })();
 
             // Documents (pre-shipment vs post-shipment)
             var docsDetail = Array.isArray(data.docsDetail) ? data.docsDetail : null;
