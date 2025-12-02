@@ -947,7 +947,7 @@ function initSendPayment() {
         if (numLabel) numLabel.textContent = 'Proforma invoice number';
         if (uploadBlock) uploadBlock.hidden = false;
         if (upTitle) upTitle.textContent = 'Proforma invoice (PI)';
-        if (upDesc)  upDesc.textContent  = 'Must include Proforma Invoice (PI) number';
+        if (upDesc)  upDesc.textContent  = '';
         if (upIcon)  upIcon.src = 'assets/icon_upload_1.svg';
       } else if (val === 'PO') {
         if (badge) { badge.classList.remove('is-hidden'); }
@@ -958,7 +958,18 @@ function initSendPayment() {
         if (numLabel) numLabel.textContent = 'Purchase order number';
         if (uploadBlock) uploadBlock.hidden = false;
         if (upTitle) upTitle.textContent = 'Purchase order (PO)';
-        // if (upDesc)  upDesc.textContent  = 'Must include Purchase Order (PO) number';
+        if (upDesc)  upDesc.textContent  = '';
+        if (upIcon)  upIcon.src = 'assets/icon_upload_1.svg';
+      } else if (val === 'CC') {
+        if (badge) { badge.classList.remove('is-hidden'); }
+        if (title) { title.textContent = 'Commercial contract (CC)'; title.classList.remove('is-placeholder'); }
+        card.classList.remove('is-placeholder');
+        if (desc) desc.textContent = 'A written agreement outlining the terms of a business deal';
+        if (numField) numField.hidden = false;
+        if (numLabel) numLabel.textContent = 'Commercial contract number';
+        if (uploadBlock) uploadBlock.hidden = false;
+        if (upTitle) upTitle.textContent = 'Commercial contract (CC)';
+        if (upDesc)  upDesc.textContent  = '';
         if (upIcon)  upIcon.src = 'assets/icon_upload_1.svg';
       }
     };
@@ -966,10 +977,31 @@ function initSendPayment() {
       // set default to placeholder on show
       if (isPre && isNatureChanged) docTypeSelect.value = '';
       docTypeSelect.addEventListener('change', () => {
+        // Reset any existing upload state for the pre-shipment document when type changes
+        const preUploadItem = document.querySelector('#docs-pre .upload-item');
+        if (preUploadItem) {
+          preUploadItem.classList.remove('is-uploaded');
+          // Reset badge icon
+          const badgeImg = preUploadItem.querySelector('.upload-item__badge img');
+          if (badgeImg) badgeImg.src = 'assets/icon_upload_1.svg';
+          // Reset main button appearance/text
+          const actions = preUploadItem.querySelector('.upload-item__actions');
+          const mainBtn = actions ? actions.querySelector('.btn') : null;
+          if (mainBtn) {
+            mainBtn.classList.add('btn--primary');
+            mainBtn.classList.remove('btn--secondary');
+            mainBtn.textContent = 'Upload';
+          }
+          // Clear any uploaded filename subtitle; new instructions will be set by syncDocCard
+          const subEl = preUploadItem.querySelector('.upload-item__meta small');
+          if (subEl) subEl.textContent = '';
+        }
+
+        // Sync the card UI for the newly selected document type
         syncDocCard();
 
         // Clear the document number whenever the document type changes
-        // (e.g. switching between PI and PO should reset `piNumber`).
+        // (e.g. switching between PI, PO, and CC should reset `piNumber`).
         if (typeof piNumber !== 'undefined' && piNumber) {
           piNumber.value = '';
         }
@@ -1679,6 +1711,11 @@ function initSendPayment() {
             attached = ['Purchase order (PO)'];
             docsDetail = [{ title: 'Purchase order (PO)', declared: false }];
             docNumLabel = 'Purchase order number';
+            docNumber = piNumber || '';
+          } else if (docTypeVal === 'CC') {
+            attached = ['Commercial contract (CC)'];
+            docsDetail = [{ title: 'Commercial contract (CC)', declared: false }];
+            docNumLabel = 'Commercial contract number';
             docNumber = piNumber || '';
           } else {
             attached = [];
