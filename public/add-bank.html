@@ -383,7 +383,7 @@
               </div>
               <div class="form__row">
                 <div class="form__field form__field--clickable">
-                  <label for="accountDeclaration">Counterparty account declaration</label>
+                  <label for="accountDeclaration">Transaction information</label>
                   <div class="clickable-input" id="accountDeclarationWrapper">
                     <input id="accountDeclaration" name="accountDeclaration" type="text" placeholder="Add declaration" readonly style="display: none;" />
                     <div id="accountDeclarationDisplay" class="clickable-input__display" style="display: none;">
@@ -542,8 +542,16 @@
                       </div>
                     </div>
                     <div class="step3-divider"></div>
-                    <h4 class="step3-declaration-title">Counterparty account declaration</h4>
+                    <h4 class="step3-declaration-title">Transaction information</h4>
                     <div class="step3-kv">
+                      <div class="step3-kv__row">
+                        <span class="step3-kv__label">Transaction direction</span>
+                        <span class="step3-kv__value" id="ab-summary-accountUsedFor">-</span>
+                      </div>
+                      <div class="step3-kv__row">
+                        <span class="step3-kv__label">Purpose</span>
+                        <span class="step3-kv__value" id="ab-summary-declarationPurpose">-</span>
+                      </div>
                       <div class="step3-kv__row">
                         <span class="step3-kv__label">Average monthly transaction count with this account</span>
                         <span class="step3-kv__value" id="ab-summary-avgTransactions">-</span>
@@ -551,10 +559,6 @@
                       <div class="step3-kv__row">
                         <span class="step3-kv__label">Average monthly transaction volume with this account</span>
                         <span class="step3-kv__value" id="ab-summary-avgVolume">-</span>
-                      </div>
-                      <div class="step3-kv__row">
-                        <span class="step3-kv__label">Counterparty account usage</span>
-                        <span class="step3-kv__value" id="ab-summary-accountUsedFor">-</span>
                       </div>
                     </div>
                   </div>
@@ -830,7 +834,7 @@
       <div class="modal-wrapper">
         <div class="modal-content">
           <div class="modal-header">
-            <h2 id="accountDeclarationModalTitle">Counterparty account declaration</h2>
+            <h2 id="accountDeclarationModalTitle">Transaction information</h2>
             <button class="modal-close" data-modal-close aria-label="Close modal">
               <img src="assets/icon_close.svg" width="24" height="24" alt="close" />
             </button>
@@ -839,7 +843,7 @@
             <div class="form">
               <div class="form__row form__row--selects">
                 <div class="form__field form__field--select">
-                  <label for="accountUsedFor">Counterparty account usage</label>
+                  <label for="accountUsedFor">Transaction direction</label>
                   <select id="accountUsedFor" name="accountUsedFor">
                     <option value="" selected disabled>Select</option>
                     <option value="incoming">Send payment to this account</option>
@@ -849,8 +853,9 @@
                 </div>
                 <div class="form__field form__field--select">
                   <label for="declarationPurpose">Transaction purpose</label>
-                  <select id="declarationPurpose" name="declarationPurpose" disabled>
-                    <option value="Remittance" selected>Remittance</option>
+                  <select id="declarationPurpose" name="declarationPurpose">
+                    <option value="Payments" selected>Payments</option>
+                    <option value="Remittance">Remittance</option>
                   </select>
                 </div>
               </div>

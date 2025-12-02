@@ -2697,7 +2697,10 @@ if (document.readyState === 'loading') {
       }
     }
 
-    // Declaration
+    // Declaration / transaction information
+    const usedForLabel = getAccountUsedForLabel(s2.accountUsedFor);
+    setText('ab-summary-accountUsedFor', usedForLabel || s2.accountUsedFor);
+    setText('ab-summary-declarationPurpose', s2.declarationPurpose || '');
     setText('ab-summary-avgTransactions', s2.avgTransactions ? `${s2.avgTransactions} Transactions / month` : '');
     if (s2.avgVolume) {
       const formattedVolume = formatVolume(s2.avgVolume);
@@ -2705,8 +2708,6 @@ if (document.readyState === 'loading') {
     } else {
       setText('ab-summary-avgVolume', '');
     }
-    const usedForLabel = getAccountUsedForLabel(s2.accountUsedFor);
-    setText('ab-summary-accountUsedFor', usedForLabel || s2.accountUsedFor);
   };
   
   // Update step indicator
@@ -3213,11 +3214,11 @@ if (document.readyState === 'loading') {
         const avgVolume = accountDeclarationModal.querySelector('#avgVolume');
         
         if (accountUsedFor) accountUsedFor.value = 'both';
-        if (declarationPurpose) declarationPurpose.value = 'Remittance';
+        if (declarationPurpose) declarationPurpose.value = 'Payments';
         if (avgTransactions) avgTransactions.value = '50';
-        if (avgVolume) avgVolume.value = '100,000.00';
+        if (avgVolume) avgVolume.value = '100000';
         
-        // Trigger change events
+        // Trigger change events so validation and filled-state update
         [accountUsedFor, declarationPurpose, avgTransactions, avgVolume].forEach((el) => {
           if (el) {
             el.dispatchEvent(new Event('input', { bubbles: true }));
