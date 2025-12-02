@@ -46,16 +46,12 @@
           </div>
           <div class="receipt-pdf__meta-row">
             <div class="receipt-pdf__meta-group">
-              <div class="receipt-pdf__meta-label">Status</div>
-              <div id="rpStatus" class="receipt-pdf__meta-value">Payment sent</div>
+              <div class="receipt-pdf__meta-label">Payment submission</div>
+              <div id="rpSubmissionDate" class="receipt-pdf__meta-value">-</div>
             </div>
             <div class="receipt-pdf__meta-group">
-              <div class="receipt-pdf__meta-label">Payment ID</div>
-              <div id="rpPaymentId" class="receipt-pdf__meta-value">-</div>
-            </div>
-            <div class="receipt-pdf__meta-group">
-              <div class="receipt-pdf__meta-label">Sent date</div>
-              <div id="rpSentDate" class="receipt-pdf__meta-value">-</div>
+              <div class="receipt-pdf__meta-label">Submitted to bank</div>
+              <div id="rpStatus" class="receipt-pdf__meta-value">Payment being processed</div>
             </div>
           </div>
         </section>
@@ -117,8 +113,13 @@
 
         <section class="receipt-pdf__section receipt-pdf__section--settlement">
           <h2 class="receipt-pdf__section-title">Settlement</h2>
-          <!-- Group 1: nature / purpose / doc number -->
+          <!-- Group 1: Payment meta / nature / purpose / doc number -->
           <dl class="receipt-pdf__table receipt-pdf__table-settlementintro">
+            <div class="receipt-pdf__row">
+              <dt>Payment ID</dt>
+              <dd id="rpPaymentIdIntro">-</dd>
+            </div>
+            <div class="receipt-pdf__divider"></div>
             <div class="receipt-pdf__row">
               <dt>Nature of payment</dt>
               <dd id="rpNature">-</dd>
@@ -128,21 +129,37 @@
               <dd id="rpPurpose">-</dd>
             </div>
             <div class="receipt-pdf__row">
-              <dt id="rpDocNumLabel">Proforma Invoice (PI) number</dt>
+              <dt id="rpDocNumLabel">Proforma invoice (PI) number</dt>
               <dd id="rpDocNumber">-</dd>
             </div>
+            <div class="receipt-pdf__divider"></div>
           </dl>
 
-          <!-- Group 2: Payment amount / service fee -->
+          <!-- Group 2: Amounts / conversion / fee -->
           <dl class="receipt-pdf__table receipt-pdf__table-subtotal">
             <div class="receipt-pdf__row">
-              <dt>Payment amount</dt>
+              <dt>Amount payable</dt>
               <dd id="rpAmountPayable">-</dd>
             </div>
+            <div class="receipt-pdf__divider"></div>
+            <div class="receipt-pdf__row">
+              <dt>Converted from</dt>
+              <dd id="rpConvertedFrom">-</dd>
+            </div>
+            <div class="receipt-pdf__row">
+              <dt>Converted to</dt>
+              <dd id="rpConvertedTo">-</dd>
+            </div>
+            <div class="receipt-pdf__row">
+              <dt>Conversion rate</dt>
+              <dd id="rpConversionRate">-</dd>
+            </div>
+            <div class="receipt-pdf__divider"></div>
             <div class="receipt-pdf__row">
               <dt>Service fee</dt>
               <dd id="rpServiceFee">-</dd>
             </div>
+            <div class="receipt-pdf__divider"></div>
           </dl>
 
           <!-- Group 3: total amount paid -->
@@ -152,10 +169,12 @@
               <dd id="rpTotalPaid">-</dd>
             </div>
           </dl>
-          <p class="receipt-pdf__note">
-            Note: According to the agreement between both parties, the platform service fee for this transaction is borne by the
-            sending party (AGP Technology), and has been added to the total Payment amount.
+          <p class="receipt-pdf__note" id="rpFeeNote">
+            Note : According to the agreement between both parties, the platform service fee for this transaction is shared equally
+            between [XYZ Gaming] and [ABC Gaming]. The fee has been added to the sender's payable amount and deducted from the
+            receiver's settlement amount.
           </p>
+          <div class="receipt-pdf__divider"></div>
         </section>
 
         <section class="receipt-pdf__section receipt-pdf__section--declaration">
@@ -235,36 +254,62 @@
             }
           } catch (_) {}
 
-          // For this prototype, always show a static Payment ID from the design
-          setText('rpPaymentId', 'PYT-20251118-f2d3fa4e');
+          // Payment ID from data or fallback to static demo ID from the design
+          var paymentIdVal = d.paymentId || 'PYT-20251118-f2d3fa4e';
+          setText('rpPaymentId', paymentIdVal);
+          setText('rpPaymentIdIntro', paymentIdVal);
           setText('rpReceiverName', d.receiverName || 'NovaQuill Ltd');
           setText('rpNature', d.nature || '-');
           setText('rpPurpose', d.purpose || '-');
           setText('rpDocNumLabel', d.docNumLabel || 'Proforma Invoice (PI) number');
           setText('rpDocNumber', d.docNumber || '-');
           setText('rpAmountPayable', d.amountPayableFmt || '-');
+          
+          // Converted from / to / conversion rate (only meaningful when there is conversion)
+          (function () {
+            var payerCur = (d.deductedFrom || '').split(' ')[0] || 'USD';
+            var amountStr = d.amountPayableFmt || '';
+            var num = (amountStr || '').replace(/[^\d.]/g, '');
+            var n = Number(num || 0);
+            var hasConversion = d.conversion && payerCur && payerCur.toUpperCase() === 'USDT';
+            if (hasConversion && n > 0) {
+              var fromTxt = n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' ' + payerCur;
+              var toTxt = n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' USD';
+              setText('rpConvertedFrom', fromTxt);
+              setText('rpConvertedTo', toTxt);
+              setText('rpConversionRate', d.conversion || '1 USDT = 1 USD');
+            } else {
+              setText('rpConvertedFrom', '-');
+              setText('rpConvertedTo', '-');
+              setText('rpConversionRate', '-');
+            }
+          })();
 
-          // Service fee: show payer + receiver parts if available
-          var serviceText = '';
-          if (d.payerShareAmt || d.receiverShareAmt) {
-            var payer = d.payerShareAmt || '0.00 USD';
-            var recv = d.receiverShareAmt || '0.00 USD';
-            serviceText = payer + ' / ' + recv;
-          }
-          setText('rpServiceFee', serviceText || '-');
+          // Service fee: use actual service fee amount if available; format in payer currency
+          (function () {
+            var payerCur = (d.deductedFrom || '').split(' ')[0] || 'USD';
+            var feeNum = Number(d.serviceMinAmount || 0);
+            if (Number.isFinite(feeNum) && feeNum > 0) {
+              var feeTxt = feeNum.toLocaleString('en-US', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+              }) + ' ' + payerCur;
+              setText('rpServiceFee', feeTxt);
+            } else {
+              setText('rpServiceFee', '-');
+            }
+          })();
+
+          // Total amount paid (what sender pays)
           setText('rpTotalPaid', d.toBeDeducted || '-');
 
-          // Sent date: reuse the same SENT_DATE_KEY as payment-details
-          var sent = null;
-          try {
-            if (window.sessionStorage) {
-              sent = window.sessionStorage.getItem('xrexb2b.paymentSentAt');
-            }
-          } catch (e) {}
-          if (!sent) {
-            sent = new Date().toLocaleString('en-GB', { hour12: false }) + ' (UTC+8)';
+          // Submission date (from receipt data) and status
+          var sub = d.dateTime ? String(d.dateTime) + ' (UTC+8)' : null;
+          if (!sub) {
+            sub = new Date().toLocaleString('en-GB', { hour12: false }) + ' (UTC+8)';
           }
-          setText('rpSentDate', sent);
+          setText('rpSubmissionDate', sub);
+          setText('rpStatus', d.status || 'Payment being processed');
         }
 
         window.addEventListener('load', function () {
