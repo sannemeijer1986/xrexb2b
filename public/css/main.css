@@ -4340,24 +4340,15 @@ body.modal-locked {
 .convert-box .summary-pair {
   align-items: center;
 }
-.convert-box .summary-pair strong, .convert-box .summary-pair .muted {
-  font-weight: 500;
-  color: #0f172a;
-  font-size: 16px;
-}
-.convert-box .convert-rate-link {
-  background: none;
-  border: 0;
-  padding: 0;
-  font-size: 16px;
+.convert-box .summary-pair .muted {
   font-weight: 600;
-  color: #73A2F5;
-  cursor: default;
-}
-.convert-box .summary-pair--convertfrom .muted, .convert-box .summary-pair--convertto .muted, .convert-box .summary-pair--convertto strong, .convert-box .summary-pair--convertfrom strong {
-  font-size: 16px;
   color: #0f172a;
-  font-weight: 700;
+  font-size: 16px;
+}
+.convert-box .summary-pair strong {
+  font-weight: 600;
+  color: #0f172a;
+  font-size: 16px;
 }
 
 .docs-section {
@@ -5843,6 +5834,13 @@ body.modal-locked {
   text-decoration: none;
 }
 
+.pd-detail__link--sub {
+  display: block;
+  font-size: 14px;
+  font-weight: 700;
+  margin-top: 4px;
+}
+
 .pd-status {
   display: inline-flex;
   align-items: center;
@@ -5871,7 +5869,7 @@ body.modal-locked {
   margin: 0 auto;
 }
 #mobileSummaryModal .modal-header .modal-close {
-  flex-order: 0;
+  order: 0;
 }
 #mobileSummaryModal .modal-body .summary-recipient {
   margin-bottom: 0px;

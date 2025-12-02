@@ -62,6 +62,13 @@
                 </div>
 
                 <div class="pd-detail__rows">
+                  <div class="pd-detail__row" id="pdConvertSummaryRow" style="display: none;">
+                    <span class="pd-detail__row-label">Converted from</span>
+                    <span class="pd-detail__row-value">
+                      <span id="pdConvertSummaryAmount">--</span>
+                      <a href="#" id="pdConvertDetailsOpen" class="pd-detail__link pd-detail__link--sub">See convert details</a>
+                    </span>
+                  </div>
                   <div class="pd-detail__row">
                     <span class="pd-detail__row-label">Service fee (Sender / Receiver)</span>
                     <span id="pdServiceFee" class="pd-detail__row-value">-- / --</span>
@@ -73,18 +80,6 @@
                   <div class="pd-detail__row">
                     <span class="pd-detail__row-label">Total amount sent</span>
                     <span id="pdTotalSent" class="pd-detail__row-value">--</span>
-                  </div>
-                  <div class="pd-detail__row" id="pdConvertedFromRow">
-                    <span class="pd-detail__row-label">Converted from</span>
-                    <span id="pdConvertedFrom" class="pd-detail__row-value">--</span>
-                  </div>
-                  <div class="pd-detail__row" id="pdConvertedToRow">
-                    <span class="pd-detail__row-label">Converted to</span>
-                    <span id="pdConvertedTo" class="pd-detail__row-value">--</span>
-                  </div>
-                  <div class="pd-detail__row" id="pdConversionRateRow">
-                    <span class="pd-detail__row-label">Conversion rate</span>
-                    <span id="pdConversionRate" class="pd-detail__row-value">--</span>
                   </div>
                 </div>
 
@@ -163,6 +158,45 @@
       </div>
     </main>
 
+    <!-- Modal: Convert details -->
+    <div id="pdConvertDetailsModal" class="modal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="pdConvertDetailsTitle">
+      <div class="modal-wrapper">
+        <div class="modal-content convert-modal">
+          <div class="convert-modal__icon">
+            <img src="assets/icon_qm_convert.svg" alt="" width="28" height="28" />
+          </div>
+          <div class="modal-body">
+            <h2 id="pdConvertDetailsTitle" class="convert-modal__title">Convert details for this payment</h2>
+            <div class="summary-box convert-box">
+              <div class="summary-pair summary-pair--convertfrom">
+                <span class="muted">Converted from</span>
+                <strong id="pd-cv-from">-</strong>
+              </div>
+              <div class="summary-pair summary-pair--convertto">
+                <span class="muted">Converted to</span>
+                <strong id="pd-cv-to">-</strong>
+              </div>
+              <div class="summary-pair summary-pair--convertrate">
+                <span class="muted">Conversion rate</span>
+                <strong id="pd-cv-rate">1 USDT = 1 USD</strong>
+              </div>
+            </div>
+            <div class="review-declare" style="margin-top: 16px;">
+              <div class="review-declare__head">
+                <img class="review-declare__icon" src="assets/icon_info_blue.svg" width="16" height="16" alt="">
+                <p class="review-declare__text">
+                  Recorded consent for USDT-to-USD conversion, with acknowledgment that any refunds may be issued in USD.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn--secondary btn--md" data-modal-close>Dismiss</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <footer class="site-footer">
       <div class="footer__inner">
         <div class="footer__copy">© XREX Pay Limited 2025</div>
@@ -208,31 +242,24 @@
             setText('pdNature', data.nature || '- -');
             setText('pdPurpose', data.purpose || '- -');
 
-            // Converted values (only when payer currency is USDT and conversion exists)
+            // Converted summary (only when payer currency is USDT and conversion exists)
             (function () {
-              var payerCur = (data.deductedFrom || '').split(' ')[0] || '';
+              var deducted = data.deductedFrom || '';
+              var payerCur = (deducted.split(' ')[0] || '').toUpperCase();
               var amountStr = data.amountPayableFmt || '';
               var num = (amountStr || '').replace(/[^\d.]/g, '');
               var n = Number(num || 0);
-              var hasConversion = data.conversion && payerCur && payerCur.toUpperCase() === 'USDT';
+              var isUSDT = /USDT/.test(deducted.toUpperCase());
 
-              var fromRow = document.getElementById('pdConvertedFromRow');
-              var toRow = document.getElementById('pdConvertedToRow');
-              var rateRow = document.getElementById('pdConversionRateRow');
+              var summaryRow = document.getElementById('pdConvertSummaryRow');
+              var summaryAmt = document.getElementById('pdConvertSummaryAmount');
 
-              if (hasConversion && n > 0) {
-                var fromTxt = n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' ' + payerCur;
-                var toTxt = n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' USD';
-                setText('pdConvertedFrom', fromTxt);
-                setText('pdConvertedTo', toTxt);
-                setText('pdConversionRate', data.conversion || '1 USDT = 1 USD');
-                if (fromRow) fromRow.style.display = '';
-                if (toRow) toRow.style.display = '';
-                if (rateRow) rateRow.style.display = '';
-              } else {
-                if (fromRow) fromRow.style.display = 'none';
-                if (toRow) toRow.style.display = 'none';
-                if (rateRow) rateRow.style.display = 'none';
+              if (isUSDT && n > 0 && summaryRow && summaryAmt) {
+                var fromTxt = n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' ' + (payerCur || 'USDT');
+                summaryAmt.textContent = fromTxt;
+                summaryRow.style.display = '';
+              } else if (summaryRow) {
+                summaryRow.style.display = 'none';
               }
             })();
 
@@ -365,6 +392,8 @@
           var statusBadge = document.getElementById('pdStatusBadge');
           var infoBanner = document.getElementById('pdInfoBanner');
           var receiptCard = document.getElementById('pdReceiptCard');
+          var convertModal = document.getElementById('pdConvertDetailsModal');
+          var convertOpen = document.getElementById('pdConvertDetailsOpen');
           var sentDateEl = document.getElementById('pdSentDate');
 
           var applyState = function (state) {
@@ -416,6 +445,54 @@
 
           var initialState = typeof getPrototypeState === 'function' ? getPrototypeState() : 4;
           applyState(initialState);
+
+          // Wire Convert details modal
+          (function () {
+            if (!convertModal || !convertOpen || !data) return;
+
+            var openConvertModal = function () {
+              try {
+                var deducted = data.deductedFrom || '';
+                var payerCur = (deducted.split(' ')[0] || '').toUpperCase() || 'USDT';
+                var amountStr = data.amountPayableFmt || '';
+                var num = (amountStr || '').replace(/[^\d.]/g, '');
+                var n = Number(num || 0);
+                var isUSDT = /USDT/.test(deducted.toUpperCase());
+
+                var fmt = function (v, cur) {
+                  return Number(v || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' ' + cur;
+                };
+
+                var fromVal = fmt(n, payerCur);
+                var toVal = fmt(n, 'USD');
+
+                setText('pd-cv-from', fromVal, '-');
+                setText('pd-cv-rate', data.conversion || '1 USDT = 1 USD', '1 USDT = 1 USD');
+                setText('pd-cv-to', toVal, '-');
+
+                // Only meaningful when we actually converted from USDT
+                if (!isUSDT || !n) return;
+              } catch (_) {}
+
+              convertModal.setAttribute('aria-hidden', 'false');
+              document.documentElement.classList.add('modal-open');
+              document.body.classList.add('modal-open');
+            };
+
+            convertOpen.addEventListener('click', function (e) {
+              e.preventDefault();
+              openConvertModal();
+            });
+
+            // Close handlers
+            convertModal.querySelectorAll('[data-modal-close]').forEach(function (btn) {
+              btn.addEventListener('click', function () {
+                convertModal.setAttribute('aria-hidden', 'true');
+                document.documentElement.classList.remove('modal-open');
+                document.body.classList.remove('modal-open');
+              });
+            });
+          })();
 
           document.addEventListener('prototypeStateChange', function (e) {
             try {
