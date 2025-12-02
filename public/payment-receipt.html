@@ -138,10 +138,10 @@
           <!-- Group 2: Amounts / conversion / fee -->
           <dl class="receipt-pdf__table receipt-pdf__table-subtotal">
             <div class="receipt-pdf__row">
-              <dt>Amount payable</dt>
+              <dt>Payment amount</dt>
               <dd id="rpAmountPayable">-</dd>
             </div>
-            <div class="receipt-pdf__divider"></div>
+            <div id="rpDividerAfterAmount" class="receipt-pdf__divider"></div>
             <div class="receipt-pdf__row">
               <dt>Converted from</dt>
               <dd id="rpConvertedFrom">-</dd>
@@ -154,7 +154,7 @@
               <dt>Conversion rate</dt>
               <dd id="rpConversionRate">-</dd>
             </div>
-            <div class="receipt-pdf__divider"></div>
+            <div id="rpDividerAfterConversion" class="receipt-pdf__divider"></div>
             <div class="receipt-pdf__row">
               <dt>Service fee</dt>
               <dd id="rpServiceFee">-</dd>
@@ -165,7 +165,7 @@
           <!-- Group 3: total amount paid -->
           <dl class="receipt-pdf__table receipt-pdf__table-total">
             <div class="receipt-pdf__row">
-              <dt>Total amount paid</dt>
+              <dt>Total amount deducted</dt>
               <dd id="rpTotalPaid">-</dd>
             </div>
           </dl>
@@ -272,21 +272,41 @@
             var num = (amountStr || '').replace(/[^\d.]/g, '');
             var n = Number(num || 0);
             var hasConversion = d.conversion && payerCur && payerCur.toUpperCase() === 'USDT';
+
+            var fromEl = document.getElementById('rpConvertedFrom');
+            var toEl = document.getElementById('rpConvertedTo');
+            var rateEl = document.getElementById('rpConversionRate');
+            var fromRow = fromEl ? fromEl.parentElement : null;
+            var toRow = toEl ? toEl.parentElement : null;
+            var rateRow = rateEl ? rateEl.parentElement : null;
+            var dividerAfterConv = document.getElementById('rpDividerAfterConversion');
+
             if (hasConversion && n > 0) {
               var fromTxt = n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' ' + payerCur;
               var toTxt = n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' USD';
               setText('rpConvertedFrom', fromTxt);
               setText('rpConvertedTo', toTxt);
               setText('rpConversionRate', d.conversion || '1 USDT = 1 USD');
+              if (fromRow) fromRow.style.display = '';
+              if (toRow) toRow.style.display = '';
+              if (rateRow) rateRow.style.display = '';
+              if (dividerAfterConv) dividerAfterConv.style.display = '';
             } else {
-              setText('rpConvertedFrom', '-');
-              setText('rpConvertedTo', '-');
-              setText('rpConversionRate', '-');
+              // Hide conversion rows and their divider entirely when there is no USDT conversion
+              if (fromRow) fromRow.style.display = 'none';
+              if (toRow) toRow.style.display = 'none';
+              if (rateRow) rateRow.style.display = 'none';
+              if (dividerAfterConv) dividerAfterConv.style.display = 'none';
             }
           })();
 
-          // Service fee: use actual service fee amount if available; format in payer currency
+          // Service fee: show only sender's share if available; otherwise fall back to total
           (function () {
+            var senderFee = (d.payerShareAmt || '').toString().trim();
+            if (senderFee) {
+              setText('rpServiceFee', senderFee);
+              return;
+            }
             var payerCur = (d.deductedFrom || '').split(' ')[0] || 'USD';
             var feeNum = Number(d.serviceMinAmount || 0);
             if (Number.isFinite(feeNum) && feeNum > 0) {
@@ -303,13 +323,40 @@
           // Total amount paid (what sender pays)
           setText('rpTotalPaid', d.toBeDeducted || '-');
 
-          // Submission date (from receipt data) and status
+          // Submission date (from receipt data)
           var sub = d.dateTime ? String(d.dateTime) + ' (UTC+8)' : null;
           if (!sub) {
             sub = new Date().toLocaleString('en-GB', { hour12: false }) + ' (UTC+8)';
           }
           setText('rpSubmissionDate', sub);
-          setText('rpStatus', d.status || 'Payment being processed');
+
+          // Status text/color based on prototype state
+          (function () {
+            var state = 0;
+            try {
+              if (window.localStorage) {
+                var rawState = window.localStorage.getItem('xrexb2b.state.v1');
+                state = parseInt(rawState, 10) || 0;
+              }
+            } catch (e) {}
+
+            var statusText = 'Payment being processed';
+            var statusColor = '#797A7B';
+
+            if (state === 4) {
+              statusText = 'Processing';
+              statusColor = '#73A2F5';
+            } else if (state >= 5) {
+              statusText = '2025/9/3, 09:00:00 (UTC+8)';
+              statusColor = '#2D2F2F';
+            }
+
+            var statusEl = document.getElementById('rpStatus');
+            if (statusEl) {
+              statusEl.textContent = statusText;
+              statusEl.style.color = statusColor;
+            }
+          })();
         }
 
         window.addEventListener('load', function () {

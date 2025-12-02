@@ -877,15 +877,16 @@
   .receipt-pdf__meta-row {
     display: flex;
     align-items: flex-start;
-    justify-content: space-between; // spread sections across available width
+    justify-content: flex-start; // align like columns
     width: 100%;
-    gap: 0;
+    gap: 60px;
     font-size: 14px;
   }
 
   .receipt-pdf__meta-group {
     display: flex;
     flex-direction: column;
+    flex: 1 1 0%;
     gap: 2px;
   }
 
@@ -947,14 +948,10 @@
 
     .receipt-pdf__row dd {
 
-      color: $text-secondary;
+      color: $text-primary;
 
     }
-
-    .receipt-pdf__row:last-child {
-    
-    }
-    border-bottom: 2px solid $text-primary;
+    border-bottom: none;
   }
 
   .receipt-pdf__row {
@@ -980,11 +977,11 @@
   }
 
   .receipt-pdf__table-subtotal {
-    border-bottom: 2px solid $text-primary;
+    border-bottom: none;
   }
 
   .receipt-pdf__table-total {
-    border-bottom: 2px solid $text-primary;
+    border-bottom: none;
   }
 
   .receipt-pdf__table-total dt {
@@ -995,6 +992,12 @@
   .receipt-pdf__table-total dd {
     font-size: 20px;
     font-weight: 700;
+  }
+
+  .receipt-pdf__divider {
+    height: 1px;
+    background: #F5F5F5;
+    margin: 8px 0;
   }
 
   .receipt-pdf__note {

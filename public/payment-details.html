@@ -329,6 +329,8 @@
 
           var applyState = function (state) {
             var isSent = state >= STATUS_SENT_STATE;
+            // Receipt is available from state 4 (Processing) onwards
+            var hasReceipt = state >= 4;
 
             if (statusBadge) {
               statusBadge.classList.remove('pd-status--processing', 'pd-status--sent');
@@ -346,7 +348,7 @@
             }
 
             if (receiptCard) {
-              receiptCard.style.display = isSent ? '' : 'none';
+              receiptCard.style.display = hasReceipt ? '' : 'none';
             }
 
             if (sentDateEl) {
