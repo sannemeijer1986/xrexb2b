@@ -544,6 +544,8 @@
                     if (data.purpose)          qp.push('purpose=' + encodeURIComponent(data.purpose));
                     if (data.docNumLabel)      qp.push('docNumLabel=' + encodeURIComponent(data.docNumLabel));
                     if (data.docNumber)        qp.push('docNumber=' + encodeURIComponent(data.docNumber));
+                    if (data.deductedFrom)     qp.push('deductedFrom=' + encodeURIComponent(data.deductedFrom));
+                    if (data.conversion)       qp.push('conversion=' + encodeURIComponent(data.conversion));
 
                     var baseHref = 'payment-receipt.html';
                     var query = qp.length ? ('?' + qp.join('&')) : '';

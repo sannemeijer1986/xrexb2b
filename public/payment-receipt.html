@@ -241,6 +241,8 @@
               var qPurpose       = pick('purpose');
               var qDocNumLabel   = pick('docNumLabel');
               var qDocNumber     = pick('docNumber');
+              var qDeductedFrom  = pick('deductedFrom');
+              var qConversion    = pick('conversion');
 
               if (qReceiverName)  d.receiverName     = d.receiverName     || qReceiverName;
               if (qAmount)        d.amountPayableFmt = d.amountPayableFmt || qAmount;
@@ -251,6 +253,8 @@
               if (qPurpose)       d.purpose          = d.purpose          || qPurpose;
               if (qDocNumLabel)   d.docNumLabel      = d.docNumLabel      || qDocNumLabel;
               if (qDocNumber)     d.docNumber        = d.docNumber        || qDocNumber;
+              if (qDeductedFrom)  d.deductedFrom     = d.deductedFrom     || qDeductedFrom;
+              if (qConversion)    d.conversion       = d.conversion       || qConversion;
             }
           } catch (_) {}
 
@@ -265,13 +269,14 @@
           setText('rpDocNumber', d.docNumber || '-');
           setText('rpAmountPayable', d.amountPayableFmt || '-');
           
-          // Converted from / to / conversion rate (only meaningful when there is conversion)
+          // Converted from / to / conversion rate (only meaningful when payer currency is USDT)
           (function () {
-            var payerCur = (d.deductedFrom || '').split(' ')[0] || 'USD';
+            var deducted = d.deductedFrom || '';
+            var payerCur = (deducted.split(' ')[0] || '').toUpperCase();
             var amountStr = d.amountPayableFmt || '';
             var num = (amountStr || '').replace(/[^\d.]/g, '');
             var n = Number(num || 0);
-            var hasConversion = d.conversion && payerCur && payerCur.toUpperCase() === 'USDT';
+            var isUSDT = /USDT/.test(deducted.toUpperCase());
 
             var fromEl = document.getElementById('rpConvertedFrom');
             var toEl = document.getElementById('rpConvertedTo');
@@ -281,8 +286,8 @@
             var rateRow = rateEl ? rateEl.parentElement : null;
             var dividerAfterConv = document.getElementById('rpDividerAfterConversion');
 
-            if (hasConversion && n > 0) {
-              var fromTxt = n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' ' + payerCur;
+            if (isUSDT && n > 0) {
+              var fromTxt = n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' ' + (payerCur || 'USDT');
               var toTxt = n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' USD';
               setText('rpConvertedFrom', fromTxt);
               setText('rpConvertedTo', toTxt);
