@@ -557,7 +557,7 @@ function initSendPayment() {
   let hasTriedSubmit = false;
   let amountRequiredActive = false;
   const setConfirmErrorVisible = (visible) => {
-    [document.getElementById('confirm-error'), document.getElementById('confirm-error-sticky')].forEach((node) => {
+    [document.getElementById('confirm-error'), document.getElementById('confirm-error-mobile')].forEach((node) => {
       if (!node) return;
       node.hidden = !visible;
       if (visible) {
