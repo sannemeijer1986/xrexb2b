@@ -28,7 +28,7 @@ module.exports = async (req, res) => {
     });
 
     // Header
-    doc.fontSize(20).text('Payment receipt', { align: 'left' });
+    doc.fontSize(20).text('Payment advice', { align: 'left' });
     doc.moveDown();
 
     // Meta
