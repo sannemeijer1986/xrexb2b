@@ -2535,7 +2535,7 @@ if (document.readyState === 'loading') {
     const map = {
       incoming: 'Send payments to this account',
       outgoing: 'Receive payments from this account',
-      both: 'Both send and receive',
+      both: 'Both send and receive payments',
     };
     return map[value] || '';
   };
@@ -3719,7 +3719,7 @@ if (document.readyState === 'loading') {
     const map = {
       'incoming': 'Send payments to this account',
       'outgoing': 'Receive payments from this account',
-      'both': 'Both send and receive'
+      'both': 'Both send and receive payments'
     };
     return map[value] || value;
   };
