@@ -84,6 +84,7 @@
                     <option value="pre_shipment">Pre-shipment advance</option>
                     <option value="post_shipment">Post-shipment</option>
                   </select>
+                  <div id="nature-error" class="form-error" hidden>This field is required</div>
                 </div>
                 <div class="form__field form__field--select">
                   <label for="purpose">Purpose of payment</label>
@@ -98,11 +99,13 @@
                     <option value="returned_goods_refund">Returned goods refund</option>
                     <option value="others">Others</option>
                   </select>
+                  <div id="purpose-error" class="form-error" hidden>This field is required</div>
                 </div>
               </div>
               <div class="form__field" id="purpose-others-field" style="display: none;">
                 <label for="purposeOthers">Purpose of payment description</label>
                 <input id="purposeOthers" name="purposeOthers" type="text" placeholder="Describe the purpose of this payment" maxlength="50" />
+                <div id="purpose-others-error" class="form-error" hidden>This field is required</div>
               </div>
 
             </form>
@@ -179,6 +182,7 @@
                           I agree to convert my USDT to USD. <br />I understand that any returned funds will be in USD.
                         </label>
                       </div>
+                      <div id="conversion-terms-error" class="form-error" hidden>This field is required</div>
                     </div>
                   </div>
                 </div>
@@ -263,6 +267,7 @@
                             <option value="CC">Commercial contract (CC)</option>
                           </select>
                         </div>
+                        <div id="doc-type-error" class="form-error" hidden>This field is required</div>
                       </div>
                     </div>
                     <div class="docs-upload" id="docUploadBlock" hidden>
@@ -271,7 +276,7 @@
                         <span class="docs-head__meta">PDF, PNG, JPG under 50MB</span>
                       </div>
                       <div class="upload-list" id="docUploadList">
-                        <div class="upload-item">
+                        <div class="upload-item" data-doc-key="required">
                           <span class="upload-item__badge" id="docUploadBadge">
                             <img id="docUploadIcon" src="assets/icon_upload_1.svg" alt="">
                           </span>
@@ -282,6 +287,7 @@
                           <button type="button" class="btn btn--primary btn--sm">Upload</button>
                         </div>
                       </div>
+                      <div id="doc-upload-error" class="form-error" hidden>This field is required</div>
                     </div>
                   </div>
                 </div>
@@ -328,7 +334,7 @@
                       <small class="muted">PDF, PNG, JPG under 50MB</small>
                     </div>
                     <div class="upload-list upload-list--post">
-                      <div class="upload-item">
+                      <div class="upload-item" data-doc-key="ci">
                         <span class="upload-item__badge"><img src="assets/icon_upload_1.svg" alt=""></span>
                         <div class="upload-item__meta">
                           <span class="upload-item__title">Commercial invoice (CI)</span>
@@ -338,7 +344,8 @@
                           <button type="button" class="btn btn--primary btn--sm">Upload</button>
                         </div>
                       </div>
-                      <div class="upload-item">
+                      <div class="form-error docs-post-error" id="doc-post-error-ci" hidden>This field is required</div>
+                      <div class="upload-item" data-doc-key="transport">
                         <span class="upload-item__badge"><img src="assets/icon_upload_1.svg" alt=""></span>
                         <div class="upload-item__meta">
                           <span class="upload-item__title">Transport document</span>
@@ -351,7 +358,8 @@
                       <div class="doc-miss-row">
                         <label class="doc-miss"><input type="checkbox" /> <span>I declare this transaction does not involve this document</span></label>
                       </div>
-                      <div class="upload-item">
+                      <div class="form-error docs-post-error" id="doc-post-error-transport" hidden>This field is required</div>
+                      <div class="upload-item" data-doc-key="packing">
                         <span class="upload-item__badge"><img src="assets/icon_upload_1.svg" alt=""></span>
                         <div class="upload-item__meta">
                           <span class="upload-item__title">Packing list (PL)</span>
@@ -364,6 +372,7 @@
                       <div class="doc-miss-row">
                         <label class="doc-miss"><input type="checkbox" /> <span>I declare this transaction does not involve this document</span></label>
                       </div>
+                      <div class="form-error docs-post-error" id="doc-post-error-packing" hidden>This field is required</div>
                     </div>
 
                     <div class="docs-declare" id="docsDeclare" hidden>
@@ -483,7 +492,6 @@
                 </div>
               </div>
               <button id="confirm-send" class="btn btn--primary btn--block" aria-disabled="true" disabled>Review and Pay</button>
-              <div id="confirm-tip" class="btn-tip" role="tooltip" hidden>Please fill in all fields</div>
               <div class="summary-note">Received amount may vary due to bank fees. <br />Processing typically takes 1–5 business days.<br />
                 Receiver will be billed in USD.</div>
             </div>
@@ -502,6 +510,7 @@
         <button id="confirm-send-sticky" class="btn btn--primary ms-review" aria-disabled="true" disabled>Review and Pay</button>
       </div>
     </div>
+    <div id="confirm-tip" class="btn-tip" role="tooltip" hidden>Please fill in all fields</div>
 
     <!-- Modal: Fees Details -->
     <div id="feesDetailsModal" class="modal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="feesDetailsTitle">

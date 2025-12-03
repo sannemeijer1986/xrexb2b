@@ -338,6 +338,8 @@
 
 // Nature/Purpose selects
 .form__field--select {
+  align-content: flex-start;
+  align-items: flex-start;
   label {
     font-family: $font-family-sans;
     font-weight: 700;
@@ -1617,10 +1619,9 @@ margin-bottom: 0px;
   display: inline-block;
 }
 
-// Tooltip for disabled confirm button
-.card--summary { position: relative; }
+// Tooltip for confirm button guidance
 .btn-tip {
-  position: absolute;
+  position: fixed;
   z-index: 1400;
   background: #fff;
   color: $text-primary;
@@ -1630,6 +1631,7 @@ margin-bottom: 0px;
   padding: 10px 14px;
   border-radius: 12px;
   box-shadow: 0 8px 24px rgba(15,23,42,0.22);
+  pointer-events: none;
 }
 .btn-tip::after {
   content: '';
@@ -1667,8 +1669,7 @@ bottom: 96px !important;
     .card--summary .summary-recipient,
     .card--summary .summary-section-head,
     .card--summary .summary-pair:not(.summary-pair--yourtotal):not(.summary-pair--totalreceive),
-    .card--summary #confirm-send,
-    .card--summary + #confirm-tip {
+    .card--summary #confirm-send {
       display: none !important;
     }
     .card--summary .summary-pair { margin: 0; }

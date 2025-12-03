@@ -415,10 +415,15 @@ function initSendPayment() {
 
   form.addEventListener('submit', (event) => {
     event.preventDefault();
-    const confirmBtn = document.getElementById('confirm-send');
-    // Only allow open when valid
-    const isDisabled = confirmBtn ? confirmBtn.disabled : true;
-    if (isDisabled) return;
+    hasTriedSubmit = true;
+    if (typeof validateSendForm === 'function') validateSendForm();
+    const primaryBtn = confirmBtn || document.getElementById('confirm-send');
+    // Only allow open when valid (based on aria-disabled managed by validateSendForm)
+    const isDisabled = primaryBtn ? primaryBtn.getAttribute('aria-disabled') === 'true' : true;
+    if (isDisabled) {
+      showConfirmTip(primaryBtn || confirmBtnSticky);
+      return;
+    }
     const modal = document.getElementById('confirmPaymentModal');
     if (modal) {
       modal.setAttribute('aria-hidden', 'false');
@@ -548,6 +553,40 @@ function initSendPayment() {
   // ---- Enable/disable Confirm send based on filled inputs/selects ----
   const confirmBtn = document.getElementById('confirm-send');
   const confirmBtnSticky = document.getElementById('confirm-send-sticky');
+  const REQUIRED_ERROR_TEXT = 'This field is required';
+  let hasTriedSubmit = false;
+  let amountRequiredActive = false;
+  let confirmTipHideTimer = null;
+  const hideConfirmTip = () => {
+    if (confirmTipHideTimer) {
+      clearTimeout(confirmTipHideTimer);
+      confirmTipHideTimer = null;
+    }
+    const tip = document.getElementById('confirm-tip');
+    if (tip) {
+      tip.hidden = true;
+    }
+  };
+  const showConfirmTip = (targetBtn) => {
+    const tip = document.getElementById('confirm-tip');
+    if (!tip || !targetBtn) return;
+    clearTimeout(confirmTipHideTimer);
+    tip.hidden = false;
+    requestAnimationFrame(() => {
+      const rect = targetBtn.getBoundingClientRect();
+      const tw = tip.offsetWidth;
+      const th = tip.offsetHeight;
+      const aboveTop = rect.top - th - 12;
+      const top = Math.max(8, aboveTop);
+      const left = rect.left + rect.width / 2 - tw / 2;
+      const maxLeft = window.innerWidth - tw - 8;
+      tip.style.top = `${top}px`;
+      tip.style.left = `${Math.max(8, Math.min(left, maxLeft))}px`;
+    });
+    confirmTipHideTimer = setTimeout(() => {
+      hideConfirmTip();
+    }, 2200);
+  };
   const isElementVisible = (el) => {
     if (!el) return false;
     if (el.hidden) return false;
@@ -556,17 +595,15 @@ function initSendPayment() {
     return !(rect.width === 0 && rect.height === 0);
   };
   const setConfirmDisabled = (disabled) => {
+    // Keep buttons clickable; reflect state via aria attributes only
     [confirmBtn, confirmBtnSticky].forEach((btn) => {
       if (!btn) return;
-      if (disabled) {
-        btn.setAttribute('aria-disabled', 'true');
-        btn.disabled = true;
-      } else {
-        btn.setAttribute('aria-disabled', 'false');
-        btn.disabled = false;
-      }
+      btn.disabled = false;
+      btn.removeAttribute('disabled');
+      btn.setAttribute('aria-disabled', disabled ? 'true' : 'false');
     });
   };
+  setConfirmDisabled(true);
   const validateSendForm = () => {
     const natureEl = document.getElementById('nature');
     const purposeEl = document.getElementById('purpose');
@@ -582,7 +619,8 @@ function initSendPayment() {
     const purposeOthersEl = document.getElementById('purposeOthers');
     // Purpose is valid if it's selected
     // If "others" is selected, the purposeOthers field becomes required and must be filled
-    let purposeOk = isFilledSelect(purposeEl);
+    const purposeBaseOk = isFilledSelect(purposeEl);
+    let purposeOk = purposeBaseOk;
     if (purposeOk && purposeElValue === 'others') {
       // When "Others" is selected, the purposeOthers field is required
       purposeOk = purposeOthersEl && isFilledText(purposeOthersEl);
@@ -595,19 +633,41 @@ function initSendPayment() {
       amountOk = Number.isFinite(amtNum) && amtNum > 0;
     }
 
+    const shouldShowErrors = hasTriedSubmit;
+
+    // Inline error helpers
+    const setError = (id, active) => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      if (!active) {
+        el.hidden = true;
+        return;
+      }
+      el.hidden = false;
+      el.textContent = REQUIRED_ERROR_TEXT;
+    };
+
     let docsOk = true;
+    const postDocErrorIds = ['doc-post-error-ci', 'doc-post-error-transport', 'doc-post-error-packing'];
+    const hideAllDocErrors = () => {
+      setError('doc-type-error', false);
+      setError('doc-upload-error', false);
+      postDocErrorIds.forEach((id) => setError(id, false));
+    };
     if (natureOk) {
       if (pre && !pre.hidden) {
         const docType = document.getElementById('docType');
-        const docNum = document.getElementById('piNumber');
         const uploads = document.querySelectorAll('#docs-pre .upload-item');
         const docTypeOk = isFilledSelect(docType);
         const uploadsOk = Array.from(uploads).every(item => item.classList.contains('is-uploaded'));
-        // Make PI/PO number optional for prototype; only type + upload required
         docsOk = docTypeOk && uploadsOk;
+        setError('doc-type-error', shouldShowErrors && !docTypeOk);
+        setError('doc-upload-error', shouldShowErrors && !uploadsOk);
+        postDocErrorIds.forEach((id) => setError(id, false));
       } else if (post && !post.hidden) {
         const uploads = document.querySelectorAll('#docs-post .upload-item');
-        const uploadsOk = Array.from(uploads).every((item) => {
+        let uploadsOk = true;
+        uploads.forEach((item) => {
           const uploaded = item.classList.contains('is-uploaded');
           // Treat the adjacent \"I don't have this document\" checkbox as a valid alternative
           let missedOk = false;
@@ -616,29 +676,56 @@ function initSendPayment() {
             const missChk = maybeMissRow.querySelector('input[type=\"checkbox\"]');
             if (missChk) missedOk = !!missChk.checked;
           }
-          return uploaded || missedOk;
+          const valid = uploaded || missedOk;
+          uploadsOk = uploadsOk && valid;
+          const key = item.getAttribute('data-doc-key');
+          if (key) {
+            setError(`doc-post-error-${key}`, shouldShowErrors && !valid);
+          }
         });
-        // CI number becomes optional; only document states matter
         docsOk = uploadsOk;
+        setError('doc-type-error', false);
+        setError('doc-upload-error', false);
+      } else {
+        hideAllDocErrors();
       }
     } else {
       docsOk = false;
+      hideAllDocErrors();
     }
 
     // Inline errors present?
     const amountWrap = document.querySelector('.amount-input');
     const domAmountError = document.getElementById('amount-error');
-    const hasInlineError =
-      (amountWrap && amountWrap.classList.contains('is-error')) ||
-      (domAmountError && domAmountError.hidden === false);
+
+    // Nature
+    setError('nature-error', shouldShowErrors && !natureOk);
+
+    // Purpose + purpose-others
+    const purposeMissing = !purposeBaseOk;
+    const purposeOthersMissing = purposeBaseOk && purposeElValue === 'others' && !(purposeOthersEl && isFilledText(purposeOthersEl));
+    setError('purpose-error', shouldShowErrors && purposeMissing);
+    setError('purpose-others-error', shouldShowErrors && purposeOthersMissing);
+
+    // Amount required (only when user attempted submit)
+    amountRequiredActive = shouldShowErrors && !amountOk;
 
     // Conversion terms checkbox validation (required when USDT is selected)
     const payerCurrency = getPayerCurrency();
     const conversionTermsCheckbox = document.getElementById('conversionTermsCheckbox');
     const conversionTermsOk = payerCurrency !== 'USDT' || (conversionTermsCheckbox && conversionTermsCheckbox.checked);
+    setError('conversion-terms-error', shouldShowErrors && !conversionTermsOk);
+
+    const hasInlineError =
+      amountRequiredActive ||
+      (amountWrap && amountWrap.classList.contains('is-error')) ||
+      (domAmountError && domAmountError.hidden === false);
 
     const allValid = natureOk && purposeOk && amountOk && docsOk && !hasInlineError && conversionTermsOk;
+
     setConfirmDisabled(!allValid);
+    if (allValid) hideConfirmTip();
+    updateSummary();
   };
 
   const getFeeMode = () => {
@@ -723,15 +810,18 @@ function initSendPayment() {
     const amountMeta = document.querySelector('.amount-meta');
     const amountMetaText = amountMeta?.querySelector('.amount-meta__text');
     const amountInputWrap = document.querySelector('.amount-input');
+    const amountMetaHasLimitError = amountBelowMinTx || amountOverPerTx;
     if (amountMeta) {
-      amountMeta.classList.toggle('is-error', amountBelowMinTx || amountOverPerTx);
+      amountMeta.classList.toggle('is-error', amountRequiredActive || amountMetaHasLimitError);
     }
     if (amountMetaText) {
       const formatLimit = (value) => Number(value || 0).toLocaleString('en-US', {
         minimumFractionDigits: 0,
         maximumFractionDigits: 0,
       });
-      if (amountBelowMinTx) {
+      if (amountRequiredActive) {
+        amountMetaText.textContent = REQUIRED_ERROR_TEXT;
+      } else if (amountBelowMinTx) {
         amountMetaText.textContent = `Amount is below ${formatLimit(MIN_TX_LIMIT)} minimum per transaction`;
       } else if (amountOverPerTx) {
         amountMetaText.textContent = `Amount exceeds ${formatLimit(PER_TX_LIMIT)} maximum per transaction`;
@@ -763,7 +853,7 @@ function initSendPayment() {
       if (small) small.classList.add('is-error');
     }
     // Amount input red underline if any error active
-    const anyAmountError = amountBelowMinTx || amountOverPerTx || overBalance;
+    const anyAmountError = amountRequiredActive || amountMetaHasLimitError || overBalance;
     if (amountInputWrap) {
       amountInputWrap.classList.toggle('is-error', anyAmountError);
     }
@@ -1633,205 +1723,20 @@ function initSendPayment() {
       }, 10); // Small delay to ensure DOM updates
     });
   }
-  // Review payment navigation (button is outside <form>)
-  const confirmTrigger = document.getElementById('confirm-send');
-  if (confirmTrigger) {
-    confirmTrigger.addEventListener('click', (e) => {
-      e.preventDefault();
-      if (confirmTrigger.disabled) {
-        // On mobile/tablet: show tooltip on press and auto-hide
-        const DESKTOP_BP = 1280;
-        const tip = document.getElementById('confirm-tip');
-        if (tip) {
-          const rect = confirmTrigger.getBoundingClientRect();
-          const container = tip.offsetParent || confirmTrigger.closest('.card--summary') || document.body;
-          const crect = container.getBoundingClientRect();
-          tip.hidden = false;
-          // Position above button, centered
-          // Use setTimeout to ensure we can read offsetWidth after showing
-          setTimeout(() => {
-            const tw = tip.offsetWidth;
-            const th = tip.offsetHeight;
-            const top = rect.top - crect.top - th - 12;
-            const left = rect.left - crect.left + rect.width / 2 - tw / 2;
-            tip.style.top = `${Math.max(8, top)}px`;
-            tip.style.left = `${Math.max(8, left)}px`;
-          }, 0);
-          if (window.innerWidth < DESKTOP_BP) {
-            clearTimeout(tip.__hideTimer);
-            tip.__hideTimer = setTimeout(() => { tip.hidden = true; }, 2200);
-          }
-        }
-        return;
-      }
-      // Build receipt data to review
-      try {
-        const getText = (sel) => (document.querySelector(sel)?.textContent || '').trim();
-        const amountInput = document.getElementById('amount');
-        const rawAmt = (amountInput?.value || '').replace(/,/g, '');
-        const amount = parseFloat(rawAmt) || 0;
-        const feeRate = 0.01;
-        // Fee mode
-        const feeSel = Array.from(document.querySelectorAll('input[type="radio"][name="fee"]')).find(r => r.checked)?.value || 'you';
-        let payerRate = 0, receiverRate = 0;
-        if (feeSel === 'you') { payerRate = feeRate; receiverRate = 0; }
-        else if (feeSel === 'receiver') { payerRate = 0; receiverRate = feeRate; }
-        else { payerRate = feeRate/2; receiverRate = feeRate/2; }
-        // Payer currency
-        const payerCurrency = Array.from(document.querySelectorAll('input[type="radio"][name="deduct"]')).find(r => r.checked)?.value || 'USD';
-        const payeeCurrency = 'USD';
-        // Calculate fees with minimum fee logic
-        const { payerFee, receiverFee, isBelowMinimum, actualServiceFee } = calculateFees(amount, payerRate, receiverRate);
-        const youPay = amount + payerFee;
-        const payeeGets = amount - receiverFee;
-        const fmt = (v, cur) => `${Number(v||0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ${cur}`;
-        // Nature/Purpose labels
-        const natureSel = document.getElementById('nature');
-        const purposeSel = document.getElementById('purpose');
-        const natureLabel = natureSel?.selectedOptions?.[0]?.textContent?.trim() || '';
-        const purposeLabel = purposeSel?.selectedOptions?.[0]?.textContent?.trim() || '';
-        // Doc numbers and attached docs (vary by nature)
-        const piNumber = document.getElementById('piNumber')?.value || '';
-        const ciNumber = document.getElementById('ciNumber')?.value || '';
-        const docNotes = document.getElementById('docNotes')?.value || document.getElementById('docNotesPost')?.value || '';
-        let docNumber = '';
-        let docNumLabel = '';
-        let attached = [];
-        let docsDetail = [];
-        const natureVal = natureSel?.value || '';
-        if (natureVal === 'pre_shipment') {
-          const docTypeSel = document.getElementById('docType');
-          const docTypeVal = docTypeSel ? docTypeSel.value : '';
-          if (docTypeVal === 'PI') {
-            attached = ['Proforma invoice (PI)'];
-            docsDetail = [{ title: 'Proforma invoice (PI)', declared: false }];
-            docNumLabel = 'Proforma invoice number';
-            docNumber = piNumber || '';
-          } else if (docTypeVal === 'PO') {
-            attached = ['Purchase order (PO)'];
-            docsDetail = [{ title: 'Purchase order (PO)', declared: false }];
-            docNumLabel = 'Purchase order number';
-            docNumber = piNumber || '';
-          } else if (docTypeVal === 'CC') {
-            attached = ['Commercial contract (CC)'];
-            docsDetail = [{ title: 'Commercial contract (CC)', declared: false }];
-            docNumLabel = 'Commercial contract number';
-            docNumber = piNumber || '';
-          } else {
-            attached = [];
-            docsDetail = [];
-            docNumLabel = '';
-            docNumber = '';
-          }
-        } else {
-          // Post-shipment: list uploaded or declared-missing docs
-          document.querySelectorAll('#docs-post .upload-item').forEach((it) => {
-            const title = it.querySelector('.upload-item__title')?.textContent?.trim();
-            if (!title) return;
-            const uploaded = it.classList.contains('is-uploaded');
-            let missedOk = false;
-            const maybeMissRow = it.nextElementSibling;
-            if (maybeMissRow && maybeMissRow.classList && maybeMissRow.classList.contains('doc-miss-row')) {
-              const missChk = maybeMissRow.querySelector('input[type=\"checkbox\"]');
-              if (missChk) missedOk = !!missChk.checked;
-            }
-            if (uploaded || missedOk) {
-              attached.push(title);
-              docsDetail.push({ title, declared: !uploaded && !!missedOk });
-            }
-          });
-          docNumLabel = 'Commercial invoice number';
-          docNumber = ciNumber || '';
-        }
-        const paymentId = "PYT-20251118-f2d3fa4e";
-        const data = {
-          receiverName: (getText('.summary-recipient .recipient-select__title') || '').replace(/^To\s+/i,''),
-          receiverBank: getText('.summary-recipient .recipient-select__subtitle'),
-          amountPayableFmt: fmt(amount, payeeCurrency),
-          deductedFrom: `${payerCurrency} account`,
-          feePct: `${(feeRate*100).toFixed(2)}%`,
-          payerShareLabel: isBelowMinimum ? 'Paid by you' : `${(payerRate*100).toFixed(2)}% paid by you`,
-          payerShareAmt: fmt(payerFee, payerCurrency),
-          receiverShareLabel: isBelowMinimum ? 'Paid by receiver' : `${(receiverRate*100).toFixed(2)}% paid by receiver`,
-          receiverShareAmt: fmt(receiverFee, payeeCurrency),
-          toBeDeducted: fmt(youPay, payerCurrency),
-          receiverGets: fmt(payeeGets, payeeCurrency),
-          serviceMinApplied: !!isBelowMinimum,
-          serviceMinAmount: actualServiceFee,
-          conversion: payerCurrency !== payeeCurrency ? `1 ${payerCurrency} = 1 ${payeeCurrency}` : '',
-          nature: natureLabel,
-          purpose: purposeLabel,
-          docNumLabel,
-          docNumber,
-          docNotes,
-          attachedDocs: attached.join(', '),
-          docsDetail,
-          paymentId,
-          dateTime: new Date().toLocaleString('en-GB', { hour12: false }),
-          status: 'Processing',
-        };
-        sessionStorage.setItem('receiptData', JSON.stringify(data));
-      } catch (_) {}
-      // Show loading then navigate to review page
-      const loading = document.getElementById('loadingModal');
-      if (loading) {
-        loading.setAttribute('aria-hidden', 'false');
-        document.documentElement.classList.add('modal-open');
-        document.body.classList.add('modal-open');
-        try {
-          const y = window.scrollY || window.pageYOffset || 0;
-          document.body.dataset.scrollY = String(y);
-          document.body.style.top = `-${y}px`;
-          document.body.classList.add('modal-locked');
-        } catch (_) {}
-      }
-      setTimeout(() => { window.location.href = 'review-payment.html'; }, 600);
-    });
-    // Desktop hover tooltip when inactive
-    confirmTrigger.addEventListener('mouseenter', () => {
-      const DESKTOP_BP = 1280;
-      if (window.innerWidth < DESKTOP_BP) return;
-      if (!confirmTrigger.disabled) return;
-      const tip = document.getElementById('confirm-tip');
-      if (!tip) return;
-      const rect = confirmTrigger.getBoundingClientRect();
-      const container = tip.offsetParent || confirmTrigger.closest('.card--summary') || document.body;
-      const crect = container.getBoundingClientRect();
-      tip.hidden = false;
-      setTimeout(() => {
-        const tw = tip.offsetWidth;
-        const th = tip.offsetHeight;
-        const top = rect.top - crect.top - th - 12;
-        const left = rect.left - crect.left + rect.width / 2 - tw / 2;
-        tip.style.top = `${Math.max(8, top)}px`;
-        tip.style.left = `${Math.max(8, left)}px`;
-      }, 0);
-    });
-    confirmTrigger.addEventListener('mouseleave', () => {
-      const DESKTOP_BP = 1280;
-      if (window.innerWidth < DESKTOP_BP) return;
-      const tip = document.getElementById('confirm-tip');
-      if (tip) tip.hidden = true;
-    });
-  }
-
-// Mobile sticky confirm ("Review") button
-const confirmTriggerInline = document.getElementById('confirm-send-sticky');
-if (confirmTriggerInline) {
-  confirmTriggerInline.addEventListener('click', (e) => {
-    e.preventDefault();
-    if (confirmTriggerInline.disabled) return;
+  const proceedToReview = () => {
     try {
       const getText = (sel) => (document.querySelector(sel)?.textContent || '').trim();
       const amountInput = document.getElementById('amount');
       const rawAmt = (amountInput?.value || '').replace(/,/g, '');
       const amount = parseFloat(rawAmt) || 0;
       const feeRate = 0.01;
+      // Fee mode
       const feeSel = Array.from(document.querySelectorAll('input[type="radio"][name="fee"]')).find(r => r.checked)?.value || 'you';
       let payerRate = 0, receiverRate = 0;
       if (feeSel === 'you') { payerRate = feeRate; receiverRate = 0; }
       else if (feeSel === 'receiver') { payerRate = 0; receiverRate = feeRate; }
       else { payerRate = feeRate/2; receiverRate = feeRate/2; }
+      // Payer currency
       const payerCurrency = Array.from(document.querySelectorAll('input[type="radio"][name="deduct"]')).find(r => r.checked)?.value || 'USD';
       const payeeCurrency = 'USD';
       // Calculate fees with minimum fee logic
@@ -1839,34 +1744,46 @@ if (confirmTriggerInline) {
       const youPay = amount + payerFee;
       const payeeGets = amount - receiverFee;
       const fmt = (v, cur) => `${Number(v||0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ${cur}`;
+      // Nature/Purpose labels
       const natureSel = document.getElementById('nature');
       const purposeSel = document.getElementById('purpose');
       const natureLabel = natureSel?.selectedOptions?.[0]?.textContent?.trim() || '';
       const purposeLabel = purposeSel?.selectedOptions?.[0]?.textContent?.trim() || '';
+      // Doc numbers and attached docs (vary by nature)
       const piNumber = document.getElementById('piNumber')?.value || '';
       const ciNumber = document.getElementById('ciNumber')?.value || '';
       const docNotes = document.getElementById('docNotes')?.value || document.getElementById('docNotesPost')?.value || '';
       let docNumber = '';
       let docNumLabel = '';
       let attached = [];
+      let docsDetail = [];
       const natureVal = natureSel?.value || '';
       if (natureVal === 'pre_shipment') {
         const docTypeSel = document.getElementById('docType');
         const docTypeVal = docTypeSel ? docTypeSel.value : '';
         if (docTypeVal === 'PI') {
           attached = ['Proforma invoice (PI)'];
+          docsDetail = [{ title: 'Proforma invoice (PI)', declared: false }];
           docNumLabel = 'Proforma invoice number';
           docNumber = piNumber || '';
         } else if (docTypeVal === 'PO') {
           attached = ['Purchase order (PO)'];
+          docsDetail = [{ title: 'Purchase order (PO)', declared: false }];
           docNumLabel = 'Purchase order number';
+          docNumber = piNumber || '';
+        } else if (docTypeVal === 'CC') {
+          attached = ['Commercial contract (CC)'];
+          docsDetail = [{ title: 'Commercial contract (CC)', declared: false }];
+          docNumLabel = 'Commercial contract number';
           docNumber = piNumber || '';
         } else {
           attached = [];
+          docsDetail = [];
           docNumLabel = '';
           docNumber = '';
         }
       } else {
+        // Post-shipment: list uploaded or declared-missing docs
         document.querySelectorAll('#docs-post .upload-item').forEach((it) => {
           const title = it.querySelector('.upload-item__title')?.textContent?.trim();
           if (!title) return;
@@ -1877,23 +1794,29 @@ if (confirmTriggerInline) {
             const missChk = maybeMissRow.querySelector('input[type="checkbox"]');
             if (missChk) missedOk = !!missChk.checked;
           }
-          if (uploaded || missedOk) attached.push(title);
+          if (uploaded || missedOk) {
+            attached.push(title);
+            docsDetail.push({ title, declared: !uploaded && !!missedOk });
+          }
         });
         docNumLabel = 'Commercial invoice number';
         docNumber = ciNumber || '';
       }
+      const paymentId = "PYT-20251118-f2d3fa4e";
       const data = {
         receiverName: (getText('.summary-recipient .recipient-select__title') || '').replace(/^To\s+/i,''),
         receiverBank: getText('.summary-recipient .recipient-select__subtitle'),
         amountPayableFmt: fmt(amount, payeeCurrency),
         deductedFrom: `${payerCurrency} account`,
         feePct: `${(feeRate*100).toFixed(2)}%`,
-        payerShareLabel: `${(payerRate*100).toFixed(2)}% paid by you`,
+        payerShareLabel: isBelowMinimum ? 'Paid by you' : `${(payerRate*100).toFixed(2)}% paid by you`,
         payerShareAmt: fmt(payerFee, payerCurrency),
-        receiverShareLabel: `${(receiverRate*100).toFixed(2)}% paid by receiver`,
+        receiverShareLabel: isBelowMinimum ? 'Paid by receiver' : `${(receiverRate*100).toFixed(2)}% paid by receiver`,
         receiverShareAmt: fmt(receiverFee, payeeCurrency),
         toBeDeducted: fmt(youPay, payerCurrency),
         receiverGets: fmt(payeeGets, payeeCurrency),
+        serviceMinApplied: !!isBelowMinimum,
+        serviceMinAmount: actualServiceFee,
         conversion: payerCurrency !== payeeCurrency ? `1 ${payerCurrency} = 1 ${payeeCurrency}` : '',
         nature: natureLabel,
         purpose: purposeLabel,
@@ -1901,11 +1824,14 @@ if (confirmTriggerInline) {
         docNumber,
         docNotes,
         attachedDocs: attached.join(', '),
+        docsDetail,
+        paymentId,
         dateTime: new Date().toLocaleString('en-GB', { hour12: false }),
         status: 'Processing',
       };
       sessionStorage.setItem('receiptData', JSON.stringify(data));
     } catch (_) {}
+    // Show loading then navigate to review page
     const loading = document.getElementById('loadingModal');
     if (loading) {
       loading.setAttribute('aria-hidden', 'false');
@@ -1919,8 +1845,45 @@ if (confirmTriggerInline) {
       } catch (_) {}
     }
     setTimeout(() => { window.location.href = 'review-payment.html'; }, 600);
+  };
+  // Review payment navigation (button is outside <form>)
+  const confirmTrigger = document.getElementById('confirm-send');
+  if (confirmTrigger) {
+    confirmTrigger.addEventListener('click', (e) => {
+      e.preventDefault();
+      hasTriedSubmit = true;
+      // Re-validate on click so inline errors and aria-disabled are up to date
+      if (typeof validateSendForm === 'function') validateSendForm();
+
+      const isValid = confirmTrigger.getAttribute('aria-disabled') === 'false';
+      if (!isValid) {
+        showConfirmTip(confirmTrigger);
+        return;
+      }
+      hideConfirmTip();
+      proceedToReview();
+    });
+  }
+
+// Mobile sticky confirm ("Review") button
+const confirmTriggerInline = document.getElementById('confirm-send-sticky');
+if (confirmTriggerInline) {
+  confirmTriggerInline.addEventListener('click', (e) => {
+    e.preventDefault();
+    hasTriedSubmit = true;
+    if (typeof validateSendForm === 'function') validateSendForm();
+    const isValidInline = confirmTriggerInline.getAttribute('aria-disabled') === 'false';
+    if (!isValidInline) {
+      showConfirmTip(confirmTriggerInline);
+      return;
+    }
+    hideConfirmTip();
+    proceedToReview();
   });
 }
+
+  window.addEventListener('scroll', hideConfirmTip, { passive: true });
+  window.addEventListener('resize', hideConfirmTip);
   // Send Payment: dev tools (Fill / Clear) in build-badge
   (function initSendDevTools() {
     const root = document.querySelector('main.page--send');
