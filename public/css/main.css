@@ -5440,6 +5440,9 @@ body.modal-locked {
     bottom: 104px;
     z-index: 400;
   }
+  body.has-cta-error .page--send ~ .build-badge {
+    bottom: 160px !important;
+  }
   .mobile-stickybar {
     position: fixed;
     left: 0;

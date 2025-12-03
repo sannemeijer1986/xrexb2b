@@ -557,6 +557,7 @@ function initSendPayment() {
   let hasTriedSubmit = false;
   let amountRequiredActive = false;
   const setConfirmErrorVisible = (visible) => {
+    document.body.classList.toggle('has-cta-error', !!visible);
     [document.getElementById('confirm-error'), document.getElementById('confirm-error-mobile')].forEach((node) => {
       if (!node) return;
       node.hidden = !visible;
