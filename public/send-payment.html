@@ -492,6 +492,7 @@
                 </div>
               </div>
               <button id="confirm-send" class="btn btn--primary btn--block" aria-disabled="true" disabled>Review and Pay</button>
+              <div id="confirm-error" class="form-error form-error--cta" hidden>Please complete all required fields</div>
               <div class="summary-note">Received amount may vary due to bank fees. <br />Processing typically takes 1–5 business days.<br />
                 Receiver will be billed in USD.</div>
             </div>
@@ -508,9 +509,9 @@
           <strong id="mobileStickyAmount">0.00 USD<img src="assets/icon_chevron_right_blue.svg" alt="" width="12" height="12" class="ms-chevron"></strong>
         </button>
         <button id="confirm-send-sticky" class="btn btn--primary ms-review" aria-disabled="true" disabled>Review and Pay</button>
+        <div id="confirm-error-sticky" class="form-error form-error--cta" hidden>Please complete all required fields</div>
       </div>
     </div>
-    <div id="confirm-tip" class="btn-tip" role="tooltip" hidden>Please fill in all fields</div>
 
     <!-- Modal: Fees Details -->
     <div id="feesDetailsModal" class="modal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="feesDetailsTitle">

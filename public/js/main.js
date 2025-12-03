@@ -421,7 +421,7 @@ function initSendPayment() {
     // Only allow open when valid (based on aria-disabled managed by validateSendForm)
     const isDisabled = primaryBtn ? primaryBtn.getAttribute('aria-disabled') === 'true' : true;
     if (isDisabled) {
-      showConfirmTip(primaryBtn || confirmBtnSticky);
+      setConfirmErrorVisible(true);
       return;
     }
     const modal = document.getElementById('confirmPaymentModal');
@@ -556,36 +556,14 @@ function initSendPayment() {
   const REQUIRED_ERROR_TEXT = 'This field is required';
   let hasTriedSubmit = false;
   let amountRequiredActive = false;
-  let confirmTipHideTimer = null;
-  const hideConfirmTip = () => {
-    if (confirmTipHideTimer) {
-      clearTimeout(confirmTipHideTimer);
-      confirmTipHideTimer = null;
-    }
-    const tip = document.getElementById('confirm-tip');
-    if (tip) {
-      tip.hidden = true;
-    }
-  };
-  const showConfirmTip = (targetBtn) => {
-    const tip = document.getElementById('confirm-tip');
-    if (!tip || !targetBtn) return;
-    clearTimeout(confirmTipHideTimer);
-    tip.hidden = false;
-    requestAnimationFrame(() => {
-      const rect = targetBtn.getBoundingClientRect();
-      const tw = tip.offsetWidth;
-      const th = tip.offsetHeight;
-      const aboveTop = rect.top - th - 12;
-      const top = Math.max(8, aboveTop);
-      const left = rect.left + rect.width / 2 - tw / 2;
-      const maxLeft = window.innerWidth - tw - 8;
-      tip.style.top = `${top}px`;
-      tip.style.left = `${Math.max(8, Math.min(left, maxLeft))}px`;
+  const setConfirmErrorVisible = (visible) => {
+    [document.getElementById('confirm-error'), document.getElementById('confirm-error-sticky')].forEach((node) => {
+      if (!node) return;
+      node.hidden = !visible;
+      if (visible) {
+        node.textContent = 'Please complete all required fields';
+      }
     });
-    confirmTipHideTimer = setTimeout(() => {
-      hideConfirmTip();
-    }, 2200);
   };
   const isElementVisible = (el) => {
     if (!el) return false;
@@ -724,7 +702,7 @@ function initSendPayment() {
     const allValid = natureOk && purposeOk && amountOk && docsOk && !hasInlineError && conversionTermsOk;
 
     setConfirmDisabled(!allValid);
-    if (allValid) hideConfirmTip();
+    if (allValid) setConfirmErrorVisible(false);
     updateSummary();
   };
 
@@ -1857,10 +1835,10 @@ function initSendPayment() {
 
       const isValid = confirmTrigger.getAttribute('aria-disabled') === 'false';
       if (!isValid) {
-        showConfirmTip(confirmTrigger);
+        setConfirmErrorVisible(true);
         return;
       }
-      hideConfirmTip();
+      setConfirmErrorVisible(false);
       proceedToReview();
     });
   }
@@ -1874,16 +1852,13 @@ if (confirmTriggerInline) {
     if (typeof validateSendForm === 'function') validateSendForm();
     const isValidInline = confirmTriggerInline.getAttribute('aria-disabled') === 'false';
     if (!isValidInline) {
-      showConfirmTip(confirmTriggerInline);
+      setConfirmErrorVisible(true);
       return;
     }
-    hideConfirmTip();
+    setConfirmErrorVisible(false);
     proceedToReview();
   });
 }
-
-  window.addEventListener('scroll', hideConfirmTip, { passive: true });
-  window.addEventListener('resize', hideConfirmTip);
   // Send Payment: dev tools (Fill / Clear) in build-badge
   (function initSendDevTools() {
     const root = document.querySelector('main.page--send');

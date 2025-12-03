@@ -1619,30 +1619,9 @@ margin-bottom: 0px;
   display: inline-block;
 }
 
-// Tooltip for confirm button guidance
-.btn-tip {
-  position: fixed;
-  z-index: 1400;
-  background: #fff;
-  color: $text-primary;
-  font-family: $font-family-sans;
-  font-weight: 700;
-  font-size: 16px;
-  padding: 10px 14px;
-  border-radius: 12px;
-  box-shadow: 0 8px 24px rgba(15,23,42,0.22);
-  pointer-events: none;
-}
-.btn-tip::after {
-  content: '';
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  bottom: -8px;
-  width: 0; height: 0;
-  border-left: 8px solid transparent;
-  border-right: 8px solid transparent;
-  border-top: 8px solid #fff;
+.form-error--cta {
+  margin-top: 12px;
+  text-align: center;
 }
 
 .page--send ~ .build-badge {
