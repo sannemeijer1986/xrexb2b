@@ -37,6 +37,111 @@ const PROTOTYPE_STATE_LABELS = {
   5: 'Payment sent',
 };
 
+const REVIEW_SUPPORT_LINK_HTML = '<a href="https://intercom.help/xrex-sg/en/" target="_blank" rel="noopener noreferrer">Contact Support</a>';
+const REVIEW_INLINE_ERROR_DEFAULT = `No charge applied. Go back and try again, or ${REVIEW_SUPPORT_LINK_HTML} for further assistance.`;
+const REVIEW_SNACKBAR_FALLBACK = 'Payment failed. Please review the details and try again.';
+const REVIEW_ERROR_SCENARIOS_CONFIG = [
+  {
+    key: 'create-unexpected',
+    title: '10001 Unexpected error (Connection timed out)',
+    badgeLabel: 'Unexpected error',
+    snackbar: 'Payment failed',
+  },
+  {
+    key: 'api-general',
+    title: '10015 API error (API timed out)',
+    badgeLabel: 'General API error',
+    snackbar: 'Payment failed',
+  },
+  {
+    key: 'kyc-status',
+    title: '202512 KYC status error',
+    badgeLabel: 'KYC blocked',
+    snackbar: 'Payment failed',
+    disablePrimary: true,
+    alertMessage: 'Your KYC status is not approved. Please complete verification before using payments.',
+  },
+  {
+    key: 'cp-bank-invalid',
+    title: '202512 Payout create failed (Receiver bank account is not valid)',
+    badgeLabel: 'Bank invalid',
+    snackbar: 'Payment failed',
+    disablePrimary: true,
+  },
+  {
+    key: 'cp-invalid',
+    title: '202512 Payout create failed (Counterparty is not valid)',
+    badgeLabel: 'Counterparty invalid',
+    snackbar: 'Payment failed',
+    disablePrimary: true,
+  },
+  {
+    key: 'doc-not-found',
+    title: '202512 Payout create failed (Document not found for documentUploadId: XXX)',
+    badgeLabel: 'Document missing',
+    snackbar: 'Payment failed',
+    disablePrimary: true,
+  },
+  {
+    key: 'doc-pre-required',
+    title: '202512 Payout create failed (pre-shipment requires file PROFORMA_INVOICE or PURCHASE_ORDER)',
+    badgeLabel: 'Pre-shipment doc',
+    snackbar: 'Payment failed',
+    disablePrimary: true,
+  },
+  {
+    key: 'doc-post-ci',
+    title: '202512 Payout create failed (post-shipment requires file COMMERCIAL_INVOICE)',
+    badgeLabel: 'Commercial invoice',
+    snackbar: 'Payment failed',
+    disablePrimary: true,
+  },
+  {
+    key: 'doc-post-transport',
+    title: '202512 Payout create failed (post-shipment requires file TRANSPORT_DOCUMENT)',
+    badgeLabel: 'Transport document',
+    snackbar: 'Payment failed',
+    disablePrimary: true,
+  },
+  {
+    key: 'doc-post-packing',
+    title: '202512 Payout create failed (post-shipment requires file PACKING_LIST)',
+    badgeLabel: 'Packing list',
+    snackbar: 'Payment failed',
+    disablePrimary: true,
+  },
+  {
+    key: 'order-preview-amount',
+    title: '202512 Payout create failed (preview amount is not correct)',
+    badgeLabel: 'Preview amount',
+    snackbar: 'Payment failed',
+    disablePrimary: true,
+  },
+  {
+    key: 'order-preview-fee',
+    title: '202512 Payout create failed (preview fee amount is not correct)',
+    badgeLabel: 'Preview fee',
+    snackbar: 'Payment failed',
+    disablePrimary: true,
+  },
+  {
+    key: 'order-payable-range',
+    title: '202512 Payout create failed (payable amount should between min/max limit)',
+    badgeLabel: 'Out of range',
+    snackbar: 'Payment failed',
+    disablePrimary: true,
+  },
+  {
+    key: 'order-fee-rate',
+    title: '202512 Payout create failed (fee rate is not correct)',
+    badgeLabel: 'Fee rate mismatch',
+    snackbar: 'Payment failed',
+    disablePrimary: true,
+  },
+];
+
+try { window.REVIEW_ERROR_SCENARIOS = REVIEW_ERROR_SCENARIOS_CONFIG; } catch (_) {}
+
 const clampPrototypeState = (value) => {
   const safe = parseInt(value, 10);
   if (Number.isNaN(safe)) return PROTOTYPE_STATE_MIN;
@@ -2436,6 +2541,180 @@ if (document.readyState === 'loading') {
       if (e.key === 'Enter' || e.key === ' ') handleBack(e);
     });
   }
+})();
+
+(function initReviewErrorSimulation() {
+  const page = document.querySelector('main.page--review');
+  if (!page) return;
+
+  const controls = document.getElementById('reviewErrorControls');
+  const simulateLink = document.getElementById('reviewSimulateTrigger');
+  const resetLink = document.getElementById('reviewResetErrors');
+  if (!controls || !simulateLink || !resetLink) return;
+
+  const scenariosSource = Array.isArray(window.REVIEW_ERROR_SCENARIOS) && window.REVIEW_ERROR_SCENARIOS.length
+    ? window.REVIEW_ERROR_SCENARIOS
+    : REVIEW_ERROR_SCENARIOS_CONFIG;
+  const scenarios = Array.isArray(scenariosSource) ? scenariosSource.filter(Boolean) : [];
+  if (!scenarios.length) {
+    simulateLink.classList.add('is-disabled');
+    simulateLink.setAttribute('aria-disabled', 'true');
+    return;
+  }
+
+  const valueEl = controls.querySelector('[data-error-value]');
+  const nameEl = controls.querySelector('[data-error-name]');
+  const downBtn = controls.querySelector('[data-error-action="down"]');
+  const upBtn = controls.querySelector('[data-error-action="up"]');
+  const panel = document.getElementById('reviewErrorPanel');
+  const titleEl = document.getElementById('reviewErrorTitle');
+  const messageEl = document.getElementById('reviewErrorMessage');
+  const primaryBtn = document.getElementById('review-confirm');
+
+  let index = 0;
+  let isBusy = false;
+
+  const setPrimaryDisabled = (disabled) => {
+    if (!primaryBtn) return;
+    const state = !!disabled;
+    primaryBtn.disabled = state;
+    primaryBtn.setAttribute('aria-disabled', state ? 'true' : 'false');
+    primaryBtn.classList.toggle('is-disabled', state);
+  };
+
+  const scrollPanelIntoView = () => {
+    if (!panel || panel.hidden) return;
+    try {
+      const rect = panel.getBoundingClientRect();
+      const top = Math.max((rect.top + window.scrollY) - 80, 0);
+      window.scrollTo({ top, behavior: 'auto' });
+    } catch (_) {}
+  };
+
+  const resetInlineError = () => {
+    if (!panel) return;
+    panel.hidden = true;
+    panel.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('has-review-inline-error');
+    document.body.removeAttribute('data-review-error-key');
+  };
+
+  const applyInlineError = (scenario) => {
+    if (!panel) return;
+    panel.hidden = false;
+    panel.removeAttribute('aria-hidden');
+    document.body.classList.add('has-review-inline-error');
+    if (scenario && scenario.key) {
+      document.body.setAttribute('data-review-error-key', scenario.key);
+    } else {
+      document.body.removeAttribute('data-review-error-key');
+    }
+    if (titleEl) {
+      const label = scenario && scenario.title ? scenario.title : 'Unknown error';
+      titleEl.textContent = `Payment failed: ${label}`;
+    }
+    if (messageEl) {
+      messageEl.innerHTML = (scenario && scenario.inlineMessage) || REVIEW_INLINE_ERROR_DEFAULT;
+    }
+  };
+
+  const syncControls = () => {
+    if (valueEl) valueEl.textContent = String(index + 1);
+    const scenario = scenarios[index];
+    if (nameEl) {
+      nameEl.textContent = scenario && (scenario.badgeLabel || scenario.title)
+        ? (scenario.badgeLabel || scenario.title)
+        : '';
+    }
+    if (downBtn) downBtn.disabled = index <= 0;
+    if (upBtn) upBtn.disabled = index >= (scenarios.length - 1);
+  };
+
+  const openLoadingModal = () => {
+    const modal = document.getElementById('loadingModal');
+    if (!modal) return () => {};
+    if (typeof window.__openModal === 'function' && typeof window.__closeModal === 'function') {
+      window.__openModal(modal);
+      return () => window.__closeModal(modal);
+    }
+    modal.setAttribute('aria-hidden', 'false');
+    document.documentElement.classList.add('modal-open');
+    document.body.classList.add('modal-open');
+    return () => {
+      modal.setAttribute('aria-hidden', 'true');
+      document.documentElement.classList.remove('modal-open');
+      document.body.classList.remove('modal-open');
+    };
+  };
+
+  const applyScenario = (scenario) => {
+    if (!scenario) return;
+    applyInlineError(scenario);
+    setPrimaryDisabled(!!scenario.disablePrimary);
+    const snackbarText = scenario.snackbar || REVIEW_SNACKBAR_FALLBACK;
+    if (typeof window.showSnackbar === 'function') {
+      window.showSnackbar(snackbarText, 4000, 'error');
+    }
+    if (scenario.alertMessage && scenario.key !== 'kyc-status') {
+      try {
+        window.alert(scenario.alertMessage);
+      } catch (_) {}
+    }
+  };
+
+  const toggleLinkDisabled = (link, disabled) => {
+    if (!link) return;
+    link.classList.toggle('is-disabled', disabled);
+    link.setAttribute('aria-disabled', disabled ? 'true' : 'false');
+  };
+
+  const setControlsBusy = (state) => {
+    isBusy = state;
+    toggleLinkDisabled(simulateLink, state);
+    toggleLinkDisabled(resetLink, state);
+  };
+
+  const clearErrorState = () => {
+    resetInlineError();
+    setPrimaryDisabled(false);
+  };
+
+  controls.addEventListener('click', (e) => {
+    const btn = e.target.closest('[data-error-action]');
+    if (!btn) return;
+    e.preventDefault();
+    if (isBusy) return;
+    const action = btn.getAttribute('data-error-action');
+    if (action === 'up' && index < scenarios.length - 1) {
+      index += 1;
+    } else if (action === 'down' && index > 0) {
+      index -= 1;
+    }
+    syncControls();
+  });
+
+  simulateLink.addEventListener('click', (e) => {
+    e.preventDefault();
+    if (isBusy) return;
+    setControlsBusy(true);
+    const closeLoading = openLoadingModal();
+    setTimeout(() => {
+      closeLoading();
+      applyScenario(scenarios[index]);
+      scrollPanelIntoView();
+      setControlsBusy(false);
+    }, 1200);
+  });
+
+  resetLink.addEventListener('click', (e) => {
+    e.preventDefault();
+    if (isBusy) return;
+    clearErrorState();
+  });
+
+  clearErrorState();
+  syncControls();
+  setControlsBusy(false);
 })();
 
 // Add Bank: Step navigation and state management

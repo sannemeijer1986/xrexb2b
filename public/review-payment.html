@@ -144,17 +144,22 @@
           </div>
           <div class="receipt__note">Received amount may vary due to bank fees. <br />Processing typically takes 1–5 business days.<br />
             Receiver will be billed in USD.</div>
-          <!-- <div class="review-declare">
+          <div id="reviewErrorPanel" class="review-declare review-declare--error" role="alert" aria-live="polite" hidden>
             <div class="review-declare__box">
               <div class="review-declare__head">
-                <img class="review-declare__icon" src="assets/icon_info_blue.svg" width="16" height="16" alt="">
-                <span class="review-declare__title">                By proceeding, you agree to our
-                  <a href="https://www.google.com" target="_blank" rel="noopener noreferrer">Returns Policy</a>
-                  and
-                  <a href="https://www.google.com" target="_blank" rel="noopener noreferrer">Terms and Conditions</a>.</span>
+               
+                <div class="review-declare__copy">
+                  <img class="review-declare__icon" src="assets/icon_danger.svg" width="16" height="16" alt="">
+                  <p class="review-declare__title" id="reviewErrorTitle">Payment failed</p>
+                </div>
+                <p class="review-declare__message" id="reviewErrorMessage">
+                  No charge applied. Go back and try again, or
+                  <a href="#" target="_blank" rel="noopener noreferrer">Contact Support</a>
+                  for further assistance.
+                </p>
               </div>
             </div>
-          </div> -->
+          </div>
         </div>
         </div>
 
@@ -263,11 +268,62 @@
     </footer>
     <script defer src="js/main.js?v=20251108"></script>
     <script>
+      var getDefaultReviewData = function () {
+        return {
+          receiverName: 'NovaQuill Ltd',
+          receiverBank: 'DBS Bank · 012-345678-9',
+          deductedFrom: 'USDT account',
+          amountPayableFmt: '50,000.00 USD',
+          attachedDocs: 'Proforma Invoice (PI-001234)',
+          docNumLabel: 'Proforma Invoice (PI) number',
+          docNumber: 'PI-001234',
+          docNotes: 'Shipment INV-2091 due 12 Dec',
+          nature: 'Goods purchase',
+          purpose: 'Inventory replenishment',
+          feePct: '1.00%',
+          payerShareLabel: '1.00% paid by you',
+          payerShareAmt: '500.00 USDT',
+          receiverShareLabel: '0% paid by receiver',
+          receiverShareAmt: '0.00 USD',
+          toBeDeducted: '50,500.00 USDT',
+          receiverGets: '49,500.00 USD',
+          serviceMinApplied: false,
+          serviceMinAmount: 60,
+          conversion: '1 USDT = 1 USD'
+        };
+      };
+
+      var reviewDataHasContent = function (data) {
+        if (!data || typeof data !== 'object') return false;
+        return Object.keys(data).some(function (key) {
+          var value = data[key];
+          if (value === null || value === undefined) return false;
+          if (typeof value === 'string') return value.trim().length > 0;
+          return true;
+        });
+      };
+
       (function populateReview() {
         try {
-          const raw = sessionStorage.getItem('receiptData');
-          const d = raw ? JSON.parse(raw) : null;
-          if (!d) return;
+          let raw = null;
+          try {
+            raw = sessionStorage.getItem('receiptData');
+          } catch (_) {}
+
+          let d = null;
+          if (raw) {
+            try {
+              d = JSON.parse(raw);
+            } catch (_) {
+              d = null;
+            }
+          }
+
+          if (!d || typeof d !== 'object') d = {};
+          if (!reviewDataHasContent(d)) {
+            d = getDefaultReviewData();
+            try { sessionStorage.setItem('receiptData', JSON.stringify(d)); } catch (_) {}
+          }
           const set = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
           set('rcvName', (d.receiverName || '').replace(/^To\\s+/i,''));
           set('rcvBank', d.receiverBank || '');
@@ -447,6 +503,19 @@
         });
       })();
     </script>
+
+    <div class="build-badge build-badge--review" role="note">
+      <div id="reviewErrorControls" class="build-badge__state build-badge__errors">
+        <span class="build-badge__state-label">Error simulation</span>
+        <button type="button" class="build-badge__state-btn" data-error-action="down" aria-label="Previous error">−</button>
+        <span class="build-badge__state-value" data-error-value>1</span>
+        <button type="button" class="build-badge__state-btn" data-error-action="up" aria-label="Next error">+</button>
+        <span class="build-badge__state-name" data-error-name></span>
+      </div>
+      <a id="reviewSimulateTrigger" class="build-badge__link" href="#" style="color:#fff; text-decoration:underline; margin-left:8px;">Simulate</a>
+      <span style="opacity:.7">&nbsp;/&nbsp;</span>
+      <a id="reviewResetErrors" class="build-badge__link" href="#" style="color:#fff; text-decoration:underline;">Reset errors</a>
+    </div>
   </body>
   </html>
 
