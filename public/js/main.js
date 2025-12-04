@@ -45,12 +45,14 @@ const REVIEW_ERROR_SCENARIOS_CONFIG = [
     key: 'create-unexpected',
     title: '10001 Unexpected error (Connection timed out)',
     badgeLabel: 'Unexpected error',
+    disablePrimary: true,
     snackbar: 'Payment failed',
   },
   {
     key: 'api-general',
     title: '10015 API error (API timed out)',
     badgeLabel: 'General API error',
+    disablePrimary: true,
     snackbar: 'Payment failed',
   },
   {
@@ -2609,12 +2611,14 @@ if (document.readyState === 'loading') {
     } else {
       document.body.removeAttribute('data-review-error-key');
     }
+    const label = scenario && scenario.title ? scenario.title : 'Unknown error';
     if (titleEl) {
-      const label = scenario && scenario.title ? scenario.title : 'Unknown error';
-      titleEl.textContent = `Payment failed: ${label}`;
+      titleEl.textContent = 'Payment failed';
     }
     if (messageEl) {
-      messageEl.innerHTML = (scenario && scenario.inlineMessage) || REVIEW_INLINE_ERROR_DEFAULT;
+      const baseMessage = (scenario && scenario.inlineMessage) || REVIEW_INLINE_ERROR_DEFAULT;
+      const prefix = label ? `${label}. ` : '';
+      messageEl.innerHTML = prefix + baseMessage;
     }
   };
 
