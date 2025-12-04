@@ -38,8 +38,8 @@ const PROTOTYPE_STATE_LABELS = {
 };
 
 const REVIEW_SUPPORT_LINK_HTML = '<a href="#" target="_blank" rel="noopener noreferrer">Contact Support</a>';
-const REVIEW_INLINE_ERROR_DEFAULT = `No charge applied. Go back and try again, or ${REVIEW_SUPPORT_LINK_HTML} for further assistance.`;
-const REVIEW_SNACKBAR_FALLBACK = 'Payment failed. Please review the details and try again.';
+const REVIEW_INLINE_ERROR_DEFAULT = `Go back and try again, or ${REVIEW_SUPPORT_LINK_HTML} for further assistance.`;
+const REVIEW_SNACKBAR_FALLBACK = 'Payment failed: No charge applied';
 const REVIEW_ERROR_SCENARIOS_CONFIG = [
   {
     key: 'create-unexpected',
@@ -2613,7 +2613,7 @@ if (document.readyState === 'loading') {
     }
     const label = scenario && scenario.title ? scenario.title : 'Unknown error';
     if (titleEl) {
-      titleEl.textContent = 'Payment failed';
+      titleEl.textContent = 'Payment failed: No charge applied';
     }
     if (messageEl) {
       const baseMessage = (scenario && scenario.inlineMessage) || REVIEW_INLINE_ERROR_DEFAULT;

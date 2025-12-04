@@ -150,7 +150,7 @@
                
                 <div class="review-declare__copy">
                   <img class="review-declare__icon" src="assets/icon_danger.svg" width="16" height="16" alt="">
-                  <p class="review-declare__title" id="reviewErrorTitle">Payment failed</p>
+                  <p class="review-declare__title" id="reviewErrorTitle">Payment failed: No charge applied</p>
                 </div>
                 <p class="review-declare__message" id="reviewErrorMessage">
                   No charge applied. Go back and try again, or
@@ -271,25 +271,25 @@
       var getDefaultReviewData = function () {
         return {
           receiverName: 'NovaQuill Ltd',
-          receiverBank: 'DBS Bank · 012-345678-9',
-          deductedFrom: 'USDT account',
+          receiverBank: 'CIMB · 012-345678-9',
+          deductedFrom: 'USD account',
           amountPayableFmt: '50,000.00 USD',
-          attachedDocs: 'Proforma Invoice (PI-001234)',
-          docNumLabel: 'Proforma Invoice (PI) number',
+          attachedDocs: 'Proforma invoice (PI)',
+          docNumLabel: 'Proforma invoice number',
           docNumber: 'PI-001234',
-          docNotes: 'Shipment INV-2091 due 12 Dec',
-          nature: 'Goods purchase',
-          purpose: 'Inventory replenishment',
+          docNotes: '- -',
+          nature: 'Pre-shipment advance',
+          purpose: 'Goods purchase',
           feePct: '1.00%',
           payerShareLabel: '1.00% paid by you',
-          payerShareAmt: '500.00 USDT',
-          receiverShareLabel: '0% paid by receiver',
+          payerShareAmt: '500.00 USD',
+          receiverShareLabel: '0.00% paid by receiver',
           receiverShareAmt: '0.00 USD',
-          toBeDeducted: '50,500.00 USDT',
-          receiverGets: '49,500.00 USD',
+          toBeDeducted: '50,500.00 USD',
+          receiverGets: '50,000.00 USD',
           serviceMinApplied: false,
           serviceMinAmount: 60,
-          conversion: '1 USDT = 1 USD'
+          conversion: ''
         };
       };
 
