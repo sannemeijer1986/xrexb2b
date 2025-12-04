@@ -37,7 +37,7 @@ const PROTOTYPE_STATE_LABELS = {
   5: 'Payment sent',
 };
 
-const REVIEW_SUPPORT_LINK_HTML = '<a href="https://intercom.help/xrex-sg/en/" target="_blank" rel="noopener noreferrer">Contact Support</a>';
+const REVIEW_SUPPORT_LINK_HTML = '<a href="#" target="_blank" rel="noopener noreferrer">Contact Support</a>';
 const REVIEW_INLINE_ERROR_DEFAULT = `No charge applied. Go back and try again, or ${REVIEW_SUPPORT_LINK_HTML} for further assistance.`;
 const REVIEW_SNACKBAR_FALLBACK = 'Payment failed. Please review the details and try again.';
 const REVIEW_ERROR_SCENARIOS_CONFIG = [
