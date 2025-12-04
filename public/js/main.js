@@ -46,7 +46,7 @@ const REVIEW_ERROR_SCENARIOS_CONFIG = [
     title: '10001 Unexpected error (Connection timed out)',
     badgeLabel: 'Unexpected error',
     disablePrimary: true,
-    snackbar: 'Payment failed',
+    snackbar: 'Payment failed: No charge applied',
   },
   {
     key: 'api-general',
