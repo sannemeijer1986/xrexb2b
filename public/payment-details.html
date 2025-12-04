@@ -147,7 +147,7 @@
               </div>
 
               <div id="pdReceiptCard" class="pd-detail__card pd-detail__card--receipt" style="display: none;">
-                <h2 class="pd-detail__section-title">Payment advice</h2>
+                <h2 id="pdReceiptTitle" class="pd-detail__section-title">Payment advice</h2>
                 <a id="pdDownloadReceipt" href="payment-receipt.html" target="_blank" class="pd-detail__link">
                   Download Payment advice
                 </a>
@@ -392,6 +392,8 @@
           var statusBadge = document.getElementById('pdStatusBadge');
           var infoBanner = document.getElementById('pdInfoBanner');
           var receiptCard = document.getElementById('pdReceiptCard');
+          var receiptTitle = document.getElementById('pdReceiptTitle');
+          var receiptLink = document.getElementById('pdDownloadReceipt');
           var convertModal = document.getElementById('pdConvertDetailsModal');
           var convertOpen = document.getElementById('pdConvertDetailsOpen');
           var sentDateEl = document.getElementById('pdSentDate');
@@ -418,6 +420,26 @@
 
             if (receiptCard) {
               receiptCard.style.display = hasReceipt ? '' : 'none';
+            }
+
+            if (receiptTitle || receiptLink) {
+              var receiptTitleText = 'Payment advice';
+              var receiptLinkText = 'Download Payment advice';
+
+              if (state === 4) {
+                receiptTitleText = 'Payment Order – Submission Receipt';
+                receiptLinkText = 'Download Submission Receipt';
+              } else if (state >= 5) {
+                receiptTitleText = 'Payment Executed – Transaction Receipt';
+                receiptLinkText = 'Download Transaction Receipt';
+              }
+
+              if (receiptTitle) {
+                receiptTitle.textContent = receiptTitleText;
+              }
+              if (receiptLink) {
+                receiptLink.textContent = receiptLinkText;
+              }
             }
 
             if (sentDateEl) {
