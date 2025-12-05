@@ -294,6 +294,12 @@ html {
   white-space: nowrap;
 }
 
+@media (max-width: 1279px) {
+  body.modal-open .build-badge--review {
+    bottom: 120px;
+  }
+}
+
 .page {
   padding-block: 28px 40px;
   background: #F8F8F8;
